@@ -1,2 +1,2 @@
-# traiter_lice
-Extract traits and locations from scientific literature about lice
+# The Lice Traits Database Project
+Extract traits and locations from scientific literature about lice.
