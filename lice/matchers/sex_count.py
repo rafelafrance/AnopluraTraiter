@@ -4,7 +4,7 @@ from traiter.util import to_positive_int
 
 from ..pylib.terms import TERMS
 
-SEX = {t['pattern']: t['replace'] for t in TERMS}
+SEX = {t['pattern']: t['replace'] for t in TERMS if t['label'] == 'sex'}
 
 
 def sex_count(span):
