@@ -3,9 +3,9 @@
 import csv
 import sqlite3
 
-from .util import DATA_DIR
+from .util import DATA_DIR, VOCAB_DIR
 
-TERM_PATH = DATA_DIR / 'terms.csv'
+TERM_PATH = VOCAB_DIR / 'terms.csv'
 ITIS_DB = DATA_DIR / 'ITIS.sqlite'
 
 

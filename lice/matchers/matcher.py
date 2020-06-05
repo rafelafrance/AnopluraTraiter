@@ -2,13 +2,12 @@
 
 from collections import defaultdict
 
-from pdfminer.high_level import extract_text
 from traiter.trait_matcher import TraitMatcher  # pylint: disable=import-error
 
 from .collection_date import COLLECTION_DATE
 from .elevation import ELEVATION
 from .sex_count import SEX_COUNT
-from ..pylib.segmenter import NLP, clean_pdf
+from ..pylib.segmenter import NLP
 from ..pylib.terms import TERMS, itis_terms
 
 MATCHERS = (COLLECTION_DATE, ELEVATION, SEX_COUNT)
@@ -35,11 +34,8 @@ class Matcher(TraitMatcher):
         self.add_group_patterns(group_patterns)
         self.add_terms(terms)
 
-    def parse(self, pdf_file):
+    def parse(self, text):
         """Parse the traits."""
-        text = extract_text(pdf_file)
-        text = clean_pdf(text)
-
         doc = super().parse(text)
 
         for sent in doc.sents:
