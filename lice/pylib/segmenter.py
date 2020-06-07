@@ -9,13 +9,18 @@ ABBREVS = '|'.join("""
     Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
     mm cm m
     Am Anim Bio Biol Bull Bull Conserv DC Ecol Entomol Fig Hist IUCN Inst Int
-    Lond Mol Mus Nat Rep Sci Soc Syst Zool
+    Lond Me´m Mol Mus Nat Physiol Rep Sci Soc Syst Zool
     """.split())
 ABBREVS = re.compile(fr'(?: {ABBREVS} ) $', flags=re.VERBOSE)
+
+TRANS_TABLE = {'¼': '='}
+TRANS = str.maketrans(TRANS_TABLE)
 
 
 def clean_pdf(text):
     """Remove headers & footers and join hyphenated words etc."""
+    # Clean up chars
+    text = text.translate(TRANS)
 
     # Remove headers and footers
     text = re.sub(r'^ \s* \d+ \s* $', '', text, flags=FLAGS)

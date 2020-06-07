@@ -1,92 +1,101 @@
-label,pattern,attr,replace
-sex,♂,lower,male
-sex,♂♂,lower,male
-sex,♀,lower,female
-sex,♀♀,lower,female
-sex,female,lower,female
-sex,females,lower,female
-sex,male,lower,male
-sex,males,lower,male
-sex,nymph,lower,nymph
-sex,nymphs,lower,nymph
-sex,n,lower,nymph
-month,January,lower,January
-month,February,lower,February
-month,March,lower,March
-month,April,lower,April
-month,May,lower,May
-month,June,lower,June
-month,July,lower,July
-month,August,lower,August
-month,September,lower,September
-month,October,lower,October
-month,November,lower,November
-month,December,lower,December
-us_state,Alabama,lower,AL
-us_state,Alaska,lower,AK
-us_state,Arizona,lower,AZ
-us_state,Arkansas,lower,AR
-us_state,California,lower,CA
-us_state,Colorado,lower,CO
-us_state,Connecticut,lower,CT
-us_state,Delaware,lower,DE
-us_state,Florida,lower,FL
-us_state,Georgia,lower,GA
-us_state,Hawaii,lower,HI
-us_state,Idaho,lower,ID
-us_state,Illinois,lower,IL
-us_state,Indiana,lower,IN
-us_state,Iowa,lower,IA
-us_state,Kansas,lower,KS
-us_state,Kentucky,lower,KY
-us_state,Louisiana,lower,LA
-us_state,Maine,lower,ME
-us_state,Maryland,lower,MD
-us_state,Massachusetts,lower,MA
-us_state,Michigan,lower,MI
-us_state,Minnesota,lower,MN
-us_state,Mississippi,lower,MS
-us_state,Missouri,lower,MO
-us_state,Montana,lower,MT
-us_state,Nebraska,lower,NE
-us_state,Nevada,lower,NV
-us_state,New Hampshire,lower,NH
-us_state,New Jersey,lower,NJ
-us_state,New Mexico,lower,NM
-us_state,New York,lower,NY
-us_state,North Carolina,lower,NC
-us_state,North Dakota,lower,ND
-us_state,Ohio,lower,OH
-us_state,Oklahoma,lower,OK
-us_state,Oregon,lower,OR
-us_state,Pennsylvania,lower,PA
-us_state,Rhode Island,lower,RI
-us_state,South Carolina,lower,SC
-us_state,South Dakota,lower,SD
-us_state,Tennessee,lower,TN
-us_state,Texas,lower,TX
-us_state,Utah,lower,UT
-us_state,Vermont,lower,VT
-us_state,Virginia,lower,VA
-us_state,Washington,lower,WA
-us_state,West Virginia,lower,WV
-us_state,Wisconsin,lower,WI
-us_state,Wyoming,lower,WY
-us_state,District of Columbia,lower,DC
-us_state,American Samoa,lower,AS
-us_state,Guam,lower,GU
-us_state,Northern Mariana Islands,lower,MP
-us_state,Puerto Rico,lower,PR
-us_state,Virgin Islands,lower,VI
-us_state,Minor Outlying Islands,lower,UM
-elevation,elev,lower,elevation
-elevation,elevation,lower,elevation
-units,centimeters,lower,cm
-units,cm,lower,cm
-units,m,lower,m
-units,meters,lower,m
-units,millimeters,lower,mm
-units,mm,lower,mm
-units,µm,lower,µm
-units,km,lower,km
-units,kilometer,lower,km
+label,pattern,attr,replace,Notes
+bar,bar,lower,,
+bar,bars,lower,,
+cm,centimeters,lower,cm,
+cm,cm,lower,cm,
+elevation,elev,lower,elevation,
+elevation,elevation,lower,elevation,
+km,kilometer,lower,km,
+km,km,lower,km,
+mean,mean,lower,,
+meters,m,lower,m,
+meters,meters,lower,m,
+microns,µm,lower,µm,
+mm,millimeters,lower,mm,
+mm,mm,lower,mm,
+month,April,lower,April,
+month,August,lower,August,
+month,December,lower,December,
+month,February,lower,February,
+month,January,lower,January,
+month,July,lower,July,
+month,June,lower,June,
+month,March,lower,March,
+month,May,lower,May,
+month,November,lower,November,
+month,October,lower,October,
+month,September,lower,September,
+n,n,lower,,
+sex,♀,lower,female,
+sex,♀♀,lower,female,
+sex,♂,lower,male,
+sex,♂♂,lower,male,
+sex,female,lower,female,
+sex,females,lower,female,
+sex,male,lower,male,
+sex,males,lower,male,
+sex,n,lower,nymph,
+sex,nymph,lower,nymph,
+sex,nymphs,lower,nymph,
+us_state,Alabama,lower,AL,
+us_state,Alaska,lower,AK,
+us_state,American Samoa,lower,AS,
+us_state,Arizona,lower,AZ,
+us_state,Arkansas,lower,AR,
+us_state,California,lower,CA,
+us_state,Colorado,lower,CO,
+us_state,Connecticut,lower,CT,
+us_state,Delaware,lower,DE,
+us_state,District of Columbia,lower,DC,
+us_state,Florida,lower,FL,
+us_state,Georgia,lower,GA,
+us_state,Guam,lower,GU,
+us_state,Hawaii,lower,HI,
+us_state,Idaho,lower,ID,
+us_state,Illinois,lower,IL,
+us_state,Indiana,lower,IN,
+us_state,Iowa,lower,IA,
+us_state,Kansas,lower,KS,
+us_state,Kentucky,lower,KY,
+us_state,Louisiana,lower,LA,
+us_state,Maine,lower,ME,
+us_state,Maryland,lower,MD,
+us_state,Massachusetts,lower,MA,
+us_state,Michigan,lower,MI,
+us_state,Minnesota,lower,MN,
+us_state,Minor Outlying Islands,lower,UM,
+us_state,Mississippi,lower,MS,
+us_state,Missouri,lower,MO,
+us_state,Montana,lower,MT,
+us_state,Nebraska,lower,NE,
+us_state,Nevada,lower,NV,
+us_state,New Hampshire,lower,NH,
+us_state,New Jersey,lower,NJ,
+us_state,New Mexico,lower,NM,
+us_state,New York,lower,NY,
+us_state,North Carolina,lower,NC,
+us_state,North Dakota,lower,ND,
+us_state,Northern Mariana Islands,lower,MP,
+us_state,Ohio,lower,OH,
+us_state,Oklahoma,lower,OK,
+us_state,Oregon,lower,OR,
+us_state,Pennsylvania,lower,PA,
+us_state,Puerto Rico,lower,PR,
+us_state,Rhode Island,lower,RI,
+us_state,South Carolina,lower,SC,
+us_state,South Dakota,lower,SD,
+us_state,Tennessee,lower,TN,
+us_state,Texas,lower,TX,
+us_state,Utah,lower,UT,
+us_state,Vermont,lower,VT,
+us_state,Virgin Islands,lower,VI,
+us_state,Virginia,lower,VA,
+us_state,Washington,lower,WA,
+us_state,West Virginia,lower,WV,
+us_state,Wisconsin,lower,WI,
+us_state,Wyoming,lower,WY,
+close,^[)\]]$,regex,,
+comma,"^[,]$",regex,,
+dash,^[\–\-]+$,regex,,
+eq,^[=¼]$,regex,,
+open,^[(\[]$,regex,,

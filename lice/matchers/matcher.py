@@ -3,14 +3,16 @@
 from collections import defaultdict
 
 from traiter.trait_matcher import TraitMatcher  # pylint: disable=import-error
+from traiter.util import Step  # pylint: disable=import-error
 
-from .collection_date import COLLECTION_DATE
+from .event_date import COLLECTION_DATE
 from .elevation import ELEVATION
 from .sex_count import SEX_COUNT
+from .size import SIZE
 from ..pylib.segmenter import NLP
 from ..pylib.terms import TERMS, itis_terms
 
-MATCHERS = (COLLECTION_DATE, ELEVATION, SEX_COUNT)
+MATCHERS = (COLLECTION_DATE, ELEVATION, SEX_COUNT, SIZE)
 
 
 class Matcher(TraitMatcher):
@@ -39,8 +41,16 @@ class Matcher(TraitMatcher):
         doc = super().parse(text)
 
         for sent in doc.sents:
+            print('=' * 120)
             print(sent)
-            print()
+            for token in sent:
+                label = token._.label
+                data = token._.data
+                if not label or token._.step != Step.TRAIT:
+                    continue
+                print('-' * 80)
+                print(label, data)
+                print()
 
         traits = defaultdict(list)
 

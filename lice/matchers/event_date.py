@@ -2,8 +2,10 @@
 
 from dateutil import parser
 
+from ..pylib.terms import REPLACE
 
-def collection_date(span):
+
+def event_date(span):
     """Enrich the match with data."""
     data = dict(
         start=span.start_char,
@@ -18,11 +20,11 @@ def collection_date(span):
 
 
 COLLECTION_DATE = {
-    'name': 'collection_date',
+    'name': 'event_date',
     'matchers': [
         {
-            'label': 'collection_date',
-            'on_match': collection_date,
+            'label': 'event_date',
+            'on_match': event_date,
             'patterns': [
                 [
                     {'LIKE_NUM': True},

@@ -4,9 +4,9 @@
 
 from pdfminer.high_level import extract_text
 
-from lice.pylib.util import PDF_DIR
-from lice.pylib.segmenter import clean_pdf
 from lice.matchers.matcher import Matcher
+from lice.pylib.segmenter import clean_pdf
+from lice.pylib.util import PDF_DIR
 
 DOCS = ['270-Lemurpediculus_2_n_spp.pdf']
 

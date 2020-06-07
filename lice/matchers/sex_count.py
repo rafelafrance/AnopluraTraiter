@@ -2,9 +2,7 @@
 
 from traiter.util import to_positive_int
 
-from ..pylib.terms import TERMS
-
-SEX = {t['pattern']: t['replace'] for t in TERMS if t['label'] == 'sex'}
+from ..pylib.terms import REPLACE
 
 
 def sex_count(span):
@@ -19,7 +17,7 @@ def sex_count(span):
         value = token.lower_
 
         if label == 'sex':
-            data['sex'] = SEX[value]
+            data['sex'] = REPLACE[value]
         elif (as_int := to_positive_int(value)) is not None:
             data['count'] = as_int
         else:

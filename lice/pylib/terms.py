@@ -17,6 +17,8 @@ def read_terms():
 
 
 TERMS = read_terms()
+LABELS = sorted({t['label'] for t in TERMS})
+REPLACE = {t['pattern']: r for t in TERMS if (r := t.get('replace'))}
 
 
 def itis_terms(name, kingdom_id=5, rank_id=220, abbrev=False):
