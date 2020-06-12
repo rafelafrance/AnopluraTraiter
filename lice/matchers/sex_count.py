@@ -2,6 +2,7 @@
 
 from traiter.util import to_positive_int
 
+from .shared import INT
 from ..pylib.terms import REPLACE
 
 
@@ -34,7 +35,7 @@ SEX_COUNT = {
             'on_match': sex_count,
             'patterns': [
                 [
-                    {'LIKE_NUM': True},
+                    {'TEXT': {'REGEX': INT}},
                     {'_': {'label': 'sex'}},
                 ]
             ]

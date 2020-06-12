@@ -8,11 +8,12 @@ from traiter.util import Step  # pylint: disable=import-error
 from .event_date import COLLECTION_DATE
 from .elevation import ELEVATION
 from .sex_count import SEX_COUNT
-from .size import SIZE
+from .length import LENGTH
+from .range import RANGE
 from ..pylib.segmenter import NLP
 from ..pylib.terms import TERMS, itis_terms
 
-MATCHERS = (COLLECTION_DATE, ELEVATION, SEX_COUNT, SIZE)
+MATCHERS = (COLLECTION_DATE, ELEVATION, SEX_COUNT, LENGTH, RANGE)
 
 
 class Matcher(TraitMatcher):
@@ -25,15 +26,15 @@ class Matcher(TraitMatcher):
         terms += itis_terms('Anoplura')
         terms += itis_terms('Mammalia', abbrev=True)
 
-        trait_patterns = []
-        group_patterns = {}
+        traiters = []
+        groupers = []
 
         for matcher in MATCHERS:
-            trait_patterns += matcher['matchers']
-            group_patterns = {**group_patterns, **matcher.get('groupers', {})}
+            traiters += matcher.get('matchers', [])
+            groupers += matcher.get('groupers', [])
 
-        self.add_trait_patterns(trait_patterns)
-        self.add_group_patterns(group_patterns)
+        self.add_patterns(groupers, Step.GROUP)
+        self.add_patterns(traiters, Step.TRAIT)
         self.add_terms(terms)
 
     def parse(self, text):
@@ -46,11 +47,7 @@ class Matcher(TraitMatcher):
             for token in sent:
                 label = token._.label
                 data = token._.data
-                if not label or token._.step != Step.TRAIT:
-                    continue
-                print('-' * 80)
                 print(label, data)
-                print()
 
         traits = defaultdict(list)
 
