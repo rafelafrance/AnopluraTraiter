@@ -2,6 +2,7 @@
 
 import csv
 import sqlite3
+import sys
 
 from .util import DATA_DIR, VOCAB_DIR
 
@@ -26,6 +27,11 @@ def itis_terms(name, kingdom_id=5, rank_id=220, abbrev=False):
     kingdom_id =   5 == Animalia
     rank_id    = 220 == Species
     """
+    # Bypass using this in tests for now.
+    if not ITIS_DB.exists():
+        print('Could not find ITIS database.', file=sys.stderr)
+        return {}
+
     select_tsn = """ select tsn from taxonomic_units where unit_name1 = ?; """
     select_names = """
         select complete_name
