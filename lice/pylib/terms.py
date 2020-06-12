@@ -2,7 +2,6 @@
 
 import csv
 import sqlite3
-import sys
 
 from .util import DATA_DIR, VOCAB_DIR
 
@@ -29,7 +28,7 @@ def itis_terms(name, kingdom_id=5, rank_id=220, abbrev=False):
     """
     # Bypass using this in tests for now.
     if not ITIS_DB.exists():
-        print('Could not find ITIS database.', file=sys.stderr)
+        print('Could not find ITIS database.')
         return {}
 
     select_tsn = """ select tsn from taxonomic_units where unit_name1 = ?; """
@@ -43,7 +42,7 @@ def itis_terms(name, kingdom_id=5, rank_id=220, abbrev=False):
            """
 
     with sqlite3.connect(ITIS_DB) as cxn:
-        cursor = cxn.execute(select_tsn, (name, ))
+        cursor = cxn.execute(select_tsn, (name,))
         tsn = cursor.fetchone()[0]
         mask = f'%-{tsn}-%'
         taxa = {n[0].lower() for n in
