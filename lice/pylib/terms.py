@@ -29,7 +29,7 @@ def itis_terms(name, kingdom_id=5, rank_id=220, abbrev=False):
     # Bypass using this in tests for now.
     if not ITIS_DB.exists():
         print('Could not find ITIS database.')
-        return {}
+        return []
 
     select_tsn = """ select tsn from taxonomic_units where unit_name1 = ?; """
     select_names = """

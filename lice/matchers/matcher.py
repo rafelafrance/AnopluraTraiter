@@ -46,7 +46,7 @@ class Matcher(TraitMatcher):
             for token in sent:
                 label = token._.label
                 data = token._.data
-                if label and data:
+                if label and data and token._.step == Step.TRAIT:
                     traits[label].append(data)
 
         # from pprint import pp

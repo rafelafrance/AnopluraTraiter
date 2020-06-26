@@ -21,6 +21,9 @@ def main():
         text = clean_pdf(text)
         traits = matcher.parse(text)
 
+        from pprint import pp
+        pp(dict(traits))
+
 
 if __name__ == '__main__':
     main()
