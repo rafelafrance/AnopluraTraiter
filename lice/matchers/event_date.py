@@ -18,7 +18,7 @@ def event_date(span):
 
 COLLECTION_DATE = {
     'name': 'event_date',
-    'matchers': [
+    'traits': [
         {
             'label': 'event_date',
             'on_match': event_date,

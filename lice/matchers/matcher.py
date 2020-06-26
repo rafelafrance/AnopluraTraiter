@@ -36,7 +36,7 @@ class Matcher(TraitMatcher):
         attachers = []
 
         for matcher in MATCHERS:
-            traiters += matcher.get('matchers', [])
+            traiters += matcher.get('traits', [])
             groupers += matcher.get('groupers', [])
             attachers += matcher.get('attachers', [])
 

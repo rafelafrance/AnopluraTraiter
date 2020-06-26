@@ -14,7 +14,7 @@ def sclerotized(span):
 
 SCLEROTIZED = {
     'name': 'sclerotized',
-    'matchers': [
+    'traits': [
         {
             'label': 'sclerotized',
             'on_match': sclerotized,

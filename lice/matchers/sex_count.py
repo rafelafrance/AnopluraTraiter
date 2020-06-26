@@ -26,7 +26,7 @@ def sex_count(span):
 
 SEX_COUNT = {
     'name': 'sex_count',
-    'matchers': [
+    'traits': [
         {
             'label': 'sex_count',
             'on_match': sex_count,

@@ -12,7 +12,7 @@ def sci_name(span):
 
 SCI_NAME = {
     'name': 'sci_name',
-    'matchers': [
+    'traits': [
         {
             'label': 'sci_name',
             'on_match': sci_name,

@@ -29,7 +29,7 @@ def elevation(span):
 
 ELEVATION = {
     'name': 'elevation',
-    'matchers': [
+    'traits': [
         {
             'label': 'elevation',
             'on_match': elevation,
