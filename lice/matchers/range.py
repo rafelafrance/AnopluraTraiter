@@ -10,10 +10,7 @@ from .shared import DASH, NUMBER
 
 def range_(span):
     """Build the range parts."""
-    data = dict(
-        start=span.start_char,
-        end=span.end_char,
-    )
+    data = {}
 
     values = [t.text for t in span if re.match(NUMBER, t.text)]
     fields = ['low', 'high']

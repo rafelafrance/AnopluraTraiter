@@ -9,7 +9,7 @@ from .shared import CLOSE, COMMA, EQ, INT, NUMBER, OPEN
 
 def size(span):
     """Enrich a phrase match."""
-    data = dict(start=span.start_char, end=span.end_char)
+    data = {}
 
     for token in span:
         if token._.label in ('range', 'mean', 'n'):

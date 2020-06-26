@@ -7,10 +7,7 @@ from ..pylib.terms import REPLACE
 
 def event_date(span):
     """Enrich the match with data."""
-    data = dict(
-        start=span.start_char,
-        end=span.end_char,
-    )
+    data = {}
 
     if not (value := parser.parse(span.text)):
         return {}

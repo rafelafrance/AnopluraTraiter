@@ -9,10 +9,7 @@ UNITS = {t['pattern']: t['replace'] for t in TERMS if t['label'] == 'units'}
 
 def elevation(span):
     """Enrich the match with data."""
-    data = dict(
-        start=span.start_char,
-        end=span.end_char,
-    )
+    data = {}
 
     for token in span:
         label = token._.label
@@ -23,7 +20,7 @@ def elevation(span):
         elif label == 'elevation':
             continue
         elif (as_float := to_positive_float(value)) is not None:
-            data['value'] = as_float
+            data['elevation'] = as_float
         else:
             return {}
 

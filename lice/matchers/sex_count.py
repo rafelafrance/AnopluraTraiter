@@ -8,10 +8,7 @@ from ..pylib.terms import REPLACE
 
 def sex_count(span):
     """Enrich the match with data."""
-    data = dict(
-        start=span.start_char,
-        end=span.end_char,
-    )
+    data = {}
 
     for token in span:
         label = token._.label

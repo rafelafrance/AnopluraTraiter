@@ -26,6 +26,9 @@ def clean_pdf(text):
     text = re.sub(r'^ \s* \d+ \s* $', '', text, flags=FLAGS)
     text = re.sub(r'^ \s* Journal \s+ of .* $', '', text, flags=FLAGS)
 
+    # Remove figure notations
+    text = re.sub(r'^ \s* Fig\. .+ $', '', text, flags=FLAGS)
+
     # Joining hyphens has to happen after the removal of headers & footers
     text = re.sub(r' [–-] \n ([a-z]) ', r'\1', text, flags=FLAGS)
 

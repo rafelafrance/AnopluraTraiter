@@ -90,3 +90,9 @@ us_state,Washington,lower,WA
 us_state,West Virginia,lower,WV
 us_state,Wisconsin,lower,WI
 us_state,Wyoming,lower,WY
+sclerotin,sclerotin,lower,sclerotized
+sclerotin,sclerotized,lower,sclerotized
+sclerotin,sclerotization,lower,sclerotized
+part,head,lower,
+part,thorax,lower,
+part,abdomen,lower,

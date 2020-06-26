@@ -2,7 +2,8 @@
 
 """Extract lice traits from scientific literature (PDFs to text)."""
 
-from pdfminer.high_level import extract_text
+from pdfminer.high_level import extract_pages, extract_text
+from pdfminer.layout import LAParams
 
 from lice.matchers.matcher import Matcher
 from lice.pylib.segmenter import clean_pdf
@@ -13,12 +14,24 @@ DOCS = ['270-Lemurpediculus_2_n_spp.pdf']
 
 def main():
     """Extract data from the files."""
+    laparams = LAParams(
+        # line_overlap=0.5,
+        # char_margin=2.0,
+        # line_margin=0.5,
+        # word_margin=0.1,
+        boxes_flow=-0.5,
+        # detect_vertical=False,
+        # all_texts=False
+    )
+
     matcher = Matcher()
 
     for path in DOCS:
         path = str(PDF_DIR / path)
-        text = extract_text(path)
-        text = clean_pdf(text)
+        # text = extract_text(path, laparams=laparams)
+        text = [p.groups[0].get_text()
+                for p in extract_pages(path, laparams=laparams)]
+        text = clean_pdf(''.join(text))
         traits = matcher.parse(text)
 
         from pprint import pp
