@@ -5,7 +5,7 @@ import sqlite3
 
 from .util import DATA_DIR, VOCAB_DIR
 
-LICE_TERMS = VOCAB_DIR / 'terms.csv'
+LICE_TERMS = VOCAB_DIR / 'lice.csv'
 COMMON_TERMS = VOCAB_DIR / 'common.csv'
 ITIS_DB = DATA_DIR / 'ITIS.sqlite'
 
