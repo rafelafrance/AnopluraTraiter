@@ -4,6 +4,7 @@ from collections import defaultdict
 
 from traiter.trait_matcher import TraitMatcher  # pylint: disable=import-error
 
+from .body_length import BODY_LENGTH
 from .event_date import COLLECTION_DATE
 from .elevation import ELEVATION
 from .max_width import MAX_WIDTH
@@ -16,7 +17,7 @@ from ..pylib.segmenter import NLP
 from ..pylib.terms import TERMS, itis_terms
 
 MATCHERS = (
-    COLLECTION_DATE, ELEVATION, MAX_WIDTH, RANGE,
+    BODY_LENGTH, COLLECTION_DATE, ELEVATION, MAX_WIDTH, RANGE,
     SCI_NAME, SCLEROTIZED, SEX_COUNT, SIZE)
 
 
@@ -50,9 +51,6 @@ class Matcher(TraitMatcher):
         traits = defaultdict(list)
 
         for sent in doc.sents:
-            # if 'head' in sent.text:
-            #     print(sent)
-            #     print()
             for token in sent:
                 label = token._.label
                 data = token._.data

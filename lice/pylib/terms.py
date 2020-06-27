@@ -5,18 +5,21 @@ import sqlite3
 
 from .util import DATA_DIR, VOCAB_DIR
 
-TERM_PATH = VOCAB_DIR / 'terms.csv'
+LICE_TERMS = VOCAB_DIR / 'terms.csv'
+COMMON_TERMS = VOCAB_DIR / 'common.csv'
 ITIS_DB = DATA_DIR / 'ITIS.sqlite'
 
 
-def read_terms():
+def read_terms(term_path):
     """Read and cache the terms."""
-    with open(TERM_PATH) as term_file:
+    with open(term_path) as term_file:
         reader = csv.DictReader(term_file)
         return list(reader)
 
 
-TERMS = read_terms()
+TERMS = read_terms(LICE_TERMS)
+TERMS += read_terms(COMMON_TERMS)
+
 REPLACE = {t['pattern']: r for t in TERMS if (r := t.get('replace'))}
 
 

@@ -1,35 +1,33 @@
-"""Get maximum width notations."""
+"""Get body length notations."""
 
 
-def max_width(span):
+def body_length(span):
     """Enrich the match."""
     data = {}
 
     for token in span:
         label = token._.label
 
-        if label == 'part':
-            data['part'] = token.text
-
-        elif label == 'size':
+        if label == 'size':
             data = {**data, **token._.data}
 
     return data
 
 
-MAXIMUM = """ maximum max """.split()
+LENGTH = """ length len """.split()
 
-MAX_WIDTH = {
-    'name': 'max_width',
+
+BODY_LENGTH = {
+    'name': 'body_length',
     'attachers': [
         {
-            'label': 'max_width',
-            'on_match': max_width,
+            'label': 'body_length',
+            'on_match': body_length,
             'patterns': [
                 [
-                    {'LOWER': {'IN': MAXIMUM}},
-                    {'_': {'label': 'part'}},
-                    {'LOWER': 'width'},
+                    {'LOWER': 'total', 'OP': '?'},
+                    {'LOWER': 'body'},
+                    {'LOWER': {'IN': LENGTH}},
                     {'_': {'label': ''}, 'OP': '?'},
                     {'_': {'label': ''}, 'OP': '?'},
                     {'_': {'label': 'size'}},

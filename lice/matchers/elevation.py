@@ -6,6 +6,9 @@ from ..pylib.terms import TERMS
 
 UNITS = {t['pattern']: t['replace'] for t in TERMS if t['label'] == 'units'}
 
+ELEV_LIST = """ elevation elev """.split()
+ELEV_SET = set(ELEV_LIST)
+
 
 def elevation(span):
     """Enrich the match with data."""
@@ -17,7 +20,7 @@ def elevation(span):
 
         if label == 'units':
             data['units'] = UNITS[value]
-        elif label == 'elevation':
+        elif value in ELEV_SET:
             continue
         elif (as_float := to_positive_float(value)) is not None:
             data['elevation'] = as_float
@@ -37,7 +40,7 @@ ELEVATION = {
                 [
                     {'LIKE_NUM': True},
                     {'_': {'label': 'units'}},
-                    {'_': {'label': 'elevation'}},
+                    {'LOWER': {'IN': ELEV_LIST}},
                 ]
             ]
         },
