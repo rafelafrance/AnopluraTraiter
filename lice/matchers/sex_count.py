@@ -11,7 +11,7 @@ def sex_count(span):
     data = {}
 
     for token in span:
-        label = token._.label
+        label = token.ent_type_
         value = token.lower_
 
         if label == 'sex':
@@ -33,7 +33,7 @@ SEX_COUNT = {
             'patterns': [
                 [
                     {'TEXT': {'REGEX': INT}},
-                    {'_': {'label': 'sex'}},
+                    {'ENT_TYPE': 'sex'},
                 ]
             ]
         },

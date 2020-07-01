@@ -6,7 +6,7 @@ NAMES = {'anoplura', 'mammalia'}
 
 def sci_name(span):
     """Enrich the match."""
-    data = {'sci_name': span.text, 'label': span[0]._.label}
+    data = {'sci_name': span.text, 'label': span[0].ent_type_}
     return data
 
 
@@ -18,7 +18,7 @@ SCI_NAME = {
             'on_match': sci_name,
             'patterns': [
                 [
-                    {'_': {'label': {'IN': list(NAMES)}}},
+                    {'ENT_TYPE': {'IN': list(NAMES)}},
                 ],
             ],
         },

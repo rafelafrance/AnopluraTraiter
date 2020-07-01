@@ -6,7 +6,7 @@ def body_length(span):
     data = {}
 
     for token in span:
-        label = token._.label
+        label = token.ent_type_
 
         if label == 'size':
             data = {**data, **token._.data}
@@ -28,9 +28,9 @@ BODY_LENGTH = {
                     {'LOWER': 'total', 'OP': '?'},
                     {'LOWER': 'body'},
                     {'LOWER': {'IN': LENGTH}},
-                    {'_': {'label': ''}, 'OP': '?'},
-                    {'_': {'label': ''}, 'OP': '?'},
-                    {'_': {'label': 'size'}},
+                    {'ENT_TYPE': '', 'OP': '?'},
+                    {'ENT_TYPE': '', 'OP': '?'},
+                    {'ENT_TYPE': 'size'},
                 ],
             ],
         }

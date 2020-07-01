@@ -52,7 +52,7 @@ class Matcher(TraitMatcher):
 
         for sent in doc.sents:
             for token in sent:
-                label = token._.label
+                label = token.ent_type_
                 data = token._.data
                 if label and data and token._.step in ('traits', 'attachers'):
                     data = {k: v for k, v in token._.data.items()

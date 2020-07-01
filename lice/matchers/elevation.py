@@ -15,7 +15,7 @@ def elevation(span):
     data = {}
 
     for token in span:
-        label = token._.label
+        label = token.ent_type_
         value = token.lower_
 
         if label == 'units':
@@ -39,7 +39,7 @@ ELEVATION = {
             'patterns': [
                 [
                     {'LIKE_NUM': True},
-                    {'_': {'label': 'units'}},
+                    {'ENT_TYPE': 'units'},
                     {'LOWER': {'IN': ELEV_LIST}},
                 ]
             ]

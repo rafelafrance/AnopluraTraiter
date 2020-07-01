@@ -5,7 +5,7 @@ def sclerotized(span):
     """Enrich the match."""
     data = {}
     for token in span:
-        if token._.label == 'sclerotin':
+        if token.ent_type_ == 'sclerotin':
             pass
         else:
             data['sclerotized'] = token.lower_
@@ -21,7 +21,7 @@ SCLEROTIZED = {
             'patterns': [
                 [
                     {'POS': 'ADV'},
-                    {'_': {'label': 'sclerotin'}},
+                    {'ENT_TYPE': 'sclerotin'},
                 ],
             ],
         },

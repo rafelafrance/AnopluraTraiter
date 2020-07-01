@@ -25,7 +25,7 @@ COLLECTION_DATE = {
             'patterns': [
                 [
                     {'LIKE_NUM': True},
-                    {'_': {'label': 'month'}},
+                    {'ENT_TYPE': 'month'},
                     {'LIKE_NUM': True},
                 ]
             ]

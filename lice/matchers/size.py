@@ -12,7 +12,7 @@ def size(span):
     data = {}
 
     for token in span:
-        if token._.label in ('range', 'mean', 'n'):
+        if token.ent_type_ in ('range', 'mean', 'n'):
             data = {**token._.data, **data}
         else:
             return {}
@@ -33,7 +33,7 @@ def mean(span):
     if values := [t.text for t in span if re.match(NUMBER, t.text)]:
         if (value := to_positive_float(values[0])) is not None:
             data = dict(mean=value)
-            if units := [t.text for t in span if t._.label == 'units']:
+            if units := [t.text for t in span if t.ent_type_ == 'units']:
                 data['mean_units'] = units[0]
             return data
     return {}
@@ -58,7 +58,7 @@ SIZE = {
                 {'TEXT': {'IN': COMMA}, 'OP': '?'},
                 {'LOWER': 'mean'},
                 {'TEXT': {'REGEX': NUMBER}},
-                {'_': {'label': 'units'}},
+                {'ENT_TYPE': 'units'},
             ]],
         },
         {
@@ -79,10 +79,10 @@ SIZE = {
             'on_match': size,
             'patterns': [
                 [
-                    {'_': {'label': 'bar'}, 'OP': '?'},
-                    {'_': {'label': 'range'}},
-                    {'_': {'label': 'mean'}, 'OP': '?'},
-                    {'_': {'label': 'n'}, 'OP': '?'},
+                    {'ENT_TYPE': 'bar', 'OP': '?'},
+                    {'ENT_TYPE': 'range'},
+                    {'ENT_TYPE': 'mean', 'OP': '?'},
+                    {'ENT_TYPE': 'n', 'OP': '?'},
                 ],
             ],
         },

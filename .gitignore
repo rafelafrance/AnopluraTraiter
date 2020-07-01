@@ -83,7 +83,8 @@ venv/
 
 .~lock.*
 
-# data
+# project private
 data/
 docs/
 junk*
+notebooks/

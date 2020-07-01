@@ -17,7 +17,7 @@ def range_(span):
     for field, value in zip(fields, values):
         data[field] = to_positive_float(value)
 
-    units = [t.text for t in span if t._.label == 'units']
+    units = [t.text for t in span if t.ent_type_ == 'units']
     data['units'] = REPLACE[units[0]]
 
     return data
@@ -34,11 +34,11 @@ RANGE = {
                     {'TEXT': {'REGEX': NUMBER}},
                     {'TEXT': {'IN': DASH}},
                     {'TEXT': {'REGEX': NUMBER}},
-                    {'_': {'label': 'units'}},
+                    {'ENT_TYPE': 'units'},
                 ],
                 [
                     {'TEXT': {'REGEX': NUMBER}},
-                    {'_': {'label': 'units'}},
+                    {'ENT_TYPE': 'units'},
                 ],
             ],
         },
