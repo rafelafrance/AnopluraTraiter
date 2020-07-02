@@ -1,5 +1,6 @@
 label,pattern,attr,replace
 part,abdomen,lower,
+part,genitalia,lower,
 part,head,lower,
 part,thorax,lower,
 sclerotin,sclerotin,lower,sclerotized
@@ -23,6 +24,12 @@ sex,males,lower,male
 sex,n,lower,nymph
 sex,nymph,lower,nymph
 sex,nymphs,lower,nymph
+type,allotype,lower,allotype
+type,allotypes,lower,allotype
+type,holotype,lower,holotype
+type,holotypes,lower,holotype
+type,paratype,lower,paratype
+type,paratypes,lower,paratype
 units,centimeters,lower,cm
 units,cm,lower,cm
 units,kilometer,lower,km

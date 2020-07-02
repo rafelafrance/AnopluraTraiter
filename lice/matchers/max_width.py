@@ -8,7 +8,7 @@ def max_width(span):
     for token in span:
         label = token.ent_type_
 
-        if label == 'part':
+        if label == 'body_part':
             data['part'] = token.text
 
         elif label == 'size':
@@ -28,7 +28,7 @@ MAX_WIDTH = {
             'patterns': [
                 [
                     {'LOWER': {'IN': MAXIMUM}},
-                    {'ENT_TYPE': 'part'},
+                    {'ENT_TYPE': 'body_part'},
                     {'LOWER': 'width'},
                     {'ENT_TYPE': '', 'OP': '?'},
                     {'ENT_TYPE': '', 'OP': '?'},
