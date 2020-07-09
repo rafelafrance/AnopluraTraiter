@@ -4,9 +4,7 @@
 
 import unittest
 
-from lice.matchers.matcher import Matcher
-
-MATCHER = Matcher()
+from anoplura.pylib.pipeline import parse
 
 
 class TestRange(unittest.TestCase):
@@ -14,7 +12,7 @@ class TestRange(unittest.TestCase):
 
     def test_range_01(self):
         self.assertEqual(
-            MATCHER.parse('0.120–0.127 mm'),
+            parse('0.120–0.127 mm'),
             {'size': [{'start': 0, 'end': 14,
                        'low': 0.12, 'high': 0.127, 'units': 'mm'}]}
         )

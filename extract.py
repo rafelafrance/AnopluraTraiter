@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 
-"""Extract lice traits from scientific literature (PDFs to text)."""
+"""Extract anoplura traits from scientific literature (PDFs to text)."""
 
 from pdfminer.high_level import extract_pages, extract_text
 from pdfminer.layout import LAParams
 
-from lice.matchers.matcher import Matcher
-from lice.pylib.segmenter import clean_pdf
-from lice.pylib.util import PDF_DIR
+from anoplura.matchers.matcher import Matcher
+from anoplura.pylib.segmenter import clean_pdf
+from anoplura.pylib.util import PDF_DIR
 
 DOCS = ['270-Lemurpediculus_2_n_spp.pdf']
 

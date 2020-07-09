@@ -1,20 +1,17 @@
 """Base matcher object."""
 
-from collections import defaultdict
-
 from traiter.trait_matcher import TraitMatcher  # pylint: disable=import-error
 
 from .body_length import BODY_LENGTH
 from .body_part import BODY_PART
-from .event_date import COLLECTION_DATE
 from .elevation import ELEVATION
+from .event_date import COLLECTION_DATE
 from .max_width import MAX_WIDTH
+from .range import RANGE
 from .sci_name import SCI_NAME
 from .sclerotized import SCLEROTIZED
 from .sex_count import SEX_COUNT
 from .size import SIZE
-from .range import RANGE
-from ..pylib.segmenter import NLP
 from ..pylib.terms import TERMS, itis_terms
 
 MATCHERS = (
@@ -25,8 +22,8 @@ MATCHERS = (
 class Matcher(TraitMatcher):
     """Base matcher object."""
 
-    def __init__(self):
-        super().__init__(NLP)
+    def __init__(self, nlp, attach=True, as_entities=True):
+        super().__init__(nlp, as_entities=as_entities)
 
         terms = TERMS
         terms += itis_terms('Anoplura', abbrev=True)
@@ -44,25 +41,5 @@ class Matcher(TraitMatcher):
 
         self.add_patterns(groupers, 'groups')
         self.add_patterns(traiters, 'traits')
-        self.add_patterns(attachers, 'attachers')
-
-    def parse(self, text):
-        """Parse the traits."""
-        doc = super().parse(text)
-        traits = defaultdict(list)
-
-        for sent in doc.sents:
-            for token in sent:
-                label = token.ent_type_
-                data = token._.data
-                if label and data and token._.step in ('traits', 'attachers'):
-                    data = {k: v for k, v in token._.data.items()
-                            if not k.startswith('_')}
-                    data['start'] = token.idx
-                    data['end'] = token.idx + len(token)
-                    traits[label].append(data)
-
-        # from pprint import pp
-        # pp(dict(traits))
-
-        return traits
+        if attach:
+            self.add_patterns(attachers, 'attachers')
