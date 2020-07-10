@@ -4,6 +4,5 @@ python:
 install:
   - pip install -r requirements.txt
   - pip install git+https://github.com/rafelafrance/traiter.git@master#egg=traiter
-  - python -m spacy download en
 script:
   - python -m unittest discover
