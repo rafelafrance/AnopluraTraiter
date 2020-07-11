@@ -6,7 +6,7 @@ NAMES = {'anoplura', 'mammalia'}
 
 def sci_name(span):
     """Enrich the match."""
-    data = {'sci_name': span.text, 'label': span[0].ent_type_}
+    data = {'sci_name': span.text, 'group': span[0].ent_type_}
     return data
 
 
