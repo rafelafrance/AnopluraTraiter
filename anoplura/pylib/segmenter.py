@@ -1,7 +1,6 @@
 """Custom sentence splitter."""
 
 import regex
-from traiter.spacy_nlp import spacy_nlp  # pylint: disable=import-error
 
 ABBREVS = '|'.join("""
     Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
@@ -12,7 +11,7 @@ ABBREVS = '|'.join("""
 ABBREVS = regex.compile(fr'(?: {ABBREVS} ) $', flags=regex.VERBOSE)
 
 
-def custom_segmenter(doc):
+def sentencizer(doc):
     """Break the text into sentences."""
     for i, token in enumerate(doc[:-1]):
         prev_token = doc[i - 1] if i > 0 else None
@@ -25,7 +24,3 @@ def custom_segmenter(doc):
             next_token.is_sent_start = False
 
     return doc
-
-
-NLP = spacy_nlp(['ner'])
-NLP.add_pipe(custom_segmenter, before='parser')

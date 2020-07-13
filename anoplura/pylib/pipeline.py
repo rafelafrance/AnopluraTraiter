@@ -4,11 +4,11 @@ from collections import defaultdict
 
 from traiter.spacy_nlp import spacy_nlp  # pylint: disable=import-error
 
-from .segmenter import custom_segmenter
+from .segmenter import sentencizer
 from ..matchers.matcher import Matcher
 
 NLP = spacy_nlp(disable=['ner'])
-NLP.add_pipe(custom_segmenter, before='parser')
+NLP.add_pipe(sentencizer, before='parser')
 
 MATCHER = Matcher(NLP)
 NLP.add_pipe(MATCHER, after='parser')
