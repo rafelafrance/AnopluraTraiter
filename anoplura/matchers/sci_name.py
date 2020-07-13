@@ -1,12 +1,13 @@
 """Get scientific names."""
 
+from ..pylib.terms import REPLACE
 
 NAMES = {'anoplura', 'mammalia'}
 
 
 def sci_name(span):
     """Enrich the match."""
-    data = {'sci_name': span.text, 'group': span[0].ent_type_}
+    data = {'sci_name': REPLACE[span.lower_], 'group': span[0].ent_type_}
     return data
 
 

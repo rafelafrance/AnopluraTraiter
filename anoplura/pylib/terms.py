@@ -73,4 +73,7 @@ def itis_terms(name, kingdom_id=5, rank_id=220, abbrev=False):
                     'replace': taxon,
                 })
 
+    for term in terms:
+        REPLACE[term['pattern']] = term['replace']
+
     return terms
