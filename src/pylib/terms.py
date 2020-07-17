@@ -3,9 +3,9 @@
 import csv
 import sqlite3
 
-from .util import DATA_DIR, VOCAB_DIR
+from .util import DATA_DIR, NAME, VOCAB_DIR
 
-LICE_TERMS = VOCAB_DIR / 'src.csv'
+LICE_TERMS = VOCAB_DIR / f'{NAME}.csv'
 COMMON_TERMS = VOCAB_DIR / 'common.csv'
 ITIS_DB = DATA_DIR / 'ITIS.sqlite'
 
