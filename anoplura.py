@@ -5,8 +5,8 @@
 import sys
 
 import pandas as pd
-from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QApplication, QFileDialog
+from PySide2 import QtWidgets
+from PySide2.QtWidgets import QApplication, QFileDialog
 
 import src.pylib.db as db
 from src.gui.data_frame_model import DataFrameModel

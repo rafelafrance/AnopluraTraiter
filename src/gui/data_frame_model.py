@@ -1,8 +1,8 @@
 """A GUI view of the guides DB table."""
 
 import pandas as pd
-from PyQt5 import QtCore
-from PyQt5.QtCore import Qt
+from PySide2 import QtCore
+from PySide2.QtCore import Qt
 
 
 class DataFrameModel(QtCore.QAbstractTableModel):
@@ -29,7 +29,7 @@ class DataFrameModel(QtCore.QAbstractTableModel):
         if (role != Qt.DisplayRole or not index.isValid()
                 or not 0 <= index.row() < self.rowCount()
                 or not 0 <= index.column() < self.columnCount()):
-            return QtCore.QVariant()
+            return None
         row = self._df.index[index.row()]
         col = self._df.columns[index.column()]
         val = self._df.iloc[row][col]
@@ -51,7 +51,7 @@ class DataFrameModel(QtCore.QAbstractTableModel):
                 return self._df.columns[section]
             else:
                 return str(self._df.index[section])
-        return QtCore.QVariant()
+        return None
 
     def sort(self, column, order=None):
         """Sort the dataframe by column."""
