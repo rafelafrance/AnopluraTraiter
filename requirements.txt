@@ -1,1 +1,6 @@
-python-dateutil>=2.8.1
+python-dateutil~=2.8.1
+traiter~=0.7.0
+regex~=2020.7.14
+pandas~=1.0.5
+PyQt5~=5.15.0
+pdftotext~=2.1.4

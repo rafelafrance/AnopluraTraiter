@@ -4,7 +4,7 @@
 
 import unittest
 
-from anoplura.pylib.pipeline import parse
+from src.pylib.pipeline import parse
 
 
 class TestRange(unittest.TestCase):

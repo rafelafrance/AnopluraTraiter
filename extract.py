@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
-"""Extract anoplura traits from scientific literature (PDFs to text)."""
+"""Extract src traits from scientific literature (PDFs to text)."""
 
 import traiter.pdf as pdf
 
-from anoplura.pylib.pipeline import parse
-from anoplura.pylib.util import PDF_DIR, TXT_DIR
+from src.pylib.pipeline import parse
+from src.pylib.util import PDF_DIR, TXT_DIR
 
 
 def main():

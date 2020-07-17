@@ -2,7 +2,7 @@
 
 from ..pylib.terms import REPLACE
 
-NAMES = {'anoplura', 'mammalia'}
+NAMES = {'src', 'mammalia'}
 
 
 def sci_name(span):
