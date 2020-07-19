@@ -12,7 +12,6 @@ def main():
     """Extract data from the files."""
     pdf.pdf2txt(PDF_DIR, TXT_DIR)
     for txt in TXT_DIR.glob('*.txt'):
-        print(txt)
         with open(txt) as txt_file:
             text = txt_file.read()
             text = pdf.clean_text(text)

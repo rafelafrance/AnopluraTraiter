@@ -1,7 +1,11 @@
 """Utilities and constants."""
 
+import os
+from contextlib import contextmanager
 from datetime import datetime
 from pathlib import Path
+from shutil import rmtree
+from tempfile import mkdtemp
 
 NAME = 'anoplura'
 
@@ -20,3 +24,19 @@ def log(msg):
 def now():
     """Generate a timestamp."""
     return datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+
+@contextmanager
+def get_temp_dir(prefix, where=None, keep=False):
+    """Handle creation and deletion of temporary directory."""
+    if where and not os.path.exists(where):
+        os.mkdir(where)
+
+    temp_dir = mkdtemp(prefix=prefix, dir=where)
+    # os.environ['SQLITE_TMPDIR'] = temp_dir
+
+    try:
+        yield temp_dir
+    finally:
+        if not keep or not where:
+            rmtree(temp_dir)

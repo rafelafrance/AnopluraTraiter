@@ -5,7 +5,6 @@ import subprocess
 from datetime import datetime
 from os import fspath, remove
 from pathlib import Path
-import pandas as pd
 
 from .util import DATA_DIR, NAME
 
@@ -43,36 +42,3 @@ def backup_database():
     cmd = f'cp {name} {backup}'
 
     return subprocess.check_call(cmd, shell=True)
-
-
-def select_docs():
-    """Get guides as a dataframe."""
-    sql = """
-        select doc_id, loaded, edited, extracted, method, path
-          from docs
-      order by doc_id;"""
-    with connect() as cxn:
-        return pd.read_sql(sql, cxn)
-
-
-def select_doc(doc_id):
-    """Get a document for editing."""
-    sql = """select edits from docs where doc_id = ?;"""
-    with connect() as cxn:
-        return cxn.execute(sql, (doc_id,)).fetchone()[0]
-
-
-def update_doc(doc_id, edits):
-    """Update the document with edits."""
-    sql = """update docs set edits = ? where doc_id = ?;"""
-    with connect() as cxn:
-        cxn.execute(sql, (edits, doc_id))
-        cxn.commit()
-
-
-def reset_doc(doc_id):
-    """Reset the doc edits to back to the original text."""
-    sql = """update docs set edits = raw where doc_id = ?;"""
-    with connect() as cxn:
-        cxn.execute(sql, (doc_id,))
-        cxn.commit()

@@ -11,17 +11,15 @@ create table docs (
 );
 
 
-drop table if exists hist;
-create table hist (
-    hist_id integer primary key,
-    script  text,
-    control text,
-    command text,
-    start   integer,
-    end_    integer
+drop table if exists pipes;
+create table pipes (
+    pipe_id text primary key,
+    pipe    blob,
+    order_  integer,
+    parent  text
 );
-create index hist_script on hist (script);
-create index hist_control on hist (control);
+create index pipes_parent on pipes (parent);
+create index pipes_order on pipes (pipe_id, order_);
 
 
 drop table if exists traits;
