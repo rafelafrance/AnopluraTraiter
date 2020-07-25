@@ -14,9 +14,9 @@ from tkinter.scrolledtext import ScrolledText
 
 from ttkthemes import ThemedTk
 
+import src.pylib.command as pipe
 import src.pylib.db as db
 import src.pylib.doc as doc
-import src.pylib.command as pipe
 
 OK = 0
 ERROR = 1
@@ -29,8 +29,8 @@ class App:
     """Build the app."""
 
     def __init__(self):
-        win = ThemedTk(theme='radiance')
-        self.win = win
+        self.win = ThemedTk(theme='radiance')
+
         self.dirty = False
         self.path = MEMORY
         self.doc_id = ''
@@ -40,57 +40,75 @@ class App:
 
         db.create(self.cxn, self.path)
 
-        win.title(self.get_title())
-        win.geometry('1200x800')
+        self.win.title(self.get_title())
+        self.win.geometry('1200x800')
 
-        menu = tk.Menu(win)
+        self.build_menu()
 
-        file_menu = tk.Menu(menu, tearoff=False)
-        file_menu.add_command(label='Open', underline=0, command=self.open_db)
-        file_menu.add_command(label='New', underline=0, command=self.new_db)
-        file_menu.add_command(
+        self.notebook = ttk.Notebook(self.win)
+        self.notebook.pack(expand=True, fill="both")
+
+        self.docs = None
+        self.doc_tree = None
+        self.build_import_tab()
+
+        self.doc_sel = None
+        self.edits = None
+        self.pipe_sel = None
+        self.build_transform_tab()
+
+        self.commands = None
+        self.cmd_tree = None
+        self.build_pipes_tab()
+
+    def build_menu(self):
+        """Build the menu."""
+        menu = tk.Menu(self.win)
+        sub_menu = tk.Menu(menu, tearoff=False)
+        sub_menu.add_command(label='Open', underline=0, command=self.open_db)
+        sub_menu.add_command(label='New', underline=0, command=self.new_db)
+        sub_menu.add_command(
             label='Save...', underline=0,
             command=self.save_as_db,
             state=tk.DISABLED)
-        file_menu.add_command(
+        sub_menu.add_command(
             label='Save as...', underline=5, command=self.save_as_db)
-        file_menu.add_separator()
-        file_menu.add_command(
-            label='Quit', underline=0, command=self.safe_quit)
+        sub_menu.add_separator()
+        sub_menu.add_command(label='Quit', underline=0, command=self.safe_quit)
+        menu.add_cascade(label='File', underline=0, menu=sub_menu)
+        self.win.config(menu=menu)
 
-        menu.add_cascade(label='File', underline=0, menu=file_menu)
-        win.config(menu=menu)
-
-        self.notebook = ttk.Notebook(win)
-        self.notebook.pack(expand=True, fill="both")
-
+    def build_import_tab(self):
+        """Build the import tab controls."""
         tab = ttk.Frame(self.notebook)
         self.notebook.add(tab, text='Import')
 
         tab_frame = ttk.Frame(tab)
         tab_frame.pack(expand=True, fill='both')
 
-        top_frame = ttk.Frame(tab_frame)
-        top_frame.pack(expand=False, fill='x', pady=(24, 24))
-        bottom_frame = ttk.Frame(tab_frame)
-        bottom_frame.pack(expand=True, fill='both')
+        sub_frame = ttk.Frame(tab_frame)
+        sub_frame.pack(expand=False, fill='x', pady=(24, 24))
 
         button = ttk.Button(
-            top_frame, text='PDF to Text...', command=self.pdf_to_text)
+            sub_frame, text='PDF to Text...', command=self.pdf_to_text)
         button.pack(side=tk.LEFT, padx=(8, 8))
 
         button = ttk.Button(
-            top_frame, text='Import Text...', command=self.import_text)
+            sub_frame, text='Import Text...', command=self.import_text)
         button.pack(side=tk.LEFT, padx=(8, 8))
 
         button = ttk.Button(
-            top_frame, text='OCR PDF...', state=tk.DISABLED,
+            sub_frame, text='OCR PDF...', state=tk.DISABLED,
             command=self.ocr_pdf)
         button.pack(side=tk.LEFT, padx=(8, 8))
 
+        sub_frame = ttk.Frame(tab_frame)
+        sub_frame.pack(expand=True, fill='both')
+
         self.docs = doc.select_docs(self.cxn)
         self.docs.set_index('doc_id', inplace=True)
-        self.doc_tree = ttk.Treeview(bottom_frame)
+
+        self.doc_tree = ttk.Treeview(sub_frame)
         self.doc_tree.bind('<Double-Button-1>', self.select_doc)
         self.doc_tree['columns'] = list(self.docs.columns)
         self.doc_tree.column('#0', stretch=True)
@@ -98,85 +116,104 @@ class App:
         for col in self.docs.columns:
             self.doc_tree.column(col, stretch=True)
             self.doc_tree.heading(col, text=col)
+
         vsb = ttk.Scrollbar(
-            bottom_frame, orient='vertical', command=self.doc_tree.yview)
+            sub_frame, orient='vertical', command=self.doc_tree.yview)
         vsb.pack(side='right', fill='y')
+
         self.doc_tree.configure(yscrollcommand=vsb.set)
         self.doc_tree.pack(expand=True, fill='both')
 
+    def build_transform_tab(self):
+        """Build the transform tab controls."""
         tab = ttk.Frame(self.notebook)
         self.notebook.add(tab, text='Transform')
 
         tab_frame = ttk.Frame(tab)
         tab_frame.pack(expand=True, fill='both')
 
-        top_frame = ttk.Frame(tab_frame)
-        top_frame.pack(expand=False, fill='x', pady=(24, 24))
-        middle_frame = ttk.Frame(tab_frame)
-        middle_frame.pack(expand=True, fill='both')
-        bottom_frame = ttk.Frame(tab_frame)
-        bottom_frame.pack(expand=False, fill='x', pady=(24, 24))
+        sub_frame = ttk.Frame(tab_frame)
+        sub_frame.pack(expand=False, fill='x', pady=(24, 24))
 
-        self.doc_sel = ttk.Combobox(top_frame)
+        self.doc_sel = ttk.Combobox(sub_frame)
         self.doc_sel.pack(side=tk.LEFT, padx=(8, 8))
         self.doc_sel.bind('<<ComboboxSelected>>', self.doc_selected)
 
-        self.edits = ScrolledText(middle_frame)
+        sub_frame = ttk.Frame(tab_frame)
+        sub_frame.pack(expand=True, fill='both')
+
+        self.edits = ScrolledText(sub_frame)
         self.edits.pack(fill="both", expand=True)
         self.edits.insert(tk.INSERT, '')
 
-        self.pipe_sel = ttk.Combobox(bottom_frame)
+        sub_frame = ttk.Frame(tab_frame)
+        sub_frame.pack(expand=False, fill='x', pady=(24, 24))
+
+        self.pipe_sel = ttk.Combobox(sub_frame)
         self.pipe_sel.pack(side=tk.LEFT, padx=(8, 0))
+
         button = ttk.Button(
-            bottom_frame, text='+', command=self.add_pipe, width=1)
+            sub_frame, text='+', command=self.add_pipe, width=1)
         button.pack(side=tk.LEFT, padx=(0, 8))
+
         button = ttk.Button(
-            bottom_frame, text='Run Pipe', command=self.run_pipe)
+            sub_frame, text='Run Pipe', command=self.run_pipe)
         button.pack(side=tk.LEFT, padx=(8, 8))
+
         button = ttk.Button(
-            bottom_frame, text='Reset', command=self.reset_edits)
-        button.pack(side=tk.RIGHT, padx=(8, 8))
-        button = ttk.Button(
-            bottom_frame, text='Cancel', command=self.cancel_edits)
-        button.pack(side=tk.RIGHT, padx=(8, 8))
-        button = ttk.Button(
-            bottom_frame, text='Save', command=self.save_edits)
+            sub_frame, text='Reset', command=self.reset_edits)
         button.pack(side=tk.RIGHT, padx=(8, 8))
 
+        button = ttk.Button(
+            sub_frame, text='Cancel', command=self.cancel_edits)
+        button.pack(side=tk.RIGHT, padx=(8, 8))
+
+        button = ttk.Button(
+            sub_frame, text='Save', command=self.save_edits)
+        button.pack(side=tk.RIGHT, padx=(8, 8))
+
+    def build_pipes_tab(self):
+        """Build the pipes tab controls."""
         tab = ttk.Frame(self.notebook)
         self.notebook.add(tab, text='Pipes')
 
         tab_frame = ttk.Frame(tab)
         tab_frame.pack(expand=True, fill='both')
 
-        top_frame = ttk.Frame(tab_frame)
-        top_frame.pack(expand=True, fill='both')
-        bottom_frame = ttk.Frame(tab_frame)
-        bottom_frame.pack(expand=False, fill='x', pady=(24, 24))
+        sub_frame = ttk.Frame(tab_frame)
+        sub_frame.pack(expand=True, fill='both')
 
         self.commands = pipe.select_cmds(self.cxn)
         self.commands.set_index('command_id', inplace=True)
-        self.cmd_tree = ttk.Treeview(top_frame)
+
+        self.cmd_tree = ttk.Treeview(sub_frame)
         self.cmd_tree['columns'] = list(self.commands.columns)
         self.cmd_tree.column('#0', stretch=True)
         self.cmd_tree.heading('#0', text='')
         for col in self.commands.columns:
             self.cmd_tree.column(col, stretch=True)
             self.cmd_tree.heading(col, text=col)
+
         vsb = ttk.Scrollbar(
-            top_frame, orient='vertical', command=self.cmd_tree.yview)
+            sub_frame, orient='vertical', command=self.cmd_tree.yview)
         vsb.pack(side='right', fill='y')
+
         self.cmd_tree.configure(yscrollcommand=vsb.set)
         self.cmd_tree.pack(expand=True, fill='both')
 
+        sub_frame = ttk.Frame(tab_frame)
+        sub_frame.pack(expand=False, fill='x', pady=(24, 24))
+
         button = ttk.Button(
-            bottom_frame, text='Reset', command=self.reset_edits)
+            sub_frame, text='Reset', command=self.reset_edits)
         button.pack(side=tk.RIGHT, padx=(8, 8))
+
         button = ttk.Button(
-            bottom_frame, text='Cancel', command=self.cancel_edits)
+            sub_frame, text='Cancel', command=self.cancel_edits)
         button.pack(side=tk.RIGHT, padx=(8, 8))
+
         button = ttk.Button(
-            bottom_frame, text='Save', command=self.save_edits)
+            sub_frame, text='Save', command=self.save_edits)
         button.pack(side=tk.RIGHT, padx=(8, 8))
 
     def open_db(self):
