@@ -8,13 +8,14 @@ from .segmenter import sentencizer
 from ..matchers.matcher import Matcher
 
 NLP = spacy_nlp(disable=['ner'])
-NLP.add_pipe(sentencizer, before='parser')
+NLP.add_command(sentencizer, before='parser')
 
 MATCHER = Matcher(NLP)
-NLP.add_pipe(MATCHER, after='parser')
+NLP.add_command(MATCHER, after='parser')
+NLP.max_length *= 2
 
 
-def parse(text, with_sents=False, attach=True):
+def parse(text, with_sents=False):
     """Parse the traits."""
     doc = NLP(text)
 

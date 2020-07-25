@@ -13,12 +13,11 @@ from PySide2 import QtCore, QtWidgets
 from PySide2.QtWidgets import QApplication, QFileDialog
 
 import src.pylib.db as db
+import src.pylib.doc as doc
 from src.gui.data_frame_model import DataFrameModel
-from src.gui.main_window import Ui_MainWindow
-from src.pylib.doc import import_files, reset_doc, select_doc, select_docs, \
-    update_doc
-from src.pylib.pipe import add_pipe, select_pipes
 from src.gui.edit_pipes import EditPipes
+from src.gui.main_window import Ui_MainWindow
+from src.pylib.command import add_command, select_pipes
 
 OK = 0
 ERROR = 1
@@ -49,7 +48,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             lambda: self.event_status(db.backup_database))
         self.db_rebuild_btn.clicked.connect(self.reset_db_clicked)
 
-        docs = self.load_dataframe(select_docs)
+        docs = self.load_dataframe(doc.select_docs)
         self.docs_model = DataFrameModel(docs)
         self.docs_tbl.setModel(self.docs_model)
         self.docs_tbl.resizeColumnsToContents()
@@ -75,7 +74,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             caption='Load PDF files into Database',
             filter='All Files (*);;PDF Files (*.pdf)')
         if files:
-            import_files(files, type_='pdf')
+            doc.import_files(files, type_='pdf')
             self.update_doc_table()
 
     def import_text_clicked(self):
@@ -85,12 +84,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             caption='Load text files into Database',
             filter='All Files (*);;Text Files (*.txt)')
         if files:
-            import_files(files, type_='txt')
+            doc.import_files(files, type_='txt')
             self.update_doc_table()
 
     def update_doc_table(self):
         """Update the doc table to add data and resize columns."""
-        self.docs_model.dataframe = select_docs()
+        self.docs_model.dataframe = doc.select_docs()
         self.docs_tbl.resizeColumnsToContents()
         self.edit_doc_combobox_items()
         self.set_status('Files loaded.')
@@ -98,7 +97,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def reset_db_clicked(self):
         """Reset the database."""
         self.event_status(db.create)
-        df = self.load_dataframe(select_docs)
+        df = self.load_dataframe(doc.select_docs)
         self.docs_model.dataframe = df
 
     def edit_doc_combobox_items(self):
@@ -111,7 +110,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         """Show the document for editing."""
         self.doc_id = doc_id
         if doc_id:
-            text = self.get_doc_edits(select_doc, doc_id) if doc_id else ''
+            text = self.get_doc_edits(doc.select_doc, doc_id) if doc_id else ''
             self.doc_edit_text.setPlainText(text)
             self.run_pipe_btn.setEnabled(True)
             self.doc_edits_save_btn.setEnabled(True)
@@ -145,7 +144,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             pipe_id, pipe_ = pipe_id.strip(), pipe_.strip()
             if not pipe_id or not pipe_:
                 return
-            add_pipe(pipe_id, pipe_)
+            add_command(pipe_id, pipe_)
             df = self.load_dataframe(select_pipes)
             for _, row in df.iterrows():
                 pass
@@ -174,19 +173,19 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def save_edits_clicked(self):
         """Accept changes to the doc."""
         edits = self.doc_edit_text.toPlainText()
-        update_doc(self.doc_id, edits)
+        doc.update_doc(self.doc_id, edits)
         self.doc_edit_text.setPlainText(edits)
 
     def cancel_edits_clicked(self):
         """Cancel changes to the doc."""
-        edits = self.get_doc_edits(select_doc, self.doc_id)
-        update_doc(self.doc_id, edits)
+        edits = self.get_doc_edits(doc.select_doc, self.doc_id)
+        doc.update_doc(self.doc_id, edits)
         self.doc_edit_text.setPlainText(edits)
 
     def reset_edits_clicked(self):
         """Rest the doc back to its original form."""
-        reset_doc(self.doc_id)
-        edits = self.get_doc_edits(select_doc, self.doc_id)
+        doc.reset_doc(self.doc_id)
+        edits = self.get_doc_edits(doc.select_doc, self.doc_id)
         self.doc_edit_text.setPlainText(edits)
 
     def get_doc_edits(self, func, *args, **kwargs):

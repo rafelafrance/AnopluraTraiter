@@ -1,3 +1,12 @@
+DROP TABLE IF EXISTS metadata;
+CREATE TABLE metadata (
+    label text primary key,
+    datum text
+);
+insert into metadata (label, datum) VALUES ('traiter', 'true');
+insert into metadata (label, datum) VALUES ('version', '0.8');
+
+
 drop table if exists docs;
 create table docs (
     doc_id    text primary key,
@@ -11,15 +20,15 @@ create table docs (
 );
 
 
-drop table if exists pipes;
-create table pipes (
-    pipe_id text primary key,
-    pipe    blob,
-    order_  integer,
-    parent  text
+drop table if exists commands;
+create table commands (
+    command_id text primary key,
+    command    text,
+    order_     integer,
+    pipe_id    text
 );
-create index pipes_parent on pipes (parent);
-create index pipes_order on pipes (pipe_id, order_);
+create index commands_parent on commands (pipe_id);
+create index commands_order on commands (pipe_id, order_);
 
 
 drop table if exists traits;

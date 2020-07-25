@@ -26,6 +26,11 @@ def now():
     return datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 
+def today():
+    """Get today's date."""
+    return now()[:10]
+
+
 @contextmanager
 def get_temp_dir(prefix, where=None, keep=False):
     """Handle creation and deletion of temporary directory."""
