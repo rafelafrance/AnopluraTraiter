@@ -16,8 +16,8 @@ import src.pylib.db as db
 import src.pylib.doc as doc
 from src.gui.data_frame_model import DataFrameModel
 from src.gui.edit_pipes import EditPipes
-from src.gui.main_window import Ui_MainWindow
-from src.pylib.command import add_command, select_pipes
+from src.gui.app_window import Ui_MainWindow
+from src.pylib.script import add_command, select_pipes
 
 OK = 0
 ERROR = 1

@@ -20,15 +20,15 @@ create table docs (
 );
 
 
-drop table if exists commands;
-create table commands (
-    command_id text primary key,
-    command    text,
-    order_     integer,
-    pipe_id    text
+drop table if exists scripts;
+create table scripts (
+    script_id text primary key,
+    script    text,
+    pipe_id   text,
+    order_    integer
 );
-create index commands_parent on commands (pipe_id);
-create index commands_order on commands (pipe_id, order_);
+create index scripts_parent on scripts (script_id);
+create index scripts_order on scripts (script_id, order_);
 
 
 drop table if exists traits;
