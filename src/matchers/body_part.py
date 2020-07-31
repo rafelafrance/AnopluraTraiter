@@ -1,7 +1,7 @@
 """Extract sclerotized annotations."""
 
 from .shared import COMMA
-from traiter.util import squash  # pylint: disable=import-error
+from traiter.pylib.util import squash  # pylint: disable=import-error
 
 
 def body_part(span):

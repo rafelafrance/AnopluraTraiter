@@ -1,6 +1,6 @@
 """Parse elevation notations."""
 
-from traiter.util import to_positive_float
+from traiter.pylib.util import to_positive_float
 
 from ..pylib.terms import TERMS
 

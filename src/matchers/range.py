@@ -2,7 +2,8 @@
 
 import re
 
-from traiter.util import to_positive_float  # pylint: disable=import-error
+# pylint: disable=import-error
+from traiter.pylib.util import to_positive_float
 
 from ..pylib.terms import REPLACE
 from .shared import DASH, NUMBER

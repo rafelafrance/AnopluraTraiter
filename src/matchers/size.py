@@ -2,7 +2,7 @@
 
 import re
 
-from traiter.util import to_positive_float, to_positive_int
+from traiter.pylib.util import to_positive_float, to_positive_int
 
 from .shared import CLOSE, COMMA, EQ, INT, NUMBER, OPEN
 
