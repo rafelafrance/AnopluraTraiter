@@ -1,4 +1,0 @@
-python-dateutil~=2.8.1
-regex~=2020.7.14
-pandas~=1.1.0
-ttkthemes~=3.1.0
