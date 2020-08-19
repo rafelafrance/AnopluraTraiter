@@ -2,7 +2,7 @@
 
 from traiter.trait_matcher import TraitMatcher  # pylint: disable=import-error
 
-from .abbreviations import ABBREV, add_abbrevs
+from .abbreviations import ABBREV
 from .body_length import BODY_LENGTH
 from .body_part import BODY_PART
 from .elevation import ELEVATION
@@ -23,8 +23,8 @@ MATCHERS = (
 class Matcher(TraitMatcher):
     """Base matcher object."""
 
-    def __init__(self, nlp, attach=True, as_entities=True):
-        super().__init__(nlp, as_entities=as_entities)
+    def __init__(self, nlp):
+        super().__init__(nlp)
 
         terms = TERMS
         terms += itis_terms('Anoplura', abbrev=True)
@@ -45,7 +45,4 @@ class Matcher(TraitMatcher):
         self.add_patterns(finders, 'finders')
         self.add_patterns(groupers, 'groups')
         self.add_patterns(traiters, 'traits')
-        if attach:
-            self.add_patterns(attachers, 'attachers')
-
-        self.step_action('groups', add_abbrevs)
+        self.add_patterns(attachers, 'attachers')

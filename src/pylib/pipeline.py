@@ -8,11 +8,11 @@ from .segmenter import sentencizer
 from ..matchers.matcher import Matcher
 
 NLP = spacy_nlp(disable=['ner'])
+NLP.max_length *= 2
 NLP.add_pipe(sentencizer, before='parser')
 
 MATCHER = Matcher(NLP)
-NLP.add_pipe(MATCHER, after='parser')
-NLP.max_length *= 2
+NLP.add_pipe(MATCHER, last=True)
 
 
 def parse(text, with_sents=False):
@@ -38,7 +38,7 @@ def parse(text, with_sents=False):
                     if not k.startswith('_')}
             data['start'] = token.idx
             data['end'] = token.idx + len(token)
-            traits[token._.label].append(data)
+            traits[token.ent_type_].append(data)
 
     # from pprint import pp
     # pp(dict(traits))

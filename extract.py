@@ -2,7 +2,7 @@
 
 """Extract src traits from scientific literature (PDFs to text)."""
 
-import traiter.pdf as pdf
+import traiter.pylib.pdf as pdf
 
 from src.pylib.pipeline import parse
 from src.pylib.util import PDF_DIR, TXT_DIR

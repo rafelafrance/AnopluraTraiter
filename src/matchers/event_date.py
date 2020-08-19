@@ -2,8 +2,6 @@
 
 from dateutil import parser
 
-from ..pylib.terms import REPLACE
-
 
 def event_date(span):
     """Enrich the match with data."""
