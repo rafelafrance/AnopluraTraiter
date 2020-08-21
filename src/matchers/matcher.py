@@ -1,6 +1,6 @@
 """Base matcher object."""
 
-from traiter.trait_matcher import TraitMatcher  # pylint: disable=import-error
+from traiter.matcher import TraitMatcher  # pylint: disable=import-error
 
 from .abbreviations import ABBREV
 from .body_length import BODY_LENGTH
@@ -13,7 +13,7 @@ from .sci_name import SCI_NAME
 from .sclerotized import SCLEROTIZED
 from .sex_count import SEX_COUNT
 from .size import SIZE
-from ..pylib.terms import TERMS, itis_terms
+from ..pylib.terms import TERMS
 from ..pylib.util import ATTACH_STEP, FIND_STEP, GROUP_STEP, TRAIT_STEP
 
 MATCHERS = (
@@ -28,8 +28,6 @@ class Matcher(TraitMatcher):
         super().__init__(nlp)
 
         terms = TERMS
-        terms += itis_terms('Anoplura', abbrev=True)
-        terms += itis_terms('Mammalia', abbrev=True)
         self.add_terms(terms)
 
         finders = []

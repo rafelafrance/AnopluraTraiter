@@ -1,16 +1,15 @@
 """Create a trait pipeline."""
 
-# pylint: disable=import-error
 import spacy
-from traiter.pipeline import Pipeline as Pipes
-from traiter.spacy_nlp import setup_tokenizer
+from traiter.pipeline import TraitPipeline  # pylint: disable=import-error
+from traiter.spacy_nlp import setup_tokenizer  # pylint: disable=import-error
 
 from .util import ATTACH_STEP, TRAIT_STEP
 from ..matchers.matcher import Matcher
 from ..pylib.sentencizer import sentencizer
 
 
-class Pipeline(Pipes):
+class Pipeline(TraitPipeline):
     """Build a custom traiter pipeline."""
 
     steps2link = {TRAIT_STEP, ATTACH_STEP}
