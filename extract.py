@@ -4,7 +4,7 @@
 
 import traiter.pylib.pdf as pdf
 
-from src.pylib.ner import parse
+from src.pylib.find import parse
 from src.pylib.util import PDF_DIR, TXT_DIR
 
 
