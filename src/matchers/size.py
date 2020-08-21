@@ -5,6 +5,7 @@ import re
 from traiter.pylib.util import to_positive_float, to_positive_int
 
 from .shared import CLOSE, COMMA, EQ, INT, NUMBER, OPEN
+from ..pylib.util import GROUP_STEP, TRAIT_STEP
 
 
 def size(span):
@@ -43,7 +44,7 @@ BAR = ['bar', 'bars']
 
 SIZE = {
     'name': 'size',
-    'groupers': [
+    GROUP_STEP: [
         {
             'label': 'bar',
             'patterns': [[
@@ -73,7 +74,7 @@ SIZE = {
             ]],
         },
     ],
-    'traits': [
+    TRAIT_STEP: [
         {
             'label': 'size',
             'on_match': size,

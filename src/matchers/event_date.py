@@ -1,6 +1,7 @@
 """Parse date notations."""
 
 from dateutil import parser
+from ..pylib.util import TRAIT_STEP
 
 
 def event_date(span):
@@ -16,7 +17,7 @@ def event_date(span):
 
 COLLECTION_DATE = {
     'name': 'event_date',
-    'traits': [
+    TRAIT_STEP: [
         {
             'label': 'event_date',
             'on_match': event_date,

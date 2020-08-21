@@ -1,7 +1,7 @@
 """Find abbreviations in the text."""
 
 from .shared import CLOSE, OPEN
-
+from ..pylib.util import FIND_STEP
 
 NEW_TERMS = {}
 
@@ -41,7 +41,7 @@ def add_abbrevs(matcher_obj):
 
 ABBREV = {
     'name': 'abbrev',
-    'finders': [
+    FIND_STEP: [
         {
             'label': 'new_abbrev',
             'on_match': new_abbrev,

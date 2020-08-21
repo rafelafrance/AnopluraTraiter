@@ -3,6 +3,7 @@
 from traiter.pylib.util import to_positive_float
 
 from ..pylib.terms import TERMS
+from ..pylib.util import TRAIT_STEP
 
 UNITS = {t['pattern']: t['replace'] for t in TERMS if t['label'] == 'units'}
 
@@ -32,7 +33,7 @@ def elevation(span):
 
 ELEVATION = {
     'name': 'elevation',
-    'traits': [
+    TRAIT_STEP: [
         {
             'label': 'elevation',
             'on_match': elevation,

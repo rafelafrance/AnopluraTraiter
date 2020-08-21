@@ -14,6 +14,7 @@ from .sclerotized import SCLEROTIZED
 from .sex_count import SEX_COUNT
 from .size import SIZE
 from ..pylib.terms import TERMS, itis_terms
+from ..pylib.util import ATTACH_STEP, FIND_STEP, GROUP_STEP, TRAIT_STEP
 
 MATCHERS = (
     ABBREV, BODY_LENGTH, BODY_PART, COLLECTION_DATE, ELEVATION, MAX_WIDTH,
@@ -37,12 +38,12 @@ class Matcher(TraitMatcher):
         attachers = []
 
         for matcher in MATCHERS:
-            finders += matcher.get('finders', [])
-            traiters += matcher.get('traits', [])
-            groupers += matcher.get('groupers', [])
-            attachers += matcher.get('attachers', [])
+            finders += matcher.get(FIND_STEP, [])
+            groupers += matcher.get(GROUP_STEP, [])
+            traiters += matcher.get(TRAIT_STEP, [])
+            attachers += matcher.get(ATTACH_STEP, [])
 
-        self.add_patterns(finders, 'finders')
-        self.add_patterns(groupers, 'groups')
-        self.add_patterns(traiters, 'traits')
-        self.add_patterns(attachers, 'attachers')
+        self.add_patterns(finders, FIND_STEP)
+        self.add_patterns(groupers, GROUP_STEP)
+        self.add_patterns(traiters, TRAIT_STEP)
+        self.add_patterns(attachers, ATTACH_STEP)

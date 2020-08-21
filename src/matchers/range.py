@@ -5,8 +5,9 @@ import re
 # pylint: disable=import-error
 from traiter.pylib.util import to_positive_float
 
-from ..pylib.terms import REPLACE
 from .shared import DASH, NUMBER
+from ..pylib.terms import REPLACE
+from ..pylib.util import GROUP_STEP
 
 
 def range_(span):
@@ -14,8 +15,7 @@ def range_(span):
     data = {}
 
     values = [t.text for t in span if re.match(NUMBER, t.text)]
-    fields = ['low', 'high']
-    for field, value in zip(fields, values):
+    for field, value in zip(['low', 'high'], values):
         data[field] = to_positive_float(value)
 
     units = [t.text for t in span if t.ent_type_ == 'units']
@@ -26,7 +26,7 @@ def range_(span):
 
 RANGE = {
     'name': 'range',
-    'groupers': [
+    GROUP_STEP: [
         {
             'label': 'range',
             'on_match': range_,

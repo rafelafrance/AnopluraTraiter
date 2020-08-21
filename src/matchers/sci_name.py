@@ -1,6 +1,7 @@
 """Get scientific names."""
 
 from ..pylib.terms import REPLACE
+from ..pylib.util import TRAIT_STEP
 
 NAMES = {'src', 'mammalia'}
 
@@ -13,7 +14,7 @@ def sci_name(span):
 
 SCI_NAME = {
     'name': 'sci_name',
-    'traits': [
+    TRAIT_STEP: [
         {
             'label': 'sci_name',
             'on_match': sci_name,

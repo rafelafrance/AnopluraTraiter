@@ -4,6 +4,7 @@ from traiter.pylib.util import to_positive_int
 
 from .shared import INT
 from ..pylib.terms import REPLACE
+from ..pylib.util import TRAIT_STEP
 
 
 def sex_count(span):
@@ -26,7 +27,7 @@ def sex_count(span):
 
 SEX_COUNT = {
     'name': 'sex_count',
-    'traits': [
+    TRAIT_STEP: [
         {
             'label': 'sex_count',
             'on_match': sex_count,

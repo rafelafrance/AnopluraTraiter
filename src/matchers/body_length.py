@@ -1,5 +1,7 @@
 """Get body length notations."""
 
+from ..pylib.util import ATTACH_STEP
+
 
 def body_length(span):
     """Enrich the match."""
@@ -19,7 +21,7 @@ LENGTH = """ length len """.split()
 
 BODY_LENGTH = {
     'name': 'body_length',
-    'attachers': [
+    ATTACH_STEP: [
         {
             'label': 'body_length',
             'on_match': body_length,

@@ -1,5 +1,7 @@
 """Get maximum width notations."""
 
+from ..pylib.util import ATTACH_STEP
+
 
 def max_width(span):
     """Enrich the match."""
@@ -21,7 +23,7 @@ MAXIMUM = """ maximum max """.split()
 
 MAX_WIDTH = {
     'name': 'max_width',
-    'attachers': [
+    ATTACH_STEP: [
         {
             'label': 'max_width',
             'on_match': max_width,

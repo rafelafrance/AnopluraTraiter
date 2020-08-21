@@ -1,7 +1,9 @@
 """Extract sclerotized annotations."""
 
-from .shared import COMMA
 from traiter.pylib.util import squash  # pylint: disable=import-error
+
+from .shared import COMMA
+from ..pylib.util import TRAIT_STEP
 
 
 def body_part(span):
@@ -15,10 +17,9 @@ def body_part(span):
 
 _JOINER = ['and', 'or'] + COMMA
 
-
 BODY_PART = {
     'name': 'body_part',
-    'traits': [
+    TRAIT_STEP: [
         {
             'label': 'body_part',
             'on_match': body_part,

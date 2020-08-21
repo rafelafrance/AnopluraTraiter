@@ -1,5 +1,7 @@
 """Extract sclerotized annotations."""
 
+from ..pylib.util import TRAIT_STEP
+
 
 def sclerotized(span):
     """Enrich the match."""
@@ -14,7 +16,7 @@ def sclerotized(span):
 
 SCLEROTIZED = {
     'name': 'sclerotized',
-    'traits': [
+    TRAIT_STEP: [
         {
             'label': 'sclerotized',
             'on_match': sclerotized,
