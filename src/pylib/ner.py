@@ -1,18 +1,10 @@
 """Build the NLP pipeline."""
 
 # pylint: disable=import-error
-from traiter.spacy_nlp import spacy_nlp, to_entities
+from traiter.spacy_nlp import to_entities
 
-from .segmenter import sentencizer
 from .util import ATTACH_STEP, TRAIT_STEP
-from ..matchers.matcher import Matcher
-
-NLP = spacy_nlp(disable=['ner'])
-NLP.max_length *= 2
-NLP.add_pipe(sentencizer, before='parser')
-
-MATCHER = Matcher(NLP)
-NLP.add_pipe(MATCHER, last=True)
+from ..matchers.matcher import NLP
 
 STEPS2ATTACH = {TRAIT_STEP, ATTACH_STEP}
 

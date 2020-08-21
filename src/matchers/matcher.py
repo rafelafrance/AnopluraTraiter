@@ -1,5 +1,6 @@
 """Base matcher object."""
 
+from traiter.spacy_nlp import spacy_nlp
 from traiter.trait_matcher import TraitMatcher  # pylint: disable=import-error
 
 from .abbreviations import ABBREV
@@ -13,6 +14,7 @@ from .sci_name import SCI_NAME
 from .sclerotized import SCLEROTIZED
 from .sex_count import SEX_COUNT
 from .size import SIZE
+from ..pylib.segmenter import sentencizer
 from ..pylib.terms import TERMS, itis_terms
 from ..pylib.util import ATTACH_STEP, FIND_STEP, GROUP_STEP, TRAIT_STEP
 
@@ -47,3 +49,11 @@ class Matcher(TraitMatcher):
         self.add_patterns(groupers, GROUP_STEP)
         self.add_patterns(traiters, TRAIT_STEP)
         self.add_patterns(attachers, ATTACH_STEP)
+
+
+NLP = spacy_nlp(disable=['ner'])
+NLP.max_length *= 2
+NLP.add_pipe(sentencizer, before='parser')
+
+MATCHER = Matcher(NLP)
+NLP.add_pipe(MATCHER, last=True)

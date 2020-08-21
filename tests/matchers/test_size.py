@@ -4,7 +4,7 @@
 
 import unittest
 
-from src.pylib.pipeline import parse
+from src.pylib.ner import trait_list
 
 
 class TestSize(unittest.TestCase):
@@ -12,16 +12,15 @@ class TestSize(unittest.TestCase):
 
     def test_size_01(self):
         self.assertEqual(
-            parse('0.120–0.127 mm, mean 0.124 mm (n = 3)'),
-            {'size': [{'start': 0, 'end': 37,
-                       'low': 0.12, 'high': 0.127, 'units': 'mm',
-                       'mean': 0.124, 'mean_units': 'mm',
-                       'n': 3}]}
+            trait_list('0.120–0.127 mm, mean 0.124 mm (n = 3)'),
+            [{'n': 3, 'mean': 0.124, 'mean_units': 'mm',
+              'low': 0.12, 'high': 0.127, 'units': 'mm',
+              'trait': 'size', 'start': 0, 'end': 37}]
         )
 
     def test_size_02(self):
         self.assertEqual(
-            parse('length 0.137 mm (n = 1)'),
-            {'size': [{'n': 1, 'start': 7, 'end': 23,
-                       'low': 0.137, 'units': 'mm'}]}
+            trait_list('length 0.137 mm (n = 1)'),
+            [{'n': 1, 'low': 0.137, 'units': 'mm', 'trait': 'size',
+              'start': 7, 'end': 23}]
         )
