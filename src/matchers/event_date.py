@@ -16,7 +16,6 @@ def event_date(span):
 
 
 COLLECTION_DATE = {
-    'name': 'event_date',
     TRAIT_STEP: [
         {
             'label': 'event_date',

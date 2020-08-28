@@ -32,7 +32,6 @@ def elevation(span):
 
 
 ELEVATION = {
-    'name': 'elevation',
     TRAIT_STEP: [
         {
             'label': 'elevation',

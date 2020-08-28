@@ -40,7 +40,6 @@ def add_abbrevs(matcher_obj):
 
 
 ABBREV = {
-    'name': 'abbrev',
     FIND_STEP: [
         {
             'label': 'new_abbrev',

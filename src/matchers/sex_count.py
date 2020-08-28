@@ -26,7 +26,6 @@ def sex_count(span):
 
 
 SEX_COUNT = {
-    'name': 'sex_count',
     TRAIT_STEP: [
         {
             'label': 'sex_count',

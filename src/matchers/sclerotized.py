@@ -15,7 +15,6 @@ def sclerotized(span):
 
 
 SCLEROTIZED = {
-    'name': 'sclerotized',
     TRAIT_STEP: [
         {
             'label': 'sclerotized',

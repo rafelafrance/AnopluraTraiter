@@ -18,7 +18,6 @@ def body_part(span):
 _JOINER = ['and', 'or'] + COMMA
 
 BODY_PART = {
-    'name': 'body_part',
     TRAIT_STEP: [
         {
             'label': 'body_part',

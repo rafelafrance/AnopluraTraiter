@@ -1,8 +1,8 @@
 """Create a trait pipeline."""
 
 import spacy
-from traiter.pipeline import TraitPipeline  # pylint: disable=import-error
-from traiter.spacy_nlp import setup_tokenizer  # pylint: disable=import-error
+from traiter.trait_pipeline import TraitPipeline
+from traiter.spacy_nlp import setup_tokenizer
 
 from .util import ATTACH_STEP, TRAIT_STEP
 from ..matchers.matcher import Matcher

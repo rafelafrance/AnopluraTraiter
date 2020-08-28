@@ -22,7 +22,6 @@ def max_width(span):
 MAXIMUM = """ maximum max """.split()
 
 MAX_WIDTH = {
-    'name': 'max_width',
     ATTACH_STEP: [
         {
             'label': 'max_width',

@@ -1,6 +1,6 @@
 """Base matcher object."""
 
-from traiter.matcher import TraitMatcher  # pylint: disable=import-error
+from traiter.trait_matcher import TraitMatcher
 
 from .abbreviations import ABBREV
 from .body_length import BODY_LENGTH

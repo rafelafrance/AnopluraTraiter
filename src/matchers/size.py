@@ -43,7 +43,6 @@ def mean(span):
 BAR = ['bar', 'bars']
 
 SIZE = {
-    'name': 'size',
     GROUP_STEP: [
         {
             'label': 'bar',

@@ -13,7 +13,6 @@ def sci_name(span):
 
 
 SCI_NAME = {
-    'name': 'sci_name',
     TRAIT_STEP: [
         {
             'label': 'sci_name',

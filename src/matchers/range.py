@@ -25,7 +25,6 @@ def range_(span):
 
 
 RANGE = {
-    'name': 'range',
     GROUP_STEP: [
         {
             'label': 'range',

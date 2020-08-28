@@ -20,7 +20,6 @@ LENGTH = """ length len """.split()
 
 
 BODY_LENGTH = {
-    'name': 'body_length',
     ATTACH_STEP: [
         {
             'label': 'body_length',
