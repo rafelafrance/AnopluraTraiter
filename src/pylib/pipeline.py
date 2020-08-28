@@ -19,7 +19,6 @@ class Pipeline(TraitPipeline):
         super().__init__(self.nlp)
 
         self.nlp.max_length *= 2
-
         self.nlp.disable_pipes(['ner'])
 
         setup_tokenizer(self.nlp)

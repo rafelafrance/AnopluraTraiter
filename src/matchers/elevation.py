@@ -4,7 +4,8 @@ from traiter.pylib.util import to_positive_float
 
 from ..pylib.util import TERMS, TRAIT_STEP
 
-UNITS = {t['pattern']: t['replace'] for t in TERMS if t['label'] == 'units'}
+UNITS = {t['pattern']: t['replace'] for t in TERMS
+         if t['label'] == 'length_units'}
 
 ELEV_LIST = """ elevation elev """.split()
 ELEV_SET = set(ELEV_LIST)
@@ -18,8 +19,8 @@ def elevation(span):
         label = token.ent_type_
         value = token.lower_
 
-        if label == 'units':
-            data['units'] = UNITS[value]
+        if label == 'length_units':
+            data['length_units'] = UNITS[value]
         elif value in ELEV_SET:
             continue
         elif (as_float := to_positive_float(value)) is not None:
@@ -38,7 +39,7 @@ ELEVATION = {
             'patterns': [
                 [
                     {'LIKE_NUM': True},
-                    {'ENT_TYPE': 'units'},
+                    {'ENT_TYPE': 'length_units'},
                     {'LOWER': {'IN': ELEV_LIST}},
                 ]
             ]

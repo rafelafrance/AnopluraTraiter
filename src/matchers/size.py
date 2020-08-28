@@ -34,7 +34,8 @@ def mean(span):
     if values := [t.text for t in span if re.match(NUMBER, t.text)]:
         if (value := to_positive_float(values[0])) is not None:
             data = dict(mean=value)
-            if units := [t.text for t in span if t.ent_type_ == 'units']:
+            if units := [t.text for t in span
+                         if t.ent_type_ == 'length_units']:
                 data['mean_units'] = units[0]
             return data
     return {}
@@ -58,7 +59,7 @@ SIZE = {
                 {'TEXT': {'IN': COMMA}, 'OP': '?'},
                 {'LOWER': 'mean'},
                 {'TEXT': {'REGEX': NUMBER}},
-                {'ENT_TYPE': 'units'},
+                {'ENT_TYPE': 'length_units'},
             ]],
         },
         {

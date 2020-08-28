@@ -1,6 +1,7 @@
 """Shared patterns."""
 
 CLOSE = [')', ']']
+COLON = [':']
 COMMA = [',']
 CROSS = ['x', '×']
 DASH = ['–', '-', '––', '--']

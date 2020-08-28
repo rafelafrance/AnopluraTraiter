@@ -2,7 +2,6 @@
 
 import re
 
-# pylint: disable=import-error
 from traiter.pylib.util import to_positive_float
 
 from .shared import DASH, NUMBER
@@ -17,8 +16,8 @@ def range_(span):
     for field, value in zip(['low', 'high'], values):
         data[field] = to_positive_float(value)
 
-    units = [t.text for t in span if t.ent_type_ == 'units']
-    data['units'] = REPLACE[units[0]]
+    units = [t.text for t in span if t.ent_type_ == 'length_units']
+    data['length_units'] = REPLACE[units[0]]
 
     return data
 
@@ -33,11 +32,11 @@ RANGE = {
                     {'TEXT': {'REGEX': NUMBER}},
                     {'TEXT': {'IN': DASH}},
                     {'TEXT': {'REGEX': NUMBER}},
-                    {'ENT_TYPE': 'units'},
+                    {'ENT_TYPE': 'length_units'},
                 ],
                 [
                     {'TEXT': {'REGEX': NUMBER}},
-                    {'ENT_TYPE': 'units'},
+                    {'ENT_TYPE': 'length_units'},
                 ],
             ],
         },

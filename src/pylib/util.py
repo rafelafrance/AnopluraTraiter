@@ -9,7 +9,6 @@ DOC_DIR = DATA_DIR
 PDF_DIR = DOC_DIR / 'pdf'
 TXT_DIR = DOC_DIR / 'txt'
 
-FIND_STEP = 'find'
 GROUP_STEP = 'group'
 TRAIT_STEP = 'traits'
 ATTACH_STEP = 'attach'
@@ -21,11 +20,9 @@ ABBREVS = """
     Lond Me´m Mol Mus Nat Physiol Rep Sci Soc Syst Zool
     """
 
-LICE_TERMS = VOCAB_DIR / 'anoplura.csv'
-COMMON_TERMS = VOCAB_DIR / 'common.csv'
-TERMS = read_terms(LICE_TERMS)
+TERMS = read_terms(VOCAB_DIR / 'anoplura.csv')
 REPLACE = {t['pattern']: r for t in TERMS if (r := t.get('replace'))}
 
-TERMS += read_terms(COMMON_TERMS)
+TERMS += read_terms(VOCAB_DIR / 'common.csv')
 TERMS += itis_terms('Anoplura', abbrev=True)
 TERMS += itis_terms('Mammalia', abbrev=True)

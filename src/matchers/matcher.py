@@ -2,22 +2,23 @@
 
 from traiter.trait_matcher import TraitMatcher
 
-from .abbreviations import ABBREV
 from .body_length import BODY_LENGTH
 from .body_part import BODY_PART
+from .number import NUMBER
 from .elevation import ELEVATION
 from .event_date import COLLECTION_DATE
 from .max_width import MAX_WIDTH
 from .range import RANGE
 from .sci_name import SCI_NAME
 from .sclerotized import SCLEROTIZED
+from .setae_count import SETAE_COUNT
 from .sex_count import SEX_COUNT
 from .size import SIZE
-from ..pylib.util import ATTACH_STEP, FIND_STEP, GROUP_STEP, TERMS, TRAIT_STEP
+from ..pylib.util import ATTACH_STEP, GROUP_STEP, TERMS, TRAIT_STEP
 
 MATCHERS = (
-    ABBREV, BODY_LENGTH, BODY_PART, COLLECTION_DATE, ELEVATION, MAX_WIDTH,
-    RANGE, SCI_NAME, SCLEROTIZED, SEX_COUNT, SIZE)
+    BODY_LENGTH, BODY_PART, COLLECTION_DATE, ELEVATION, MAX_WIDTH, NUMBER,
+    RANGE, SCI_NAME, SCLEROTIZED, SETAE_COUNT, SEX_COUNT, SIZE)
 
 
 class Matcher(TraitMatcher):
@@ -26,21 +27,7 @@ class Matcher(TraitMatcher):
     def __init__(self, nlp):
         super().__init__(nlp)
 
-        terms = TERMS
-        self.add_terms(terms)
-
-        finders = []
-        traiters = []
-        groupers = []
-        attachers = []
-
-        for matcher in MATCHERS:
-            finders += matcher.get(FIND_STEP, [])
-            groupers += matcher.get(GROUP_STEP, [])
-            traiters += matcher.get(TRAIT_STEP, [])
-            attachers += matcher.get(ATTACH_STEP, [])
-
-        self.add_patterns(finders, FIND_STEP)
-        self.add_patterns(groupers, GROUP_STEP)
-        self.add_patterns(traiters, TRAIT_STEP)
-        self.add_patterns(attachers, ATTACH_STEP)
+        self.add_terms(TERMS)
+        self.add_patterns(MATCHERS, GROUP_STEP)
+        self.add_patterns(MATCHERS, TRAIT_STEP)
+        self.add_patterns(MATCHERS, ATTACH_STEP)
