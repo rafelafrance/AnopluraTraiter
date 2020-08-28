@@ -4,9 +4,9 @@ import spacy
 from traiter.trait_pipeline import TraitPipeline
 from traiter.spacy_nlp import setup_tokenizer
 
-from .util import ATTACH_STEP, TRAIT_STEP
+from .util import ATTACH_STEP, TRAIT_STEP, ABBREVS
 from ..matchers.matcher import Matcher
-from ..pylib.sentencizer import sentencizer
+from traiter.sentencizer import Sentencizer
 
 
 class Pipeline(TraitPipeline):
@@ -25,6 +25,7 @@ class Pipeline(TraitPipeline):
         setup_tokenizer(self.nlp)
 
         self.matcher = Matcher(self.nlp)
+        sentencizer = Sentencizer(ABBREVS)
 
         self.nlp.add_pipe(sentencizer, before='parser')
         self.nlp.add_pipe(self.matcher, last=True)

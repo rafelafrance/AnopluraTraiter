@@ -3,8 +3,7 @@
 from traiter.pylib.util import to_positive_int
 
 from .shared import INT
-from ..pylib.terms import REPLACE
-from ..pylib.util import TRAIT_STEP
+from ..pylib.util import REPLACE, TRAIT_STEP
 
 
 def sex_count(span):

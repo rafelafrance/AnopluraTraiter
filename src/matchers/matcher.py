@@ -13,8 +13,7 @@ from .sci_name import SCI_NAME
 from .sclerotized import SCLEROTIZED
 from .sex_count import SEX_COUNT
 from .size import SIZE
-from ..pylib.terms import TERMS
-from ..pylib.util import ATTACH_STEP, FIND_STEP, GROUP_STEP, TRAIT_STEP
+from ..pylib.util import ATTACH_STEP, FIND_STEP, GROUP_STEP, TERMS, TRAIT_STEP
 
 MATCHERS = (
     ABBREV, BODY_LENGTH, BODY_PART, COLLECTION_DATE, ELEVATION, MAX_WIDTH,

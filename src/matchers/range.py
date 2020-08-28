@@ -6,8 +6,7 @@ import re
 from traiter.pylib.util import to_positive_float
 
 from .shared import DASH, NUMBER
-from ..pylib.terms import REPLACE
-from ..pylib.util import GROUP_STEP
+from ..pylib.util import GROUP_STEP, REPLACE
 
 
 def range_(span):
