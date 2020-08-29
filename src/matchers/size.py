@@ -4,7 +4,7 @@ import re
 
 from traiter.pylib.util import to_positive_float, to_positive_int
 
-from .shared import CLOSE, COMMA, EQ, INT, NUMBER, OPEN
+from .shared import EQ, INT, NUMBER
 from ..pylib.util import GROUP_STEP, TRAIT_STEP
 
 
@@ -13,11 +13,8 @@ def size(span):
     data = {}
 
     for token in span:
-        if token.ent_type_ in ('range', 'mean', 'n'):
+        if token.ent_type_ in ('measurement', 'mean', 'n'):
             data = {**token._.data, **data}
-        else:
-            return {}
-
     return data
 
 
@@ -49,15 +46,14 @@ SIZE = {
             'label': 'bar',
             'patterns': [[
                 {'LOWER': {'IN': BAR}},
-                {'TEXT': {'IN': COMMA}, 'OP': '?'},
             ]],
         },
         {
             'label': 'mean',
             'on_match': mean,
             'patterns': [[
-                {'TEXT': {'IN': COMMA}, 'OP': '?'},
                 {'LOWER': 'mean'},
+                {'IS_PUNCT': True, 'OP': '?'},
                 {'TEXT': {'REGEX': NUMBER}},
                 {'ENT_TYPE': 'length_units'},
             ]],
@@ -66,11 +62,9 @@ SIZE = {
             'label': 'n',
             'on_match': sample,
             'patterns': [[
-                {'TEXT': {'IN': OPEN}, 'OP': '?'},
                 {'LOWER': 'n'},
                 {'TEXT': {'IN': EQ}},
                 {'TEXT': {'REGEX': INT}},
-                {'TEXT': {'IN': CLOSE}, 'OP': '?'},
             ]],
         },
     ],
@@ -81,9 +75,13 @@ SIZE = {
             'patterns': [
                 [
                     {'ENT_TYPE': 'bar', 'OP': '?'},
-                    {'ENT_TYPE': 'range'},
+                    {'IS_PUNCT': True, 'OP': '?'},
+                    {'ENT_TYPE': 'measurement'},
+                    {'IS_PUNCT': True, 'OP': '?'},
                     {'ENT_TYPE': 'mean', 'OP': '?'},
+                    {'IS_PUNCT': True, 'OP': '?'},
                     {'ENT_TYPE': 'n', 'OP': '?'},
+                    {'IS_PUNCT': True, 'OP': '?'},
                 ],
             ],
         },

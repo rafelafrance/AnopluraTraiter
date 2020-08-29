@@ -8,7 +8,7 @@ from .shared import DASH, NUMBER
 from ..pylib.util import GROUP_STEP, REPLACE
 
 
-def range_(span):
+def measurement(span):
     """Build the range parts."""
     data = {}
 
@@ -22,11 +22,11 @@ def range_(span):
     return data
 
 
-RANGE = {
+MEASUREMENT = {
     GROUP_STEP: [
         {
-            'label': 'range',
-            'on_match': range_,
+            'label': 'measurement',
+            'on_match': measurement,
             'patterns': [
                 [
                     {'TEXT': {'REGEX': NUMBER}},

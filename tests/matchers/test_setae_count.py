@@ -14,16 +14,16 @@ class TestRSetaeCount(unittest.TestCase):
     def test_setae_count_01(self):
         self.assertEqual(
             NLP(shorten("""
-                One long Dorsal Principal Head Seta (DPHS),
-                one small Dorsal Accessory Head Seta (DAcHS)
-                anteromedial to DPHS,
-                one Dorsal Posterior Central Head Seta (DPoCHS),
-                two to three Dorsal Preantennal Head Setae (DPaHS),
-                two Sutural Head Setae (SHS),
-                three Dorsal Marginal Head Setae (DMHS),
-                three to four Apical Head Setae (ApHS),
-                and one fairly large Ventral Preantennal Head Seta (VPaHS).
-                """)),
+                 One long Dorsal Principal Head Seta (DPHS),
+                 one small Dorsal Accessory Head Seta (DAcHS)
+                 anteromedial to DPHS,
+                 one Dorsal Posterior Central Head Seta (DPoCHS),
+                 two to three Dorsal Preantennal Head Setae (DPaHS),
+                 two Sutural Head Setae (SHS),
+                 three Dorsal Marginal Head Setae (DMHS),
+                 three to four Apical Head Setae (ApHS),
+                 and one fairly large Ventral Preantennal Head Seta (VPaHS).
+                 """)),
             [{'count': 1, 'setae': 'dorsal principal head setae',
               'trait': 'setae_count', 'start': 0, 'end': 42},
              {'count': 1, 'setae': 'dorsal accessory head setae',
@@ -40,4 +40,11 @@ class TestRSetaeCount(unittest.TestCase):
               'trait': 'setae_count', 'start': 283, 'end': 321},
              {'count': 1, 'setae': 'ventral preantennal head setae',
               'trait': 'setae_count', 'start': 327, 'end': 381}]
+        )
+
+    def test_setae_count_02(self):
+        self.assertEqual(
+            NLP(shorten(""" no Dorsal Mesothoracic Setae (DMsS); """)),
+            [{'count': 0, 'setae': 'dorsal mesothoracic setae',
+              'trait': 'setae_count', 'start': 0, 'end': 35}]
         )

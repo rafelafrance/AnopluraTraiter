@@ -1,19 +1,6 @@
 label,pattern,attr,replace
 apodmee,apodema,lower,
 apodeme,apodeme,lower,
-count_word,pair,lower,2
-count_word,one,lower,1
-count_word,two,lower,2
-count_word,three,lower,3
-count_word,four,lower,4
-count_word,five,lower,5
-count_word,six,lower,6
-count_word,seven,lower,7
-count_word,eight,lower,8
-count_word,nine,lower,9
-count_word,ten,lower,10
-count_word,eleven,lower,11
-count_word,twelve,lower,12
 dna_count,base pairs,lower,
 dna_count,bp,lower,base pairs
 length_units,centimeters,lower,cm
@@ -31,6 +18,7 @@ part,anal,lower,
 part,genital,lower,
 part,genitalia,lower,
 part,genito-ventral,lower,
+part,gonopods,lower,
 part,head,lower,
 part,margins,lower,
 part,mesothorax,lower,
