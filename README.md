@@ -11,27 +11,56 @@ Accessory Head Seta (DAcHS) anteromedial to DPHS, one
 Dorsal Posterior Central Head Seta (DPoCHS), two to three Dorsal
 Preantennal Head Setae (DPaHS), two Sutural Head Setae (SHS),
 three Dorsal Marginal Head Setae (DMHS), three to four Apical
-Head Setae (ApHS).
+Head Setae (ApHS). Head, thorax, and abdomen lightly sclerotized.
 ```
 We will extract:
-- max_width: part: head, n: 4, mean: 0.17, mean_units: mm, low: 0.15, high: 0.163, length_units: mm,
-- dorsal principal head setae: count: 1
-- dorsal accessory head setae: count: 1
-- dorsal posterior central head setae: count: 1
-- dorsal preantennal head setae: low: 2, high: 3
-- sutural head setae: count: 2
-- dorsal marginal head setae: count: 3
-- apical head setae: low: 3, high: 4
+- max_width: part = head, n = 4, mean = 0.17, mean_units = mm, low = 0.15, high = 0.163, length_units = mm,
+- dorsal principal head setae: count = 1
+- dorsal accessory head setae: count = 1
+- dorsal posterior central head setae: count = 1
+- dorsal preantennal head setae: low = 2, high = 3
+- sutural head setae: count = 2
+- dorsal marginal head setae: count = 3
+- apical head setae: low = 3, high = 4
+- sclerotized part: part = [head, thorax, abdomen], sclerotized = lightly
 - etc.
 
 ## Multiple methods for parsing
-1. Rule based parsing. Most machine learning models require a substantial training dataset. I use this method to bootstrap the training data. And, if other methods fail I can fall back to this.
-1. Machine learning models. (In progress)
+1. Rule-based parsing. Most machine learning models require a substantial training dataset. I use this method to bootstrap the training data. And, if other methods fail, I can fall back to this method.
+1. (In progress) Machine learning models. Rule based matchers are tricky and time consuming to get right. Once we have enough relevant data from the rules we can train these. We are using two different models.
+    - One for named entity recognition (NER) to identify the traits.
+    - And another model for named entity linking (NEL) for linking traits together. For instance a named entity (or trait) would be any of the extracted values from above and linked entity would be noting that the above traits are for a male holotype *Lemurpediculus robbinsi*.
 
 ## Rule-based parsing strategy
-1. Next I label terms using Spacy's phrase and rule-based matchers.
-1. Then I match terms using rule-based matchers repeatedly until I have built up a recognizable trait like: Head width, setae count, etc.
-1. Finally, I associate traits with plant parts.
+For example, given the text: `Head, thorax, and abdomen lightly sclerotized.`
+1. I start with a vocabulary of terms stored in one or more CSV files. These are words related to louse anatomy or other descriptions of lice. Some terms from the example above are: "head", "thorax", "abdomen", "mm", "sclerotized", "dorsal", "setae", etc. I then use spaCy phrase matchers to find the terms in the document. In this example the following vocabulary terms are recognized:
+    - `Head`
+    - `thorax`
+    - `abdomen`
+    - `sclerotized`
+1. These terms are used as anchors for finding phrase patterns in the document using spaCy's rule based matchers. Relevant patterns for this example are:
+    - An adverb followed by the word "sclerotin". Which would recognize `lightly sclerotized` and yields the data `sclerotized = lightly`
+    - Body part words separated by commas or conjunctions. Here we get `Head, thorax, and abdomen` and extract the data `part = [head, thorax, abdomen]`
+1. Now I recognize the full trait by looking for patterns that work on the previous matches:
+    - A body part followed by some possible filler which is then followed by a sclerotin notation. So we now have the full trait: `Head, thorax, and abdomen lightly sclerotized.` and its data `sclerotized part: part = [head, thorax, abdomen], sclerotized = lightly`.
+    - Please note that there may be more levels of matching.
+1. Finally, I associate traits with a species, sex, holotype/allotype/paratype, etc. using a different set of spaCy matchers and some simple heuristics.
+
+## Install
+You will need to have Python 3.8 (or later) installed. You can install the requirements into your python environment like so:
+```
+git clone https://github.com/rafelafrance/traiter_efloras.git
+cd traiter_efloras
+optional: virtualenv -p python3.8 venv
+optional: source venv/bin/activate
+python3 -m pip install --requirement requirements.txt
+python3 -m pip install git+https://github.com/rafelafrance/traiter.git@master#egg=traiter
+```
+
+## Run
+```
+./extract.py ... TODO ...
+```
 
 ## Tests
 Having a test suite is absolutely critical. The strategy I use is every new trait gets its own test set. Any time there is a parser error I add the parts that caused the error to the test suite and correct the parser. I.e. I use the standard red/green testing methodology.
