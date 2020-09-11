@@ -24,28 +24,31 @@ class TestRSetaeCount(unittest.TestCase):
                  three to four Apical Head Setae (ApHS),
                  and one fairly large Ventral Preantennal Head Seta (VPaHS).
                  """)),
-            [{'count': 1, 'setae': 'dorsal principal head setae',
+            [{'count': 1, 'type': 'dorsal principal head', 'setae': 'setae',
               'trait': 'setae_count', 'start': 0, 'end': 42},
-             {'count': 1, 'setae': 'dorsal accessory head setae',
+             {'count': 1, 'type': 'dorsal accessory head',
+              'setae': 'setae',
               'trait': 'setae_count', 'start': 44, 'end': 88},
-             {'count': 1, 'setae': 'dorsal posterior central head setae',
+             {'count': 1, 'type': 'dorsal posterior central head',
+              'setae': 'setae',
               'trait': 'setae_count', 'start': 111, 'end': 158},
-             {'low': 2, 'high': 3, 'setae': 'dorsal preantennal head setae',
+             {'low': 2, 'high': 3, 'type': 'dorsal preantennal head',
+              'setae': 'setae',
               'trait': 'setae_count', 'start': 160, 'end': 210},
-             {'count': 2, 'setae': 'sutural head setae',
+             {'count': 2, 'type': 'sutural head', 'setae': 'setae',
               'trait': 'setae_count', 'start': 212, 'end': 240},
-             {'count': 3, 'setae': 'dorsal marginal head setae',
+             {'count': 3, 'type': 'dorsal marginal head', 'setae': 'setae',
               'trait': 'setae_count', 'start': 242, 'end': 281},
-             {'low': 3, 'high': 4, 'setae': 'apical head setae',
+             {'low': 3, 'high': 4, 'type': 'apical head', 'setae': 'setae',
               'trait': 'setae_count', 'start': 283, 'end': 321},
-             {'count': 1, 'setae': 'ventral preantennal head setae',
+             {'count': 1, 'type': 'ventral preantennal head', 'setae': 'setae',
               'trait': 'setae_count', 'start': 327, 'end': 381}]
         )
 
     def test_setae_count_02(self):
         self.assertEqual(
             NLP(shorten(""" no Dorsal Mesothoracic Setae (DMsS); """)),
-            [{'count': 0, 'setae': 'dorsal mesothoracic setae',
+            [{'count': 0, 'type': 'dorsal mesothoracic', 'setae': 'setae',
               'trait': 'setae_count', 'start': 0, 'end': 35}]
         )
 
@@ -72,4 +75,13 @@ class TestRSetaeCount(unittest.TestCase):
                 """)),
             [{'setae': 'seta', 'count': 2,
               'trait': 'setae_count', 'start': 0, 'end': 26}]
+        )
+
+    def test_setae_count_06(self):
+        self.assertEqual(
+            NLP(shorten("""
+                next four spiracles each with tiny posterior seta only.
+                """)),
+            [{'type': 'posterior', 'setae': 'seta', 'present': True,
+              'trait': 'setae_count', 'start': 35, 'end': 49}]
         )
