@@ -61,6 +61,15 @@ class TestRSetaeCount(unittest.TestCase):
             NLP(shorten("""
                 with 16–18 contiguous curved setae on each side;
                 """)),
-            [{'low': 16, 'high': 18, 'setae': 'setae', 'location': 'each side',
+            [{'low': 16, 'high': 18, 'setae': 'setae', 'group': 'each side',
               'trait': 'setae_count', 'start': 5, 'end': 47}]
+        )
+
+    def test_setae_count_05(self):
+        self.assertEqual(
+            NLP(shorten("""
+                One long and one tiny seta immediately posterior to
+                """)),
+            [{'setae': 'seta', 'count': 2,
+              'trait': 'setae_count', 'start': 0, 'end': 26}]
         )

@@ -12,8 +12,7 @@ length_units,meters,lower,m
 length_units,millimeters,lower,mm
 length_units,mm,lower,mm
 length_units,µm,lower,µm
-location,each side,lower,
-location,side,lower,
+group,each side,lower,
 part,antenna,lower,antenna
 part,antennae,lower,antenna
 part,abdomen,lower,

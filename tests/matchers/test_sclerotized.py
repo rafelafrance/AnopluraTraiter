@@ -33,7 +33,7 @@ class TestSclerotized(unittest.TestCase):
                 associated with abdominal segments II–IX.
                 """)),
             [{'sclerotized': 'lightly', 'part': 'abdominal segments',
-              'location': 'each side',
+              'group': 'each side',
               'trait': 'sclerotized_part', 'start': 6, 'end': 88}]
         )
 
