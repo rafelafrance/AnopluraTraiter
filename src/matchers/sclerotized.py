@@ -21,6 +21,8 @@ def sclerotized_part(span):
         label = token.ent_type_
         if label in ('body_part', 'sclerotized'):
             data = {**data, **token._.data}
+        elif label == 'location':
+            data['location'] = token.lower_
     return data
 
 
@@ -45,10 +47,14 @@ SCLEROTIZED = {
                 [
                     {'ENT_TYPE': 'body_part'},
                     {'ENT_TYPE': '', 'OP': '*'},
+                    {'ENT_TYPE': 'location', 'OP': '?'},
+                    {'ENT_TYPE': '', 'OP': '*'},
                     {'ENT_TYPE': 'sclerotized'},
                 ],
                 [
                     {'ENT_TYPE': 'sclerotized'},
+                    {'ENT_TYPE': '', 'OP': '*'},
+                    {'ENT_TYPE': 'location', 'OP': '?'},
                     {'ENT_TYPE': '', 'OP': '*'},
                     {'ENT_TYPE': 'body_part'},
                 ],

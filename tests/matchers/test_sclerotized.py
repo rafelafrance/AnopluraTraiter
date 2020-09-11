@@ -5,7 +5,7 @@ import unittest
 from src.pylib.pipeline import PIPELINE
 from traiter.pylib.util import shorten
 
-NLP = PIPELINE.trait_list
+NLP = PIPELINE.test_traits
 
 
 class TestSclerotized(unittest.TestCase):
@@ -33,6 +33,7 @@ class TestSclerotized(unittest.TestCase):
                 associated with abdominal segments II–IX.
                 """)),
             [{'sclerotized': 'lightly', 'part': 'abdominal segments',
+              'location': 'each side',
               'trait': 'sclerotized_part', 'start': 6, 'end': 88}]
         )
 

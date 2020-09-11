@@ -12,6 +12,10 @@ length_units,meters,lower,m
 length_units,millimeters,lower,mm
 length_units,mm,lower,mm
 length_units,µm,lower,µm
+location,each side,lower,
+location,side,lower,
+part,antenna,lower,antenna
+part,antennae,lower,antenna
 part,abdomen,lower,
 part,abdominal,lower,
 part,anal,lower,
@@ -33,6 +37,7 @@ part,sternum,lower,
 part,subgenital,lower,
 part,thoracic,lower,
 part,thorax,lower,
+sternal_plate,thoracic sternal plate,lower,
 sclerotin,sclerotin,lower,sclerotized
 sclerotin,sclerotised,lower,sclerotized
 sclerotin,sclerotization,lower,sclerotized

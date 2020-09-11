@@ -4,7 +4,7 @@ import unittest
 
 from src.pylib.pipeline import PIPELINE
 
-NLP = PIPELINE.trait_list
+NLP = PIPELINE.test_traits
 
 
 class TestMeasurement(unittest.TestCase):

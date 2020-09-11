@@ -5,7 +5,7 @@ import unittest
 from src.pylib.pipeline import PIPELINE
 from traiter.pylib.util import shorten
 
-NLP = PIPELINE.trait_list
+NLP = PIPELINE.test_traits
 
 
 class TestRSetaeCount(unittest.TestCase):
@@ -47,4 +47,20 @@ class TestRSetaeCount(unittest.TestCase):
             NLP(shorten(""" no Dorsal Mesothoracic Setae (DMsS); """)),
             [{'count': 0, 'setae': 'dorsal mesothoracic setae',
               'trait': 'setae_count', 'start': 0, 'end': 35}]
+        )
+
+    def test_setae_count_03(self):
+        self.assertEqual(
+            NLP(shorten(""" with pair of long setae """)),
+            [{'count': 2, 'setae': 'setae',
+              'trait': 'setae_count', 'start': 5, 'end': 23}]
+        )
+
+    def test_setae_count_04(self):
+        self.assertEqual(
+            NLP(shorten("""
+                with 16–18 contiguous curved setae on each side;
+                """)),
+            [{'low': 16, 'high': 18, 'setae': 'setae', 'location': 'each side',
+              'trait': 'setae_count', 'start': 5, 'end': 47}]
         )
