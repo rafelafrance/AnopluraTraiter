@@ -4,8 +4,7 @@ import re
 
 from traiter.pylib.util import to_positive_float, to_positive_int
 
-from .shared import EQ, INT, NUMBER
-from ..pylib.util import GROUP_STEP, TRAIT_STEP
+from .consts import EQ, GROUP_STEP, INT, NUMBER, TRAIT_STEP
 
 
 def size(span):

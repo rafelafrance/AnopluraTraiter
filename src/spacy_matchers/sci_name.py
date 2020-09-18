@@ -1,6 +1,6 @@
 """Get scientific names."""
 
-from ..pylib.util import REPLACE, TRAIT_STEP
+from .consts import REPLACE, TRAIT_STEP
 
 NAMES = {'src', 'mammalia'}
 

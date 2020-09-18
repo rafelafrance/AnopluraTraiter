@@ -1,7 +1,7 @@
 """Parse date notations."""
 
 from dateutil import parser
-from ..pylib.util import TRAIT_STEP
+from .consts import TRAIT_STEP
 
 
 def event_date(span):

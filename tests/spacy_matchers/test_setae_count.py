@@ -2,8 +2,9 @@
 
 import unittest
 
-from src.pylib.pipeline import PIPELINE
 from traiter.pylib.util import shorten
+
+from src.spacy_matchers.pipeline import PIPELINE
 
 NLP = PIPELINE.test_traits
 

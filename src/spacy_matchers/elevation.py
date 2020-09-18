@@ -2,7 +2,7 @@
 
 from traiter.pylib.util import to_positive_float
 
-from ..pylib.util import TERMS, TRAIT_STEP
+from .consts import TERMS, TRAIT_STEP
 
 UNITS = {t['pattern']: t['replace'] for t in TERMS
          if t['label'] == 'length_units'}

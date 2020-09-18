@@ -1,7 +1,6 @@
 """Parse counts."""
 
-from ..pylib.util import GROUP_STEP
-from .shared import DASH
+from .consts import DASH, GROUP_STEP
 
 TO_INT = {
     'no': 0,
