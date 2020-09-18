@@ -1,6 +1,6 @@
 """Base matcher object."""
 
-from traiter.trait_matcher import TraitMatcher
+from traiter.spacy_nlp.matcher import SpacyMatcher
 
 from .body_length import BODY_LENGTH
 from .body_part import BODY_PART
@@ -21,7 +21,7 @@ MATCHERS = (
     MEASUREMENT, NUMBER, SCI_NAME, SCLEROTIZED, SETAE_COUNT, SEX_COUNT, SIZE)
 
 
-class Matcher(TraitMatcher):
+class Matcher(SpacyMatcher):
     """Base matcher object."""
 
     def __init__(self, nlp):
