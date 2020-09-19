@@ -88,3 +88,5 @@ data/
 docs/
 junk*
 notebooks/
+output/
+models/

@@ -42,12 +42,12 @@ def multiple_setae_count(span):
             if token._.data.get('count'):
                 low += token._.data['count']
             else:
-                low += token._.data['low']
-                high += token._.data['high']
+                low += token._.data.get('low', 0)
+                high += token._.data.get('high', 0)
         elif label == 'group':
             data['group'] = token.lower_
 
-    if high:
+    if high and low:
         data['low'] = low
         data['high'] = high
     else:
