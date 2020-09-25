@@ -41,3 +41,20 @@ class TestMeasurement(unittest.TestCase):
              {'description': '5-segmented which are often sexually dimorphic',
               'trait': 'antenna', 'start': 24, 'end': 80}]
         )
+
+    def test_antenna_04(self):
+        self.assertEqual(
+            NLP(shorten("""
+                third antennal segment modified with anterodorsal projection.
+                """)),
+            [{'description': ('third antennal segment modified with '
+                              'anterodorsal projection'),
+              'trait': 'antenna', 'start': 0, 'end': 61}]
+        )
+
+    def test_antenna_05(self):
+        self.assertEqual(
+            NLP(shorten("""Antennal segments 3-5 not fused;""")),
+            [{'description': 'antennal segments 3-5 not fused',
+              'trait': 'antenna', 'start': 0, 'end': 32}]
+        )

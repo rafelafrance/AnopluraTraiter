@@ -15,6 +15,11 @@ def antenna(span):
     return {'description': desc}
 
 
+def antenna_all(span):
+    """Enrich the match."""
+    return {'description': span[:-1].lower_}
+
+
 ANTENNA = {
     TRAIT_STEP: [
         {
@@ -28,9 +33,28 @@ ANTENNA = {
                 ],
                 [
                     {'ENT_TYPE': 'count'},
-                    {'TEXT': {'IN': DASH}},
+                    {'TEXT': {'IN': DASH}, 'OP': '?'},
                     {'ENT_TYPE': 'segment'},
                     {'ENT_TYPE': 'antenna'},
+                    {'TEXT': {'NOT_IN': BREAK}, 'OP': '*'},
+                    {'TEXT': {'IN': BREAK}},
+                ],
+            ],
+        },
+        {
+            'label': 'antenna',
+            'on_match': antenna_all,
+            'patterns': [
+                [
+                    {'ENT_TYPE': 'ordinal'},
+                    {'TEXT': {'IN': DASH}, 'OP': '?'},
+                    {'ENT_TYPE': 'antenna_segment'},
+                    {'TEXT': {'NOT_IN': BREAK}, 'OP': '*'},
+                    {'TEXT': {'IN': BREAK}},
+                ],
+                [
+                    {'ENT_TYPE': 'antenna_segment'},
+                    {'ENT_TYPE': 'count'},
                     {'TEXT': {'NOT_IN': BREAK}, 'OP': '*'},
                     {'TEXT': {'IN': BREAK}},
                 ],
