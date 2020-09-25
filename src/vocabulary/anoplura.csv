@@ -1,6 +1,8 @@
 label,pattern,attr,replace
+antenna,antenna,lower,antenna
+antenna,antennae,lower,antenna
 apodeme,apodeme,lower,
-apodmee,apodema,lower,
+apodeme,apodema,lower,
 dna_count,base pairs,lower,
 dna_count,bp,lower,base pairs
 group,each side,lower,
@@ -36,8 +38,6 @@ location,ventral,lower,
 part,abdomen,lower,
 part,abdominal,lower,
 part,anal,lower,
-part,antenna,lower,antenna
-part,antennae,lower,antenna
 part,genital,lower,
 part,genitalia,lower,
 part,genito-ventral,lower,
@@ -50,7 +50,6 @@ part,metathorax,lower,
 part,plate,lower,
 part,postantennal,lower,
 part,prothorax,lower,
-part,segments,lower,
 part,spiracle,lower,
 part,sternal,lower,
 part,sternum,lower,
@@ -61,6 +60,9 @@ sclerotin,sclerotin,lower,sclerotized
 sclerotin,sclerotised,lower,sclerotized
 sclerotin,sclerotization,lower,sclerotized
 sclerotin,sclerotized,lower,sclerotized
+segment,segment,lower,
+segment,segments,lower,
+segment,segmented,lower,
 seta,chaeta,lower,
 seta,cheta,lower,
 seta,seta,lower,

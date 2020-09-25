@@ -2,6 +2,7 @@
 
 from traiter.spacy_nlp.matcher import SpacyMatcher
 
+from .antenna import ANTENNA
 from .body_length import BODY_LENGTH
 from .body_part import BODY_PART
 from .consts import ATTACH_STEP, GROUP_STEP, TERMS, TRAIT_STEP
@@ -17,7 +18,7 @@ from .sex_count import SEX_COUNT
 from .size import SIZE
 
 MATCHERS = (
-    BODY_LENGTH, BODY_PART, COLLECTION_DATE, ELEVATION, MAX_WIDTH,
+    ANTENNA, BODY_LENGTH, BODY_PART, COLLECTION_DATE, ELEVATION, MAX_WIDTH,
     MEASUREMENT, NUMBER, SCI_NAME, SCLEROTIZED, SETAE_COUNT, SEX_COUNT, SIZE)
 
 

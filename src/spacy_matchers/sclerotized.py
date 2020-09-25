@@ -17,12 +17,21 @@ def sclerotized(span):
 def sclerotized_part(span):
     """Enrich the match."""
     data = {}
+    seg = ''
     for token in span:
         label = token.ent_type_
-        if label in ('body_part', 'sclerotized'):
-            data = {**data, **token._.data}
+        if label == 'sclerotized':
+            data['sclerotized'] = token._.data['sclerotized']
+        elif label == 'body_part':
+            data['part'] = token._.data['part']
+        elif label == 'segment':
+            seg = token.lower_
         elif label == 'group':
             data['group'] = token.lower_
+
+    if seg and not isinstance(data['part'], list):
+        data['part'] += ' ' + seg
+
     return data
 
 
@@ -45,7 +54,9 @@ SCLEROTIZED = {
             'on_match': sclerotized_part,
             'patterns': [
                 [
+                    {'ENT_TYPE': 'segment', 'OP': '?'},
                     {'ENT_TYPE': 'body_part'},
+                    {'ENT_TYPE': 'segment', 'OP': '?'},
                     {'ENT_TYPE': '', 'OP': '*'},
                     {'ENT_TYPE': 'group', 'OP': '?'},
                     {'ENT_TYPE': '', 'OP': '*'},
@@ -56,7 +67,9 @@ SCLEROTIZED = {
                     {'ENT_TYPE': '', 'OP': '*'},
                     {'ENT_TYPE': 'group', 'OP': '?'},
                     {'ENT_TYPE': '', 'OP': '*'},
+                    {'ENT_TYPE': 'segment', 'OP': '?'},
                     {'ENT_TYPE': 'body_part'},
+                    {'ENT_TYPE': 'segment', 'OP': '?'},
                 ],
             ],
         },
