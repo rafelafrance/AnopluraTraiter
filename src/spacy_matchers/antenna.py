@@ -2,13 +2,13 @@
 
 import re
 
-from .consts import DASH, DOT, TRAIT_STEP
+from .consts import BREAK, DASH, TRAIT_STEP
 
 
 def antenna(span):
     """Enrich the match."""
     parts = [t.lower_ for t in span
-             if t.ent_type_ != 'antenna' and t.text not in DOT]
+             if t.ent_type_ != 'antenna' and t.text not in BREAK]
     desc = ' '.join(parts)
     desc = re.sub(r'\s-\s', '-', desc)
     desc = re.sub(r'\s([,;])', r'\1', desc)
@@ -23,20 +23,16 @@ ANTENNA = {
             'patterns': [
                 [
                     {'ENT_TYPE': 'antenna'},
-                    {'ENT_TYPE': {'IN': [
-                        '', 'sex', 'antenna', 'count', 'segment']},
-                        'OP': '+'},
-                    {'TEXT': {'IN': DOT}},
+                    {'TEXT': {'NOT_IN': BREAK}, 'OP': '*'},
+                    {'TEXT': {'IN': BREAK}},
                 ],
                 [
                     {'ENT_TYPE': 'count'},
                     {'TEXT': {'IN': DASH}},
                     {'ENT_TYPE': 'segment'},
                     {'ENT_TYPE': 'antenna'},
-                    {'ENT_TYPE': {'IN': [
-                        '', 'sex', 'antenna', 'count', 'segment']},
-                        'OP': '+'},
-                    {'TEXT': {'IN': DOT}},
+                    {'TEXT': {'NOT_IN': BREAK}, 'OP': '*'},
+                    {'TEXT': {'IN': BREAK}},
                 ],
             ],
         },

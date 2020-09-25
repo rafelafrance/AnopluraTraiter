@@ -32,4 +32,7 @@ NUMBER = r'^\d+(\.\d*)?$'
 OPEN = ['(', '[']
 PLUS = ['+']
 QUOTE = ['"', "'"]
+SEMICOLON = [';']
 SLASH = ['/']
+
+BREAK = DOT + SEMICOLON

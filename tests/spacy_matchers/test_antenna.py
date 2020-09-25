@@ -27,10 +27,8 @@ class TestMeasurement(unittest.TestCase):
                 extended posterolaterally.
                 """)),
             [{'description': ('five-segmented with basal segment wider than '
-                              'long and much larger than second segment; '
-                              'fourth segment slightly extended '
-                              'posterolaterally'),
-              'trait': 'antenna', 'start': 0, 'end': 146}]
+                              'long and much larger than second segment'),
+              'trait': 'antenna', 'start': 0, 'end': 95}]
         )
 
     def test_antenna_03(self):
