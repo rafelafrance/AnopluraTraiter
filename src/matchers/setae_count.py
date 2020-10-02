@@ -1,6 +1,6 @@
 """Extract setae count notations."""
 
-from .consts import CLOSE, OPEN, REPLACE, TRAIT_STEP
+from ..pylib.util import CLOSE, OPEN, REPLACE, TRAIT_STEP
 
 
 def setae_count(span):

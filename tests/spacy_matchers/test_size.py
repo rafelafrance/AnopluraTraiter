@@ -4,7 +4,7 @@
 
 import unittest
 
-from src.spacy_matchers.pipeline import PIPELINE
+from src.matchers.pipeline import PIPELINE
 
 NLP = PIPELINE.test_traits
 

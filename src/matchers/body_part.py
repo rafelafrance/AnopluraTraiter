@@ -2,7 +2,7 @@
 
 from traiter.pylib.util import squash
 
-from .consts import COMMA, GROUP_STEP, TRAIT_STEP
+from ..pylib.util import COMMA, GROUP_STEP, TRAIT_STEP
 
 
 def anatomy(span):

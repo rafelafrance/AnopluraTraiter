@@ -14,7 +14,7 @@ three Dorsal Marginal Head Setae (DMHS), three to four Apical
 Head Setae (ApHS). Head, thorax, and abdomen lightly sclerotized.
 ```
 We will extract:
-- max_width: part = head, n = 4, mean = 0.17, mean_units = mm, low = 0.15, high = 0.163, length_units = mm,
+- max width: part = head, n = 4, mean = 0.17, mean_units = mm, low = 0.15, high = 0.163, length_units = mm,
 - dorsal principal head setae: count = 1
 - dorsal accessory head setae: count = 1
 - dorsal posterior central head setae: count = 1

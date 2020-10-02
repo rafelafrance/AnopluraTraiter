@@ -2,7 +2,7 @@
 
 import re
 
-from .consts import BREAK, DASH, TRAIT_STEP
+from ..pylib.util import BREAK, DASH, TRAIT_STEP
 
 
 def antenna(span):

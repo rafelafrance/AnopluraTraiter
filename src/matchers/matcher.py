@@ -5,7 +5,7 @@ from traiter.spacy_nlp.matcher import SpacyMatcher
 from .antenna import ANTENNA
 from .body_length import BODY_LENGTH
 from .body_part import BODY_PART
-from .consts import ATTACH_STEP, GROUP_STEP, TERMS, TRAIT_STEP
+from ..pylib.util import ATTACH_STEP, GROUP_STEP, TERMS, TRAIT_STEP
 from .elevation import ELEVATION
 from .event_date import COLLECTION_DATE
 from .max_width import MAX_WIDTH

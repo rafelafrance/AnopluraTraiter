@@ -7,7 +7,7 @@ import json
 from traiter.pylib.util import clean_text
 
 from src.pylib.util import OUTPUT_DIR, TXT_DIR
-from src.spacy_matchers.pipeline import PIPELINE
+from src.matchers.pipeline import PIPELINE
 
 
 def main():

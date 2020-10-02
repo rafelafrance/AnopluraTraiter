@@ -1,6 +1,6 @@
 """Get body length notations."""
 
-from .consts import ATTACH_STEP
+from ..pylib.util import ATTACH_STEP
 
 
 def body_length(span):

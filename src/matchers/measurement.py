@@ -4,7 +4,7 @@ import re
 
 from traiter.pylib.util import to_positive_float
 
-from .consts import DASH, GROUP_STEP, NUMBER, REPLACE
+from ..pylib.util import DASH, GROUP_STEP, NUMBER, REPLACE
 
 
 def measurement(span):
