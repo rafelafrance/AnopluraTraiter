@@ -1,4 +1,4 @@
-"""Test range trait matcher."""
+"""Test antenna trait matcher."""
 
 import unittest
 
@@ -9,14 +9,15 @@ from src.matchers.pipeline import PIPELINE
 NLP = PIPELINE.test_traits
 
 
-class TestMeasurement(unittest.TestCase):
+class TestAntenna(unittest.TestCase):
     """Test range trait matcher."""
 
     def test_antenna_01(self):
         self.assertEqual(
-            NLP('antennae unmodified in males.'),
-            [{'description': 'unmodified in males',
-              'trait': 'antenna', 'start': 0, 'end': 29}]
+            NLP('Head suboval; antennae unmodified in males.'),
+            [{'part': 'head', 'trait': 'body_part', 'start': 0, 'end': 4},
+             {'description': 'unmodified in males',
+              'trait': 'antenna', 'start': 14, 'end': 43}]
         )
 
     def test_antenna_02(self):

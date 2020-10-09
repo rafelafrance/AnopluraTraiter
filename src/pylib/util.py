@@ -33,10 +33,10 @@ REPLACE = {t['pattern']: r for t in TERMS if (r := t.get('replace'))}
 CLOSE = [')', ']']
 COLON = [':']
 COMMA = [',']
-CROSS = ['x', '×']
+CROSS = ['x', '×', '⫻']  # ⫻ = 0x3f
 DASH = ['–', '-', '––', '--']
 DOT = ['.']
-EQ = ['=', '¼']
+EQ = ['=', '¼']  # ¼ = 0xbc
 INT = r'^\d+$'
 NUMBER = r'^\d+(\.\d*)?$'
 OPEN = ['(', '[']
