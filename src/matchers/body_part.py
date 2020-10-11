@@ -2,56 +2,40 @@
 
 from traiter.pylib.util import squash
 
-from ..pylib.util import COMMA, GROUP_STEP, TRAIT_STEP
-
-
-def anatomy(span):
-    """Enrich the match."""
-    return {'anatomy': span.lower_}
+from ..pylib.util import COMMA, TRAIT_STEP
 
 
 def body_part(span):
     """Enrich the match."""
     parts = []
     for token in span:
-        if token.ent_type_ == 'anatomy':
+        if token.ent_type_ == 'part':
             parts.append(token.lower_)
-    return {'part': squash(parts)}
+    return {'body_part': squash(parts)}
 
 
 _JOINER = ['and', 'or'] + COMMA
 
 BODY_PART = {
-    GROUP_STEP: [
-        {
-            'label': 'anatomy',
-            'on_match': anatomy,
-            'patterns': [
-                [
-                    {'ENT_TYPE': 'part', 'OP': '+'},
-                ],
-            ],
-        },
-    ],
     TRAIT_STEP: [
         {
             'label': 'body_part',
             'on_match': body_part,
             'patterns': [
                 [
-                    {'ENT_TYPE': 'anatomy'},
+                    {'ENT_TYPE': 'part', 'OP': '+'},
                 ],
                 [
-                    {'ENT_TYPE': 'anatomy'},
+                    {'ENT_TYPE': 'part', 'OP': '+'},
                     {'LOWER': {'IN': _JOINER}, 'OP': '*'},
-                    {'ENT_TYPE': 'anatomy'},
+                    {'ENT_TYPE': 'part', 'OP': '+'},
                 ],
                 [
-                    {'ENT_TYPE': 'anatomy'},
+                    {'ENT_TYPE': 'part', 'OP': '+'},
                     {'LOWER': {'IN': _JOINER}, 'OP': '*'},
-                    {'ENT_TYPE': 'anatomy'},
+                    {'ENT_TYPE': 'part', 'OP': '+'},
                     {'LOWER': {'IN': _JOINER}, 'OP': '*'},
-                    {'ENT_TYPE': 'anatomy'},
+                    {'ENT_TYPE': 'part', 'OP': '+'},
                 ],
             ],
         },

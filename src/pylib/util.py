@@ -4,7 +4,6 @@ from pathlib import Path
 
 from traiter.spacy_nlp.terms import VOCAB_DIR, itis_terms, read_terms
 
-
 DATA_DIR = Path.cwd() / 'data'
 DOC_DIR = DATA_DIR
 PDF_DIR = DOC_DIR / 'pdf'
@@ -15,6 +14,7 @@ MODEL_DIR = Path.cwd() / 'models'
 GROUP_STEP = 'group'
 TRAIT_STEP = 'traits'
 ATTACH_STEP = 'attach'
+DESCRIPTION_STEP = 'description'
 
 ABBREVS = """
     Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec

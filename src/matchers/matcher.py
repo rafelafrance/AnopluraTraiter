@@ -15,13 +15,11 @@ from .sclerotized import SCLEROTIZED
 from .setae_count import SETAE_COUNT
 from .sex_count import SEX_COUNT
 from .size import SIZE
-from .thoracic_sternal_plate import THORACIC_STERNAL_PLATE
 from ..pylib.util import ATTACH_STEP, GROUP_STEP, TERMS, TRAIT_STEP
 
 MATCHERS = [
     ANTENNA, BODY_LENGTH, BODY_PART, COLLECTION_DATE, ELEVATION, MAX_WIDTH,
-    MEASUREMENT, NUMBER, SCI_NAME, SCLEROTIZED, SETAE_COUNT, SEX_COUNT, SIZE,
-    THORACIC_STERNAL_PLATE]
+    MEASUREMENT, NUMBER, SCI_NAME, SCLEROTIZED, SETAE_COUNT, SEX_COUNT, SIZE]
 
 
 class Matcher(SpacyMatcher):
