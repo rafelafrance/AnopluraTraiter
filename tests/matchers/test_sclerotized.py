@@ -15,16 +15,20 @@ class TestSclerotized(unittest.TestCase):
     def test_sclerotized_01(self):
         self.assertEqual(
             NLP('Head, thorax, and abdomen lightly sclerotized.'),
-            [{'part': ['head', 'thorax', 'abdomen'],
-              'sclerotized': 'lightly',
-              'trait': 'sclerotized_part', 'start': 0, 'end': 45}]
+            [{'body_part': ['head', 'thorax', 'abdomen'],
+              'trait': 'body_part', 'start': 0, 'end': 25},
+             {'description': 'lightly sclerotized',
+              'body_part': ['head', 'thorax', 'abdomen'],
+              'trait': 'description', 'start': 26, 'end': 45}]
         )
 
     def test_sclerotized_02(self):
         self.assertEqual(
             NLP('Head: More heavily sclerotized along anterior margin;'),
-            [{'part': 'head', 'sclerotized': 'heavily',
-              'trait': 'sclerotized_part', 'start': 0, 'end': 30}]
+            [{'body_part': 'head', 'trait': 'body_part', 'start': 0, 'end': 4},
+             {'description': 'More heavily sclerotized along anterior margin',
+              'body_part': 'head', 'trait': 'description',
+              'start': 6, 'end': 52}]
         )
 
     def test_sclerotized_03(self):
@@ -33,9 +37,15 @@ class TestSclerotized(unittest.TestCase):
                 Eight lightly sclerotized plates present on each side
                 associated with abdominal segments II–IX.
                 """)),
-            [{'sclerotized': 'lightly', 'part': 'abdominal segments',
-              'group': 'each side',
-              'trait': 'sclerotized_part', 'start': 6, 'end': 88}]
+            [{'description': 'Eight lightly sclerotized plates present on '
+                             'each side associated with',
+              'body_part': 'abdominal', 'trait': 'description',
+              'start': 0, 'end': 69},
+             {'body_part': 'abdominal', 'trait': 'body_part',
+              'start': 70, 'end': 79},
+             {'description': 'segments II–IX',
+              'body_part': 'abdominal', 'trait': 'description',
+              'start': 80, 'end': 94}]
         )
 
     def test_sclerotized_04(self):
@@ -43,9 +53,10 @@ class TestSclerotized(unittest.TestCase):
             NLP(shorten("""
                 Genitalia (Fig 9) with moderately sclerotised subgenital plate,
                 """)),
-            [{'part': 'genitalia', 'trait': 'body_part', 'start': 0, 'end': 9},
-             {'sclerotized': 'moderately', 'part': 'subgenital plate',
-              'trait': 'sclerotized_part', 'start': 23, 'end': 62}]
+            [{'body_part': 'genitalia', 'trait': 'body_part',
+              'start': 0, 'end': 9},
+             {'body_part': ['subgenital', 'plate'],
+              'trait': 'body_part', 'start': 46, 'end': 62}]
         )
 
     def test_sclerotized_05(self):
@@ -53,6 +64,11 @@ class TestSclerotized(unittest.TestCase):
             NLP(shorten("""
                 Postantennal head margins with heavily sclerotized
                 """)),
-            [{'sclerotized': 'heavily', 'part': 'postantennal head margins',
-              'trait': 'sclerotized_part', 'start': 0, 'end': 50}]
+            [{'body_part': ['postantennal', 'head', 'margins'],
+              'trait': 'body_part', 'start': 0, 'end': 25},
+             {'description': 'with heavily sclerotized',
+              'body_part': ['postantennal', 'head', 'margins'],
+              'trait': 'description',
+              'start': 26,
+              'end': 50}]
         )

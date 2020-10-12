@@ -14,7 +14,7 @@ def setae_count(span):
         elif label == 'seta_abbrev':
             data['setae'] = 'setae'
             data['type'] = REPLACE.get(token.lower_, token.lower_)
-        elif label in ('location', 'anatomy'):
+        elif label in ('location', 'part'):
             location.append(token.lower_)
         elif label == 'count':
             data = {**data, **token._.data}
@@ -67,7 +67,7 @@ SETAE_COUNT = {
                     {'ENT_TYPE': '', 'OP': '?'},
                     {'ENT_TYPE': '', 'OP': '?'},
                     {'ENT_TYPE': {'IN': ['location']}, 'OP': '*'},
-                    {'ENT_TYPE': {'IN': ['location', 'anatomy']}, 'OP': '?'},
+                    {'ENT_TYPE': {'IN': ['location', 'part']}, 'OP': '?'},
                     {'ENT_TYPE': 'seta'},
                     {'TEXT': {'IN': OPEN}, 'OP': '?'},
                     {'ENT_TYPE': 'seta_abbrev'},
@@ -78,7 +78,7 @@ SETAE_COUNT = {
                     {'ENT_TYPE': '', 'OP': '?'},
                     {'ENT_TYPE': '', 'OP': '?'},
                     {'ENT_TYPE': {'IN': ['location']}, 'OP': '*'},
-                    {'ENT_TYPE': {'IN': ['location', 'anatomy']}, 'OP': '?'},
+                    {'ENT_TYPE': {'IN': ['location', 'part']}, 'OP': '?'},
                     {'ENT_TYPE': 'seta'},
                     {'POS': {'IN': ['ADP', 'ADJ']}, 'OP': '?'},
                     {'ENT_TYPE': 'group'}
@@ -88,12 +88,12 @@ SETAE_COUNT = {
                     {'ENT_TYPE': '', 'OP': '?'},
                     {'ENT_TYPE': '', 'OP': '?'},
                     {'ENT_TYPE': {'IN': ['location']}, 'OP': '*'},
-                    {'ENT_TYPE': {'IN': ['location', 'anatomy']}, 'OP': '?'},
+                    {'ENT_TYPE': {'IN': ['location', 'part']}, 'OP': '?'},
                     {'ENT_TYPE': 'seta'},
                 ],
                 [
                     {'ENT_TYPE': {'IN': ['location']}, 'OP': '*'},
-                    {'ENT_TYPE': {'IN': ['location', 'anatomy']}, 'OP': '?'},
+                    {'ENT_TYPE': {'IN': ['location', 'part']}, 'OP': '?'},
                     {'ENT_TYPE': 'seta'},
                     {'TEXT': {'IN': OPEN}, 'OP': '?'},
                     {'ENT_TYPE': 'seta_abbrev'},
@@ -101,14 +101,14 @@ SETAE_COUNT = {
                 ],
                 [
                     {'ENT_TYPE': {'IN': ['location']}, 'OP': '*'},
-                    {'ENT_TYPE': {'IN': ['location', 'anatomy']}, 'OP': '?'},
+                    {'ENT_TYPE': {'IN': ['location', 'part']}, 'OP': '?'},
                     {'ENT_TYPE': 'seta'},
                     {'POS': {'IN': ['ADP', 'ADJ']}, 'OP': '?'},
                     {'ENT_TYPE': 'group'}
                 ],
                 [
                     {'ENT_TYPE': {'IN': ['location']}, 'OP': '*'},
-                    {'ENT_TYPE': {'IN': ['location', 'anatomy']}, 'OP': '?'},
+                    {'ENT_TYPE': {'IN': ['location', 'body_part']}, 'OP': '?'},
                     {'ENT_TYPE': 'seta'},
                 ],
             ],

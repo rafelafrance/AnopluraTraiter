@@ -23,25 +23,24 @@ def phrases(sent):
     for token in sent:
         if token.ent_type_ == 'phrase_sep':
             span = sent[start:token.i]
-            entities += phrase_entities(span, start, token.i)
+            entities += phrase_entities(span,)
             start = token.i + 1
-        else:
-            start = token.i
 
     if start < sent.end:
-        entities += phrase_entities(sent, start, sent.end)
+        span = sent[start:]
+        entities += phrase_entities(span)
 
     return entities
 
 
-def phrase_entities(span, start, end):
+def phrase_entities(phrase):
     """Extract phase entities."""
-    body_part = [e for e in span.ents if e.label_ == 'body_part']
+    body_part = [e for e in phrase.ents if e.label_ == 'body_part']
 
-    if len(body_part) != 1:
-        entities = list(span.ents)
+    if len(body_part) == 1:
+        entities = body_part + descriptions(phrase, body_part[0])
     else:
-        entities = body_part + descriptions(span, body_part[0])
+        entities = list(phrase.ents)
 
     return entities
 
@@ -49,12 +48,17 @@ def phrase_entities(span, start, end):
 def descriptions(phrase, body_part):
     """Split a phrase into comma separated descriptions."""
     entities = []
-    start = 0
+    start, in_description = 0, False
     for token in phrase:
-        if (token.ent_type_ in ('description_sep', 'body_part') and (
-                start < token.i)):
-            entities.append(new_ent(phrase, start, token.i, body_part))
+        if token.ent_type_ in ('description_sep', 'body_part'):
+            if in_description:
+                entities.append(new_ent(phrase, start, token.i, body_part))
             start = token.i + 1
+            in_description = False
+        elif token.is_punct and not in_description:
+            start = token.i + 1
+        else:
+            in_description = True
 
     if start < phrase.end:
         entities.append(new_ent(phrase, start, phrase.end, body_part))
