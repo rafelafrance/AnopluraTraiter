@@ -21,6 +21,7 @@ def phrases(sent):
     entities = []
     start = 0
     for token in sent:
+        print(token)
         if token.ent_type_ == 'phrase_sep':
             span = sent[start:token.i]
             entities += phrase_entities(span,)

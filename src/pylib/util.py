@@ -11,6 +11,7 @@ TXT_DIR = DOC_DIR / 'txt'
 OUTPUT_DIR = Path.cwd() / 'output'
 MODEL_DIR = Path.cwd() / 'models'
 
+NUMERIC_STEP = 'numerics'
 GROUP_STEP = 'group'
 TRAIT_STEP = 'traits'
 ATTACH_STEP = 'attach'
@@ -37,8 +38,8 @@ CROSS = ['x', '×', '⫻']  # ⫻ = 0x3f
 DASH = ['–', '-', '––', '--']
 DOT = ['.']
 EQ = ['=', '¼']  # ¼ = 0xbc
-INT = r'^\d+$'
-NUMBER = r'^\d+(\.\d*)?$'
+INT_RE = r'^\d+$'
+NUMBER_RE = r'^\d+(\.\d*)?$'
 OPEN = ['(', '[']
 PLUS = ['+']
 QUOTE = ['"', "'"]

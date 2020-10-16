@@ -7,13 +7,14 @@ from traiter.spacy_nlp.sentencizer import SpacySentencizer
 
 from .description import description
 from .matcher import Matcher
-from ..pylib.util import ABBREVS, ATTACH_STEP, DESCRIPTION_STEP, TRAIT_STEP
+from ..pylib.util import ABBREVS, ATTACH_STEP, DESCRIPTION_STEP, GROUP_STEP, \
+    TRAIT_STEP
 
 
 class Pipeline(SpacyPipeline):
     """Build a custom traiter pipeline."""
 
-    token2entity = {TRAIT_STEP, ATTACH_STEP}
+    token2entity = {GROUP_STEP, TRAIT_STEP, ATTACH_STEP}
     entities2keep = {DESCRIPTION_STEP}
     trans = str.maketrans({'¼': '=', '⫻': '×'})
 

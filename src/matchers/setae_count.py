@@ -16,7 +16,7 @@ def setae_count(span):
             data['type'] = REPLACE.get(token.lower_, token.lower_)
         elif label in ('location', 'part'):
             location.append(token.lower_)
-        elif label == 'count':
+        elif label == 'integer':
             data = {**data, **token._.data}
         elif label == 'group':
             data['group'] = token.lower_
@@ -38,7 +38,7 @@ def multiple_setae_count(span):
         elif label == 'seta_abbrev':
             data['setae'] = 'setae'
             data['type'] = REPLACE.get(token.lower_, token.lower_)
-        elif label == 'count':
+        elif label == 'integer':
             if token._.data.get('count'):
                 low += token._.data['count']
             else:
@@ -66,19 +66,17 @@ SETAE_COUNT = {
                     {'ENT_TYPE': 'count'},
                     {'ENT_TYPE': '', 'OP': '?'},
                     {'ENT_TYPE': '', 'OP': '?'},
-                    {'ENT_TYPE': {'IN': ['location']}, 'OP': '*'},
-                    {'ENT_TYPE': {'IN': ['location', 'part']}, 'OP': '?'},
+                    {'ENT_TYPE': 'body_part'},
                     {'ENT_TYPE': 'seta'},
                     {'TEXT': {'IN': OPEN}, 'OP': '?'},
-                    {'ENT_TYPE': 'seta_abbrev'},
+                    {'ENT_TYPE': 'part'},
                     {'TEXT': {'IN': CLOSE}, 'OP': '?'},
                 ],
                 [
                     {'ENT_TYPE': 'count'},
                     {'ENT_TYPE': '', 'OP': '?'},
                     {'ENT_TYPE': '', 'OP': '?'},
-                    {'ENT_TYPE': {'IN': ['location']}, 'OP': '*'},
-                    {'ENT_TYPE': {'IN': ['location', 'part']}, 'OP': '?'},
+                    {'ENT_TYPE': 'body_part'},
                     {'ENT_TYPE': 'seta'},
                     {'POS': {'IN': ['ADP', 'ADJ']}, 'OP': '?'},
                     {'ENT_TYPE': 'group'}
@@ -87,28 +85,24 @@ SETAE_COUNT = {
                     {'ENT_TYPE': 'count'},
                     {'ENT_TYPE': '', 'OP': '?'},
                     {'ENT_TYPE': '', 'OP': '?'},
-                    {'ENT_TYPE': {'IN': ['location']}, 'OP': '*'},
-                    {'ENT_TYPE': {'IN': ['location', 'part']}, 'OP': '?'},
+                    {'ENT_TYPE': 'body_part'},
                     {'ENT_TYPE': 'seta'},
                 ],
                 [
-                    {'ENT_TYPE': {'IN': ['location']}, 'OP': '*'},
-                    {'ENT_TYPE': {'IN': ['location', 'part']}, 'OP': '?'},
+                    {'ENT_TYPE': 'body_part'},
                     {'ENT_TYPE': 'seta'},
                     {'TEXT': {'IN': OPEN}, 'OP': '?'},
-                    {'ENT_TYPE': 'seta_abbrev'},
+                    {'ENT_TYPE': 'part'},
                     {'TEXT': {'IN': CLOSE}, 'OP': '?'},
                 ],
                 [
-                    {'ENT_TYPE': {'IN': ['location']}, 'OP': '*'},
-                    {'ENT_TYPE': {'IN': ['location', 'part']}, 'OP': '?'},
+                    {'ENT_TYPE': 'body_part'},
                     {'ENT_TYPE': 'seta'},
                     {'POS': {'IN': ['ADP', 'ADJ']}, 'OP': '?'},
                     {'ENT_TYPE': 'group'}
                 ],
                 [
-                    {'ENT_TYPE': {'IN': ['location']}, 'OP': '*'},
-                    {'ENT_TYPE': {'IN': ['location', 'body_part']}, 'OP': '?'},
+                    {'ENT_TYPE': 'body_part'},
                     {'ENT_TYPE': 'seta'},
                 ],
             ],

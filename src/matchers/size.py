@@ -1,10 +1,6 @@
 """Parse size notations."""
 
-import re
-
-from traiter.pylib.util import to_positive_float, to_positive_int
-
-from ..pylib.util import EQ, GROUP_STEP, INT, NUMBER, TRAIT_STEP
+from ..pylib.util import EQ, GROUP_STEP, TRAIT_STEP
 
 
 def size(span):
@@ -19,22 +15,17 @@ def size(span):
 
 def sample(span):
     """Convert the span into a single integer."""
-    if values := [t.text for t in span if re.match(INT, t.text)]:
-        if (value := to_positive_int(values[0])) is not None:
-            return dict(n=value)
-    return {}
+    values = [t._.data for t in span if t.ent_type_ == 'integer']
+    return dict(n=values[0].get('count', values[0].get('low')))
 
 
 def mean(span):
     """Convert the span into a single float."""
-    if values := [t.text for t in span if re.match(NUMBER, t.text)]:
-        if (value := to_positive_float(values[0])) is not None:
-            data = dict(mean=value)
-            if units := [t.text for t in span
-                         if t.ent_type_ == 'length_units']:
-                data['mean_units'] = units[0]
-            return data
-    return {}
+    values = [t._.data for t in span if t.ent_type_ == 'measurement']
+    return {
+        'mean': values[0].get('low'),
+        'mean_units': values[0].get('length_units'),
+    }
 
 
 BAR = ['bar', 'bars']
@@ -53,8 +44,7 @@ SIZE = {
             'patterns': [[
                 {'LOWER': 'mean'},
                 {'IS_PUNCT': True, 'OP': '?'},
-                {'TEXT': {'REGEX': NUMBER}},
-                {'ENT_TYPE': 'length_units'},
+                {'ENT_TYPE': 'measurement'},
             ]],
         },
         {
@@ -63,7 +53,7 @@ SIZE = {
             'patterns': [[
                 {'LOWER': 'n'},
                 {'TEXT': {'IN': EQ}},
-                {'TEXT': {'REGEX': INT}},
+                {'ENT_TYPE': 'integer'},
             ]],
         },
     ],

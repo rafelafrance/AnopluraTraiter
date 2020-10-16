@@ -2,10 +2,15 @@
 
 from traiter.pylib.util import squash
 
-from ..pylib.util import COMMA, TRAIT_STEP
+from ..pylib.util import COMMA, DASH, GROUP_STEP, REPLACE
 
 
 def body_part(span):
+    """Enrich the match."""
+    return {'body_part': REPLACE.get(span.lower_, span.lower_)}
+
+
+def multiple_parts(span):
     """Enrich the match."""
     parts = []
     for token in span:
@@ -14,10 +19,9 @@ def body_part(span):
     return {'body_part': squash(parts)}
 
 
-_JOINER = ['and', 'or'] + COMMA
-
+JOINER = ['and', 'or'] + COMMA
 BODY_PART = {
-    TRAIT_STEP: [
+    GROUP_STEP: [
         {
             'label': 'body_part',
             'on_match': body_part,
@@ -26,15 +30,45 @@ BODY_PART = {
                     {'ENT_TYPE': 'part', 'OP': '+'},
                 ],
                 [
-                    {'ENT_TYPE': 'part', 'OP': '+'},
-                    {'LOWER': {'IN': _JOINER}, 'OP': '*'},
-                    {'ENT_TYPE': 'part', 'OP': '+'},
+                    {'ENT_TYPE': 'part'},
+                    {'ENT_TYPE': 'segment'},
+                    {'ENT_TYPE': 'integer'},
                 ],
                 [
+                    {'ENT_TYPE': {'IN': ['integer', 'ordinal']}},
+                    {'TEXT': {'IN': DASH}, 'OP': '?'},
+                    {'ENT_TYPE': 'segment', 'OP': '?'},
+                    {'ENT_TYPE': 'part'},
+                ],
+                [
+                    {'ENT_TYPE': 'ordinal'},
+                    {'ENT_TYPE': 'part'},
+                    {'ENT_TYPE': 'segment'},
+                ],
+                [
+                    {'ENT_TYPE': 'segment'},
+                    {'ENT_TYPE': 'part'},
+                    {'ENT_TYPE': 'integer'},
+                ],
+                [
+                    {'ENT_TYPE': {'IN': ['location', 'part']}, 'OP': '+'},
+                    {'ENT_TYPE': 'seta'},
+                ],
+                [
+                    {'ENT_TYPE': {'IN': ['location', 'part']}, 'OP': '*'},
+                    {'ENT_TYPE': 'part'},
+                ],
+            ],
+        },
+        {
+            'label': 'body_part',
+            'on_match': multiple_parts,
+            'patterns': [
+                [
                     {'ENT_TYPE': 'part', 'OP': '+'},
-                    {'LOWER': {'IN': _JOINER}, 'OP': '*'},
-                    {'ENT_TYPE': 'part', 'OP': '+'},
-                    {'LOWER': {'IN': _JOINER}, 'OP': '*'},
+                    {'LOWER': {'IN': JOINER}, 'OP': '*'},
+                    {'ENT_TYPE': 'part', 'OP': '*'},
+                    {'LOWER': {'IN': JOINER}, 'OP': '*'},
                     {'ENT_TYPE': 'part', 'OP': '+'},
                 ],
             ],

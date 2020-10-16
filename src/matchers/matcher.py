@@ -2,24 +2,20 @@
 
 from traiter.spacy_nlp.matcher import SpacyMatcher
 
-from .antenna import ANTENNA
-from .body_length import BODY_LENGTH
 from .body_part import BODY_PART
-from .elevation import ELEVATION
-from .event_date import COLLECTION_DATE
-from .max_width import MAX_WIDTH
-from .measurement import MEASUREMENT
-from .number import NUMBER
-from .sci_name import SCI_NAME
-from .sclerotized import SCLEROTIZED
-from .setae_count import SETAE_COUNT
-from .sex_count import SEX_COUNT
+# from .elevation import ELEVATION
+# from .event_date import COLLECTION_DATE
+from .length import LENGTH
+# from .max_width import MAX_WIDTH
+from .numeric import NUMERIC
+# from .sci_name import SCI_NAME
+# from .setae_count import SETAE_COUNT
+# from .sex_count import SEX_COUNT
 from .size import SIZE
-from ..pylib.util import ATTACH_STEP, GROUP_STEP, TERMS, TRAIT_STEP
+from ..pylib.util import ATTACH_STEP, GROUP_STEP, NUMERIC_STEP, TERMS, \
+    TRAIT_STEP
 
-MATCHERS = [
-    ANTENNA, BODY_LENGTH, BODY_PART, COLLECTION_DATE, ELEVATION, MAX_WIDTH,
-    MEASUREMENT, NUMBER, SCI_NAME, SCLEROTIZED, SETAE_COUNT, SEX_COUNT, SIZE]
+MATCHERS = [BODY_PART, LENGTH, NUMERIC, SIZE]
 
 
 class Matcher(SpacyMatcher):
@@ -29,6 +25,7 @@ class Matcher(SpacyMatcher):
         super().__init__(nlp)
 
         self.add_terms(TERMS)
+        self.add_patterns(MATCHERS, NUMERIC_STEP)
         self.add_patterns(MATCHERS, GROUP_STEP)
         self.add_patterns(MATCHERS, TRAIT_STEP)
         self.add_patterns(MATCHERS, ATTACH_STEP)

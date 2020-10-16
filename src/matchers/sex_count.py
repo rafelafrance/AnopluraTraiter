@@ -2,7 +2,7 @@
 
 from traiter.pylib.util import to_positive_int
 
-from ..pylib.util import INT, REPLACE, TRAIT_STEP
+from ..pylib.util import INT_RE, REPLACE, TRAIT_STEP
 
 
 def sex_count(span):
@@ -30,7 +30,7 @@ SEX_COUNT = {
             'on_match': sex_count,
             'patterns': [
                 [
-                    {'TEXT': {'REGEX': INT}},
+                    {'TEXT': {'REGEX': INT_RE}},
                     {'ENT_TYPE': 'sex'},
                 ]
             ]
