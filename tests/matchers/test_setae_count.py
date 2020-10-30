@@ -15,23 +15,24 @@ class TestRSetaeCount(unittest.TestCase):
     def test_setae_count_01(self):
         self.assertEqual(
             NLP(shorten("""One long Dorsal Principal Head Seta (DPHS)""")),
-            [{'count': 1, 'setae': 'setae',
-              'type': 'dorsal principal head',
-              'trait': 'setae_count', 'start': 0, 'end': 42}]
+            [{'count': 1, 'body_part': 'seta',
+              'seta': 'dorsal principal head seta',
+              'trait': 'seta_count', 'start': 0, 'end': 42}]
         )
 
     def test_setae_count_02(self):
         self.assertEqual(
             NLP(shorten(""" no Dorsal Mesothoracic Setae (DMsS); """)),
-            [{'count': 0, 'type': 'dorsal mesothoracic', 'setae': 'setae',
-              'trait': 'setae_count', 'start': 0, 'end': 35}]
+            [{'count': 0, 'seta': 'dorsal mesothoracic setae',
+              'body_part': 'seta',
+              'trait': 'seta_count', 'start': 0, 'end': 35}]
         )
 
     def test_setae_count_03(self):
         self.assertEqual(
             NLP(shorten(""" with pair of long setae """)),
-            [{'count': 2, 'setae': 'setae',
-              'trait': 'setae_count', 'start': 5, 'end': 23}]
+            [{'body_part': 'seta', 'count': 2, 'seta': 'setae',
+              'trait': 'seta_count', 'start': 5, 'end': 23}]
         )
 
     def test_setae_count_04(self):
@@ -39,8 +40,9 @@ class TestRSetaeCount(unittest.TestCase):
             NLP(shorten("""
                 with 16–18 contiguous curved setae on each side;
                 """)),
-            [{'low': 16, 'high': 18, 'setae': 'setae', 'group': 'each side',
-              'trait': 'setae_count', 'start': 5, 'end': 47}]
+            [{'low': 16, 'high': 18, 'seta': 'setae', 'group': 'each side',
+              'body_part': 'seta',
+              'trait': 'seta_count', 'start': 5, 'end': 47}]
         )
 
     def test_setae_count_05(self):
@@ -48,8 +50,8 @@ class TestRSetaeCount(unittest.TestCase):
             NLP(shorten("""
                 One long and one tiny seta immediately posterior to
                 """)),
-            [{'setae': 'seta', 'count': 2,
-              'trait': 'setae_count', 'start': 0, 'end': 26}]
+            [{'seta': 'seta', 'count': 2, 'body_part': 'seta',
+              'trait': 'seta_count', 'start': 0, 'end': 26}]
         )
 
     def test_setae_count_06(self):
@@ -57,6 +59,6 @@ class TestRSetaeCount(unittest.TestCase):
             NLP(shorten("""
                 next four spiracles each with tiny posterior seta only.
                 """)),
-            [{'type': 'posterior', 'setae': 'seta', 'present': True,
-              'trait': 'setae_count', 'start': 35, 'end': 49}]
+            [{'body_part': 'seta', 'count': 4, 'seta': 'posterior seta',
+              'trait': 'seta_count', 'start': 5,  'end': 49}]
         )

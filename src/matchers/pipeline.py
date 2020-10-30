@@ -29,6 +29,7 @@ class Pipeline(SpacyPipeline):
 
         self.nlp.add_pipe(sentencizer, before='parser')
         self.nlp.add_pipe(self.matcher, last=True)
+        self.nlp.add_pipe(self.to_entities, last=True, name='to_entities')
         self.nlp.add_pipe(description, last=True)
 
     def find_entities(self, text: str) -> Doc:

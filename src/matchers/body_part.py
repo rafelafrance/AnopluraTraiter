@@ -51,10 +51,6 @@ BODY_PART = {
                     {'ENT_TYPE': 'integer'},
                 ],
                 [
-                    {'ENT_TYPE': {'IN': ['location', 'part']}, 'OP': '+'},
-                    {'ENT_TYPE': 'seta'},
-                ],
-                [
                     {'ENT_TYPE': {'IN': ['location', 'part']}, 'OP': '*'},
                     {'ENT_TYPE': 'part'},
                 ],

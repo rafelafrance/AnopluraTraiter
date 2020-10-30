@@ -1,7 +1,6 @@
 label,pattern,attr,replace
-description_sep,",",lower,
-dna_count,bp,lower,base pairs
 dna_count,base pairs,lower,
+dna_count,bp,lower,base pairs
 group,each side,lower,
 length_units,centimeters,lower,cm
 length_units,cm,lower,cm
@@ -32,54 +31,26 @@ location,sutural,lower,
 location,tergal,lower,
 location,terminal,lower,
 location,ventral,lower,
-ordinal,first,lower,
-ordinal,second,lower,
-ordinal,third,lower,
-ordinal,fourth,lower,
-ordinal,fifth,lower,
-ordinal,sixth,lower,
-ordinal,seventh,lower,
 ordinal,eighth,lower,
-ordinal,ninth,lower,
-ordinal,tenth,lower,
 ordinal,eleventh,lower,
+ordinal,fifth,lower,
+ordinal,first,lower,
+ordinal,fourth,lower,
+ordinal,ninth,lower,
+ordinal,second,lower,
+ordinal,seventh,lower,
+ordinal,sixth,lower,
+ordinal,tenth,lower,
+ordinal,third,lower,
 ordinal,twelfth,lower,
+part,abdomen,lower,
+part,abdominal,lower,
+part,anal,lower,
 part,antenna,lower,antenna
 part,antennae,lower,antenna
 part,antennal,lower,antenna
 part,apodema,lower,apodeme
 part,apodeme,lower,apodeme
-part,anmhs,lower,anterior marginal head seta
-part,aphs,lower,apical head seta
-part,dachs,lower,dorsal accessory head seta
-part,danchs,lower,dorsal anterior central head seta
-part,danhs,lower,dorsal anterior head seta
-part,dcas,lower,dorsal central abdominal seta
-part,dlas,lower,dorsal lateral abdominal seta
-part,dmas,lower,dorsal marginal abdominal seta
-part,dmhs,lower,dorsal marginal head seta
-part,dmss,lower,dorsal mesothoracic seta
-part,dpochs,lower,dorsal posterior central head seta
-part,dpohs,lower,dorsal posterior head seta
-part,dpahs,lower,dorsal preantennal head seta
-part,dphs,lower,dorsal principal head seta
-part,dpts,lower,dorsal principal thoracic seta
-part,ors,lower,oral seta
-part,prs,lower,paratergal seta
-part,stas,lower,sternal abdominal seta
-part,spaths,lower,supra-antennal head seta
-part,shs,lower,sutural head seta
-part,suhs,lower,sutural head seta
-part,teas,lower,tergal abdominal seta
-part,vcas,lower,ventral central abdominal seta
-part,vlas,lower,ventral lateral abdominal seta
-part,vmas,lower,ventral marginal abdominal seta
-part,vpomhs,lower,ventral posterior marginal head seta
-part,vpahs,lower,ventral preantennal head seta
-part,vphs,lower,ventral principal head seta
-part,abdomen,lower,
-part,abdominal,lower,
-part,anal,lower,
 part,body,lower,
 part,genital,lower,
 part,genitalia,lower,
@@ -90,6 +61,7 @@ part,margins,lower,
 part,mesothorax,lower,
 part,metapodal,lower,
 part,metathorax,lower,
+part,ors,lower,oral seta
 part,plate,lower,
 part,postantennal,lower,
 part,prothorax,lower,
@@ -99,9 +71,6 @@ part,sternum,lower,
 part,subgenital,lower,
 part,thoracic,lower,
 part,thorax,lower,
-phrase_sep,", with",lower,
-phrase_sep,;,lower,
-phrase_sep,.,lower,
 sclerotin,sclerotin,lower,sclerotized
 sclerotin,sclerotised,lower,sclerotized
 sclerotin,sclerotization,lower,sclerotized
@@ -116,17 +85,44 @@ seta,setaceous,lower,
 seta,setae,lower,
 seta,setose,lower,
 seta,setula,lower,
-sex,♀,lower,female
-sex,♀♀,lower,female
+seta_abbrev,anmhs,lower,anterior marginal head seta
+seta_abbrev,aphs,lower,apical head seta
+seta_abbrev,dachs,lower,dorsal accessory head seta
+seta_abbrev,danchs,lower,dorsal anterior central head seta
+seta_abbrev,danhs,lower,dorsal anterior head seta
+seta_abbrev,dcas,lower,dorsal central abdominal seta
+seta_abbrev,dlas,lower,dorsal lateral abdominal seta
+seta_abbrev,dmas,lower,dorsal marginal abdominal seta
+seta_abbrev,dmhs,lower,dorsal marginal head seta
+seta_abbrev,dmss,lower,dorsal mesothoracic seta
+seta_abbrev,dpahs,lower,dorsal preantennal head seta
+seta_abbrev,dphs,lower,dorsal principal head seta
+seta_abbrev,dpochs,lower,dorsal posterior central head seta
+seta_abbrev,dpohs,lower,dorsal posterior head seta
+seta_abbrev,dpts,lower,dorsal principal thoracic seta
+seta_abbrev,prs,lower,paratergal seta
+seta_abbrev,shs,lower,sutural head seta
+seta_abbrev,spaths,lower,supra-antennal head seta
+seta_abbrev,stas,lower,sternal abdominal seta
+seta_abbrev,suhs,lower,sutural head seta
+seta_abbrev,teas,lower,tergal abdominal seta
+seta_abbrev,vcas,lower,ventral central abdominal seta
+seta_abbrev,vlas,lower,ventral lateral abdominal seta
+seta_abbrev,vmas,lower,ventral marginal abdominal seta
+seta_abbrev,vpahs,lower,ventral preantennal head seta
+seta_abbrev,vphs,lower,ventral principal head seta
+seta_abbrev,vpomhs,lower,ventral posterior marginal head seta
 sex,female,lower,female
 sex,females,lower,female
-sex,♂,lower,male
-sex,♂♂,lower,male
 sex,male,lower,male
 sex,males,lower,male
 sex,n,lower,nymph
 sex,nymph,lower,nymph
 sex,nymphs,lower,nymph
+sex,♀,lower,female
+sex,♀♀,lower,female
+sex,♂,lower,male
+sex,♂♂,lower,male
 type,allotype,lower,allotype
 type,allotypes,lower,allotype
 type,holotype,lower,holotype

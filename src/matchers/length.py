@@ -3,13 +3,15 @@
 from ..pylib.util import ATTACH_STEP, REPLACE
 
 
+LEN_ENTITIES = """ body_part setae seta_abbrev """.split()
+
+
 def length(span):
     """Enrich the match."""
-    print(span)
     field = [t for t in span if t.ent_type_ == 'size']
     data = field[0]._.data
 
-    field = [t for t in span if t.ent_type_ == 'body_part']
+    field = [t for t in span if t.ent_type_ in LEN_ENTITIES]
     data['body_part'] = REPLACE.get(field[0].lower_, field[0].lower_)
 
     data['trait'] = 'length'
@@ -29,7 +31,7 @@ LENGTH = {
             'patterns': [
                 [
                     {'LOWER': 'total', 'OP': '?'},
-                    {'ENT_TYPE': 'body_part'},
+                    {'ENT_TYPE': {'IN': LEN_ENTITIES}},
                     {'LOWER': {'IN': LENGTH_WORDS}},
                     {'ENT_TYPE': '', 'OP': '?'},
                     {'ENT_TYPE': '', 'OP': '?'},

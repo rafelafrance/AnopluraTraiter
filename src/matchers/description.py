@@ -1,78 +1,86 @@
 """Look for trait descriptions in sentences."""
 
+import re
+
 from spacy.tokens import Span
 
 from ..pylib.util import DESCRIPTION_STEP
+
+PHRASE_SEP = re.compile(
+    r' \s* (?: [;.]+ | , \s* with ) \s* ',
+    flags=re.IGNORECASE | re.VERBOSE)
+
+DESCRIPTION_SEP = re.compile(
+    r' \s* [,:]+ \s* ',
+    flags=re.IGNORECASE | re.VERBOSE)
 
 
 def description(doc):
     """Look for trait descriptions in sentences."""
     entities = []
+
+    start = 0
     for sent in doc.sents:
-        entities += phrases(sent)
+        for match in PHRASE_SEP.finditer(sent.text):
+            phrase = sent.char_span(start, match.start())
+            if not phrase:
+                continue
+            entities += phrase_ents(phrase)
+            start = match.end()
+
+        if start != len(sent.text):
+            phrase = sent.char_span(start, len(sent.text))
+            entities += phrase_ents(phrase)
 
     doc.ents = tuple(entities)
 
     return doc
 
 
-def phrases(sent):
+def phrase_ents(phrase):
     """Split the sentence into phrases."""
-    entities = []
+    if (len(phrase.ents) < 1 or len(phrase.ents) > 1
+            or phrase.ents[0].label_ != 'body_part'):
+        return list(phrase.ents)
+
+    body_part = phrase.ents[0]
+    entities = [body_part]
+
     start = 0
-    for token in sent:
-        print(token)
-        if token.ent_type_ == 'phrase_sep':
-            span = sent[start:token.i]
-            entities += phrase_entities(span,)
-            start = token.i + 1
+    for match in DESCRIPTION_SEP.finditer(phrase.text):
+        desc = phrase.char_span(start, match.start())
+        if not desc:
+            continue
+        start = match.end()
+        entities += new_ents(desc, body_part)
 
-    if start < sent.end:
-        span = sent[start:]
-        entities += phrase_entities(span)
-
-    return entities
-
-
-def phrase_entities(phrase):
-    """Extract phase entities."""
-    body_part = [e for e in phrase.ents if e.label_ == 'body_part']
-
-    if len(body_part) == 1:
-        entities = body_part + descriptions(phrase, body_part[0])
-    else:
-        entities = list(phrase.ents)
+    if start != len(phrase.text):
+        desc = phrase.char_span(start, len(phrase.text))
+        entities += new_ents(desc, body_part)
 
     return entities
 
 
-def descriptions(phrase, body_part):
-    """Split a phrase into comma separated descriptions."""
-    entities = []
-    start, in_description = 0, False
-    for token in phrase:
-        if token.ent_type_ in ('description_sep', 'body_part'):
-            if in_description:
-                entities.append(new_ent(phrase, start, token.i, body_part))
-            start = token.i + 1
-            in_description = False
-        elif token.is_punct and not in_description:
-            start = token.i + 1
-        else:
-            in_description = True
-
-    if start < phrase.end:
-        entities.append(new_ent(phrase, start, phrase.end, body_part))
-
-    return entities
+def new_ents(desc, body_part):
+    """Remove possible overlapping trait."""
+    if not desc.ents:
+        return [new_ent(desc, desc.start, desc.end, body_part)]
+    elif desc.start == body_part.start:
+        return [new_ent(desc, body_part.end, desc.end, body_part)]
+    elif desc.end == body_part.end:
+        return [new_ent(desc, desc.start, body_part.start, body_part)]
+    return [
+        new_ent(desc, desc.start, body_part.start, body_part),
+        new_ent(desc, body_part.end, desc.end, body_part),
+    ]
 
 
-def new_ent(phrase, start, end, body_part):
+def new_ent(desc, start, end, body_part):
     """Build a description entity."""
-    entity = Span(phrase.doc, start, end, label=DESCRIPTION_STEP)
+    entity = Span(desc.doc, start, end, label=DESCRIPTION_STEP)
     entity._.data = {
         'description': entity.text,
-        'body_part': body_part[0]._.data['body_part'],
+        'body_part': body_part._.data['body_part'],
         'trait': DESCRIPTION_STEP,
         'start': entity.start_char,
         'end': entity.end_char,

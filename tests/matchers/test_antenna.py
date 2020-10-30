@@ -15,7 +15,7 @@ class TestAntenna(unittest.TestCase):
     def test_antenna_01(self):
         self.assertEqual(
             #    0123456789 123
-            NLP('Head suboval; antennae unmodified in males.'),
+            NLP('Head suboval; antennae unmodified in males;.'),
             [{'body_part': 'head', 'trait': 'body_part', 'start': 0, 'end': 4},
              {'description': 'suboval', 'body_part': 'head',
               'trait': 'description', 'start': 5, 'end': 12},

@@ -17,7 +17,6 @@ def main():
     if j_path.exists():
         j_path.unlink()
     for txt in TXT_DIR.glob('*.txt'):
-        print(txt)
         with open(txt) as txt_file, open(j_path, 'a') as j_file:
             text = txt_file.read()
             text = clean_text(text)

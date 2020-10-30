@@ -53,9 +53,9 @@ class TestSclerotized(unittest.TestCase):
             NLP(shorten("""
                 Genitalia (Fig 9) with moderately sclerotised subgenital plate,
                 """)),
-            [{'body_part': 'genitalia', 'trait': 'body_part',
-              'start': 0, 'end': 9},
-             {'body_part': ['subgenital', 'plate'],
+            [{'body_part': 'genitalia',
+              'trait': 'body_part', 'start': 0, 'end': 9},
+             {'body_part': 'subgenital plate',
               'trait': 'body_part', 'start': 46, 'end': 62}]
         )
 
@@ -64,10 +64,10 @@ class TestSclerotized(unittest.TestCase):
             NLP(shorten("""
                 Postantennal head margins with heavily sclerotized
                 """)),
-            [{'body_part': ['postantennal', 'head', 'margins'],
+            [{'body_part': 'postantennal head margins',
               'trait': 'body_part', 'start': 0, 'end': 25},
              {'description': 'with heavily sclerotized',
-              'body_part': ['postantennal', 'head', 'margins'],
+              'body_part': 'postantennal head margins',
               'trait': 'description',
               'start': 26,
               'end': 50}]

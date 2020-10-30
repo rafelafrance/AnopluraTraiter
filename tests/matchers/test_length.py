@@ -28,7 +28,7 @@ class TestLength(unittest.TestCase):
                 DPTS length 0.137 mm (n = 1)
                 (only one unbroken DPTS present).
                 """)),
-            [{'n': 1, 'body_part': 'DPTS',
-              'low': 0.137, 'length_units': 'mm',
-              'trait': 'length', 'start': 0, 'end': 54}]
+            [{'n': 1, 'low': 0.137, 'length_units': 'mm',
+              'body_part': 'dorsal principal thoracic seta',
+              'trait': 'length', 'start': 0, 'end': 28}]
         )

@@ -20,6 +20,7 @@ def max_width(span):
 
 
 MAXIMUM = """ maximum max """.split()
+WIDTH = """ width """.split()
 
 MAX_WIDTH = {
     ATTACH_STEP: [
@@ -30,7 +31,7 @@ MAX_WIDTH = {
                 [
                     {'LOWER': {'IN': MAXIMUM}},
                     {'ENT_TYPE': 'body_part'},
-                    {'LOWER': 'width'},
+                    {'LOWER': {'IN': WIDTH}},
                     {'ENT_TYPE': '', 'OP': '?'},
                     {'ENT_TYPE': '', 'OP': '?'},
                     {'ENT_TYPE': 'size'},
