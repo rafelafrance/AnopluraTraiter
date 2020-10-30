@@ -37,7 +37,7 @@ BODY_PART = {
                 [
                     {'ENT_TYPE': {'IN': ['integer', 'ordinal']}},
                     {'TEXT': {'IN': DASH}, 'OP': '?'},
-                    {'ENT_TYPE': 'segment', 'OP': '?'},
+                    {'ENT_TYPE': 'segment'},
                     {'ENT_TYPE': 'part'},
                 ],
                 [

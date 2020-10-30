@@ -59,6 +59,7 @@ class TestRSetaeCount(unittest.TestCase):
             NLP(shorten("""
                 next four spiracles each with tiny posterior seta only.
                 """)),
-            [{'body_part': 'seta', 'count': 4, 'seta': 'posterior seta',
-              'trait': 'seta_count', 'start': 5,  'end': 49}]
+            [{'count': 4, 'body_part': 'spiracle',
+              'trait': 'body_part_count', 'start': 5, 'end': 19},
+             {'trait': 'setae', 'start': 35, 'end': 49}]
         )

@@ -3,6 +3,7 @@
 from traiter.spacy_nlp.matcher import SpacyMatcher
 
 from .body_part import BODY_PART
+from .body_part_count import BODY_PART_COUNT
 # from .elevation import ELEVATION
 # from .event_date import COLLECTION_DATE
 from .length import LENGTH
@@ -15,7 +16,8 @@ from .size import SIZE
 from ..pylib.util import ATTACH_STEP, GROUP_STEP, NUMERIC_STEP, TERMS, \
     TRAIT_STEP
 
-MATCHERS = [BODY_PART, LENGTH, MAX_WIDTH, NUMERIC, SETA_COUNT, SIZE]
+MATCHERS = [
+    BODY_PART, BODY_PART_COUNT, LENGTH, MAX_WIDTH, NUMERIC, SETA_COUNT, SIZE]
 
 
 class Matcher(SpacyMatcher):

@@ -53,7 +53,7 @@ class TestSclerotized(unittest.TestCase):
             NLP(shorten("""
                 Genitalia (Fig 9) with moderately sclerotised subgenital plate,
                 """)),
-            [{'body_part': 'genitalia',
+            [{'body_part': 'genital',
               'trait': 'body_part', 'start': 0, 'end': 9},
              {'body_part': 'subgenital plate',
               'trait': 'body_part', 'start': 46, 'end': 62}]

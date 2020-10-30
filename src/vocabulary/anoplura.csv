@@ -12,24 +12,31 @@ length_units,millimeters,lower,mm
 length_units,mm,lower,mm
 length_units,µm,lower,µm
 location,accessory,lower,
+location,anal,lower,
 location,anterior,lower,
 location,antero-lateral,lower,
 location,apical,lower,
+location,basal,lower,
 location,central,lower,
 location,dorsal,lower,
+location,genito-ventral,lower,
 location,lateral,lower,
 location,marginal,lower,
 location,mesothoracic,lower,
 location,oral,lower,
+location,paratergal,lower,
+location,postantennal,lower,
 location,posterior,lower,
 location,postero-medial,lower,
 location,preantennal,lower,
 location,principal,lower,
 location,sternal,lower,
+location,subgenital,lower,
 location,supra-antennal,lower,
 location,sutural,lower,
 location,tergal,lower,
 location,terminal,lower,
+location,vulvar,lower,
 location,ventral,lower,
 ordinal,eighth,lower,
 ordinal,eleventh,lower,
@@ -45,32 +52,39 @@ ordinal,third,lower,
 ordinal,twelfth,lower,
 part,abdomen,lower,
 part,abdominal,lower,
-part,anal,lower,
-part,antenna,lower,antenna
+part,antenna,lower,
 part,antennae,lower,antenna
 part,antennal,lower,antenna
+part,anus,lower,
 part,apodema,lower,apodeme
-part,apodeme,lower,apodeme
+part,apodeme,lower,
 part,body,lower,
+part,foreleg,lower,
+part,forelegs,lower,foreleg
+part,fimbriae,lower,
 part,genital,lower,
-part,genitalia,lower,
-part,genito-ventral,lower,
-part,gonopods,lower,
+part,genitalia,lower,genital
+part,genitals,lower,genital
+part,gonopod,lower,
+part,gonopods,lower,gonopod
 part,head,lower,
+part,hindleg,lower,
+part,hindlegs,lower,hindleg
+part,leg,lower,
+part,legs,lower,leg
 part,margins,lower,
 part,mesothorax,lower,
 part,metapodal,lower,
 part,metathorax,lower,
-part,ors,lower,oral seta
 part,plate,lower,
-part,postantennal,lower,
 part,prothorax,lower,
 part,spiracle,lower,
+part,spiracles,lower,spiracle
 part,sternal,lower,
 part,sternum,lower,
-part,subgenital,lower,
 part,thoracic,lower,
 part,thorax,lower,
+part,vulva,lower,
 sclerotin,sclerotin,lower,sclerotized
 sclerotin,sclerotised,lower,sclerotized
 sclerotin,sclerotization,lower,sclerotized
@@ -100,6 +114,7 @@ seta_abbrev,dphs,lower,dorsal principal head seta
 seta_abbrev,dpochs,lower,dorsal posterior central head seta
 seta_abbrev,dpohs,lower,dorsal posterior head seta
 seta_abbrev,dpts,lower,dorsal principal thoracic seta
+seta_abbrev,ors,lower,oral seta
 seta_abbrev,prs,lower,paratergal seta
 seta_abbrev,shs,lower,sutural head seta
 seta_abbrev,spaths,lower,supra-antennal head seta
