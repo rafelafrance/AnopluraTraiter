@@ -1,35 +1,34 @@
 """Look for trait descriptions in sentences."""
 
-import re
-
 from spacy.tokens import Span
 
 from ..pylib.util import DESCRIPTION_STEP
-
-PHRASE_SEP = re.compile(
-    r' \s* (?: [;.]+ | , \s* with ) \s* ',
-    flags=re.IGNORECASE | re.VERBOSE)
-
-DESCRIPTION_SEP = re.compile(
-    r' \s* [,:]+ \s* ',
-    flags=re.IGNORECASE | re.VERBOSE)
 
 
 def description(doc):
     """Look for trait descriptions in sentences."""
     entities = []
 
-    start = 0
     for sent in doc.sents:
-        for match in PHRASE_SEP.finditer(sent.text):
-            phrase = sent.char_span(start, match.start())
-            if not phrase:
-                continue
-            entities += phrase_ents(phrase)
-            start = match.end()
+        start = sent.start
 
-        if start != len(sent.text):
-            phrase = sent.char_span(start, len(sent.text))
+        tokens = iter(sent[1:])  # Want to mess with the iteration in the loop
+        for token in tokens:
+            # No slice here we mess with the iterator in the loop
+            if token.text in '.;':
+                phrase = Span(doc, start, token.i)
+                entities += phrase_ents(phrase)
+                start = token.i + 1
+            elif (token.text == ','
+                  and token.i < sent.end - 1
+                  and doc[token.i + 1].lower_ == 'with'):
+                phrase = Span(doc, start, token.i)
+                entities += phrase_ents(phrase)
+                start = token.i + 2
+                next(tokens)  # Skip past "with"
+
+        if start < sent.end:
+            phrase = Span(doc, start, sent.end)
             entities += phrase_ents(phrase)
 
     doc.ents = tuple(entities)
@@ -46,16 +45,15 @@ def phrase_ents(phrase):
     body_part = phrase.ents[0]
     entities = [body_part]
 
-    start = 0
-    for match in DESCRIPTION_SEP.finditer(phrase.text):
-        desc = phrase.char_span(start, match.start())
-        if not desc:
-            continue
-        start = match.end()
-        entities += new_ents(desc, body_part)
+    start = phrase.start
+    for token in phrase[1:]:
+        if token.text in ',:':
+            desc = Span(phrase.doc, start, token.i)
+            entities += new_ents(desc, body_part)
+            start = token.i + 1
 
-    if start != len(phrase.text):
-        desc = phrase.char_span(start, len(phrase.text))
+    if start != phrase.end:
+        desc = Span(phrase.doc, start, phrase.end)
         entities += new_ents(desc, body_part)
 
     return entities

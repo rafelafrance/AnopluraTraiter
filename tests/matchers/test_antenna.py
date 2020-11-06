@@ -12,7 +12,6 @@ class TestAntenna(unittest.TestCase):
 
     def test_antenna_01(self):
         self.assertEqual(
-            #    0123456789 123
             test_traits('Head suboval; antennae unmodified in males;.'),
             [{'body_part': 'head', 'trait': 'body_part', 'start': 0, 'end': 4},
              {'description': 'suboval', 'body_part': 'head',

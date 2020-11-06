@@ -2,7 +2,7 @@
 
 from ..pylib.util import REPLACE, TRAIT_STEP
 
-NAMES = {'src', 'mammalia'}
+NAMES = {'anoplura', 'mammalia'}
 
 
 def sci_name(span):
