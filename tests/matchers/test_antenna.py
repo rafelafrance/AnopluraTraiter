@@ -4,9 +4,7 @@ import unittest
 
 from traiter.pylib.util import shorten
 
-from src.matchers.pipeline import PIPELINE
-
-NLP = PIPELINE.test_traits
+from tests.setup import test_traits
 
 
 class TestAntenna(unittest.TestCase):
@@ -15,7 +13,7 @@ class TestAntenna(unittest.TestCase):
     def test_antenna_01(self):
         self.assertEqual(
             #    0123456789 123
-            NLP('Head suboval; antennae unmodified in males;.'),
+            test_traits('Head suboval; antennae unmodified in males;.'),
             [{'body_part': 'head', 'trait': 'body_part', 'start': 0, 'end': 4},
              {'description': 'suboval', 'body_part': 'head',
               'trait': 'description', 'start': 5, 'end': 12},
@@ -27,7 +25,7 @@ class TestAntenna(unittest.TestCase):
 
     def test_antenna_02(self):
         self.assertEqual(
-            NLP(shorten("""
+            test_traits(shorten("""
                 Antennae five-segmented with basal segment wider than long and
                 much larger than second segment; fourth segment slightly
                 extended posterolaterally.
@@ -45,7 +43,7 @@ class TestAntenna(unittest.TestCase):
 
     def test_antenna_03(self):
         self.assertEqual(
-            NLP(shorten("""
+            test_traits(shorten("""
                 Head lacking eyes, with 5-segmented antennae which are often
                 sexually dimorphic.
                 """)),
@@ -61,7 +59,7 @@ class TestAntenna(unittest.TestCase):
 
     def test_antenna_04(self):
         self.assertEqual(
-            NLP(shorten("""
+            test_traits(shorten("""
                 third antennal segment modified with anterodorsal projection.
                 """)),
             [{'body_part': 'third antennal segment',
@@ -73,7 +71,7 @@ class TestAntenna(unittest.TestCase):
 
     def test_antenna_05(self):
         self.assertEqual(
-            NLP(shorten("""Antennal segments 3-5 not fused;""")),
+            test_traits(shorten("""Antennal segments 3-5 not fused;""")),
             [{'body_part': 'antennal segments 3-5',
               'trait': 'body_part', 'start': 0, 'end': 21},
              {'description': 'not fused',

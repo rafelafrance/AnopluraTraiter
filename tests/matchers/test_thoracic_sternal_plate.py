@@ -4,9 +4,7 @@ import unittest
 
 from traiter.pylib.util import shorten
 
-from src.matchers.pipeline import PIPELINE
-
-NLP = PIPELINE.test_traits
+from tests.setup import test_traits
 
 
 class TestThoracicSternalPlate(unittest.TestCase):
@@ -14,7 +12,7 @@ class TestThoracicSternalPlate(unittest.TestCase):
 
     def test_sternal_plate_01(self):
         self.assertEqual(
-            NLP(shorten("""
+            test_traits(shorten("""
                 Thoracic sternal plate subrectangular, about 3⫻ as wide as
                 long; thorax rounded.""")),
             [{'body_part': 'thoracic sternal plate',

@@ -31,6 +31,8 @@ TERMS += itis_terms('Mammalia', abbrev=True)
 
 REPLACE = {t['pattern']: r for t in TERMS if (r := t.get('replace'))}
 
+TRANS = str.maketrans({'¼': '=', '⫻': '×'})
+
 CLOSE = [')', ']']
 COLON = [':']
 COMMA = [',']

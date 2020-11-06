@@ -4,9 +4,7 @@
 
 import unittest
 
-from src.matchers.pipeline import PIPELINE
-
-NLP = PIPELINE.test_traits
+from tests.setup import test_traits
 
 
 class TestSize(unittest.TestCase):
@@ -14,7 +12,7 @@ class TestSize(unittest.TestCase):
 
     def test_size_01(self):
         self.assertEqual(
-            NLP('0.120–0.127 mm, mean 0.124 mm (n = 3)'),
+            test_traits('0.120–0.127 mm, mean 0.124 mm (n = 3)'),
             [{'n': 3, 'mean': 0.124, 'mean_units': 'mm',
               'low': 0.12, 'high': 0.127, 'length_units': 'mm',
               'trait': 'size', 'start': 0, 'end': 37}]
@@ -22,7 +20,7 @@ class TestSize(unittest.TestCase):
 
     def test_size_02(self):
         self.assertEqual(
-            NLP('length 0.137 mm (n = 1)'),
+            test_traits('length 0.137 mm (n = 1)'),
             [{'n': 1, 'low': 0.137, 'length_units': 'mm',
               'trait': 'size', 'start': 7, 'end': 23}]
         )

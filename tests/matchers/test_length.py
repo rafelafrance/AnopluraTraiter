@@ -6,9 +6,7 @@ import unittest
 
 from traiter.pylib.util import shorten
 
-from src.matchers.pipeline import PIPELINE
-
-NLP = PIPELINE.test_traits
+from tests.setup import test_traits
 
 
 class TestLength(unittest.TestCase):
@@ -16,7 +14,8 @@ class TestLength(unittest.TestCase):
 
     def test_length_01(self):
         self.assertEqual(
-            NLP('Total body length: 0.99–1.16 mm; mean, 1.09 mm (n = 4).'),
+            test_traits(
+                'Total body length: 0.99–1.16 mm; mean, 1.09 mm (n = 4).'),
             [{'n': 4, 'mean': 1.09, 'mean_units': 'mm', 'body_part': 'body',
               'low': 0.99, 'high': 1.16, 'length_units': 'mm',
               'trait': 'total_length', 'start': 0, 'end': 54}]
@@ -24,7 +23,7 @@ class TestLength(unittest.TestCase):
 
     def test_length_02(self):
         self.assertEqual(
-            NLP(shorten("""
+            test_traits(shorten("""
                 DPTS length 0.137 mm (n = 1)
                 (only one unbroken DPTS present).
                 """)),

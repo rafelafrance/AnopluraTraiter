@@ -4,9 +4,7 @@ import unittest
 
 from traiter.pylib.util import shorten
 
-from src.matchers.pipeline import PIPELINE
-
-NLP = PIPELINE.test_traits
+from tests.setup import test_traits
 
 
 class TestSclerotized(unittest.TestCase):
@@ -14,7 +12,7 @@ class TestSclerotized(unittest.TestCase):
 
     def test_sclerotized_01(self):
         self.assertEqual(
-            NLP('Head, thorax, and abdomen lightly sclerotized.'),
+            test_traits('Head, thorax, and abdomen lightly sclerotized.'),
             [{'body_part': ['head', 'thorax', 'abdomen'],
               'trait': 'body_part', 'start': 0, 'end': 25},
              {'description': 'lightly sclerotized',
@@ -24,7 +22,8 @@ class TestSclerotized(unittest.TestCase):
 
     def test_sclerotized_02(self):
         self.assertEqual(
-            NLP('Head: More heavily sclerotized along anterior margin;'),
+            test_traits(
+                'Head: More heavily sclerotized along anterior margin;'),
             [{'body_part': 'head', 'trait': 'body_part', 'start': 0, 'end': 4},
              {'description': 'More heavily sclerotized along anterior margin',
               'body_part': 'head', 'trait': 'description',
@@ -33,7 +32,7 @@ class TestSclerotized(unittest.TestCase):
 
     def test_sclerotized_03(self):
         self.assertEqual(
-            NLP(shorten("""
+            test_traits(shorten("""
                 Eight lightly sclerotized plates present on each side
                 associated with abdominal segments II–IX.
                 """)),
@@ -50,7 +49,7 @@ class TestSclerotized(unittest.TestCase):
 
     def test_sclerotized_04(self):
         self.assertEqual(
-            NLP(shorten("""
+            test_traits(shorten("""
                 Genitalia (Fig 9) with moderately sclerotised subgenital plate,
                 """)),
             [{'body_part': 'genital',
@@ -61,7 +60,7 @@ class TestSclerotized(unittest.TestCase):
 
     def test_sclerotized_05(self):
         self.assertEqual(
-            NLP(shorten("""
+            test_traits(shorten("""
                 Postantennal head margins with heavily sclerotized
                 """)),
             [{'body_part': 'postantennal head margins',
