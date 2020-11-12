@@ -16,7 +16,7 @@ def length(span):
 
     data['trait'] = 'length'
     if any(t.lower_ == 'total' for t in span):
-        data['_relabel'] = 'total_length'
+        data['_label'] = 'total_length'
 
     return data
 

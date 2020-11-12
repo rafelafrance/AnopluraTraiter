@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from traiter.spacy_nlp.terms import VOCAB_DIR, itis_terms, read_terms
+import traiter.spacy_nlp.terms as terms
 
 DATA_DIR = Path.cwd() / 'data'
 DOC_DIR = DATA_DIR
@@ -10,6 +10,7 @@ PDF_DIR = DOC_DIR / 'pdf'
 TXT_DIR = DOC_DIR / 'txt'
 OUTPUT_DIR = Path.cwd() / 'output'
 MODEL_DIR = Path.cwd() / 'models'
+VOCAB_DIR = Path.cwd() / 'src' / 'vocabulary'
 
 NUMERIC_STEP = 'numerics'
 GROUP_STEP = 'group'
@@ -25,10 +26,11 @@ ABBREVS = """
     Lond Me´m Mol Mus Nat Physiol Rep Sci Soc Syst Zool
     """
 
-TERMS = read_terms(VOCAB_DIR / 'anoplura.csv')
-TERMS += read_terms(VOCAB_DIR / 'common.csv')
-# TERMS += itis_terms('Anoplura', abbrev=True)
-TERMS += itis_terms('Mammalia', abbrev=True)
+TERMS = terms.read_terms(VOCAB_DIR / 'anoplura.csv')
+TERMS += terms.read_terms(VOCAB_DIR / 'common.csv')
+# TERMS += terms.itis_terms('Anoplura', abbrev=True)
+TERMS += terms.itis_terms(taxon='Mammalia', label='mammalia')
+TERMS += terms.abbrev_species(TERMS, label='mammalia')
 
 REPLACE = {t['pattern']: r for t in TERMS if (r := t.get('replace'))}
 

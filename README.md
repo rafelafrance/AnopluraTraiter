@@ -1,4 +1,4 @@
-# The Anoplura Traits Database Project [![Build Status](https://travis-ci.org/rafelafrance/traiter_anoplura.svg?branch=master)](https://travis-ci.org/rafelafrance/traiter_anoplura)
+# The Anoplura Traits Database Project ![Python application](https://github.com/rafelafrance/traiter_anoplura/workflows/Python%20application/badge.svg)
 
 
 ## What we're doing
