@@ -9,7 +9,8 @@ def sci_name(span):
     """Enrich the match."""
     data = {
         'sci_name': REPLACE.get(span.lower_, span.text.capitalize()),
-        'group': span[0].ent_type_}
+        'group': span[0].ent_type_,
+    }
     return data
 
 

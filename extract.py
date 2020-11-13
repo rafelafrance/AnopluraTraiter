@@ -5,12 +5,14 @@
 import argparse
 import sys
 import textwrap
+from copy import deepcopy
 from pathlib import Path
 
 from traiter.pylib.util import clean_text
 
 from src.matchers.pipeline import Pipeline
 from src.pylib.util import TRANS
+from src.writers.html_writer import html_writer
 
 PAPERS = {
 }
@@ -23,12 +25,19 @@ def main(args):
         with open(path) as txt:
             text = txt.read()
             text = clean_text(text, trans=TRANS)
-            texts.append(text)
+            texts.append((path, text))
 
+    rows = []
+    row = {}
     pipeline = Pipeline()
-    for doc in pipeline.nlp.pipe(texts):
-        for ent in doc.ents:
-            print(ent)
+    for i, doc in enumerate(pipeline.nlp.pipe({t[1] for t in texts})):
+        row['path'] = texts[i][0]
+        row['doc'] = doc
+        rows.append(row)
+
+    if args.html_file:
+        copied = deepcopy(rows)
+        html_writer(args, copied)
 
 
 def parse_args():
@@ -46,6 +55,10 @@ def parse_args():
         '--dir', '-d',
         help="""Directory that contains the paper. Use this if all of the
             papers are in the same directory.""")
+
+    arg_parser.add_argument(
+        '--html-file', '-H', type=argparse.FileType('w'),
+        help="""Output the results to this HTML file.""")
 
     args = arg_parser.parse_args()
 

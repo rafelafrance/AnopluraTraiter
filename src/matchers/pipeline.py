@@ -14,7 +14,7 @@ class Pipeline(SpacyPipeline):
     """Build a custom traiter pipeline."""
 
     token2entity = {GROUP_STEP, TRAIT_STEP, ATTACH_STEP}
-    entities2keep = {DESCRIPTION_STEP}
+    entities2keep = {TRAIT_STEP, ATTACH_STEP, DESCRIPTION_STEP}
 
     def __init__(self):
         super().__init__()
