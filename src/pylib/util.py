@@ -26,9 +26,10 @@ ABBREVS = """
     Lond Me´m Mol Mus Nat Physiol Rep Sci Soc Syst Zool
     """
 
-TERMS = terms.read_terms(VOCAB_DIR / 'anoplura.csv')
-TERMS += terms.read_terms(VOCAB_DIR / 'common.csv')
-# TERMS += terms.itis_terms('Anoplura', abbrev=True)
+TERMS = terms.read_terms(VOCAB_DIR / 'common_terms.csv')
+TERMS += terms.read_terms(VOCAB_DIR / 'anoplura_terms.csv')
+TERMS += terms.read_terms(VOCAB_DIR / 'anoplura_species.csv')
+TERMS += terms.abbrev_species(TERMS, label='anoplura')
 TERMS += terms.itis_terms(taxon='Mammalia', label='mammalia')
 TERMS += terms.abbrev_species(TERMS, label='mammalia')
 

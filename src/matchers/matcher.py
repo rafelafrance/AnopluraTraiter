@@ -9,7 +9,7 @@ from .body_part_count import BODY_PART_COUNT
 from .length import LENGTH
 from .max_width import MAX_WIDTH
 from .numeric import NUMERIC
-# from .sci_name import SCI_NAME
+from .sci_name import SCI_NAME
 from .seta_count import SETA_COUNT
 # from .sex_count import SEX_COUNT
 from .size import SIZE
@@ -17,7 +17,7 @@ from ..pylib.util import ATTACH_STEP, GROUP_STEP, NUMERIC_STEP, TERMS, \
     TRAIT_STEP
 
 MATCHERS = [
-    BODY_PART, BODY_PART_COUNT, LENGTH, MAX_WIDTH, NUMERIC, SETA_COUNT, SIZE]
+    BODY_PART, BODY_PART_COUNT, LENGTH, MAX_WIDTH, NUMERIC, SCI_NAME, SETA_COUNT, SIZE]
 
 
 class Matcher(SpacyMatcher):
