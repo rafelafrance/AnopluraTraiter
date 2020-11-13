@@ -27,7 +27,8 @@ def main(args):
 
     pipeline = Pipeline()
     for doc in pipeline.nlp.pipe(texts):
-        print(doc[:1])
+        for ent in doc.ents:
+            print(ent)
 
 
 def parse_args():

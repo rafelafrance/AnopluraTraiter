@@ -30,6 +30,8 @@ TERMS = terms.read_terms(VOCAB_DIR / 'common_terms.csv')
 TERMS += terms.read_terms(VOCAB_DIR / 'anoplura_terms.csv')
 TERMS += terms.read_terms(VOCAB_DIR / 'anoplura_species.csv')
 TERMS += terms.abbrev_species(TERMS, label='anoplura')
+TERMS += terms.taxon_level_terms(
+    TERMS, label='anoplura', new_label='anoplura_genus', level='genus')
 TERMS += terms.itis_terms(taxon='Mammalia', label='mammalia')
 TERMS += terms.abbrev_species(TERMS, label='mammalia')
 
