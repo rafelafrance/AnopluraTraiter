@@ -1,4 +1,4 @@
-# The Anoplura Traits Database Project ![Python application](https://github.com/rafelafrance/traiter_anoplura/workflows/Python%20application/badge.svg)
+# The Anoplura Traits Database Project ![Python application](https://github.com/rafelafrance/traiter_anoplura/workflows/CI/badge.svg)
 
 
 ## What we're doing
