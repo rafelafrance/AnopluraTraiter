@@ -7,7 +7,7 @@ from traiter.pylib.util import shorten
 from tests.setup import test_traits
 
 
-class TestRSetaeCount(unittest.TestCase):
+class TestSetaeCount(unittest.TestCase):
     """Test range trait matcher."""
 
     def test_setae_count_01(self):

@@ -13,19 +13,18 @@ from .sci_name import SCI_NAME
 from .seta_count import SETA_COUNT
 # from .sex_count import SEX_COUNT
 from .size import SIZE
-from ..pylib.util import ATTACH_STEP, GROUP_STEP, NUMERIC_STEP, TERMS, TRAIT_STEP
+from ..pylib.util import ATTACH_STEP, GROUP_STEP, NUMERIC_STEP, TRAIT_STEP
 
 MATCHERS = [
     BODY_PART, BODY_PART_COUNT, LENGTH, MAX_WIDTH, NUMERIC, SCI_NAME, SETA_COUNT, SIZE]
 
 
-class Matcher(SpacyMatcher):
+class RuleMatcher(SpacyMatcher):
     """Base matcher object."""
 
     def __init__(self, nlp):
         super().__init__(nlp)
 
-        self.add_terms(TERMS)
         self.add_patterns(MATCHERS, NUMERIC_STEP)
         self.add_patterns(MATCHERS, GROUP_STEP)
         self.add_patterns(MATCHERS, TRAIT_STEP)

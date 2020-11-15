@@ -25,3 +25,55 @@ class TestSegmenter(unittest.TestCase):
         doc = TEST_PIPELINE.nlp(text)
         sents = list(doc.sents)
         self.assertEqual(len(sents), 1)
+
+    def test_sentencizer_03(self):
+        text = """Abbreviated
+            when
+            subsequently mentioned."""
+        doc = TEST_PIPELINE.nlp(text)
+        sents = list(doc.sents)
+        self.assertEqual(len(sents), 1)
+
+    def test_sentencizer_04(self):
+        text = """Abstract more words."""
+        doc = TEST_PIPELINE.nlp(text)
+        sents = list(doc.sents)
+        self.assertEqual(len(sents), 1)
+
+    def test_sentencizer_05(self):
+        text = """abstract more words."""
+        doc = TEST_PIPELINE.nlp(text)
+        sents = list(doc.sents)
+        self.assertEqual(len(sents), 1)
+
+    def test_sentencizer_06(self):
+        text = """Something Abstract more words."""
+        doc = TEST_PIPELINE.nlp(text)
+        sents = list(doc.sents)
+        self.assertEqual(len(sents), 1)
+
+    def test_sentencizer_07(self):
+        text = """Something. Materials and Methods more words."""
+        doc = TEST_PIPELINE.nlp(text)
+        sents = list(doc.sents)
+        self.assertEqual(len(sents), 2)
+
+    def test_sentencizer_08(self):
+        text = """new lice. References Cited
+Blanco,"""
+        doc = TEST_PIPELINE.nlp(text)
+        sents = list(doc.sents)
+        self.assertEqual(len(sents), 3)
+
+    def test_sentencizer_09(self):
+        text = """(2013). Ectoparasites"""
+        doc = TEST_PIPELINE.nlp(text)
+        sents = list(doc.sents)
+        self.assertEqual(len(sents), 2)
+
+    def test_sentencizer_10(self):
+        text = """earwig.
+The"""
+        doc = TEST_PIPELINE.nlp(text)
+        sents = list(doc.sents)
+        self.assertEqual(len(sents), 2)

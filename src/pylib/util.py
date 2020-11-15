@@ -21,9 +21,8 @@ DESCRIPTION_STEP = 'description'
 ABBREVS = """
     Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
     mm cm m
-    al Figs
-    Am Anim Bio Biol Bull Bull Conserv DC Ecol Entomol Fig Hist IUCN Inst Int
-    Lond Me´m Mol Mus Nat Physiol Rep Sci Soc Syst Zool
+    al Am Anim Bio Biol Bull Bull Conserv DC Ecol Entomol Fig Figs Hist IUCN Inst Int
+    Lond Me´m Mol Mus Nat nov Physiol Rep Sci Soc sp Syst Zool
     """
 
 TERMS = terms.read_terms(VOCAB_DIR / 'common_terms.csv')
@@ -37,7 +36,10 @@ TERMS += terms.abbrev_species(TERMS, label='mammalia')
 
 REPLACE = {t['pattern']: r for t in TERMS if (r := t.get('replace'))}
 
-TRANS = str.maketrans({'¼': '=', '⫻': '×'})
+TRANS = {
+    'custom': str.maketrans({'¼': '=', '⫻': '×', '#': '♂', '$': '♀'}),
+}
+
 
 CLOSE = [')', ']']
 COLON = [':']

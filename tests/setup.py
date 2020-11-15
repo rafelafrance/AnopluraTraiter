@@ -12,5 +12,5 @@ TEST_PIPELINE = Pipeline()  # Singleton for testing
 
 def test_traits(text: str) -> List[Dict]:
     """Find entities in the doc."""
-    text = clean_text(text, trans=TRANS)
+    text = clean_text(text, trans=TRANS['custom'])
     return TEST_PIPELINE.test_traits(text)
