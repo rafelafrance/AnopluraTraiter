@@ -20,15 +20,15 @@ PAPERS = {
 
 def main(args):
     """Extract data from the files."""
-    pipeline = Pipeline()
-    rows = []
-    for i, doc in enumerate(pipeline.nlp.pipe({t[1] for t in texts})):
-        row = {'path': '', 'doc': doc}
-        rows.append(row)
-
-    if args.html_file:
-        copied = deepcopy(rows)
-        html_writer(args, copied)
+    # pipeline = Pipeline()
+    # rows = []
+    # for i, doc in enumerate(pipeline.nlp.pipe({t[1] for t in texts})):
+    #     row = {'path': '', 'doc': doc}
+    #     rows.append(row)
+    #
+    # if args.html_file:
+    #     copied = deepcopy(rows)
+    #     html_writer(args, copied)
 
 
 def parse_args():
