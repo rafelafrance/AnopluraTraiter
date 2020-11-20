@@ -14,7 +14,6 @@ from collections import defaultdict
 from bs4 import BeautifulSoup
 import toml
 import traiter.pylib.util as t_util
-from traiter.pylib.util import DotDict
 
 from src.matchers.pipeline import Pipeline
 from src.pylib.util import DASH
@@ -139,6 +138,36 @@ def clean_html(page_file):
     return page
 
 
+def toml_args(args):
+    """Get arguments from a TOML file."""
+    config = toml.load(args.toml_file)
+
+    new_args = defaultdict(list)
+    for key, values in config[args.toml_section].items():
+        values = t_util.as_list(values)
+
+        for value in values:
+            if isinstance(value, str) and value.startswith(('@')):
+                sect, field = value.split('.')
+                value = config[sect[1:]][field]
+
+            new_args[key].append(value)
+
+    for attr in [a for a in dir(args) if not a.startswith('__')]:
+        if arg_value := getattr(args, attr):
+            new_value = new_args.get(attr)
+            if new_value and isinstance(new_value, list):
+                new_args[attr].append(getattr(args, attr))
+            else:
+                new_args[attr] = arg_value
+
+    if new_args['mojibake']:
+        new_args['mojibake'] = dict(new_args['mojibake'])
+
+    new_args = t_util.DotDict(new_args)
+    return new_args
+
+
 def parse_args():
     """Process command-line arguments."""
     description = """Parse data from lice papers."""
@@ -210,36 +239,6 @@ def parse_args():
             args[attr] = reg
 
     return args
-
-
-def toml_args(args):
-    """Get arguments from a TOML file."""
-    config = toml.load(args.toml_file)
-
-    new_args = defaultdict(list)
-    for key, values in config[args.toml_section].items():
-        values = t_util.as_list(values)
-
-        for value in values:
-            if isinstance(value, str) and value.startswith(('@')):
-                sect, field = value.split('.')
-                value = config[sect[1:]][field]
-
-            new_args[key].append(value)
-
-    for attr in [a for a in dir(args) if not a.startswith('__')]:
-        if arg_value := getattr(args, attr):
-            new_value = new_args.get(attr)
-            if new_value and isinstance(new_value, list):
-                new_args[attr].append(getattr(args, attr))
-            else:
-                new_args[attr] = arg_value
-
-    if new_args['mojibake']:
-        new_args['mojibake'] = dict(new_args['mojibake'])
-
-    new_args = DotDict(new_args)
-    return new_args
 
 
 if __name__ == '__main__':

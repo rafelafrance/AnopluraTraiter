@@ -36,11 +36,6 @@ TERMS += terms.abbrev_species(TERMS, label='mammalia')
 
 REPLACE = {t['pattern']: r for t in TERMS if (r := t.get('replace'))}
 
-TRANS = {
-    'custom': str.maketrans({'¼': '=', '⫻': '×', '#': '♂', '$': '♀'}),
-}
-
-
 CLOSE = [')', ']']
 COLON = [':']
 COMMA = [',']
