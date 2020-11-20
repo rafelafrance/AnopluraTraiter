@@ -80,6 +80,7 @@ venv/
 .spyproject
 .idea/
 .ropeproject
+.vscode
 
 .~lock.*
 

@@ -14,12 +14,10 @@ from src.matchers.pipeline import Pipeline
 from src.pylib.util import TRANS
 from src.writers.html_writer import html_writer
 
-PAPERS = {
-}
-
 
 def main(args):
     """Extract data from the files."""
+    pass
     # pipeline = Pipeline()
     # rows = []
     # for i, doc in enumerate(pipeline.nlp.pipe({t[1] for t in texts})):

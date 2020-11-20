@@ -21,8 +21,8 @@ DESCRIPTION_STEP = 'description'
 ABBREVS = """
     Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
     mm cm m
-    al Am Anim Bio Biol Bull Bull Conserv DC Ecol Entomol Fig Figs Hist IUCN Inst Int
-    Lond Me´m Mol Mus Nat nov Physiol Rep Sci Soc sp Syst Zool
+    al Am Anim Bio Biol Bull Bull Conserv DC Ecol Entomol Fig Figs Hist
+    IUCN Inst Int Lond Me´m Mol Mus Nat nov Physiol Rep Sci Soc sp Syst Zool
     """
 
 TERMS = terms.read_terms(VOCAB_DIR / 'common_terms.csv')
