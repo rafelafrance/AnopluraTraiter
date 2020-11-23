@@ -147,7 +147,7 @@ def toml_args(args):
         values = t_util.as_list(values)
 
         for value in values:
-            if isinstance(value, str) and value.startswith(('@')):
+            if isinstance(value, str) and value.startswith('@'):
                 sect, field = value.split('.')
                 value = config[sect[1:]][field]
 
@@ -157,12 +157,14 @@ def toml_args(args):
         if arg_value := getattr(args, attr):
             new_value = new_args.get(attr)
             if new_value and isinstance(new_value, list):
-                new_args[attr].append(getattr(args, attr))
+                new_args[attr].append(arg_value)
             else:
                 new_args[attr] = arg_value
 
     if new_args['mojibake']:
-        new_args['mojibake'] = dict(new_args['mojibake'])
+        mojibake = t_util.flatten(new_args['mojibake'])
+        mojibake = {k: v for k, v in zip(mojibake[:-1:2], mojibake[1::2])}
+        new_args['mojibake'] = mojibake
 
     new_args = t_util.DotDict(new_args)
     return new_args
