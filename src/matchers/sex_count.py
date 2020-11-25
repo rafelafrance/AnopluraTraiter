@@ -13,7 +13,7 @@ def sex_count(span):
         label = token.ent_type_
         value = token.lower_
 
-        if label == 'sex':
+        if label == 'gender':
             data['sex'] = REPLACE[value]
         elif (as_int := to_positive_int(value)) is not None:
             data['count'] = as_int
@@ -31,7 +31,7 @@ SEX_COUNT = {
             'patterns': [
                 [
                     {'TEXT': {'REGEX': INT_RE}},
-                    {'ENT_TYPE': 'sex'},
+                    {'ENT_TYPE': 'gender'},
                 ]
             ]
         },

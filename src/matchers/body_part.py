@@ -1,4 +1,4 @@
-"""Extract sclerotized annotations."""
+"""Extract body part annotations."""
 
 from traiter.pylib.util import squash
 
@@ -20,6 +20,7 @@ def multiple_parts(span):
 
 
 JOINER = ['and', 'or'] + COMMA
+
 BODY_PART = {
     GROUP_STEP: [
         {
