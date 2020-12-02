@@ -1,6 +1,6 @@
 """Base matcher object."""
 
-from traiter.spacy_nlp.matcher import SpacyMatcher
+from traiter.pylib.matcher import SpacyMatcher
 
 from ..pylib.util import TERMS
 

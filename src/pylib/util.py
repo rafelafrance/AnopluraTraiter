@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-import traiter.spacy_nlp.terms as terms
+import traiter.pylib.terms as terms
 
 DATA_DIR = Path.cwd() / 'data'
 DOC_DIR = DATA_DIR

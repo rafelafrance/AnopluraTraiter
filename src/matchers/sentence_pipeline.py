@@ -1,8 +1,8 @@
 """Create a pipeline for splitting sentences only."""
 
-from traiter.spacy_nlp.pipeline import SpacyPipeline
-from traiter.spacy_nlp.to_entities import ToEntities
-from traiter.spacy_nlp.sentencizer import SpacySentencizer
+from traiter.pylib.pipeline import SpacyPipeline
+from traiter.pylib.to_entities import ToEntities
+from traiter.pylib.sentencizer import SpacySentencizer
 
 from .term_matcher import TermMatcher
 from ..pylib.util import ABBREVS, ATTACH_STEP, DESCRIPTION_STEP, GROUP_STEP, \

@@ -1,6 +1,6 @@
 """Base matcher object."""
 
-from traiter.spacy_nlp.matcher import SpacyMatcher
+from traiter.pylib.matcher import SpacyMatcher
 
 from .body_part import BODY_PART
 from .body_part_count import BODY_PART_COUNT
