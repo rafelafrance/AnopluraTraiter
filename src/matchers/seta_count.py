@@ -65,11 +65,11 @@ SETA_COUNT = {
             'label': 'setae',
             'patterns': [
                 [
-                    {'ENT_TYPE': 'body_part', 'OP': '?'},
+                    {'ENT_TYPE': 'body_part', 'OP': '*'},
                     {'ENT_TYPE': 'seta'},
                 ],
                 [
-                    {'ENT_TYPE': 'location', 'OP': '+'},
+                    {'ENT_TYPE': 'part_loc', 'OP': '+'},
                     {'ENT_TYPE': 'seta'},
                 ],
             ],
@@ -119,8 +119,8 @@ SETA_COUNT = {
                     {'ENT_TYPE': 'integer'},
                     {'ENT_TYPE': '', 'OP': '?'},
                     {'ENT_TYPE': '', 'OP': '?'},
-                    {'ENT_TYPE': {'IN': ['location']}, 'OP': '*'},
-                    {'ENT_TYPE': {'IN': ['location', 'body_part']}, 'OP': '?'},
+                    {'ENT_TYPE': {'IN': ['part_loc']}, 'OP': '*'},
+                    {'ENT_TYPE': {'IN': ['part_loc', 'body_part']}, 'OP': '?'},
                     {'ENT_TYPE': 'setae'},
                 ],
             ],

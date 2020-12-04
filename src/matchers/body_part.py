@@ -2,12 +2,16 @@
 
 from traiter.pylib.util import squash
 
-from ..pylib.util import COMMA, DASH, GROUP_STEP, REPLACE
+from ..pylib.actions import text_action
+from ..pylib.util import COMMA, DASH, GROUP_STEP, MISSING
 
 
 def body_part(span):
     """Enrich the match."""
-    return {'body_part': REPLACE.get(span.lower_, span.lower_)}
+    data = text_action(span)
+    if [t for t in span if t.lower_ in MISSING]:
+        data['missing'] = True
+    return data
 
 
 def multiple_parts(span):
@@ -28,10 +32,11 @@ BODY_PART = {
             'on_match': body_part,
             'patterns': [
                 [
+                    {'LOWER': {'IN': MISSING}, 'OP': '?'},
                     {'ENT_TYPE': 'part', 'OP': '+'},
                 ],
                 [
-                    {'ENT_TYPE': 'part'},
+                    {'ENT_TYPE': 'part', 'OP': '+'},
                     {'ENT_TYPE': 'segment'},
                     {'ENT_TYPE': 'integer'},
                 ],
@@ -39,20 +44,21 @@ BODY_PART = {
                     {'ENT_TYPE': {'IN': ['integer', 'ordinal']}},
                     {'TEXT': {'IN': DASH}, 'OP': '?'},
                     {'ENT_TYPE': 'segment'},
-                    {'ENT_TYPE': 'part'},
+                    {'ENT_TYPE': 'part', 'OP': '+'},
                 ],
                 [
                     {'ENT_TYPE': 'ordinal'},
-                    {'ENT_TYPE': 'part'},
+                    {'ENT_TYPE': 'part', 'OP': '+'},
                     {'ENT_TYPE': 'segment'},
                 ],
                 [
                     {'ENT_TYPE': 'segment'},
-                    {'ENT_TYPE': 'part'},
+                    {'ENT_TYPE': 'part', 'OP': '+'},
                     {'ENT_TYPE': 'integer'},
                 ],
                 [
-                    {'ENT_TYPE': {'IN': ['location', 'part']}, 'OP': '*'},
+                    {'LOWER': {'IN': MISSING}, 'OP': '?'},
+                    {'ENT_TYPE': {'IN': ['part_loc', 'part']}, 'OP': '*'},
                     {'ENT_TYPE': 'part'},
                 ],
             ],

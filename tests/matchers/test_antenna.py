@@ -47,8 +47,8 @@ class TestAntenna(unittest.TestCase):
                 sexually dimorphic.
                 """)),
             [{'body_part': 'head', 'trait': 'body_part', 'start': 0, 'end': 4},
-             {'description': 'lacking eyes', 'body_part': 'head',
-              'trait': 'description', 'start': 5, 'end': 17},
+             {'body_part': 'lacking eyes', 'missing': True,
+              'trait': 'body_part', 'start': 5, 'end': 17},
              {'body_part': '5-segmented antennae',
               'trait': 'body_part', 'start': 24, 'end': 44},
              {'description': 'which are often sexually dimorphic',

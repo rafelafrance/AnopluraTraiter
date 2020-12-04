@@ -25,7 +25,12 @@ ABBREVS = """
     IUCN Inst Int Lond Me´m Mol Mus Nat nov Physiol Rep Sci Soc sp Syst Zool
     """
 
-TERMS = terms.read_terms(VOCAB_DIR / 'common_terms.csv')
+TERMS = terms.shared_terms('animals.csv')
+TERMS += terms.shared_terms('insect_anatomy.csv')
+TERMS += terms.shared_terms('numerics.csv')
+TERMS += terms.shared_terms('metric.csv')
+TERMS += terms.shared_terms('time.csv')
+TERMS += terms.read_terms(VOCAB_DIR / 'common_terms.csv')
 TERMS += terms.read_terms(VOCAB_DIR / 'anoplura_terms.csv')
 TERMS += terms.read_terms(VOCAB_DIR / 'anoplura_species.csv')
 TERMS += terms.abbrev_species(TERMS, label='anoplura')
@@ -51,3 +56,5 @@ QUOTE = ['"', "'"]
 SEMICOLON = [';']
 SLASH = ['/']
 BREAK = DOT + SEMICOLON
+
+MISSING = """ without missing lack lacking except excepting """.split()
