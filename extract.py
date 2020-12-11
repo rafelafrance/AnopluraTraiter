@@ -14,9 +14,12 @@ def main(args):
     """Extract data from the files."""
     pipeline = Pipeline()
     rows = []
-    for doc in enumerate(pipeline.nlp.pipe({t[1] for t in args.text})):
-        row = {'path': '', 'doc': doc}
-        rows.append(row)
+
+    with open(args.text) as in_file:
+        lines = [ln.strip() for ln in in_file.readlines()]
+
+    for doc in pipeline.nlp.pipe(lines):
+        rows.append({'doc': doc})
 
     if args.html_file:
         copied = deepcopy(rows)
@@ -31,8 +34,7 @@ def parse_args():
         fromfile_prefix_chars='@')
 
     arg_parser.add_argument(
-        '--text', '-t', action='append',
-        help="""Path to the text file to parse.""")
+        '--text', '-t', help="""Path to the text file to parse.""")
 
     arg_parser.add_argument(
         '--html-file', '-H', type=argparse.FileType('w'),

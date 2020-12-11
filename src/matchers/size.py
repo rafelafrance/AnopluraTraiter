@@ -1,6 +1,10 @@
 """Parse size notations."""
 
-from ..pylib.util import EQ, GROUP_STEP, TRAIT_STEP
+import re
+
+from traiter.pylib.util import to_positive_float
+
+from ..pylib.util import EQ, GROUP_STEP, NUMBER_RE, TRAIT_STEP
 
 
 def size(span):
@@ -28,6 +32,12 @@ def mean(span):
     }
 
 
+def mean_no_units(span):
+    """Convert the span into a single float."""
+    values = [t.text for t in span if re.match(NUMBER_RE, t.text)]
+    return {'mean': to_positive_float(values[0])}
+
+
 BAR = ['bar', 'bars']
 
 SIZE = {
@@ -41,11 +51,24 @@ SIZE = {
         {
             'label': 'mean',
             'on_match': mean,
-            'patterns': [[
-                {'LOWER': 'mean'},
-                {'IS_PUNCT': True, 'OP': '?'},
-                {'ENT_TYPE': 'measurement'},
-            ]],
+            'patterns': [
+                [
+                    {'LOWER': 'mean'},
+                    {'IS_PUNCT': True, 'OP': '?'},
+                    {'ENT_TYPE': 'measurement'},
+                ],
+            ],
+        },
+        {
+            'label': 'mean',
+            'on_match': mean_no_units,
+            'patterns': [
+                [
+                    {'LOWER': 'mean'},
+                    {'IS_PUNCT': True, 'OP': '?'},
+                    {'TEXT': {'REGEX': NUMBER_RE}},
+                ],
+            ],
         },
         {
             'label': 'n',

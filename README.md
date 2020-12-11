@@ -1,9 +1,9 @@
-# The Anoplura Traits Database Project ![Python application](https://github.com/rafelafrance/traiter_anoplura/workflows/CI/badge.svg)
+# The Anoplura Traits Database Project ![CI](https://github.com/rafelafrance/traiter_anoplura/workflows/CI/badge.svg)
 
 
 ## What we're doing
 
-Extract traits and locations from scientific literature about lice (Anoplura). That is, if I'm given some text like
+Extract traits and locations from scientific literature about lice (Anoplura). That is, if I'm given text like
 ```
 Maximum head width, 0.150–0.163 mm (mean, 0.17 mm, n = 4).
 One long Dorsal Principal Head Seta (DPHS), one small Dorsal
@@ -13,7 +13,7 @@ Preantennal Head Setae (DPaHS), two Sutural Head Setae (SHS),
 three Dorsal Marginal Head Setae (DMHS), three to four Apical
 Head Setae (ApHS). Head, thorax, and abdomen lightly sclerotized.
 ```
-We will extract:
+I will extract:
 - max width: part = head, n = 4, mean = 0.17, mean_units = mm, low = 0.15, high = 0.163, length_units = mm,
 - dorsal principal head setae: count = 1
 - dorsal accessory head setae: count = 1

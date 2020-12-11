@@ -2,7 +2,7 @@
 
 from traiter.pylib.matcher import SpacyMatcher
 
-from ..pylib.util import TERMS
+from ..pylib.util import TERMS, TERM_STEP
 
 
 class TermMatcher(SpacyMatcher):
@@ -11,4 +11,4 @@ class TermMatcher(SpacyMatcher):
     def __init__(self, nlp):
         super().__init__(nlp)
 
-        self.add_terms(TERMS)
+        self.add_terms(TERMS, step=TERM_STEP)

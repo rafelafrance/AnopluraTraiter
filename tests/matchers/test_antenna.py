@@ -8,7 +8,7 @@ from tests.setup import test_traits
 
 
 class TestAntenna(unittest.TestCase):
-    """Test range trait matcher."""
+    """Test antenna trait matcher."""
 
     def test_antenna_01(self):
         self.assertEqual(

@@ -12,6 +12,7 @@ OUTPUT_DIR = Path.cwd() / 'output'
 MODEL_DIR = Path.cwd() / 'models'
 VOCAB_DIR = Path.cwd() / 'src' / 'vocabulary'
 
+TERM_STEP = 'terms'
 NUMERIC_STEP = 'numerics'
 GROUP_STEP = 'group'
 TRAIT_STEP = 'traits'

@@ -48,8 +48,9 @@ def phrase_ents(phrase):
     start = phrase.start
     for token in phrase[1:]:
         if token.text in ',:':
-            desc = Span(phrase.doc, start, token.i)
-            entities += new_ents(desc, body_part)
+            if token.i - start > 1:
+                desc = Span(phrase.doc, start, token.i)
+                entities += new_ents(desc, body_part)
             start = token.i + 1
 
     if start != phrase.end:
