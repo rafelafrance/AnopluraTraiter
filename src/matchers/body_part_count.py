@@ -1,6 +1,6 @@
 """Extract body part count notations."""
 
-from ..pylib.util import ATTACH_STEP, REPLACE
+from ..pylib.consts import ATTACH_STEP, REPLACE
 
 
 def body_part_count(span):

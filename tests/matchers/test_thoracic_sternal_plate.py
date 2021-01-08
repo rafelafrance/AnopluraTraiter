@@ -12,9 +12,9 @@ class TestThoracicSternalPlate(unittest.TestCase):
 
     def test_sternal_plate_01(self):
         self.assertEqual(
-            test_traits(shorten("""
+            test_traits("""
                 Thoracic sternal plate subrectangular, about 3⫻ as wide as
-                long; thorax rounded.""")),
+                long; thorax rounded."""),
             [{'body_part': 'thoracic sternal plate',
               'trait': 'body_part', 'start': 0, 'end': 22},
              {'description': 'subrectangular',

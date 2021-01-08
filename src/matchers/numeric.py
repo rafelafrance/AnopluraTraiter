@@ -4,7 +4,7 @@ import re
 
 from traiter.pylib.util import to_positive_float
 
-from ..pylib.util import DASH, NUMERIC_STEP, NUMBER_RE, REPLACE
+from ..pylib.consts import DASH, NUMERIC_STEP, NUMBER_RE, REPLACE
 
 TO_INT = {
     'no': 0,

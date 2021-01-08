@@ -16,7 +16,7 @@ import toml
 import traiter.pylib.util as t_util
 
 from src.matchers.pipeline import Pipeline
-from src.pylib.util import DASH
+from src.pylib.consts import DASH
 
 
 def main(args):

@@ -2,8 +2,6 @@
 
 import unittest
 
-# from traiter.pylib.util import shorten
-
 # from tests.setup import test_traits
 
 
@@ -22,8 +20,7 @@ class TestSclerotized(unittest.TestCase):
     #
     # def test_sclerotized_02(self):
     #     self.assertEqual(
-    #         test_traits(
-    #             'Head: More heavily sclerotized along anterior margin;'),
+    #         test_traits('Head: More heavily sclerotized along anterior margin;'),
     #         [{'body_part': 'head', 'trait': 'body_part', 'start': 0, 'end': 4},
     #          {'description': 'More heavily sclerotized along anterior margin',
     #           'body_part': 'head', 'trait': 'description',
@@ -32,10 +29,10 @@ class TestSclerotized(unittest.TestCase):
     #
     # def test_sclerotized_03(self):
     #     self.assertEqual(
-    #         test_traits(shorten("""
+    #         test_traits("""
     #             Eight lightly sclerotized plates present on each side
     #             associated with abdominal segments II–IX.
-    #             """)),
+    #             """),
     #         [{'description': 'Eight lightly sclerotized plates present on '
     #                          'each side associated with',
     #           'body_part': 'abdominal', 'trait': 'description',
@@ -49,9 +46,9 @@ class TestSclerotized(unittest.TestCase):
     #
     # def test_sclerotized_04(self):
     #     self.assertEqual(
-    #         test_traits(shorten("""
+    #         test_traits("""
     #             Genitalia (Fig 9) with moderately sclerotised subgenital plate,
-    #             """)),
+    #             """),
     #         [{'body_part': 'genital',
     #           'trait': 'body_part', 'start': 0, 'end': 9},
     #          {'body_part': 'subgenital plate',
@@ -60,14 +57,10 @@ class TestSclerotized(unittest.TestCase):
     #
     # def test_sclerotized_05(self):
     #     self.assertEqual(
-    #         test_traits(shorten("""
-    #             Postantennal head margins with heavily sclerotized
-    #             """)),
+    #         test_traits('Postantennal head margins with heavily sclerotized'),
     #         [{'body_part': 'postantennal head margins',
     #           'trait': 'body_part', 'start': 0, 'end': 25},
     #          {'description': 'with heavily sclerotized',
     #           'body_part': 'postantennal head margins',
-    #           'trait': 'description',
-    #           'start': 26,
-    #           'end': 50}]
+    #           'trait': 'description', 'start': 26, 'end': 50}]
     #     )

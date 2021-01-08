@@ -3,7 +3,7 @@
 from traiter.pylib.util import squash
 
 from ..pylib.actions import text_action
-from ..pylib.util import COMMA, DASH, GROUP_STEP, MISSING
+from ..pylib.consts import COMMA, DASH, GROUP_STEP, MISSING
 
 
 def body_part(span):

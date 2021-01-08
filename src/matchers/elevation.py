@@ -2,7 +2,7 @@
 
 from traiter.pylib.util import to_positive_float
 
-from ..pylib.util import REPLACE, TRAIT_STEP
+from ..pylib.consts import REPLACE, TRAIT_STEP
 
 ELEV_WORDS = """ elevation elev """.split()
 

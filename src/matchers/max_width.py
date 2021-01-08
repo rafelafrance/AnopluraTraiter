@@ -1,6 +1,6 @@
 """Get maximum width notations."""
 
-from ..pylib.util import ATTACH_STEP
+from ..pylib.consts import ATTACH_STEP
 
 
 def max_width(span):

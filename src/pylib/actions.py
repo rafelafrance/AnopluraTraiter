@@ -1,6 +1,6 @@
 """Common actions for enriching matches."""
 
-from ..pylib.util import REPLACE
+from ..pylib.consts import REPLACE
 
 
 def text_action(span):
