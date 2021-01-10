@@ -45,8 +45,8 @@ CROSS = ['x', '×', '⫻']  # ⫻ = 0x3f
 DASH = ['–', '-', '––', '--']
 DOT = ['.']
 EQ = ['=', '¼']  # ¼ = 0xbc
+FLOAT_RE = r'^\d+(\.\d*)?$'
 INT_RE = r'^\d+$'
-NUMBER_RE = r'^\d+(\.\d*)?$'
 OPEN = ['(', '[']
 PLUS = ['+']
 QUOTE = ['"', "'"]

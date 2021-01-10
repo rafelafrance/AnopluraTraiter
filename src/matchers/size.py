@@ -4,7 +4,7 @@ import re
 
 from traiter.util import to_positive_float
 
-from ..pylib.consts import EQ, GROUP_STEP, NUMBER_RE, TRAIT_STEP
+from ..pylib.consts import EQ, GROUP_STEP, FLOAT_RE, TRAIT_STEP
 
 
 def size(span):
@@ -34,7 +34,7 @@ def mean(span):
 
 def mean_no_units(span):
     """Convert the span into a single float."""
-    values = [t.text for t in span if re.match(NUMBER_RE, t.text)]
+    values = [t.text for t in span if re.match(FLOAT_RE, t.text)]
     return {'mean': to_positive_float(values[0])}
 
 
@@ -66,7 +66,7 @@ SIZE = {
                 [
                     {'LOWER': 'mean'},
                     {'IS_PUNCT': True, 'OP': '?'},
-                    {'TEXT': {'REGEX': NUMBER_RE}},
+                    {'TEXT': {'REGEX': FLOAT_RE}},
                 ],
             ],
         },

@@ -26,23 +26,6 @@ def multiple_parts(span):
 JOINER = ['and', 'or'] + COMMA
 
 BODY_PART = {
-    # SEGMENT_STEP: [
-    #     {
-    #         'label': 'segment',
-    #         'patterns': [
-    #             [
-    #                 {'ENT_TYPE': {'IN': ['integer', 'ordinal']}},
-    #                 {'TEXT': {'IN': DASH}, 'OP': '?'},
-    #                 {'ENT_TYPE': 'segmented'},
-    #             ],
-    #             [
-    #                 {'ENT_TYPE': {'IN': ['integer', 'ordinal']}},
-    #                 {'TEXT': {'IN': DASH}, 'OP': '?'},
-    #                 {'ENT_TYPE': 'segmented'},
-    #             ],
-    #         ],
-    #     },
-    # ],
     GROUP_STEP: [
         {
             'label': 'body_part',
@@ -64,9 +47,15 @@ BODY_PART = {
                     {'ENT_TYPE': 'part', 'OP': '+'},
                 ],
                 [
-                    {'ENT_TYPE': {'IN': ['integer', 'ordinal']}},
+                    {'ENT_TYPE': {'IN': ['ordinal']}},
                     {'TEXT': {'IN': DASH}, 'OP': '?'},
                     {'ENT_TYPE': 'part', 'OP': '+'},
+                ],
+                [
+                    {'ENT_TYPE': 'part', 'OP': '+'},
+                    {'ENT_TYPE': {'IN': ['integer', 'ordinal']}, 'OP': '?'},
+                    {'TEXT': {'IN': DASH}, 'OP': '?'},
+                    {'ENT_TYPE': {'IN': ['integer', 'ordinal']}},
                 ],
                 [
                     {'LOWER': {'IN': MISSING}, 'OP': '?'},

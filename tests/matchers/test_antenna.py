@@ -27,9 +27,8 @@ class TestAntenna(unittest.TestCase):
                 much larger than second segment; fourth segment slightly
                 extended posterolaterally.
                 """),
-            [{'body_part': 'antenna', 'trait': 'body_part', 'start': 0, 'end': 8},
-             {'description': 'five-segmented', 'body_part': 'antenna',
-              'trait': 'description', 'start': 9, 'end': 23},
+            [{'body_part': 'antennae five',
+              'trait': 'body_part', 'start': 0, 'end': 13},
              {'body_part': 'basal segment',
               'trait': 'body_part', 'start': 29, 'end': 42},
              {'body_part': 'second segment',

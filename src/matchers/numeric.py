@@ -4,7 +4,7 @@ import re
 
 from traiter.util import to_positive_float
 
-from ..pylib.consts import DASH, NUMERIC_STEP, NUMBER_RE, REPLACE
+from ..pylib.consts import DASH, NUMERIC_STEP, FLOAT_RE, INT_RE, REPLACE
 
 TO_INT = {
     'no': 0,
@@ -28,6 +28,8 @@ TO_INT = {
 OTHER_WORDS = """ no pair """.split()
 TO = ['to'] + DASH
 
+NUMBER_WORDS = """ number_word """.split()
+
 LABELS = 'count low high'.split()
 
 
@@ -46,11 +48,11 @@ def measurement(span):
     """Build the range parts."""
     data = {}
 
-    values = [t.text for t in span if re.match(NUMBER_RE, t.text)]
+    values = [t.text for t in span if re.match(FLOAT_RE, t.text)]
     for field, value in zip(['low', 'high'], values):
         data[field] = to_positive_float(value)
 
-    units = [t.text for t in span if t.ent_type_ == 'length_units']
+    units = [t.text for t in span if t.ent_type_ == 'metric_length']
     data['length_units'] = REPLACE[units[0]]
 
     return data
@@ -63,15 +65,18 @@ NUMERIC = {
             'on_match': integer,
             'patterns': [
                 [
-                    {'LIKE_NUM': True},
+                    {'TEXT': {'REGEX': INT_RE}},
                 ],
                 [
-                    {'LIKE_NUM': True},
+                    {'TEXT': {'REGEX': INT_RE}},
                     {'LOWER': {'IN': TO}},
-                    {'LIKE_NUM': True},
+                    {'TEXT': {'REGEX': INT_RE}},
                 ],
                 [
                     {'LOWER': {'IN': OTHER_WORDS}},
+                ],
+                [
+                    {'ENT_TYPE': {'IN': NUMBER_WORDS}},
                 ],
             ],
         },
@@ -80,14 +85,14 @@ NUMERIC = {
             'on_match': measurement,
             'patterns': [
                 [
-                    {'TEXT': {'REGEX': NUMBER_RE}},
+                    {'TEXT': {'REGEX': FLOAT_RE}},
                     {'TEXT': {'IN': DASH}},
-                    {'TEXT': {'REGEX': NUMBER_RE}},
-                    {'ENT_TYPE': 'length_units'},
+                    {'TEXT': {'REGEX': FLOAT_RE}},
+                    {'ENT_TYPE': 'metric_length'},
                 ],
                 [
-                    {'TEXT': {'REGEX': NUMBER_RE}},
-                    {'ENT_TYPE': 'length_units'},
+                    {'TEXT': {'REGEX': FLOAT_RE}},
+                    {'ENT_TYPE': 'metric_length'},
                 ],
             ],
         },

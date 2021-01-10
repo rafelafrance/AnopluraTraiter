@@ -1,52 +1,94 @@
 """Look for trait descriptions in sentences."""
 
-from ..pylib.consts import COLON, COMMA, DESCRIPTION_STEP, SEMICOLON, DOT
+from spacy.tokens import Span
+
+from ..pylib.consts import DESCRIPTION_STEP
 
 
-SPLITTERS = DOT + SEMICOLON + COLON + COMMA
+def description(doc):
+    """Look for trait descriptions in sentences."""
+    entities = []
+
+    for sent in doc.sents:
+        start = sent.start
+
+        tokens = iter(sent[1:])  # Want to mess with the iteration in the loop
+        for token in tokens:
+            # No slice here we mess with the iterator in the loop
+            if token.text in '.;':
+                phrase = Span(doc, start, token.i)
+                entities += phrase_ents(phrase)
+                start = token.i + 1
+            elif (token.text == ','
+                  and token.i < sent.end - 1
+                  and doc[token.i + 1].lower_ == 'with'):
+                phrase = Span(doc, start, token.i)
+                entities += phrase_ents(phrase)
+                start = token.i + 2
+                next(tokens)  # Skip past "with"
+
+        if start < sent.end:
+            phrase = Span(doc, start, sent.end)
+            entities += phrase_ents(phrase)
+
+    doc.ents = tuple(entities)
+
+    return doc
 
 
-def description(span):
-    """The description is after the body part."""
-    data = []
-    part = [(i, t) for i, t in enumerate(span) if t.ent_type_ == 'body_part']
-    if len(part) > 1:
-        return data
-    part = part[0]
-    if part[0] > 0:
-        data.append({
-            '_start': 0,
-            '_end': part[0],
-            'description': span[:part[0]].text,
-            'body_part': part[1]._.data['body_part'],
-        })
-    if part[0] < len(span) - 1:
-        data.append({
-            '_start': part[0] + 1,
-            '_end': len(span),
-            'description': span[part[0] + 1:].text,
-            'body_part': part[1]._.data['body_part'],
-        })
-    return data
+def phrase_ents(phrase):
+    """Split the sentence into phrases."""
+    if (len(phrase.ents) < 1 or len(phrase.ents) > 1
+            or phrase.ents[0].label_ != 'body_part'):
+        return list(phrase.ents)
+
+    body_part = phrase.ents[0]
+    entities = [body_part]
+
+    start = phrase.start
+    for token in phrase[1:]:
+        if token.text in ',:':
+            if token.i - start > 1:
+                desc = Span(phrase.doc, start, token.i)
+                entities += new_ents(desc, body_part)
+            start = token.i + 1
+
+    if start != phrase.end:
+        desc = Span(phrase.doc, start, phrase.end)
+        entities += new_ents(desc, body_part)
+
+    return entities
 
 
-DESCRIPTION = {
-    DESCRIPTION_STEP: [
-        {
-            'label': 'description',
-            'on_match': description,
-            'patterns': [
-                [
-                    {'LOWER': {'NOT_IN': SPLITTERS}, 'OP': '*'},
-                    {'ENT_TYPE': 'body_part'},
-                    {'LOWER': {'NOT_IN': SPLITTERS}, 'OP': '+'},
-                ],
-                [
-                    {'LOWER': {'NOT_IN': SPLITTERS}, 'OP': '+'},
-                    {'ENT_TYPE': 'body_part'},
-                    {'LOWER': {'NOT_IN': SPLITTERS}, 'OP': '*'},
-                ],
-            ],
-        },
-    ],
-}
+def new_ents(desc, body_part):
+    """Remove possible overlapping trait."""
+    if body_part.start == desc.start and body_part.end == desc.end:
+        return []
+
+    if not desc.ents:
+        return [new_ent(desc, desc.start, desc.end, body_part)]
+
+    if desc.start == body_part.start:
+        return [new_ent(desc, body_part.end, desc.end, body_part)]
+
+    if desc.end == body_part.end:
+        return [new_ent(desc, desc.start, body_part.start, body_part)]
+
+    return [
+        new_ent(desc, desc.start, body_part.start, body_part),
+        new_ent(desc, body_part.end, desc.end, body_part),
+    ]
+
+
+def new_ent(desc, start, end, body_part):
+    """Build a description entity."""
+    entity = Span(desc.doc, start, end, label=DESCRIPTION_STEP)
+    entity._.data = {
+        'description': entity.text,
+        'body_part': body_part._.data['body_part'],
+        'trait': DESCRIPTION_STEP,
+        'start': entity.start_char,
+        'end': entity.end_char,
+    }
+    entity._.step = DESCRIPTION_STEP
+    return entity
