@@ -2,7 +2,7 @@
 
 import re
 
-from traiter.pylib.util import to_positive_float
+from traiter.util import to_positive_float
 
 from ..pylib.consts import EQ, GROUP_STEP, NUMBER_RE, TRAIT_STEP
 

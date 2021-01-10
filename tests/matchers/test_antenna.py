@@ -28,12 +28,17 @@ class TestAntenna(unittest.TestCase):
                 extended posterolaterally.
                 """),
             [{'body_part': 'antenna', 'trait': 'body_part', 'start': 0, 'end': 8},
-             {
-                 'description': """
-                    five-segmented with basal segment wider than
-                    long and much larger than second segment
-                    """,
-                 'body_part': 'antenna', 'trait': 'description', 'start': 9, 'end': 94}]
+             {'description': 'five-segmented', 'body_part': 'antenna',
+              'trait': 'description', 'start': 9, 'end': 23},
+             {'body_part': 'basal segment',
+              'trait': 'body_part', 'start': 29, 'end': 42},
+             {'body_part': 'second segment',
+              'trait': 'body_part', 'start': 80, 'end': 94},
+             {'body_part': 'fourth segment',
+              'trait': 'body_part', 'start': 96, 'end': 110},
+             {'description': 'slightly extended posterolaterally',
+              'body_part': 'fourth segment',
+              'trait': 'description', 'start': 111, 'end': 145}]
         )
 
     def test_antenna_03(self):
@@ -45,11 +50,11 @@ class TestAntenna(unittest.TestCase):
             [{'body_part': 'head', 'trait': 'body_part', 'start': 0, 'end': 4},
              {'body_part': 'lacking eyes', 'missing': True,
               'trait': 'body_part', 'start': 5, 'end': 17},
-             {'body_part': '5-segmented antennae',
-              'trait': 'body_part', 'start': 24, 'end': 44},
+             {'description': '5-segmented', 'body_part': 'antenna',
+              'trait': 'description', 'start': 24, 'end': 35},
+             {'body_part': 'antenna', 'trait': 'body_part', 'start': 36, 'end': 44},
              {'description': 'which are often sexually dimorphic',
-              'body_part': '5-segmented antennae',
-              'trait': 'description', 'start': 45, 'end': 79}]
+              'body_part': 'antenna', 'trait': 'description', 'start': 45, 'end': 79}]
         )
 
     def test_antenna_04(self):

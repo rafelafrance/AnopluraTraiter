@@ -1,6 +1,6 @@
 """Parse count notations."""
 
-from traiter.pylib.util import to_positive_int
+from traiter.util import to_positive_int
 
 from ..pylib.consts import INT_RE, REPLACE, TRAIT_STEP
 

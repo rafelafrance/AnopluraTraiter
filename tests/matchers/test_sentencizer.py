@@ -4,7 +4,7 @@
 
 import unittest
 
-from traiter.pylib.util import shorten
+from traiter.util import shorten
 
 from tests.setup import TEST_PIPELINE
 

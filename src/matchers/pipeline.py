@@ -1,8 +1,9 @@
 """Create a trait pipeline."""
 
+from traiter.matchers.rule import Rule
+from traiter.matchers.split import Split
+from traiter.matchers.term import Term
 from traiter.pipeline import SpacyPipeline
-from traiter.rule_matcher import RuleMatcher
-from traiter.term_matcher import TermMatcher
 from traiter.to_entities import ToEntities
 
 from .body_part import BODY_PART
@@ -23,10 +24,7 @@ MATCHERS = [
 
 
 class Pipeline(SpacyPipeline):
-    """Build a custom traiter pipeline."""
-
-    token2entity = {GROUP_STEP, TRAIT_STEP, ATTACH_STEP}
-    entities2keep = {TRAIT_STEP, ATTACH_STEP, DESCRIPTION_STEP}
+    """Build a traiter pipeline."""
 
     def __init__(self):
         super().__init__()
@@ -34,10 +32,13 @@ class Pipeline(SpacyPipeline):
         self.nlp.max_length *= 2
         self.nlp.disable_pipes(['ner'])
 
-        TermMatcher.add_pipes(self.nlp, TERMS)
-        RuleMatcher.add_pipe(self.nlp, MATCHERS, NUMERIC_STEP)
-        RuleMatcher.add_pipe(self.nlp, MATCHERS, GROUP_STEP)
-        RuleMatcher.add_pipe(self.nlp, MATCHERS, TRAIT_STEP)
-        RuleMatcher.add_pipe(self.nlp, MATCHERS, ATTACH_STEP)
-        RuleMatcher.add_pipe(self.nlp, MATCHERS, DESCRIPTION_STEP)
-        ToEntities.add_pipe(self.nlp, self.entities2keep, self.token2entity)
+        token2entity = {GROUP_STEP, TRAIT_STEP, ATTACH_STEP, DESCRIPTION_STEP}
+        entities2keep = {GROUP_STEP, TRAIT_STEP, ATTACH_STEP}
+
+        Term.add_pipes(self.nlp, TERMS)
+        Rule.add_pipe(self.nlp, MATCHERS, NUMERIC_STEP)
+        Rule.add_pipe(self.nlp, MATCHERS, GROUP_STEP)
+        Rule.add_pipe(self.nlp, MATCHERS, TRAIT_STEP)
+        Rule.add_pipe(self.nlp, MATCHERS, ATTACH_STEP)
+        Split.add_pipe(self.nlp, MATCHERS, DESCRIPTION_STEP)
+        ToEntities.add_pipe(self.nlp, entities2keep, token2entity)

@@ -13,7 +13,7 @@ from collections import defaultdict
 
 from bs4 import BeautifulSoup
 import toml
-import traiter.pylib.util as t_util
+import traiter.util as t_util
 
 from src.matchers.pipeline import Pipeline
 from src.pylib.consts import DASH

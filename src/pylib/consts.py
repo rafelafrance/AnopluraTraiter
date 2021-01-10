@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from traiter.pylib.itis_terms import ItisTerms
+from traiter.terms.itis import Itis
 
 DATA_DIR = Path.cwd() / 'data'
 DOC_DIR = DATA_DIR
@@ -25,16 +25,16 @@ ABBREVS = """
     IUCN Inst Int Lond Me´m Mol Mus Nat nov Physiol Rep Sci Soc sp Syst Zool
     """
 
-TERMS = ItisTerms.read_csv(VOCAB_DIR / 'common_terms.csv')
-TERMS += ItisTerms.read_csv(VOCAB_DIR / 'anoplura_terms.csv')
-TERMS += ItisTerms.read_csv(VOCAB_DIR / 'anoplura_species.csv')
-TERMS += ItisTerms.shared('animals insect_anatomy numerics time')
-TERMS += ItisTerms.shared('units', labels='metric_length')
-TERMS += ItisTerms.abbrev_species(TERMS, label='anoplura')
-TERMS += ItisTerms.taxon_level_terms(
+TERMS = Itis.shared('animals insect_anatomy numerics')
+TERMS += Itis.shared('units', labels='metric_length')
+TERMS += Itis.read_csv(VOCAB_DIR / 'common_terms.csv')
+TERMS += Itis.read_csv(VOCAB_DIR / 'anoplura_terms.csv')
+TERMS += Itis.read_csv(VOCAB_DIR / 'anoplura_species.csv')
+TERMS += Itis.abbrev_species(TERMS, label='anoplura')
+TERMS += Itis.taxon_level_terms(
     TERMS, label='anoplura', new_label='anoplura_genus', level='genus')
-TERMS += ItisTerms.taxon_level_terms(TERMS, label='mammalia')
-TERMS += ItisTerms.abbrev_species(TERMS, label='mammalia')
+TERMS += Itis.taxon_level_terms(TERMS, label='mammalia')
+TERMS += Itis.abbrev_species(TERMS, label='mammalia')
 
 REPLACE = {t['pattern']: r for t in TERMS if (r := t.get('replace'))}
 

@@ -2,8 +2,6 @@
 
 import unittest
 
-from traiter.pylib.util import shorten
-
 from tests.setup import test_traits
 
 

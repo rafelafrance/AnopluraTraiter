@@ -2,7 +2,7 @@
 
 from typing import Dict, List
 
-from traiter.pylib.util import clean_text, shorten
+from traiter.util import clean_text, shorten
 
 from src.matchers.pipeline import Pipeline
 

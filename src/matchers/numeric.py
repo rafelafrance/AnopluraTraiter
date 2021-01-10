@@ -2,7 +2,7 @@
 
 import re
 
-from traiter.pylib.util import to_positive_float
+from traiter.util import to_positive_float
 
 from ..pylib.consts import DASH, NUMERIC_STEP, NUMBER_RE, REPLACE
 
@@ -38,7 +38,7 @@ def integer(span):
     try:
         data = {k: int(TO_INT.get(w, w)) for k, w in zip(keys, words)}
     except ValueError:
-        return {'_forget': True}
+        return
     return data
 
 
