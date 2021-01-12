@@ -36,7 +36,7 @@ TERMS += Itis.taxon_level_terms(
 TERMS += Itis.taxon_level_terms(TERMS, label='mammalia')
 TERMS += Itis.abbrev_species(TERMS, label='mammalia')
 
-REPLACE = {t['pattern']: r for t in TERMS if (r := t.get('replace'))}
+REPLACE = TERMS.pattern_dicts('replace')
 
 CLOSE = [')', ']']
 COLON = [':']

@@ -1,6 +1,6 @@
 """Extract sclerotized annotations."""
 
-# from ..pylib.util import ATTACH_STEP, TRAIT_STEP
+# from ..util import ATTACH_STEP, TRAIT_STEP
 
 
 # def sclerotized(span):
