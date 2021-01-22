@@ -36,9 +36,8 @@ class Pipeline(SpacyPipeline):
         token2entity = {GROUP_STEP, TRAIT_STEP, ATTACH_STEP, DESCRIPTION_STEP}
         entities2keep = {GROUP_STEP, TRAIT_STEP, ATTACH_STEP}
 
-        Term.add_pipes(self.nlp, TERMS, before='parser')
-        Sentencizer.add_pipe(
-            self.nlp, abbrevs=ABBREVS, headings='heading', before='parser')
+        Term.add_pipes(self.nlp, TERMS)
+        Sentencizer.add_pipe(self.nlp, abbrevs=ABBREVS, headings='heading')
         Rule.add_pipe(self.nlp, MATCHERS, NUMERIC_STEP)
         Rule.add_pipe(self.nlp, MATCHERS, GROUP_STEP)
         Rule.add_pipe(self.nlp, MATCHERS, TRAIT_STEP)
