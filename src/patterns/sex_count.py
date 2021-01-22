@@ -1,10 +1,26 @@
 """Parse count notations."""
 
+import spacy
+from traiter.consts import INT_RE
 from traiter.util import to_positive_int
 
-from ..pylib.consts import INT_RE, REPLACE, TRAIT_STEP
+from ..pylib.consts import REPLACE
+
+SEX_COUNT = [
+    {
+        'label': 'sex_count',
+        'on_match': 'sex_count.v1',
+        'patterns': [
+            [
+                {'TEXT': {'REGEX': INT_RE}},
+                {'ENT_TYPE': 'sex'},
+            ]
+        ]
+    },
+]
 
 
+@spacy.registry.misc(SEX_COUNT[0]['on_match'])
 def sex_count(span):
     """Enrich the match with data."""
     data = {}
@@ -21,19 +37,3 @@ def sex_count(span):
             return {}
 
     return data
-
-
-SEX_COUNT = {
-    TRAIT_STEP: [
-        {
-            'label': 'sex_count',
-            'on_match': sex_count,
-            'patterns': [
-                [
-                    {'TEXT': {'REGEX': INT_RE}},
-                    {'ENT_TYPE': 'sex'},
-                ]
-            ]
-        },
-    ]
-}

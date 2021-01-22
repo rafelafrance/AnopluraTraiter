@@ -1,12 +1,28 @@
 """Parse elevation notations."""
 
+import spacy
 from traiter.util import to_positive_float
 
-from ..pylib.consts import REPLACE, TRAIT_STEP
+from ..pylib.consts import REPLACE
 
 ELEV_WORDS = """ elevation elev """.split()
 
+ELEVATION = [
+    {
+        'label': 'elevation',
+        'on_match': elevation,
+        'patterns': [
+            [
+                {'LIKE_NUM': True},
+                {'ENT_TYPE': 'length_units'},
+                {'LOWER': {'IN': ELEV_WORDS}},
+            ]
+        ]
+    },
+]
 
+
+@spacy.registry.misc(ELEVATION[0]['on_match'])
 def elevation(span):
     """Enrich the match with data."""
     data = {}
@@ -25,20 +41,3 @@ def elevation(span):
             return {}
 
     return data
-
-
-ELEVATION = {
-    TRAIT_STEP: [
-        {
-            'label': 'elevation',
-            'on_match': elevation,
-            'patterns': [
-                [
-                    {'LIKE_NUM': True},
-                    {'ENT_TYPE': 'length_units'},
-                    {'LOWER': {'IN': ELEV_WORDS}},
-                ]
-            ]
-        },
-    ]
-}

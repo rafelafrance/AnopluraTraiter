@@ -6,7 +6,7 @@ import argparse
 import textwrap
 from copy import deepcopy
 
-from src.matchers.pipeline import Pipeline
+from src.pylib.pipeline import Pipeline
 from src.writers.html_writer import html_writer
 
 
