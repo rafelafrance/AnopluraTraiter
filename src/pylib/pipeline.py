@@ -24,43 +24,55 @@ MATCHERS1 = [NUMERIC]
 def trait_pipeline():
     """Setup the pipeline for extracting traits."""
     nlp = spacy.load('en_core_web_sm', exclude=['ner', 'lemmatizer'])
-
-    config = {'phrase_matcher_attr': 'LOWER'}
-    term_ruler = nlp.add_pipe(
-        'entity_ruler', name='term_ruler', config=config, before='parser')
-    term_ruler.add_patterns(TERMS.for_entity_ruler())
-
+    add_term_ruler_pipe(nlp)
     nlp.add_pipe('merge_entities', name='term_merger')
-
-    config = {'overwrite_ents': True}
-    match_ruler = nlp.add_pipe('entity_ruler', name='numeric_ruler', config=config)
-    add_ruler_patterns(match_ruler, *MATCHERS1)
-
+    add_numeric_ruler_pipe(nlp)
+    # TODO
     return nlp
 
 
 def sentence_pipeline():
     """Setup the pipeline for extracting sentences."""
     nlp = spacy.blank('en')
+    add_sentence_term_pipe(nlp)
+    nlp.add_pipe('merge_entities')
+    add_sentence_pipe(nlp)
+    return nlp
 
+
+def add_term_ruler_pipe(nlp):
+    """Add a pipe to identify phrases and patterns as base-level traits."""
+    config = {'phrase_matcher_attr': 'LOWER'}
+    term_ruler = nlp.add_pipe(
+        'entity_ruler', name='term_ruler', config=config, before='parser')
+    term_ruler.add_patterns(TERMS.for_entity_ruler())
+
+
+def add_numeric_ruler_pipe(nlp):
+    """Add a pipe that converts number words & phrases (e.g. "two") into integers."""
+    config = {'overwrite_ents': True}
+    match_ruler = nlp.add_pipe('entity_ruler', name='numeric_ruler', config=config)
+    add_ruler_patterns(match_ruler, *MATCHERS1)
+
+
+def add_sentence_term_pipe(nlp):
+    """Add a pipe that adds terms used to split text into sentences."""
     config = {'phrase_matcher_attr': 'LOWER'}
     term_ruler = nlp.add_pipe('entity_ruler', config=config)
-    # add_ruler_patterns(term_ruler)
+    # TODO
+    # add_ruler_patterns(term_ruler, DOC_HEADING)
 
-    nlp.add_pipe('merge_entities')
 
+def add_sentence_pipe(nlp):
+    """Add a sentence splitter pipe."""
     abbrevs = """
         Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
         mm cm m
         al Am Anim Bio Biol Bull Bull Conserv DC Ecol Entomol Fig Figs Hist
         IUCN Inst Int Lond Me´m Mol Mus Nat nov Physiol Rep Sci Soc sp Syst Zool
         """.split()
-
     config = {'abbrevs': abbrevs, 'headings': ['heading']}
     nlp.add_pipe('sentence', config=config)
-
-    # print(nlp.pipe_names)
-    return nlp
 
 
 # class Pipeline(SpacyPipeline):
