@@ -3,7 +3,7 @@
 import re
 
 import spacy
-from traiter.consts import DASH, FLOAT_RE, INT_RE
+from traiter.consts import DASH, FLOAT_TOKEN_RE, INT_TOKEN_RE
 from traiter.util import to_positive_float
 
 from ..pylib.consts import REPLACE
@@ -21,12 +21,12 @@ NUMERIC = [
         'on_match': 'integer.v1',
         'patterns': [
             [
-                {'TEXT': {'REGEX': INT_RE}},
+                {'TEXT': {'REGEX': INT_TOKEN_RE}},
             ],
             [
-                {'TEXT': {'REGEX': INT_RE}},
+                {'TEXT': {'REGEX': INT_TOKEN_RE}},
                 {'LOWER': {'IN': TO}},
-                {'TEXT': {'REGEX': INT_RE}},
+                {'TEXT': {'REGEX': INT_TOKEN_RE}},
             ],
             [
                 {'LOWER': {'IN': OTHER_WORDS}},
@@ -41,13 +41,13 @@ NUMERIC = [
         'on_match': 'measurement.v1',
         'patterns': [
             [
-                {'TEXT': {'REGEX': FLOAT_RE}},
+                {'TEXT': {'REGEX': FLOAT_TOKEN_RE}},
                 {'TEXT': {'IN': DASH}},
-                {'TEXT': {'REGEX': FLOAT_RE}},
+                {'TEXT': {'REGEX': FLOAT_TOKEN_RE}},
                 {'ENT_TYPE': 'metric_length'},
             ],
             [
-                {'TEXT': {'REGEX': FLOAT_RE}},
+                {'TEXT': {'REGEX': FLOAT_TOKEN_RE}},
                 {'ENT_TYPE': 'metric_length'},
             ],
         ],
@@ -72,7 +72,7 @@ def measurement(span):
     """Build the range parts."""
     data = {}
 
-    values = [t.text for t in span if re.match(FLOAT_RE, t.text)]
+    values = [t.text for t in span if re.match(FLOAT_TOKEN_RE, t.text)]
     for field, value in zip(['low', 'high'], values):
         data[field] = to_positive_float(value)
 

@@ -10,7 +10,7 @@ ELEV_WORDS = """ elevation elev """.split()
 ELEVATION = [
     {
         'label': 'elevation',
-        'on_match': elevation,
+        'on_match': 'elevation.v1',
         'patterns': [
             [
                 {'LIKE_NUM': True},

@@ -1,7 +1,7 @@
 """Parse count notations."""
 
 import spacy
-from traiter.consts import INT_RE
+from traiter.consts import INT_TOKEN_RE
 from traiter.util import to_positive_int
 
 from ..pylib.consts import REPLACE
@@ -12,7 +12,7 @@ SEX_COUNT = [
         'on_match': 'sex_count.v1',
         'patterns': [
             [
-                {'TEXT': {'REGEX': INT_RE}},
+                {'TEXT': {'REGEX': INT_TOKEN_RE}},
                 {'ENT_TYPE': 'sex'},
             ]
         ]

@@ -3,17 +3,16 @@
 import re
 
 import spacy
+from traiter.consts import FLOAT_TOKEN_RE
 from traiter.util import to_positive_float
 
-from ..pylib.consts import EQ_, FLOAT_RE
-
-BAR = ['bar', 'bars']
+from ..pylib.consts import EQ_
 
 SIZE_PARTS = [
     {
         'label': 'bar',
         'patterns': [[
-            {'LOWER': {'IN': BAR}},
+            {'LOWER': {'IN': ['bar', 'bars']}},
         ]],
     },
     {
@@ -34,12 +33,12 @@ SIZE_PARTS = [
             [
                 {'LOWER': 'mean'},
                 {'IS_PUNCT': True, 'OP': '?'},
-                {'TEXT': {'REGEX': FLOAT_RE}},
+                {'TEXT': {'REGEX': FLOAT_TOKEN_RE}},
             ],
         ],
     },
     {
-        'label': 'n',
+        'label': 'sample',
         'on_match': 'sample.v1',
         'patterns': [[
             {'LOWER': 'n'},
@@ -61,7 +60,7 @@ SIZE = [
                 {'IS_PUNCT': True, 'OP': '?'},
                 {'ENT_TYPE': 'mean', 'OP': '?'},
                 {'IS_PUNCT': True, 'OP': '?'},
-                {'ENT_TYPE': 'n', 'OP': '?'},
+                {'ENT_TYPE': 'sample', 'OP': '?'},
                 {'IS_PUNCT': True, 'OP': '?'},
             ],
         ],
@@ -93,7 +92,7 @@ def mean(span):
 @spacy.registry.misc(SIZE_PARTS[2]['on_match'])
 def mean_no_units(span):
     """Convert the span into a single float."""
-    values = [t.text for t in span if re.match(FLOAT_RE, t.text)]
+    values = [t.text for t in span if re.match(FLOAT_TOKEN_RE, t.text)]
     return {'mean': to_positive_float(values[0])}
 
 
