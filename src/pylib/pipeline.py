@@ -1,7 +1,7 @@
 """Create a trait pipeline."""
 
 import spacy
-from traiter.patterns import add_ruler_patterns
+from traiter.pattern_utils import add_ruler_patterns
 
 from src.patterns.body_part import BODY_PART
 from src.patterns.body_part_count import BODY_PART_COUNT
