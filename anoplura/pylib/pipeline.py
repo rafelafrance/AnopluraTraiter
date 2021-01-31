@@ -1,17 +1,17 @@
 """Create a trait pipeline."""
 
 import spacy
-from traiter.pattern_utils import add_ruler_patterns
+from traiter.pattern_util import add_ruler_patterns
 
-from src.patterns.body_part import BODY_PART
-from src.patterns.body_part_count import BODY_PART_COUNT
-from src.patterns.length import LENGTH
-from src.patterns.max_width import MAX_WIDTH
-from src.patterns.numeric import NUMERIC
-from src.patterns.sci_name import SCI_NAME
-from src.patterns.seta_count import SETA_COUNT
-from src.patterns.size import SIZE
-from src.pylib.consts import TERMS
+from anoplura.patterns.body_part import BODY_PART
+from anoplura.patterns.body_part_count import BODY_PART_COUNT
+from anoplura.patterns.length import LENGTH
+from anoplura.patterns.max_width import MAX_WIDTH
+from anoplura.patterns.numeric import NUMERIC
+from anoplura.patterns.sci_name import SCI_NAME
+from anoplura.patterns.seta_count import SETA_COUNT
+from anoplura.patterns.size import SIZE
+from anoplura.pylib.consts import TERMS
 
 
 MATCHERS = [

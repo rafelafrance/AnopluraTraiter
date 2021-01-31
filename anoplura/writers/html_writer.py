@@ -63,7 +63,7 @@ def html_writer_(args, rows):
         row['traits'] = format_traits(row, classes)
 
     env = Environment(
-        loader=FileSystemLoader('./src/writers/templates'),
+        loader=FileSystemLoader('./anoplura/writers/templates'),
         autoescape=True)
 
     template = env.get_template('html_writer.html').render(

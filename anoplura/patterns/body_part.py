@@ -1,7 +1,7 @@
 """Extract body part annotations."""
 
 import spacy
-from traiter.consts import COMMA, DASH
+from traiter.const import COMMA, DASH
 from traiter.util import squash
 
 from ..pylib.consts import MISSING, REPLACE

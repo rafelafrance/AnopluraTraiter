@@ -15,8 +15,8 @@ from bs4 import BeautifulSoup
 import toml
 import traiter.util as t_util
 
-from src.pylib.pipeline import Pipeline
-from src.pylib.consts import DASH
+from anoplura.pylib.pipeline import Pipeline
+from anoplura.pylib.consts import DASH
 
 
 def main(args):

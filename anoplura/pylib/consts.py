@@ -11,7 +11,7 @@ PDF_DIR = DOC_DIR / 'pdf'
 TXT_DIR = DOC_DIR / 'txt'
 OUTPUT_DIR = Path.cwd() / 'output'
 MODEL_DIR = Path.cwd() / 'models'
-VOCAB_DIR = Path.cwd() / 'src' / 'vocabulary'
+VOCAB_DIR = Path.cwd() / 'anoplura' / 'vocabulary'
 
 TERMS = Itis.shared('animals insect_anatomy numerics')
 TERMS += Itis.shared('units', labels='metric_length')

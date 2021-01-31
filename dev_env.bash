@@ -1,8 +1,15 @@
 #!/usr/bin/env bash
 
-virtualenv --clear -p python3.8 venv
 
-./venv/bin/activate
+if [[ ! -z "$VIRTUAL_ENV" ]]; then
+  echo "'deactivate' before running this script."
+  exit 1
+fi
+
+rm -rf venv
+virtualenv -p python3.8 venv
+
+source ./venv/bin/activate
 
 python -m pip install --upgrade pip setuptools wheel
 if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
