@@ -1,70 +1,44 @@
 """Extract body part annotations."""
 
+import re
+
 import spacy
-from traiter.const import COMMA, DASH
-from traiter.util import squash
+from traiter.const import COMMA
+from traiter.patterns.matcher_patterns import MatcherPatterns
 
-from ..pylib.consts import MISSING, REPLACE
+from anoplura.pylib.const import COMMON_PATTERNS, CONJ, MISSING, REPLACE
 
-JOINER = ['and', 'or'] + COMMA
+JOINER = CONJ + COMMA
 
-BODY_PART = [
-    {
-        'label': 'body_part',
-        'on_match': 'body_part.v1',
-        'patterns': [
-            [
-                {'ENT_TYPE': 'part', 'OP': '+'},
-            ],
-            [
-                {'ENT_TYPE': 'segment'},
-                {'ENT_TYPE': 'part', 'OP': '+'},
-            ],
-            [
-                {'ENT_TYPE': 'part', 'OP': '+'},
-                {'ENT_TYPE': 'segment'},
-            ],
-            [
-                {'LOWER': {'IN': MISSING}, 'OP': '?'},
-                {'ENT_TYPE': 'part', 'OP': '+'},
-            ],
-            [
-                {'ENT_TYPE': {'IN': ['ordinal']}},
-                {'TEXT': {'IN': DASH}, 'OP': '?'},
-                {'ENT_TYPE': 'part', 'OP': '+'},
-            ],
-            [
-                {'ENT_TYPE': 'part', 'OP': '+'},
-                {'ENT_TYPE': {'IN': ['integer', 'ordinal']}, 'OP': '?'},
-                {'TEXT': {'IN': DASH}, 'OP': '?'},
-                {'ENT_TYPE': {'IN': ['integer', 'ordinal']}},
-            ],
-            [
-                {'LOWER': {'IN': MISSING}, 'OP': '?'},
-                {'ENT_TYPE': {'IN': ['part_loc', 'part']}, 'OP': '*'},
-                {'ENT_TYPE': 'part'},
-            ],
-            [
-                {'ENT_TYPE': 'part', 'OP': '+'},
-                {'LOWER': {'IN': JOINER}, 'OP': '*'},
-                {'ENT_TYPE': 'part', 'OP': '*'},
-                {'LOWER': {'IN': JOINER}, 'OP': '*'},
-                {'ENT_TYPE': 'part', 'OP': '+'},
-            ],
-        ],
+BODY_PART = MatcherPatterns(
+    'body_part',
+    on_match='body_part.v1',
+    decoder=COMMON_PATTERNS | {
+        'seg': {'ENT_TYPE': 'segment'},
+        'ordinal': {'ENT_TYPE': 'ordinal'},
+        '99/ord': {'ENT_TYPE': {'IN': ['integer', 'ordinal']}},
     },
-]
+    patterns=[
+        'missing part+',
+        'missing? any_part* part',
+        'ordinal -? part+',
+        'part+ &/,/or* part* &/,/or* part+',
+        'part+ 99/ord -? 99/ord',
+        'part+ seg?',
+        'seg part+',
+    ],
+)
 
 
-@spacy.registry.misc(BODY_PART[0]['on_match'])
-def body_part(span):
+@spacy.registry.misc(BODY_PART.on_match)
+def body_part(ent):
     """Enrich the match."""
     data = {}
 
-    parts = [REPLACE.get(t.lower_, t.lower_) for t in span if t.ent_type_ == 'part']
-    data['body_part'] = squash(parts)
+    parts = [REPLACE.get(t.lower_, t.lower_) for t in ent if t.text not in JOINER]
+    data['body_part'] = re.sub(r'\s*-\s*', '-', ' '.join(parts))
 
-    if [t for t in span if t.lower_ in MISSING]:
+    if [t for t in ent if t.lower_ in MISSING]:
         data['missing'] = True
 
-    return data
+    ent._.data = data

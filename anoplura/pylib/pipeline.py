@@ -1,99 +1,76 @@
 """Create a trait pipeline."""
 
 import spacy
-from traiter.pattern_util import add_ruler_patterns
+from traiter.patterns.matcher_patterns import add_ruler_patterns, as_dicts
+from traiter.pipes.add_entity_data import ADD_ENTITY_DATA
+from traiter.pipes.debug import DEBUG_ENTITIES, DEBUG_TOKENS
+from traiter.pipes.sentence import SENTENCE
+from traiter.pipes.simple_entity_data import SIMPLE_ENTITY_DATA
+from traiter.tokenizer_util import append_abbrevs
 
 from anoplura.patterns.body_part import BODY_PART
 from anoplura.patterns.body_part_count import BODY_PART_COUNT
 from anoplura.patterns.length import LENGTH
 from anoplura.patterns.max_width import MAX_WIDTH
-from anoplura.patterns.numeric import NUMERIC
-from anoplura.patterns.sci_name import SCI_NAME
-from anoplura.patterns.seta_count import SETA_COUNT
+from anoplura.patterns.sci_name import GENUS, SCI_NAME
+from anoplura.patterns.seta_count import MULTIPLE_SETA, SETAE, SETAE_ABBREV, SETA_COUNT
 from anoplura.patterns.size import SIZE
-from anoplura.pylib.consts import TERMS
+from anoplura.pylib.const import ABBREVS, REPLACE, TERMS
+
+GROUPERS = [BODY_PART, GENUS, SCI_NAME, SETAE, SETAE_ABBREV]
+MATCHERS = [BODY_PART_COUNT, LENGTH, MAX_WIDTH, MULTIPLE_SETA, SETA_COUNT, SIZE]
+
+DEBUG_COUNT = 0  # Used to rename debug pipes
 
 
-MATCHERS = [
-    BODY_PART, BODY_PART_COUNT, LENGTH, MAX_WIDTH, NUMERIC,
-    SCI_NAME, SETA_COUNT, SIZE]
-
-MATCHERS1 = [NUMERIC]
-
-
-def trait_pipeline():
+def pipeline():
     """Setup the pipeline for extracting traits."""
     nlp = spacy.load('en_core_web_sm', exclude=['ner', 'lemmatizer'])
-    add_term_ruler_pipe(nlp)
-    nlp.add_pipe('merge_entities', name='term_merger')
-    add_numeric_ruler_pipe(nlp)
-    # TODO
-    return nlp
+    append_abbrevs(nlp, ABBREVS)
 
+    # add_debug_pipes(nlp, 'after tokenizer')  # #####################################
 
-def sentence_pipeline():
-    """Setup the pipeline for extracting sentences."""
-    nlp = spacy.blank('en')
-    add_sentence_term_pipe(nlp)
-    nlp.add_pipe('merge_entities')
-    add_sentence_pipe(nlp)
-    return nlp
-
-
-def add_term_ruler_pipe(nlp):
-    """Add a pipe to identify phrases and patterns as base-level traits."""
+    # Add a pipe to identify phrases and patterns as base-level traits.
     config = {'phrase_matcher_attr': 'LOWER'}
     term_ruler = nlp.add_pipe(
         'entity_ruler', name='term_ruler', config=config, before='parser')
     term_ruler.add_patterns(TERMS.for_entity_ruler())
 
+    nlp.add_pipe(SENTENCE, before='parser')
 
-def add_numeric_ruler_pipe(nlp):
-    """Add a pipe that converts number words & phrases (e.g. "two") into integers."""
+    nlp.add_pipe('merge_entities', name='term_merger')
+
+    # Add a pipe to group tokens into larger traits
     config = {'overwrite_ents': True}
-    match_ruler = nlp.add_pipe('entity_ruler', name='numeric_ruler', config=config)
-    add_ruler_patterns(match_ruler, *MATCHERS1)
+    group_ruler = nlp.add_pipe(
+        'entity_ruler', name='group_ruler', config=config, after='term_ruler')
+    add_ruler_patterns(group_ruler, GROUPERS)
+
+    nlp.add_pipe('merge_entities', name='group_merger')
+
+    nlp.add_pipe(SIMPLE_ENTITY_DATA, after='term_merger', config={'replace': REPLACE})
+
+    # Add a pipe to group tokens into larger traits
+    config = {'overwrite_ents': True}
+    match_ruler = nlp.add_pipe('entity_ruler', name='match_ruler', config=config)
+    add_ruler_patterns(match_ruler, MATCHERS)
+
+    nlp.add_pipe(ADD_ENTITY_DATA, config={'patterns': as_dicts(MATCHERS)})
+
+    # add_debug_pipes(nlp, 'after add data', entities=True)  # ########################
+
+    # config = {'patterns': as_dict(PART_LINKER, SEX_LINKER, SUBPART_LINKER)}
+    # nlp.add_pipe(DEPENDENCY, name='part_linker', config=config)
+
+    return nlp
 
 
-def add_sentence_term_pipe(nlp):
-    """Add a pipe that adds terms used to split text into sentences."""
-    config = {'phrase_matcher_attr': 'LOWER'}
-    term_ruler = nlp.add_pipe('entity_ruler', config=config)
-    # TODO
-    # add_ruler_patterns(term_ruler, DOC_HEADING)
-
-
-def add_sentence_pipe(nlp):
-    """Add a sentence splitter pipe."""
-    abbrevs = """
-        Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
-        mm cm m
-        al Am Anim Bio Biol Bull Bull Conserv DC Ecol Entomol Fig Figs Hist
-        IUCN Inst Int Lond Me´m Mol Mus Nat nov Physiol Rep Sci Soc sp Syst Zool
-        """.split()
-    config = {'abbrevs': abbrevs, 'headings': ['heading']}
-    nlp.add_pipe('sentence', config=config)
-
-
-# class Pipeline(SpacyPipeline):
-#     """Build a traiter pipeline."""
-#
-#     def __init__(self):
-#         super().__init__()
-#
-#         self.nlp.max_length *= 2
-#         self.nlp.disable_pipes(['ner'])
-#
-#         token2entity = {GROUP_STEP, TRAIT_STEP, ATTACH_STEP, DESCRIPTION_STEP}
-#         entities2keep = {GROUP_STEP, TRAIT_STEP, ATTACH_STEP}
-#
-#         Term.add_pipes(self.nlp, TERMS, before='parser')
-#         Sentencizer.add_pipe(
-#             self.nlp, abbrevs=ABBREVS, headings='heading', before='parser')
-#         Rule.add_pipe(self.nlp, MATCHERS, NUMERIC_STEP)
-#         Rule.add_pipe(self.nlp, MATCHERS, GROUP_STEP)
-#         Rule.add_pipe(self.nlp, MATCHERS, TRAIT_STEP)
-#         Rule.add_pipe(self.nlp, MATCHERS, ATTACH_STEP)
-#         # Split.add_pipe(self.nlp, MATCHERS, DESCRIPTION_STEP)
-#         ToEntities.add_pipe(self.nlp, entities2keep, token2entity)
-#         self.nlp.add_pipe(description)
+def add_debug_pipes(nlp, message='', tokens=True, entities=False):
+    """Add pipes for debugging."""
+    global DEBUG_COUNT
+    DEBUG_COUNT += 1
+    config = {'message': message}
+    if tokens:
+        nlp.add_pipe(DEBUG_TOKENS, name=f'tokens{DEBUG_COUNT}', config=config)
+    if entities:
+        nlp.add_pipe(DEBUG_ENTITIES, name=f'entities{DEBUG_COUNT}', config=config)

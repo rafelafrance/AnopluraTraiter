@@ -1,37 +1,30 @@
 """Extract body part count notations."""
 
+import re
+
 import spacy
+from traiter.const import INT_TOKEN_RE
+from traiter.patterns.matcher_patterns import MatcherPatterns
+from traiter.util import to_positive_int
 
-from ..pylib.consts import REPLACE
+from anoplura.pylib.const import COMMON_PATTERNS, REPLACE
 
-BODY_PART_COUNT = [
-    {
-        'label': 'body_part_count',
-        'on_match': 'body_part_count.v1',
-        'patterns': [
-            [
-                {'ENT_TYPE': 'integer'},
-                {'ENT_TYPE': '', 'OP': '?'},
-                {'ENT_TYPE': '', 'OP': '?'},
-                {'ENT_TYPE': 'body_part'},
-            ],
-        ],
-    },
-]
+BODY_PART_COUNT = MatcherPatterns(
+    'body_part_count',
+    on_match='body_part_count.v1',
+    decoder=COMMON_PATTERNS,
+    patterns=['99 not_ent? not_ent? part'],
+)
 
 
-@spacy.registry.misc(BODY_PART_COUNT[0]['on_match'])
-def body_part_count(span):
+@spacy.registry.misc(BODY_PART_COUNT.on_match)
+def body_part_count(ent):
     """Enrich the match."""
-    data = {}
+    part = [e.text for e in ent.ents if e._.cached_label == 'part'][0]
+    part = part.lower()
+    part = REPLACE.get(part, part)
 
-    for token in span:
-        label = token.ent_type_
+    count = [t.text for t in ent if re.search(INT_TOKEN_RE, t.text)][0]
+    count = to_positive_int(count)
 
-        if label == 'body_part':
-            data['body_part'] = REPLACE.get(token.lower_, token.lower_)
-
-        elif label == 'integer':
-            data = {**data, **token._.data}
-
-    return data
+    ent._.data = {'body_part': part, 'count': count}

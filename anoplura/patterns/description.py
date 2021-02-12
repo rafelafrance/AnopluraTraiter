@@ -2,7 +2,7 @@
 
 from spacy.tokens import Span
 
-from ..pylib.consts import DESCRIPTION_STEP
+from anoplura.pylib.const import DESCRIPTION_STEP
 
 
 def description(doc):

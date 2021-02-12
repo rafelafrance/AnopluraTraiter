@@ -1,86 +1,64 @@
 """Extract setae count notations."""
 
 import spacy
-from traiter.consts import CLOSE, OPEN
+from traiter.patterns.matcher_patterns import MatcherPatterns
 
-from ..pylib.consts import REPLACE
+from anoplura.pylib.const import COMMON_PATTERNS, REPLACE
 
-SETAE = [
-    {
-        'label': 'setae',
-        'patterns': [
-            [
-                {'ENT_TYPE': 'body_part', 'OP': '*'},
-                {'ENT_TYPE': 'seta'},
-            ],
-            [
-                {'ENT_TYPE': 'part_loc', 'OP': '+'},
-                {'ENT_TYPE': 'seta'},
-            ],
-        ],
-    },
-]
+DECODER = COMMON_PATTERNS | {
+    'seta': {'ENT_TYPE': 'seta'},
+    'setae': {'ENT_TYPE': 'setae'},
+    'seta_abbrev': {'ENT_TYPE': 'seta_abbrev'},
+    'filler': {'POS': {'IN': ['ADP', 'ADJ']}},
+    'group': {'ENT_TYPE': 'group'},
+    '99': {'ENT_TYPE': 'integer'},
+    'not_ent': {'ENT_TYPE': ''},
+    'loc': {'ENT_TYPE': 'part_loc'},
+    'part/loc': {'ENT_TYPE': {'IN': ['part_loc', 'body_part']}},
+    'cconj': {'POS': 'CCONJ'},
+}
 
-SETA_COUNT = [
-    {
-        'label': 'seta_count',
-        'on_match': 'seta_count.v1',
-        'patterns': [
-            [
-                {'ENT_TYPE': 'integer'},
-                {'ENT_TYPE': '', 'OP': '?'},
-                {'ENT_TYPE': '', 'OP': '?'},
-                {'ENT_TYPE': 'setae'},
-                {'TEXT': {'IN': OPEN}, 'OP': '?'},
-                {'ENT_TYPE': 'seta_abbrev'},
-                {'TEXT': {'IN': CLOSE}, 'OP': '?'},
-            ],
-            [
-                {'ENT_TYPE': 'integer'},
-                {'ENT_TYPE': '', 'OP': '?'},
-                {'ENT_TYPE': '', 'OP': '?'},
-                {'ENT_TYPE': 'setae'},
-                {'POS': {'IN': ['ADP', 'ADJ']}, 'OP': '?'},
-                {'ENT_TYPE': 'group'}
-            ],
-            [
-                {'ENT_TYPE': 'integer'},
-                {'ENT_TYPE': '', 'OP': '?'},
-                {'ENT_TYPE': '', 'OP': '?'},
-                {'ENT_TYPE': '', 'OP': '?'},
-                {'ENT_TYPE': '', 'OP': '?'},
-                {'ENT_TYPE': 'setae'},
-            ],
-        ],
-    },
-    {
-        'label': 'seta_count',
-        'on_match': 'multiple_seta_count.v1',
-        'patterns': [
-            [
-                {'ENT_TYPE': 'integer'},
-                {'ENT_TYPE': '', 'OP': '?'},
-                {'ENT_TYPE': '', 'OP': '?'},
-                {'POS': {'IN': ['CCONJ']}, 'OP': '?'},
-                {'ENT_TYPE': 'integer'},
-                {'ENT_TYPE': '', 'OP': '?'},
-                {'ENT_TYPE': '', 'OP': '?'},
-                {'ENT_TYPE': {'IN': ['part_loc']}, 'OP': '*'},
-                {'ENT_TYPE': {'IN': ['part_loc', 'body_part']}, 'OP': '?'},
-                {'ENT_TYPE': 'setae'},
-            ],
-        ],
-    },
-]
+SETAE = MatcherPatterns(
+    'setae',
+    decoder=DECODER,
+    patterns=[
+        'part* seta',
+        'any_part+ seta',
+    ],
+)
+
+SETAE_ABBREV = MatcherPatterns(
+    'setae_abbrev',
+    decoder=DECODER,
+    patterns=['(? seta_abbrev )?'],
+)
+
+SETA_COUNT = MatcherPatterns(
+    'seta_count',
+    on_match='seta_count.v1',
+    decoder=DECODER,
+    patterns=[
+        ' 99 not_ent? not_ent? setae seta_abbrev',
+        ' 99 not_ent? not_ent? setae filler group ',
+        ' 99 not_ent? not_ent? not_ent? not_ent? not_ent? setae ',
+    ],
+)
+
+MULTIPLE_SETA = MatcherPatterns(
+    'multiple_seta_count',
+    on_match='multiple_seta_count.v1',
+    decoder=DECODER,
+    patterns=['99 not_ent? not_ent? cconj? 99 not_ent? not_ent? loc* part/loc? setae'],
+)
 
 
-@spacy.registry.misc(SETA_COUNT[0]['on_match'])
-def seta_count(span):
+@spacy.registry.misc(SETA_COUNT.on_match)
+def seta_count(ent):
     """Enrich the match."""
     data = {'body_part': 'seta'}
     location = []
 
-    for token in span:
+    for token in ent:
         label = token.ent_type_
 
         if label == 'setae':
@@ -98,16 +76,16 @@ def seta_count(span):
     if location:
         data['type'] = ' '.join(location)
 
-    return data
+    ent._.data = data
 
 
-@spacy.registry.misc(SETA_COUNT[1]['on_match'])
-def multiple_seta_count(span):
+@spacy.registry.misc(MULTIPLE_SETA.on_match)
+def multiple_seta_count(ent):
     """Handle multiple setae in one match."""
     data = {'body_part': 'seta'}
     low, high = 0, 0
 
-    for token in span:
+    for token in ent:
         label = token.ent_type_
 
         if label == 'setae':
@@ -129,4 +107,4 @@ def multiple_seta_count(span):
     else:
         data['count'] = low
 
-    return data
+    ent._.data = data

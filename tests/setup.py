@@ -2,13 +2,13 @@
 
 from typing import Dict, List
 
-# from spacy import displacy
 from traiter.util import clean_text, shorten
 
-from anoplura.pylib.pipeline import trait_pipeline
+from anoplura.pylib.pipeline import pipeline
 
-NLP = trait_pipeline()  # Singleton for testing
+NLP = pipeline()  # Singleton for testing
 
+# Translate characters resulting from PDF madness
 TRANS = str.maketrans({'¼': '=', '⫻': '×', '#': '♂', '$': '♀'})
 
 
@@ -24,6 +24,8 @@ def test_traits(text: str) -> List[Dict]:
     # from pprint import pp
     # pp(traits)
 
-    # displacy.serve(doc)
+    # from spacy import displacy
+    # options = {'collapse_punct': False, 'compact': True}
+    # displacy.serve(doc, options=options)
 
     return traits

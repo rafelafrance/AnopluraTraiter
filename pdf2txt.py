@@ -16,7 +16,7 @@ import toml
 import traiter.util as t_util
 
 from anoplura.pylib.pipeline import Pipeline
-from anoplura.pylib.consts import DASH
+from anoplura.pylib.const import DASH
 
 
 def main(args):

@@ -1,31 +1,30 @@
 """Parse count notations."""
 
 import spacy
-from traiter.consts import INT_TOKEN_RE
+from traiter.const import INT_TOKEN_RE
+from traiter.patterns.matcher_patterns import MatcherPatterns
 from traiter.util import to_positive_int
 
-from ..pylib.consts import REPLACE
+from anoplura.pylib.const import REPLACE
 
-SEX_COUNT = [
-    {
-        'label': 'sex_count',
-        'on_match': 'sex_count.v1',
-        'patterns': [
-            [
-                {'TEXT': {'REGEX': INT_TOKEN_RE}},
-                {'ENT_TYPE': 'sex'},
-            ]
+SEX_COUNT = MatcherPatterns(
+    'sex_count',
+    on_match='sex_count.v1',
+    patterns=[
+        [
+            {'IS_DIGIT': True},
+            {'ENT_TYPE': 'sex'},
         ]
-    },
-]
+    ]
+)
 
 
-@spacy.registry.misc(SEX_COUNT[0]['on_match'])
-def sex_count(span):
+@spacy.registry.misc(SEX_COUNT.on_match)
+def sex_count(ent):
     """Enrich the match with data."""
     data = {}
 
-    for token in span:
+    for token in ent:
         label = token.ent_type_
         value = token.lower_
 
@@ -36,4 +35,4 @@ def sex_count(span):
         else:
             return {}
 
-    return data
+    ent._.data = data
