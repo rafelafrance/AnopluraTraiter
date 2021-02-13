@@ -7,74 +7,67 @@ from traiter.const import FLOAT_TOKEN_RE
 from traiter.patterns.matcher_patterns import MatcherPatterns
 from traiter.util import to_positive_float
 
-from anoplura.pylib.const import EQ_
+from anoplura.pylib.const import EQ_, COMMON_PATTERNS
 
-BAR = MatcherPatterns(
-    'bar',
-    patterns=[[{'LOWER': {'IN': ['bar', 'bars']}}]],
+
+DECODER = COMMON_PATTERNS | {
+    'bar': {'LOWER': {'IN': ['bar', 'bars']}},
+    'mean_word': {'LOWER': 'mean'},
+    './,': {'IS_PUNCT': True},
+    'n': {'LOWER': 'n'},
+    'measurement': {'ENT_TYPE': 'measurement'},
+    'mean': {'ENT_TYPE': 'mean'},
+    'sample': {'ENT_TYPE': 'sample'},
+}
+
+
+MEASUREMENT = MatcherPatterns(
+    'measurement',
+    on_match='measurement.v1',
+    decoder=DECODER,
+    patterns=[
+        '99.9 cm'
+        '99.9 - 99.9 cm'
+    ],
 )
 
 MEAN = MatcherPatterns(
     'mean',
     on_match='mean.v1',
-    patterns=[
-        [
-            {'LOWER': 'mean'},
-            {'IS_PUNCT': True, 'OP': '?'},
-            {'ENT_TYPE': 'measurement'},
-        ],
-    ],
-)
-
-MEAN_NO_UNITS = MatcherPatterns(
-    'mean_no_units',
-    on_match='mean_no_units.v1',
-    patterns=[
-        [
-            {'LOWER': 'mean'},
-            {'IS_PUNCT': True, 'OP': '?'},
-            {'TEXT': {'REGEX': FLOAT_TOKEN_RE}},
-        ],
-    ],
+    decoder=DECODER,
+    patterns=['mean_word ./,? 99.9 cm?'],
 )
 
 SAMPLE = MatcherPatterns(
     'sample',
     on_match='sample.v1',
-    patterns=[[
-        {'LOWER': 'n'},
-        {'TEXT': {'IN': EQ_}},
-        {'ENT_TYPE': 'integer'},
-    ]],
+    decoder=DECODER,
+    patterns=['n = 99'],
 )
 
 SIZE = MatcherPatterns(
     'size',
     on_match='size.v1',
-    patterns=[
-        [
-            {'ENT_TYPE': 'bar', 'OP': '?'},
-            {'IS_PUNCT': True, 'OP': '?'},
-            {'ENT_TYPE': 'measurement'},
-            {'IS_PUNCT': True, 'OP': '?'},
-            {'ENT_TYPE': {'IN': ['mean', 'mean_no_units']}, 'OP': '?'},
-            {'IS_PUNCT': True, 'OP': '?'},
-            {'ENT_TYPE': 'sample', 'OP': '?'},
-            {'IS_PUNCT': True, 'OP': '?'},
-        ],
-    ],
+    decoder=DECODER,
+    patterns=['bar? ./,? measurement ./,? mean? ./,? sample? ./,?'],
 )
 
 
 @spacy.registry.misc(SIZE.on_match)
 def size(ent):
-    """Enrich a phrase match."""
+    """Enrich a size match."""
+    print(ent)
     data = {}
     for token in ent:
         if token.ent_type_ in ('measurement', 'mean', 'n'):
             data = {**token._.data, **data}
     ent._.data = data
 
+
+@spacy.registry.misc(SIZE.on_match)
+def measurement(ent):
+    """Enrich a measurement match."""
+    print(ent)
 
 @spacy.registry.misc(MEAN.on_match)
 def mean(ent):

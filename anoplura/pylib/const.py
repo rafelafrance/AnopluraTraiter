@@ -49,7 +49,7 @@ COMMON_PATTERNS = {
     ')': {'TEXT': {'IN': CLOSE}},
     '=': {'TEXT': {'IN': EQ_}},  # ¼ = 0xbc
     'x': {'LOWER': {'IN': CROSS + ['⫻']}},  # ⫻ = 0x3f
-    '-': {'LOWER': {'IN': DASH}},
+    '-': {'TEXT': {'IN': DASH}},
     '-/to': {'LOWER': {'IN': DASH + ['to']}},
     '&/or': {'LOWER': {'IN': CONJ}},
     '&/,/or': {'LOWER': {'IN': CONJ + COMMA}},
@@ -62,3 +62,9 @@ COMMON_PATTERNS = {
     'missing': {'LOWER': {'IN': MISSING}},
     'not_ent': {'ENT_TYPE': ''},
 }
+
+# #########################################################################
+# Remove these stray entities
+FORGET = """
+    part_loc sclerotin stop
+    """.split()

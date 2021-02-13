@@ -42,6 +42,9 @@ seta_abbrev,vmas,lower,ventral marginal abdominal seta
 seta_abbrev,vpahs,lower,ventral preantennal head seta
 seta_abbrev,vphs,lower,ventral principal head seta
 seta_abbrev,vpomhs,lower,ventral posterior marginal head seta
+stop,.,lower,
+stop,;,lower,
+stop,", with",lower,
 type,allotype,lower,allotype
 type,allotypes,lower,allotype
 type,holotype,lower,holotype

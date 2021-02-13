@@ -1,7 +1,6 @@
 """Parse count notations."""
 
 import spacy
-from traiter.const import INT_TOKEN_RE
 from traiter.patterns.matcher_patterns import MatcherPatterns
 from traiter.util import to_positive_int
 
@@ -32,7 +31,5 @@ def sex_count(ent):
             data['sex'] = REPLACE[value]
         elif (as_int := to_positive_int(value)) is not None:
             data['count'] = as_int
-        else:
-            return {}
 
     ent._.data = data
