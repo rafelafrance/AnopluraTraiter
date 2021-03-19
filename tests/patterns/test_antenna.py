@@ -25,7 +25,7 @@ class TestAntenna(unittest.TestCase):
                 much larger than second segment; fourth segment slightly
                 extended posterolaterally.
                 """),
-            [{'body_part': 'antennae five-segmented',
+            [{'body_part': 'antenna 5-segmented',
               'trait': 'body_part',
               'start': 0,
               'end': 23},
@@ -47,12 +47,12 @@ class TestAntenna(unittest.TestCase):
                 sexually dimorphic.
                 """),
             [{'body_part': 'head', 'trait': 'body_part', 'start': 0, 'end': 4},
-             {'body_part': 'lacking eyes',
+             {'body_part': 'lacking eye',
               'missing': True,
               'trait': 'body_part',
               'start': 5,
               'end': 17},
-             {'body_part': '5-segmented antennae',
+             {'body_part': '5-segmented antenna',
               'trait': 'body_part',
               'start': 24,
               'end': 44,
@@ -64,7 +64,7 @@ class TestAntenna(unittest.TestCase):
             test_traits("""
                 third antennal segment modified with anterodorsal projection.
                 """),
-            [{'body_part': 'third antennal segment',
+            [{'body_part': 'third antenna segment',
               'trait': 'body_part',
               'start': 0,
               'end': 22,
@@ -74,7 +74,7 @@ class TestAntenna(unittest.TestCase):
     def test_antenna_05(self):
         self.assertEqual(
             test_traits('Antennal segments 3-5 not fused;'),
-            [{'body_part': 'antennal segments 3-5',
+            [{'body_part': 'antenna segment 3-5',
               'trait': 'body_part',
               'start': 0,
               'end': 21,

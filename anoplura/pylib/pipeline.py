@@ -3,12 +3,13 @@
 import spacy
 from traiter.patterns.matcher_patterns import add_ruler_patterns, as_dicts
 from traiter.pipes.add_entity_data import ADD_ENTITY_DATA
+from traiter.pipes.cache import CACHE_LABEL
 from traiter.pipes.cleanup import CLEANUP
 from traiter.pipes.debug import DEBUG_ENTITIES, DEBUG_TOKENS
 from traiter.pipes.sentence import SENTENCE
 from traiter.pipes.simple_entity_data import SIMPLE_ENTITY_DATA
 from traiter.pipes.update_entity_data import UPDATE_ENTITY_DATA
-from traiter.tokenizer_util import append_abbrevs
+from traiter.tokenizer_util import append_abbrevs, append_tokenizer_regexes
 
 from anoplura.patterns.body_part import BODY_PART
 from anoplura.patterns.body_part_count import BODY_PART_COUNT
@@ -17,10 +18,10 @@ from anoplura.patterns.length import LENGTH
 from anoplura.patterns.max_width import MAX_WIDTH
 from anoplura.patterns.sci_name import GENUS, SCI_NAME
 from anoplura.patterns.seta_count import MULTIPLE_SETA, SETAE, SETAE_ABBREV, SETA_COUNT
-from anoplura.patterns.size import MEAN, SAMPLE, SIZE
+from anoplura.patterns.size import MEAN, MEASUREMENT, SAMPLE, SIZE
 from anoplura.pylib.const import ABBREVS, FORGET, REPLACE, TERMS
 
-GROUPERS = [BODY_PART, GENUS, SCI_NAME, SETAE, SETAE_ABBREV,  MEAN, SAMPLE]
+GROUPERS = [BODY_PART, GENUS, SCI_NAME, SETAE, SETAE_ABBREV, MEAN, MEASUREMENT, SAMPLE]
 MATCHERS = [BODY_PART_COUNT, LENGTH, MAX_WIDTH, MULTIPLE_SETA, SETA_COUNT, SIZE]
 
 DEBUG_COUNT = 0  # Used to rename debug pipes
@@ -29,31 +30,34 @@ DEBUG_COUNT = 0  # Used to rename debug pipes
 def pipeline():
     """Setup the pipeline for extracting traits."""
     nlp = spacy.load('en_core_web_sm', exclude=['ner', 'lemmatizer'])
+    append_tokenizer_regexes(nlp)
     append_abbrevs(nlp, ABBREVS)
 
-    add_debug_pipes(nlp, 'after tokenizer')  # #####################################
+    # add_debug_pipes(nlp, 'after parser', after='parser')  # #########################
 
     # Add a pipe to identify phrases and patterns as base-level traits.
     config = {'phrase_matcher_attr': 'LOWER'}
     term_ruler = nlp.add_pipe(
         'entity_ruler', name='term_ruler', config=config, before='parser')
     term_ruler.add_patterns(TERMS.for_entity_ruler())
+    nlp.add_pipe('merge_entities', name='term_merger')
+    nlp.add_pipe(SIMPLE_ENTITY_DATA, after='term_merger', config={'replace': REPLACE})
 
     # add_debug_pipes(nlp, 'after term_ruler')  # ####################################
 
-    nlp.add_pipe(SENTENCE, before='parser')
-
-    nlp.add_pipe('merge_entities', name='term_merger')
+    nlp.add_pipe(SENTENCE, before='parser', config={'automatic': ['heading']})
 
     # Add a pipe to group tokens into larger traits
     config = {'overwrite_ents': True}
     group_ruler = nlp.add_pipe(
-        'entity_ruler', name='group_ruler', config=config, after='term_ruler')
+        'entity_ruler', name='group_ruler', config=config, after=SIMPLE_ENTITY_DATA)
     add_ruler_patterns(group_ruler, GROUPERS)
 
-    nlp.add_pipe('merge_entities', name='group_merger')
+    nlp.add_pipe(
+        ADD_ENTITY_DATA, name='group_data', config={'patterns': as_dicts(GROUPERS)})
+    nlp.add_pipe(CACHE_LABEL)
 
-    nlp.add_pipe(SIMPLE_ENTITY_DATA, after='term_merger', config={'replace': REPLACE})
+    nlp.add_pipe('merge_entities', name='group_merger')
 
     # Add a pipe to group tokens into larger traits
     config = {'overwrite_ents': True}
@@ -62,7 +66,7 @@ def pipeline():
 
     # add_debug_pipes(nlp, 'before add data', entities=True)  # #######################
 
-    nlp.add_pipe(ADD_ENTITY_DATA, config={'patterns': as_dicts(MATCHERS + GROUPERS)})
+    nlp.add_pipe(ADD_ENTITY_DATA, config={'patterns': as_dicts(MATCHERS)})
 
     # add_debug_pipes(nlp, 'after add data', entities=True)  # ########################
 
@@ -77,12 +81,22 @@ def pipeline():
     return nlp
 
 
-def add_debug_pipes(nlp, message='', tokens=True, entities=False):
+def add_debug_pipes(nlp, message='', tokens=True, entities=False, **kwargs):
     """Add pipes for debugging."""
     global DEBUG_COUNT
     DEBUG_COUNT += 1
     config = {'message': message}
     if tokens:
-        nlp.add_pipe(DEBUG_TOKENS, name=f'debug_tokens{DEBUG_COUNT}', config=config)
+        nlp.add_pipe(
+            DEBUG_TOKENS,
+            name=f'debug_tokens{DEBUG_COUNT}',
+            config=config,
+            **kwargs,
+        )
     if entities:
-        nlp.add_pipe(DEBUG_ENTITIES, name=f'debug_entities{DEBUG_COUNT}', config=config)
+        nlp.add_pipe(
+            DEBUG_ENTITIES,
+            name=f'debug_entities{DEBUG_COUNT}',
+            config=config,
+            **kwargs,
+        )

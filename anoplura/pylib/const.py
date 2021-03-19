@@ -66,5 +66,5 @@ COMMON_PATTERNS = {
 # #########################################################################
 # Remove these stray entities
 FORGET = """
-    part_loc sclerotin stop
+    number_word part_loc sclerotin stop
     """.split()

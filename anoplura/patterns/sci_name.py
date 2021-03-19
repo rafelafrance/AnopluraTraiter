@@ -23,9 +23,10 @@ GENUS = MatcherPatterns(
 @spacy.registry.misc(SCI_NAME.on_match)
 def sci_name(ent):
     """Enrich the match."""
+    print(ent)
     ent._.data = {
-        'sci_name': REPLACE.get(ent.lower_, ent.text.capitalize()),
-        'group': ent[0].ent_type_,
+        'sci_name': REPLACE.get(ent.text.lower(), ent.text.capitalize()),
+        'group': ent[0]._.cached_label,
     }
 
 
@@ -33,6 +34,6 @@ def sci_name(ent):
 def genus(ent):
     """Enrich the match."""
     ent._.data = {
-        'genus': REPLACE.get(ent.lower_, ent.text.capitalize()),
-        'group': ent[0].ent_type_.split('_')[0],
+        'genus': REPLACE.get(ent.text.lower(), ent.text.capitalize()),
+        'group': ent[0]._.cached_label.split('_')[0],
     }

@@ -11,8 +11,12 @@ class TestSciName(unittest.TestCase):
     def test_sci_name_01(self):
         self.assertEqual(
             test_traits('females of L. CLAYTONI sp. nov., .'),
-            [{'sci_name': 'L. claytoni', 'group': 'anoplura',
-              'trait': 'sci_name', 'start': 11, 'end': 22}]
+            [{'sex': 'female', 'trait': 'sex', 'start': 0, 'end': 7},
+             {'sci_name': 'L. claytoni',
+              'group': 'anoplura',
+              'trait': 'sci_name',
+              'start': 11,
+              'end': 22}]
         )
 
     def test_sci_name_02(self):
