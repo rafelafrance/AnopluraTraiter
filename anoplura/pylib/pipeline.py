@@ -7,22 +7,18 @@ from traiter.pipes.cache import CACHE_LABEL
 from traiter.pipes.cleanup import CLEANUP
 from traiter.pipes.debug import DEBUG_ENTITIES, DEBUG_TOKENS
 from traiter.pipes.sentence import SENTENCE
-from traiter.pipes.simple_entity_data import SIMPLE_ENTITY_DATA
-from traiter.pipes.update_entity_data import UPDATE_ENTITY_DATA
 from traiter.tokenizer_util import append_abbrevs, append_tokenizer_regexes
 
 from anoplura.patterns.body_part import BODY_PART
 from anoplura.patterns.body_part_count import BODY_PART_COUNT
-from anoplura.patterns.description import DESCRIPTION
-from anoplura.patterns.length import LENGTH
+from anoplura.patterns.length import LENGTH, MEAN, MEASUREMENT, SAMPLE
 from anoplura.patterns.max_width import MAX_WIDTH
 from anoplura.patterns.sci_name import GENUS, SCI_NAME
 from anoplura.patterns.seta_count import MULTIPLE_SETA, SETAE, SETAE_ABBREV, SETA_COUNT
-from anoplura.patterns.size import MEAN, MEASUREMENT, SAMPLE, SIZE
-from anoplura.pylib.const import ABBREVS, FORGET, REPLACE, TERMS
+from anoplura.pylib.const import ABBREVS, FORGET, TERMS
 
 GROUPERS = [BODY_PART, GENUS, SCI_NAME, SETAE, SETAE_ABBREV, MEAN, MEASUREMENT, SAMPLE]
-MATCHERS = [BODY_PART_COUNT, LENGTH, MAX_WIDTH, MULTIPLE_SETA, SETA_COUNT, SIZE]
+MATCHERS = [BODY_PART_COUNT, MAX_WIDTH, MULTIPLE_SETA, SETA_COUNT, LENGTH]
 
 DEBUG_COUNT = 0  # Used to rename debug pipes
 
@@ -33,30 +29,22 @@ def pipeline():
     append_tokenizer_regexes(nlp)
     append_abbrevs(nlp, ABBREVS)
 
-    # add_debug_pipes(nlp, 'after parser', after='parser')  # #########################
-
-    # Add a pipe to identify phrases and patterns as base-level traits.
+    # Add a set of pipes to identify phrases and patterns as base-level traits
     config = {'phrase_matcher_attr': 'LOWER'}
     term_ruler = nlp.add_pipe(
         'entity_ruler', name='term_ruler', config=config, before='parser')
     term_ruler.add_patterns(TERMS.for_entity_ruler())
     nlp.add_pipe('merge_entities', name='term_merger')
-    nlp.add_pipe(SIMPLE_ENTITY_DATA, after='term_merger', config={'replace': REPLACE})
+    nlp.add_pipe(CACHE_LABEL, name='term_cache')
 
-    # add_debug_pipes(nlp, 'after term_ruler')  # ####################################
-
+    # Sentence parsing should happen early but it may depend on terms
     nlp.add_pipe(SENTENCE, before='parser', config={'automatic': ['heading']})
 
-    # Add a pipe to group tokens into larger traits
+    # Add a set of pipes to group terms into larger traits
     config = {'overwrite_ents': True}
-    group_ruler = nlp.add_pipe(
-        'entity_ruler', name='group_ruler', config=config, after=SIMPLE_ENTITY_DATA)
+    group_ruler = nlp.add_pipe('entity_ruler', name='group_ruler', config=config)
     add_ruler_patterns(group_ruler, GROUPERS)
-
-    nlp.add_pipe(
-        ADD_ENTITY_DATA, name='group_data', config={'patterns': as_dicts(GROUPERS)})
-    nlp.add_pipe(CACHE_LABEL)
-
+    nlp.add_pipe(CACHE_LABEL, name='group_cache')
     nlp.add_pipe('merge_entities', name='group_merger')
 
     # Add a pipe to group tokens into larger traits
@@ -64,16 +52,10 @@ def pipeline():
     match_ruler = nlp.add_pipe('entity_ruler', name='match_ruler', config=config)
     add_ruler_patterns(match_ruler, MATCHERS)
 
-    # add_debug_pipes(nlp, 'before add data', entities=True)  # #######################
-
-    nlp.add_pipe(ADD_ENTITY_DATA, config={'patterns': as_dicts(MATCHERS)})
-
-    # add_debug_pipes(nlp, 'after add data', entities=True)  # ########################
-
-    # Add a pipe to capture body part descriptions
-    nlp.add_pipe(UPDATE_ENTITY_DATA, config={'patterns': as_dicts([DESCRIPTION])})
-
     nlp.add_pipe(CLEANUP, config={'entities': FORGET})
+
+    config = {'patterns': as_dicts(GROUPERS + MATCHERS)}
+    nlp.add_pipe(ADD_ENTITY_DATA, config=config)
 
     # config = {'patterns': as_dict(PART_LINKER, SEX_LINKER, SUBPART_LINKER)}
     # nlp.add_pipe(DEPENDENCY, name='part_linker', config=config)

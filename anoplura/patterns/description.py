@@ -29,9 +29,6 @@ DESCRIPTION = MatcherPatterns(
 @registry.misc(DESCRIPTION.on_match)
 def description(ent):
     """Look for trait descriptions in sentences."""
-    print(ent)
-    print([e._.cached_label for e in ent.ents])
-    print([e.label_ for e in ent.ents])
     body_part = [e for e in ent.ents if e.label_ == 'body_part'][0]
 
     # If the match isn't the whole fragment
