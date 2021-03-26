@@ -7,7 +7,7 @@ from traiter.const import INT_TOKEN_RE
 from traiter.patterns.matcher_patterns import MatcherPatterns
 from traiter.util import to_positive_int
 
-from anoplura.pylib.const import COMMON_PATTERNS, REPLACE
+from anoplura.pylib.const import COMMON_PATTERNS
 
 BODY_PART_COUNT = MatcherPatterns(
     'body_part_count',
@@ -22,7 +22,6 @@ def body_part_count(ent):
     """Enrich the match."""
     part = [e.text for e in ent.ents if e._.cached_label == 'part'][0]
     part = part.lower()
-    part = REPLACE.get(part, part)
 
     count = [t.text for t in ent if re.search(INT_TOKEN_RE, t.text)][0]
     count = to_positive_int(count)

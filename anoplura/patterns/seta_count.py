@@ -3,7 +3,7 @@
 import spacy
 from traiter.patterns.matcher_patterns import MatcherPatterns
 
-from anoplura.pylib.const import COMMON_PATTERNS, REPLACE
+from anoplura.pylib.const import COMMON_PATTERNS
 
 DECODER = COMMON_PATTERNS | {
     'seta': {'ENT_TYPE': 'seta'},
@@ -62,13 +62,13 @@ def seta_count(ent):
         label = token.ent_type_
 
         if label == 'setae':
-            data['seta'] = REPLACE.get(token.lower_, token.lower_)
+            data['seta'] = token.lower_
 
         elif label == 'integer':
             data = {**data, **token._.data}
 
         elif label == 'group':
-            data['group'] = REPLACE.get(token.lower_, token.lower_)
+            data['group'] = token.lower_
 
     if data.get('count', data.get('low')) is None:
         data['present'] = True
@@ -89,7 +89,7 @@ def multiple_seta_count(ent):
         label = token.ent_type_
 
         if label == 'setae':
-            data['seta'] = REPLACE.get(token.lower_, token.lower_)
+            data['seta'] = token.lower_
 
         elif label == 'integer':
             if token._.data.get('count'):
@@ -99,7 +99,7 @@ def multiple_seta_count(ent):
                 high += token._.data.get('high', 0)
 
         elif label == 'group':
-            data['group'] = REPLACE.get(token.lower_, token.lower_)
+            data['group'] = token.lower_
 
     if high and low:
         data['low'] = low

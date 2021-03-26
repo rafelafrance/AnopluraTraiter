@@ -7,14 +7,16 @@ from traiter.const import FLOAT_RE, INT_RE
 from traiter.patterns.matcher_patterns import MatcherPatterns
 from traiter.util import list_to_re_choice, to_positive_float, to_positive_int
 
-from anoplura.pylib.const import COMMON_PATTERNS, TERMS, REPLACE
+from anoplura.pylib.const import COMMON_PATTERNS, TERMS
 
 UNITS_RE = [t['pattern'] for t in TERMS if t['label'] == 'metric_length']
 UNITS_RE = '(?<![A-Za-z])' + list_to_re_choice(UNITS_RE) + r'\b'
 
-BODY_PART_ENTITIES = """ body_part setae seta_abbrev """.split()
+BODY_PART_ENTITIES = """ body_part setae setae_abbrev """.split()
 LENGTH_ENTITIES = """ measurement mean sample """.split()
 LENGTH_WORDS = """ length len """.split()
+MAXIMUM = """ maximum max """.split()
+WIDTH = """ width """.split()
 
 DECODER = COMMON_PATTERNS | {
     'bar': {'LOWER': {'IN': ['bar', 'bars']}},
@@ -24,10 +26,12 @@ DECODER = COMMON_PATTERNS | {
     'measurement': {'ENT_TYPE': 'measurement'},
     'mean': {'ENT_TYPE': 'mean'},
     'sample': {'ENT_TYPE': 'sample'},
-    'total':  {'LOWER': 'total', 'OP': '?'},
+    'total': {'LOWER': 'total', 'OP': '?'},
     'part': {'ENT_TYPE': {'IN': BODY_PART_ENTITIES}},
     'len': {'LOWER': {'IN': LENGTH_WORDS}},
-    '.': {'ENT_TYPE': ''},
+    'non_ent': {'ENT_TYPE': ''},
+    'max': {'LOWER': {'IN': MAXIMUM}},
+    'width': {'LOWER': {'IN': WIDTH}},
 }
 
 MEASUREMENT = MatcherPatterns(
@@ -59,24 +63,37 @@ LENGTH = MatcherPatterns(
     on_match='length.v1',
     decoder=DECODER,
     patterns=[
-        'total? part len any? any? bar? ./,? measurement ./,? mean? ./,? sample? ./,?',
+        ('total? part len non_ent? non_ent? bar? ./,* '
+         'measurement ./,? mean? ./,* sample? ./,?'),
     ],
 )
+
+MAX_WIDTH = MatcherPatterns(
+    'max_width',
+    on_match='max_width.v1',
+    decoder=DECODER,
+    patterns=[
+        ('max part width non_ent? non_ent? bar? ./,* '
+         'measurement ./,? mean? ./,* sample? ./,?'),
+    ],
+)
+
+
+@spacy.registry.misc(MAX_WIDTH.on_match)
+def max_width(ent):
+    """Enrich the match."""
+    data = {}
+    for token in ent:
+        data |= token._.data
+    ent._.data = data
 
 
 @spacy.registry.misc(LENGTH.on_match)
 def length(ent):
     """Enrich a size match."""
-    print(ent)
     data = {}
     for token in ent:
-        label = token._.cached_label
-
-        if label in LENGTH_ENTITIES:
-            data |= token._.data
-
-        elif label in BODY_PART_ENTITIES:
-            data['body_part'] = REPLACE.get(token.lower_, token.lower_)
+        data |= token._.data
 
     if ent.text.lower().find('total') > -1:
         ent._.new_label = 'total_length'
@@ -84,36 +101,36 @@ def length(ent):
 
 
 @spacy.registry.misc(MEASUREMENT.on_match)
-def measurement(token):
+def measurement(ent):
     """Enrich a measurement match."""
-    values = re.findall(FLOAT_RE, token.text)
+    values = re.findall(FLOAT_RE, ent.text)
     values = [to_positive_float(v) for v in values]
 
-    token._.data = {k: v for k, v in zip(['low', 'high'], values)}
+    ent._.data = {k: v for k, v in zip(['low', 'high'], values)}
 
-    match = re.search(UNITS_RE, token.text)
+    match = re.search(UNITS_RE, ent.text)
     units = match.group(0)
-    token._.data['length_units'] = units
+    ent._.data['length_units'] = units
 
 
 @spacy.registry.misc(MEAN.on_match)
-def mean(token):
+def mean(ent):
     """Convert the span into a single float."""
-    match = re.search(FLOAT_RE, token.text)
+    match = re.search(FLOAT_RE, ent.text)
     value = match.group(0)
 
-    match = re.search(UNITS_RE, token.lower_)
+    match = re.search(UNITS_RE, ent.text.lower())
     units = match.group(0) if match else None
 
-    token._.data = {'mean': to_positive_float(value)}
+    ent._.data = {'mean': to_positive_float(value)}
 
     if units:
-        token._.data['mean_units'] = units
+        ent._.data['mean_units'] = units
 
 
 @spacy.registry.misc(SAMPLE.on_match)
-def sample(token):
+def sample(ent):
     """Convert the span into a single integer."""
-    match = re.search(INT_RE, token.text)
+    match = re.search(INT_RE, ent.text)
     value = match.group(0)
-    token._.data = {'n': to_positive_int(value)}
+    ent._.data = {'n': to_positive_int(value)}

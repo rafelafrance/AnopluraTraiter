@@ -10,8 +10,8 @@ from traiter.patterns.matcher_patterns import MatcherPatterns
 from anoplura.pylib.const import COMMON_PATTERNS, CONJ, MISSING, REPLACE
 
 JOINER = CONJ + COMMA
-JOINER_RE = '|'.join(JOINER)
-JOINER_RE = re.compile(JOINER_RE)
+JOINER_RE = '|'.join(JOINER + [r'\s'])
+JOINER_RE = re.compile(rf'\b(?:{JOINER_RE})\b')
 
 MISSING_RE = '|'.join([fr'\b{m}\b' for m in MISSING])
 MISSING_RE = re.compile(MISSING_RE)
@@ -52,8 +52,12 @@ def body_part_span(ent):
     """Enrich a body part span."""
     data = {}
 
-    parts = [REPLACE.get(t.lower_, t.lower_) for t in ent if t.text not in JOINER]
-    data['body_part'] = re.sub(r'\s*-\s*', '-', ' '.join(parts))
+    parts = JOINER_RE.split(ent.text.lower())
+    parts = [REPLACE.get(p, p) for p in parts]
+    text = ' '.join(parts)
+    text = re.sub(r'\s*-\s*', '-', text)
+    text = REPLACE.get(text, text)
+    data['body_part'] = text
 
     if [t for t in ent if MISSING_RE.search(t.lower_) is not None]:
         data['missing'] = True
@@ -67,8 +71,10 @@ def body_part_token(token):
 
     parts = JOINER_RE.split(token.lower_)
     parts = [REPLACE.get(p, p) for p in parts]
-
-    data['body_part'] = re.sub(r'\s*-\s*', '-', ' '.join(parts))
+    text = ' '.join(parts)
+    text = re.sub(r'\s*-\s*', '-', text)
+    text = REPLACE.get(text, text)
+    data['body_part'] = text
 
     if MISSING_RE.search(token.lower_) is not None:
         data['missing'] = True

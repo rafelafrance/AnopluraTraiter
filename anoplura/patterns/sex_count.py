@@ -4,8 +4,6 @@ import spacy
 from traiter.patterns.matcher_patterns import MatcherPatterns
 from traiter.util import to_positive_int
 
-from anoplura.pylib.const import REPLACE
-
 SEX_COUNT = MatcherPatterns(
     'sex_count',
     on_match='sex_count.v1',
@@ -28,7 +26,7 @@ def sex_count(ent):
         value = token.lower_
 
         if label == 'sex':
-            data['sex'] = REPLACE[value]
+            data['sex'] = value
         elif (as_int := to_positive_int(value)) is not None:
             data['count'] = as_int
 
