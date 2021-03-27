@@ -44,6 +44,7 @@ def pipeline():
     config = {'overwrite_ents': True}
     group_ruler = nlp.add_pipe('entity_ruler', name='group_ruler', config=config)
     add_ruler_patterns(group_ruler, GROUPERS)
+
     nlp.add_pipe(CACHE_LABEL, name='group_cache')
     nlp.add_pipe('merge_entities', name='group_merger')
 
@@ -68,18 +69,19 @@ def pipeline():
 def debug_pipes(nlp, message='', tokens=True, entities=False, **kwargs):
     """Add pipes for debugging."""
     global DEBUG_COUNT
+    DEBUG_COUNT += 1
     config = {'message': message}
     if tokens:
         nlp.add_pipe(
             DEBUG_TOKENS,
-            name=f'tokens',
+            name=f'tokens_{DEBUG_COUNT}',
             config=config,
             **kwargs,
         )
     if entities:
         nlp.add_pipe(
             DEBUG_ENTITIES,
-            name=f'entities',
+            name=f'entities_{DEBUG_COUNT}',
             config=config,
             **kwargs,
         )

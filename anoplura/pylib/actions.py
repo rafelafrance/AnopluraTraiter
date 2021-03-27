@@ -17,5 +17,6 @@ def replacer(ent):
 ACTIONS = {
     'sex': REPLACER,
     'setae_abbrev': REPLACER,
-    # 'body_part': REPLACER,
+    'anoplura': REPLACER,
+    'mammalia': REPLACER,
 }

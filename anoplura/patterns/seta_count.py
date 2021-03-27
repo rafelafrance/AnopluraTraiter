@@ -8,11 +8,11 @@ from anoplura.pylib.const import COMMON_PATTERNS
 DECODER = COMMON_PATTERNS | {
     'seta': {'ENT_TYPE': 'seta'},
     'setae': {'ENT_TYPE': 'setae'},
-    'seta_abbrev': {'ENT_TYPE': 'seta_abbrev'},
+    'seta_abbrev': {'ENT_TYPE': 'setae_abbrev'},
     'filler': {'POS': {'IN': ['ADP', 'ADJ']}},
     'group': {'ENT_TYPE': 'group'},
-    '99': {'ENT_TYPE': 'integer'},
     'not_ent': {'ENT_TYPE': ''},
+    'nine': {'ENT_TYPE': 'number_word'},
     'loc': {'ENT_TYPE': 'part_loc'},
     'part/loc': {'ENT_TYPE': {'IN': ['part_loc', 'body_part']}},
     'cconj': {'POS': 'CCONJ'},
@@ -38,9 +38,12 @@ SETA_COUNT = MatcherPatterns(
     on_match='seta_count.v1',
     decoder=DECODER,
     patterns=[
-        ' 99 not_ent? not_ent? setae seta_abbrev',
-        ' 99 not_ent? not_ent? setae filler group ',
-        ' 99 not_ent? not_ent? not_ent? not_ent? not_ent? setae ',
+        'nine not_ent? not_ent? setae seta_abbrev',
+        'nine not_ent? not_ent? setae filler group ',
+        'nine not_ent? not_ent? not_ent? not_ent? not_ent? setae ',
+        '99 not_ent? not_ent? setae seta_abbrev',
+        '99 not_ent? not_ent? setae filler group ',
+        '99 not_ent? not_ent? not_ent? not_ent? not_ent? setae ',
     ],
 )
 
@@ -48,7 +51,9 @@ MULTIPLE_SETA = MatcherPatterns(
     'multiple_seta_count',
     on_match='multiple_seta_count.v1',
     decoder=DECODER,
-    patterns=['99 not_ent? not_ent? cconj? 99 not_ent? not_ent? loc* part/loc? setae'],
+    patterns=[
+        '99 not_ent? not_ent? cconj? 99 not_ent? not_ent? loc* part/loc? setae',
+    ],
 )
 
 

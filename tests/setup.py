@@ -21,8 +21,8 @@ def test_traits(text: str) -> List[Dict]:
 
     traits = [e._.data for e in doc.ents]
 
-    from pprint import pp
-    pp(traits)
+    # from pprint import pp
+    # pp(traits)
 
     # from spacy import displacy
     # options = {'collapse_punct': False, 'compact': True}
