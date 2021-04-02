@@ -11,6 +11,7 @@ from traiter.tokenizer_util import append_abbrevs, append_tokenizer_regexes
 
 from anoplura.patterns.body_part import BODY_PART
 from anoplura.patterns.body_part_count import BODY_PART_COUNT
+from anoplura.patterns.description import DESCRIPTION
 from anoplura.patterns.measurement import LENGTH, MAX_WIDTH, MEAN, MEASUREMENT, SAMPLE
 from anoplura.patterns.sci_name import GENUS, SCI_NAME
 from anoplura.patterns.seta_count import MULTIPLE_SETA, SETAE, SETAE_ABBREV, SETA_COUNT
@@ -18,7 +19,7 @@ from anoplura.pylib.actions import ACTIONS
 from anoplura.pylib.const import ABBREVS, FORGET, TERMS
 
 GROUPERS = [BODY_PART, GENUS, SCI_NAME, SETAE, SETAE_ABBREV, MEAN, MEASUREMENT, SAMPLE]
-MATCHERS = [BODY_PART_COUNT, LENGTH, MAX_WIDTH, MULTIPLE_SETA, SETA_COUNT]
+MATCHERS = [BODY_PART_COUNT, DESCRIPTION, LENGTH, MAX_WIDTH, MULTIPLE_SETA, SETA_COUNT]
 
 DEBUG_COUNT = 0  # Used to rename debug pipes
 
@@ -36,6 +37,8 @@ def pipeline():
     term_ruler.add_patterns(TERMS.for_entity_ruler())
     nlp.add_pipe('merge_entities', name='term_merger')
     nlp.add_pipe(CACHE_LABEL, name='term_cache')
+
+    # debug_pipes(nlp)
 
     # Sentence parsing should happen early but it may depend on terms
     nlp.add_pipe(SENTENCE, before='parser', config={'automatic': ['heading']})
