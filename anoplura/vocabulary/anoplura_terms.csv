@@ -1,0 +1,54 @@
+label,pattern,attr,replace
+dna_count,base pairs,lower,
+dna_count,bp,lower,base pairs
+group,each side,lower,
+group,pair of,lower,
+sclerotin,sclerotin,lower,sclerotized
+sclerotin,sclerotised,lower,sclerotized
+sclerotin,sclerotization,lower,sclerotized
+sclerotin,sclerotized,lower,sclerotized
+segmented,segmented,lower,
+cheta,chaeta,lower,
+cheta,cheta,lower,
+cheta,seta,lower,
+cheta,setaceous,lower,
+cheta,setae,lower,
+cheta,setose,lower,
+cheta,setula,lower,
+cheta_abbrev,anmhs,lower,anterior marginal head seta
+cheta_abbrev,aphs,lower,apical head seta
+cheta_abbrev,dachs,lower,dorsal accessory head seta
+cheta_abbrev,danchs,lower,dorsal anterior central head seta
+cheta_abbrev,danhs,lower,dorsal anterior head seta
+cheta_abbrev,dcas,lower,dorsal central abdominal seta
+cheta_abbrev,dlas,lower,dorsal lateral abdominal seta
+cheta_abbrev,dmas,lower,dorsal marginal abdominal seta
+cheta_abbrev,dmhs,lower,dorsal marginal head seta
+cheta_abbrev,dmss,lower,dorsal mesothoracic seta
+cheta_abbrev,dpahs,lower,dorsal preantennal head seta
+cheta_abbrev,dphs,lower,dorsal principal head seta
+cheta_abbrev,dpochs,lower,dorsal posterior central head seta
+cheta_abbrev,dpohs,lower,dorsal posterior head seta
+cheta_abbrev,dpts,lower,dorsal principal thoracic seta
+cheta_abbrev,ors,lower,oral seta
+cheta_abbrev,prs,lower,paratergal seta
+cheta_abbrev,shs,lower,sutural head seta
+cheta_abbrev,spaths,lower,supra-antennal head seta
+cheta_abbrev,stas,lower,sternal abdominal seta
+cheta_abbrev,suhs,lower,sutural head seta
+cheta_abbrev,teas,lower,tergal abdominal seta
+cheta_abbrev,vcas,lower,ventral central abdominal seta
+cheta_abbrev,vlas,lower,ventral lateral abdominal seta
+cheta_abbrev,vmas,lower,ventral marginal abdominal seta
+cheta_abbrev,vpahs,lower,ventral preantennal head seta
+cheta_abbrev,vphs,lower,ventral principal head seta
+cheta_abbrev,vpomhs,lower,ventral posterior marginal head seta
+stop,.,lower,
+stop,;,lower,
+stop,", with",lower,
+type,allotype,lower,allotype
+type,allotypes,lower,allotype
+type,holotype,lower,holotype
+type,holotypes,lower,holotype
+type,paratype,lower,paratype
+type,paratypes,lower,paratype

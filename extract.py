@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 
-"""Extract src traits from scientific literature (PDFs to text)."""
+"""Extract anoplura traits from scientific literature (PDFs to text)."""
 
 import argparse
 import textwrap
 from copy import deepcopy
 
-from src.matchers.pipeline import Pipeline
-from src.writers.html_writer import html_writer
+from anoplura.pylib.pipeline import Pipeline
+from anoplura.writers.html_writer import html_writer
 
 
 def main(args):
