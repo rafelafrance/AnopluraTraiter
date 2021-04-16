@@ -40,7 +40,7 @@ ABBREVS = """
 
 # #########################################################################
 # Pattern related constants
-MISSING = """ without missing lack lacking except excepting """.split()
+MISSING = """ no without missing lack lacking except excepting """.split()
 EQ_ = EQ + ['¼']
 CONJ = ['and', '&', 'or']
 

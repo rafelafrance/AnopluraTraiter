@@ -33,7 +33,7 @@ BODY_PART = MatcherPatterns(
         'part+ ord -? seg',
         'part+ 99 -? seg',
         'ord? -? seg? part+',
-        '99 -? seg? part+',
+        '99 - seg part+',
     ],
 )
 

@@ -29,22 +29,22 @@ DESCRIPTION = MatcherPatterns(
 @registry.misc(DESCRIPTION.on_match)
 def description(ent):
     """Look for trait descriptions in sentences."""
-    body_part = [t for t in ent if t._.cached_label == 'body_part'][0]
+    body_part = [e for e in ent.ents if e.label_ == 'body_part'][0]
 
     # If the match isn't the whole fragment
     if ent.start > 0 and ent.doc[ent.start - 1].ent_type_ != 'stop':
         raise RejectMatch
 
     if body_part.start == ent.start:
-        body_part._.data['description'] = ent.doc[body_part.end: ent.end - 1]
+        body_part._.data['description'] = trim(ent.doc[body_part.end: ent.end - 1])
 
     elif body_part.end == ent.end - 1:
-        body_part._.data['description'] = ent.doc[ent.start: body_part.start]
+        body_part._.data['description'] = trim(ent.doc[ent.start: body_part.start])
 
     else:
         body_part._.data['description'] = [
-            ent.doc[ent.start:body_part.start],
-            ent.doc[body_part.end:ent.end - 1],
+            trim(ent.doc[ent.start:body_part.start]),
+            trim(ent.doc[body_part.end:ent.end - 1]),
         ]
 
 

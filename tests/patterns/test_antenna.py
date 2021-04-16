@@ -9,8 +9,9 @@ class TestAntenna(unittest.TestCase):
     """Test antenna trait matcher."""
 
     def test_antenna_01(self):
+        actual = test_traits('Head suboval; antennae unmodified in males;.')
         self.assertEqual(
-            test_traits('Head suboval; antennae unmodified in males;.'),
+            actual,
             [{'body_part': 'head', 'trait': 'body_part', 'start': 0, 'end': 4,
               'description': 'suboval'},
              {'body_part': 'antenna', 'trait': 'body_part',
@@ -25,7 +26,7 @@ class TestAntenna(unittest.TestCase):
                 much larger than second segment; fourth segment slightly
                 extended posterolaterally.
                 """),
-            [{'body_part': 'antennae five-segmented',
+            [{'body_part': 'antenna five-segmented',
               'trait': 'body_part',
               'start': 0,
               'end': 23},

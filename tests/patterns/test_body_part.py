@@ -25,6 +25,6 @@ class TestBodyPart(unittest.TestCase):
     def test_body_part_03(self):
         self.assertEqual(
             test_traits('missing eyes'),
-            [{'body_part': 'missing eyes', 'missing': True,
+            [{'body_part': 'missing eye', 'missing': True,
               'trait': 'body_part', 'start': 0, 'end': 12}]
         )

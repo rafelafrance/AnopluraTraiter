@@ -6,7 +6,7 @@ from tests.setup import test_traits
 
 
 class TestSetaeCount(unittest.TestCase):
-    """Test range trait matcher."""
+    """Test setae count trait matcher."""
 
     def test_setae_count_01(self):
         self.assertEqual(
@@ -27,8 +27,8 @@ class TestSetaeCount(unittest.TestCase):
     def test_setae_count_03(self):
         self.assertEqual(
             test_traits('with pair of long setae'),
-            [{'body_part': 'seta', 'count': 2, 'seta': 'setae',
-              'trait': 'seta_count', 'start': 5, 'end': 23}]
+            [{'body_part': 'seta', 'present': True, 'seta': 'setae',
+              'group': 'pair of', 'trait': 'seta_count', 'start': 5, 'end': 23}]
         )
 
     def test_setae_count_04(self):
@@ -44,12 +44,4 @@ class TestSetaeCount(unittest.TestCase):
             test_traits('One long and one tiny seta immediately posterior to'),
             [{'seta': 'seta', 'count': 2, 'body_part': 'seta',
               'trait': 'seta_count', 'start': 0, 'end': 26}]
-        )
-
-    def test_setae_count_06(self):
-        self.assertEqual(
-            test_traits('next four spiracles each with tiny posterior seta only.'),
-            [{'count': 4, 'body_part': 'spiracle',
-              'trait': 'body_part_count', 'start': 5, 'end': 19},
-             {'trait': 'setae', 'start': 35, 'end': 49}]
         )

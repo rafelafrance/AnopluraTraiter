@@ -1,14 +1,22 @@
-"""Extract setae count notations."""
+"""Extract seta count notations."""
+
+import re
 
 import spacy
+from traiter.const import DASH_RE, INT_TOKEN_RE
 from traiter.patterns.matcher_patterns import MatcherPatterns
+from traiter.util import to_positive_int
 
-from anoplura.pylib.const import COMMON_PATTERNS
+from anoplura.pylib.const import COMMON_PATTERNS, MISSING, REPLACE
+
+IS_INT = re.compile(INT_TOKEN_RE)
+HAS_RANGE = re.compile(fr'[0-9]\s*({DASH_RE}|to)\s*[0-9]')
 
 DECODER = COMMON_PATTERNS | {
     'seta': {'ENT_TYPE': 'seta'},
-    'setae': {'ENT_TYPE': 'setae'},
-    'seta_abbrev': {'ENT_TYPE': 'setae_abbrev'},
+    'cheta': {'ENT_TYPE': 'cheta'},
+    'seta_abbrev': {'ENT_TYPE': 'seta_abbrev'},
+    'cheta_abbrev': {'ENT_TYPE': 'cheta_abbrev'},
     'filler': {'POS': {'IN': ['ADP', 'ADJ']}},
     'group': {'ENT_TYPE': 'group'},
     'not_ent': {'ENT_TYPE': ''},
@@ -19,31 +27,34 @@ DECODER = COMMON_PATTERNS | {
 }
 
 SETAE = MatcherPatterns(
-    'setae',
+    'seta',
     decoder=DECODER,
     patterns=[
-        'part* seta',
-        'any_part+ seta',
+        'part* cheta',
+        'any_part+ cheta',
     ],
 )
 
 SETAE_ABBREV = MatcherPatterns(
-    'setae_abbrev',
+    'seta_abbrev',
     decoder=DECODER,
-    patterns=['(? seta_abbrev )?'],
+    patterns=['(? cheta_abbrev )?'],
 )
 
 SETA_COUNT = MatcherPatterns(
-    'seta_count',
+    'setae_count',
     on_match='seta_count.v1',
     decoder=DECODER,
     patterns=[
-        'nine not_ent? not_ent? setae seta_abbrev',
-        'nine not_ent? not_ent? setae filler group ',
-        'nine not_ent? not_ent? not_ent? not_ent? not_ent? setae ',
-        '99 not_ent? not_ent? setae seta_abbrev',
-        '99 not_ent? not_ent? setae filler group ',
-        '99 not_ent? not_ent? not_ent? not_ent? not_ent? setae ',
+        'nine not_ent? not_ent? seta seta_abbrev',
+        'nine not_ent? not_ent? seta filler group ',
+        'missing not_ent? not_ent? seta seta_abbrev',
+        'missing not_ent? not_ent? seta filler group ',
+        'nine not_ent? not_ent? not_ent? not_ent? not_ent? seta ',
+        '99 not_ent? not_ent? seta seta_abbrev',
+        '99 not_ent? not_ent? seta filler group ',
+        '99 not_ent? not_ent? not_ent? not_ent? not_ent? seta ',
+        'group not_ent? not_ent? seta seta_abbrev?',
     ],
 )
 
@@ -52,7 +63,15 @@ MULTIPLE_SETA = MatcherPatterns(
     on_match='multiple_seta_count.v1',
     decoder=DECODER,
     patterns=[
-        '99 not_ent? not_ent? cconj? 99 not_ent? not_ent? loc* part/loc? setae',
+        '99 -/to 99 not_ent? not_ent? loc* part/loc? seta',
+        '99 not_ent? not_ent? not_ent? 99 not_ent? not_ent? loc* part/loc? seta',
+        'nine not_ent? not_ent? not_ent? nine not_ent? not_ent? loc* part/loc? seta',
+        ('99 -/to 99 not_ent? not_ent? loc* '
+         'part/loc? seta not_ent? not_ent? group'),
+        ('99 not_ent? not_ent? not_ent? 99 not_ent? not_ent? loc* '
+         'part/loc? seta not_ent? not_ent? group'),
+        ('nine not_ent? not_ent? not_ent? nine not_ent? not_ent? loc* '
+         'part/loc? seta not_ent? not_ent? group'),
     ],
 )
 
@@ -64,16 +83,22 @@ def seta_count(ent):
     location = []
 
     for token in ent:
-        label = token.ent_type_
+        label = token._.cached_label
 
-        if label == 'setae':
-            data['seta'] = token.lower_
+        if label == 'seta':
+            data['seta'] = REPLACE.get(token.lower_, token.lower_)
 
-        elif label == 'integer':
-            data = {**data, **token._.data}
+        elif label == 'number_word':
+            data['count'] = int(REPLACE.get(token.lower_, -1))
+
+        elif token.lower_ in MISSING:
+            data['count'] = 0
 
         elif label == 'group':
             data['group'] = token.lower_
+
+        elif match := IS_INT.match(token.text):
+            data['count'] = to_positive_int(match.group(0))
 
     if data.get('count', data.get('low')) is None:
         data['present'] = True
@@ -81,35 +106,41 @@ def seta_count(ent):
     if location:
         data['type'] = ' '.join(location)
 
+    ent._.new_label = 'seta_count'
     ent._.data = data
 
 
 @spacy.registry.misc(MULTIPLE_SETA.on_match)
 def multiple_seta_count(ent):
-    """Handle multiple setae in one match."""
+    """Handle multiple seta in one match."""
     data = {'body_part': 'seta'}
-    low, high = 0, 0
+    values = []
 
     for token in ent:
-        label = token.ent_type_
+        label = token._.cached_label
 
-        if label == 'setae':
-            data['seta'] = token.lower_
+        if label == 'seta':
+            data['seta'] = REPLACE.get(token.lower_, token.lower_)
 
-        elif label == 'integer':
-            if token._.data.get('count'):
-                low += token._.data['count']
-            else:
-                low += token._.data.get('low', 0)
-                high += token._.data.get('high', 0)
+        elif label == 'number_word':
+            values.append(to_positive_int(REPLACE.get(token.lower_)))
+
+        elif match := IS_INT.match(token.text):
+            value = to_positive_int(match.group(0))
+            values.append(value)
 
         elif label == 'group':
             data['group'] = token.lower_
 
-    if high and low:
-        data['low'] = low
-        data['high'] = high
+    if HAS_RANGE.search(ent.text.lower()):
+        if len(values) == 2:
+            data['low'] = min(values)
+            data['high'] = max(values)
+        else:
+            data['count'] = values[0]
     else:
-        data['count'] = low
+        data['count'] = sum(values)
+
+    ent._.new_label = 'seta_count'
 
     ent._.data = data
