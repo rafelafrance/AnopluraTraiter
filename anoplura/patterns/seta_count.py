@@ -43,7 +43,7 @@ SETAE_ABBREV = MatcherPatterns(
 
 SETA_COUNT = MatcherPatterns(
     'setae_count',
-    on_match='seta_count.v1',
+    on_match='anoplura.seta_count.v1',
     decoder=DECODER,
     patterns=[
         'nine not_ent? not_ent? seta seta_abbrev',
@@ -60,7 +60,7 @@ SETA_COUNT = MatcherPatterns(
 
 MULTIPLE_SETA = MatcherPatterns(
     'multiple_seta_count',
-    on_match='multiple_seta_count.v1',
+    on_match='anoplura.multiple_seta_count.v1',
     decoder=DECODER,
     patterns=[
         '99 -/to 99 not_ent? not_ent? loc* part/loc? seta',

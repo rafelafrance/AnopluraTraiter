@@ -10,13 +10,13 @@ NAMES = ['anoplura', 'mammalia']
 
 SCI_NAME = MatcherPatterns(
     'sci_name',
-    on_match='sci_name.v1',
+    on_match='anoplura.sci_name.v1',
     patterns=[[{'ENT_TYPE': {'IN': NAMES}}]],
 )
 
 GENUS = MatcherPatterns(
     'genus',
-    on_match='genus.v1',
+    on_match='anoplura.genus.v1',
     patterns=[[{'ENT_TYPE': 'anoplura_genus'}]],
 )
 

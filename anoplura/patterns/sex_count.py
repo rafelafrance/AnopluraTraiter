@@ -6,7 +6,7 @@ from traiter.util import to_positive_int
 
 SEX_COUNT = MatcherPatterns(
     'sex_count',
-    on_match='sex_count.v1',
+    on_match='anoplura.sex_count.v1',
     patterns=[
         [
             {'IS_DIGIT': True},

@@ -12,7 +12,8 @@ WORD_ENTS = [''] + """ sclerotin part_loc sex """.split()
 TRIM = re.compile(r'^\W+|\W+$')
 
 DESCRIPTION = MatcherPatterns(
-    'description', on_match='description.v1',
+    'description',
+    on_match='anoplura.description.v1',
     decoder={
         'body_part': {'ENT_TYPE': 'body_part'},
         'words': {'ENT_TYPE': {'IN': WORD_ENTS}},

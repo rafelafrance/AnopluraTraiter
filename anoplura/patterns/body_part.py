@@ -17,7 +17,7 @@ MISSING_RE = re.compile(MISSING_RE, flags=re.IGNORECASE)
 
 BODY_PART = MatcherPatterns(
     'body_part',
-    on_match='body_part.v1',
+    on_match='anoplura.body_part.v1',
     decoder=COMMON_PATTERNS | {
         'seg': {'ENT_TYPE': 'segmented'},
         'ord': {'ENT_TYPE': {'IN': ['ordinal', 'number_word']}},

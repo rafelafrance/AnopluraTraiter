@@ -57,7 +57,7 @@ SAMPLE = MatcherPatterns(
 
 LENGTH = MatcherPatterns(
     'length',
-    on_match='length.v1',
+    on_match='anoplura.length.v1',
     decoder=DECODER,
     patterns=[
         'part len punct? measurement punct? mean? punct* sample? punct?',
@@ -68,7 +68,7 @@ LENGTH = MatcherPatterns(
 
 MAX_WIDTH = MatcherPatterns(
     'max_width',
-    on_match='max_width.v1',
+    on_match='anoplura.max_width.v1',
     decoder=DECODER,
     patterns=[
         ('max part width non_ent? non_ent? bar? punct* '
