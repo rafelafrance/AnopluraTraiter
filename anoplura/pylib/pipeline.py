@@ -6,7 +6,7 @@ from traiter.patterns.matcher_patterns import (add_ruler_patterns, as_dicts,
 from traiter.pipes.add_entity_data import ADD_ENTITY_DATA
 from traiter.pipes.cache import CACHE_LABEL
 from traiter.pipes.cleanup import CLEANUP
-from traiter.pipes.debug import DEBUG_ENTITIES, DEBUG_TOKENS
+# from traiter.pipes.debug import DEBUG_ENTITIES, DEBUG_TOKENS
 from traiter.pipes.sentence import SENTENCE
 from traiter.pipes.update_entity_data import UPDATE_ENTITY_DATA
 from traiter.tokenizer_util import append_abbrevs, append_tokenizer_regexes
@@ -21,8 +21,6 @@ from anoplura.pylib.const import ABBREVS, FORGET, TERMS
 
 GROUPERS = [BODY_PART, GENUS, SCI_NAME, SETAE, SETAE_ABBREV, MEAN, MEASUREMENT, SAMPLE]
 MATCHERS = [LENGTH, MAX_WIDTH, MULTIPLE_SETA, SETA_COUNT]
-
-DEBUG_COUNT = 0  # Used to rename debug pipes
 
 
 def pipeline():
@@ -71,29 +69,3 @@ def pipeline():
     # nlp.add_pipe(DEPENDENCY, name='part_linker', config=config)
 
     return nlp
-
-
-def debug_tokens(nlp, message='', **kwargs):
-    """Add pipes for debugging."""
-    global DEBUG_COUNT
-    DEBUG_COUNT += 1
-    config = {'message': message}
-    nlp.add_pipe(
-        DEBUG_TOKENS,
-        name=f'tokens_{DEBUG_COUNT}',
-        config=config,
-        **kwargs,
-    )
-
-
-def debug_ents(nlp, message='', **kwargs):
-    """Add pipes for debugging."""
-    global DEBUG_COUNT
-    DEBUG_COUNT += 1
-    config = {'message': message}
-    nlp.add_pipe(
-        DEBUG_ENTITIES,
-        name=f'entities_{DEBUG_COUNT}',
-        config=config,
-        **kwargs,
-    )

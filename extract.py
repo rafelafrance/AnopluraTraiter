@@ -6,19 +6,19 @@ import argparse
 import textwrap
 from copy import deepcopy
 
-from anoplura.pylib.pipeline import Pipeline
+from anoplura.pylib.pipeline import pipeline
 from anoplura.writers.html_writer import html_writer
 
 
 def main(args):
     """Extract data from the files."""
-    pipeline = Pipeline()
+    nlp = pipeline()
     rows = []
 
     with open(args.text) as in_file:
         lines = [ln.strip() for ln in in_file.readlines()]
 
-    for doc in pipeline.nlp.pipe(lines):
+    for doc in nlp.pipe(lines):
         rows.append({'doc': doc})
 
     if args.html_file:

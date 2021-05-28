@@ -15,7 +15,7 @@ from bs4 import BeautifulSoup
 import toml
 import traiter.util as t_util
 
-from anoplura.pylib.pipeline import Pipeline
+from anoplura.pylib.pipeline import pipeline
 from anoplura.pylib.const import DASH
 
 
@@ -54,8 +54,8 @@ def main(args):
 
 def split_sentences(text):
     """Split the text into sentences."""
-    pipeline = Pipeline()
-    doc = pipeline.nlp(text)
+    nlp = pipeline()
+    doc = nlp(text)
     lines = [x for s in doc.sents if (x := ' '.join(s.text.split()))]
     return lines
 

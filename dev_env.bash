@@ -7,7 +7,6 @@ fi
 
 rm -rf .venv
 virtualenv -p python3.9 .venv
-
 source ./.venv/bin/activate
 
 python -m pip install --upgrade pip setuptools wheel
