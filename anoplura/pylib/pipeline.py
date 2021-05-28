@@ -6,7 +6,7 @@ from traiter.patterns.matcher_patterns import (add_ruler_patterns, as_dicts,
 from traiter.pipes.add_entity_data import ADD_ENTITY_DATA
 from traiter.pipes.cache import CACHE_LABEL
 from traiter.pipes.cleanup import CLEANUP
-# from traiter.pipes.debug import DEBUG_ENTITIES, DEBUG_TOKENS
+from traiter.pipes.debug import DEBUG_ENTITIES, DEBUG_TOKENS
 from traiter.pipes.sentence import SENTENCE
 from traiter.pipes.update_entity_data import UPDATE_ENTITY_DATA
 from traiter.tokenizer_util import append_abbrevs, append_tokenizer_regexes
@@ -53,7 +53,7 @@ def pipeline():
     match_ruler = nlp.add_pipe('entity_ruler', name='match_ruler', config=config)
     add_ruler_patterns(match_ruler, MATCHERS)
 
-    # debug_tokens(nlp)
+    # nlp.add_pipe(DEBUG_TOKENS)
 
     config = {'dispatch': patterns_to_dispatch(GROUPERS + MATCHERS) | ACTIONS}
     nlp.add_pipe(ADD_ENTITY_DATA, config=config)

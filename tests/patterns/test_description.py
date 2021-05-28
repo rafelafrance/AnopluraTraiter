@@ -14,8 +14,14 @@ class TestDescription(unittest.TestCase):
                 Head: More heavily sclerotized along anterior margin;
                 longer than broad with squarish, slightly convex anterior margin.
                 """),
-            [{'body_part': 'head', 'trait': 'body_part', 'start': 0, 'end': 4,
-              'description': 'more heavily sclerotized along anterior margin'}]
+            [{'body_part': 'head', 'trait': 'body_part', 'start': 0, 'end': 4},
+             {'body_part': 'anterior margin', 'trait': 'body_part', 'start': 37,
+              'end': 52},
+             {'body_part': 'anterior margin',
+              'trait': 'body_part',
+              'start': 103,
+              'end': 118,
+              'description': 'longer than broad with squarish, slightly convex'}]
         )
 
     def test_description_02(self):
