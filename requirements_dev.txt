@@ -1,6 +1,0 @@
-flake8==3.9.1
-isort==5.8.0
-jedi==0.18.0
-pylint==2.8.2
-pynvim==0.4.3
-yapf==0.31.0
