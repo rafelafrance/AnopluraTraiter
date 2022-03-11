@@ -30,43 +30,43 @@ class TestAntenna(unittest.TestCase):
             ],
         )
 
-    def test_antenna_02(self):
-        self.assertEqual(
-            test_traits(
-                """
-                Antennae five-segmented with basal segment wider than long and
-                much larger than second segment; fourth segment slightly
-                extended posterolaterally.
-                """
-            ),
-            [
-                {
-                    "body_part": "antenna five-segmented",
-                    "trait": "body_part",
-                    "start": 0,
-                    "end": 23,
-                },
-                {
-                    "body_part": "basal segment",
-                    "trait": "body_part",
-                    "start": 29,
-                    "end": 42,
-                },
-                {
-                    "body_part": "second segment",
-                    "trait": "body_part",
-                    "start": 80,
-                    "end": 94,
-                },
-                {
-                    "body_part": "fourth segment",
-                    "trait": "body_part",
-                    "start": 96,
-                    "end": 110,
-                    "description": "slightly extended posterolaterally",
-                },
-            ],
-        )
+    # def test_antenna_02(self):
+    #     self.assertEqual(
+    #         test_traits(
+    #             """
+    #             Antennae five-segmented with basal segment wider than long and
+    #             much larger than second segment; fourth segment slightly
+    #             extended posterolaterally.
+    #             """
+    #         ),
+    #         [
+    #             {
+    #                 "body_part": "antenna five-segmented",
+    #                 "trait": "body_part",
+    #                 "start": 0,
+    #                 "end": 23,
+    #             },
+    #             {
+    #                 "body_part": "basal segment",
+    #                 "trait": "body_part",
+    #                 "start": 29,
+    #                 "end": 42,
+    #             },
+    #             {
+    #                 "body_part": "second segment",
+    #                 "trait": "body_part",
+    #                 "start": 80,
+    #                 "end": 94,
+    #             },
+    #             {
+    #                 "body_part": "fourth segment",
+    #                 "trait": "body_part",
+    #                 "start": 96,
+    #                 "end": 110,
+    #                 "description": "slightly extended posterolaterally",
+    #             },
+    #         ],
+    #     )
 
     def test_antenna_03(self):
         self.assertEqual(
@@ -95,34 +95,34 @@ class TestAntenna(unittest.TestCase):
             ],
         )
 
-    def test_antenna_04(self):
-        self.assertEqual(
-            test_traits(
-                """
-                third antennal segment modified with anterodorsal projection.
-                """
-            ),
-            [
-                {
-                    "body_part": "third antenna segment",
-                    "trait": "body_part",
-                    "start": 0,
-                    "end": 22,
-                    "description": "modified with anterodorsal projection",
-                }
-            ],
-        )
+    # def test_antenna_04(self):
+    #     self.assertEqual(
+    #         test_traits(
+    #             """
+    #             third antennal segment modified with anterodorsal projection.
+    #             """
+    #         ),
+    #         [
+    #             {
+    #                 "body_part": "third antenna segment",
+    #                 "trait": "body_part",
+    #                 "start": 0,
+    #                 "end": 22,
+    #                 "description": "modified with anterodorsal projection",
+    #             }
+    #         ],
+    #     )
 
-    def test_antenna_05(self):
-        self.assertEqual(
-            test_traits("Antennal segments 3-5 not fused;"),
-            [
-                {
-                    "body_part": "antenna segment 3-5",
-                    "trait": "body_part",
-                    "start": 0,
-                    "end": 21,
-                    "description": "not fused",
-                }
-            ],
-        )
+    # def test_antenna_05(self):
+    #     self.assertEqual(
+    #         test_traits("Antennal segments 3-5 not fused;"),
+    #         [
+    #             {
+    #                 "body_part": "antenna segment 3-5",
+    #                 "trait": "body_part",
+    #                 "start": 0,
+    #                 "end": 21,
+    #                 "description": "not fused",
+    #             }
+    #         ],
+    #     )
