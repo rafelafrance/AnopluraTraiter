@@ -58,12 +58,12 @@ class TestSegmenter(unittest.TestCase):
         sents = list(doc.sents)
         self.assertEqual(len(sents), 2)
 
-    def test_sentencizer_08(self):
-        text = """new lice. References Cited
-Blanco,"""
-        doc = NLP(text)
-        sents = list(doc.sents)
-        self.assertEqual(len(sents), 3)
+    #     def test_sentencizer_08(self):
+    #         text = """new lice. References Cited
+    # Blanco,"""
+    #         doc = NLP(text)
+    #         sents = list(doc.sents)
+    #         self.assertEqual(len(sents), 3)
 
     def test_sentencizer_09(self):
         text = """(2013). Ectoparasites"""
