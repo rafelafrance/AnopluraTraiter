@@ -1,7 +1,5 @@
 """Test the header matcher."""
-
 # pylint: disable=missing-function-docstring
-
 import unittest
 
 from traiter.util import shorten
@@ -13,9 +11,11 @@ class TestSegmenter(unittest.TestCase):
     """Test the plant color trait parser."""
 
     def test_sentencizer_01(self):
-        text = shorten("""
+        text = shorten(
+            """
             It was common “along a tiny stream.” Argia apicalis.
-        """)
+        """
+        )
         doc = NLP(text)
         sents = list(doc.sents)
         self.assertEqual(len(sents), 2)

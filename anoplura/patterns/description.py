@@ -1,28 +1,27 @@
 """Look for trait descriptions in sentences."""
-
 import re
 
 from spacy import registry
 from traiter.actions import RejectMatch
 from traiter.patterns.matcher_patterns import MatcherPatterns
 
-DESC = 'description'
-WORD_ENTS = [''] + """ sclerotin part_loc sex """.split()
+DESC = "description"
+WORD_ENTS = [""] + """ sclerotin part_loc sex """.split()
 
-TRIM = re.compile(r'^\W+|\W+$')
+TRIM = re.compile(r"^\W+|\W+$")
 
 DESCRIPTION = MatcherPatterns(
-    'description',
-    on_match='anoplura.description.v1',
+    "description",
+    on_match="anoplura.description.v1",
     decoder={
-        'body_part': {'ENT_TYPE': 'body_part'},
-        'words': {'ENT_TYPE': {'IN': WORD_ENTS}},
-        './;': {'ENT_TYPE': 'stop'},
+        "body_part": {"ENT_TYPE": "body_part"},
+        "words": {"ENT_TYPE": {"IN": WORD_ENTS}},
+        "./;": {"ENT_TYPE": "stop"},
     },
     patterns=[
-        'body_part words+ ./;',
-        'words+ body_part ./;',
-        'words+ body_part words+ ./;',
+        "body_part words+ ./;",
+        "words+ body_part ./;",
+        "words+ body_part words+ ./;",
     ],
 )
 
@@ -30,28 +29,29 @@ DESCRIPTION = MatcherPatterns(
 @registry.misc(DESCRIPTION.on_match)
 def description(ent):
     """Look for trait descriptions in sentences."""
-    body_part = [e for e in ent.ents if e.label_ == 'body_part'][0]
+    body_part = [e for e in ent.ents if e.label_ == "body_part"][0]
 
     # If the match isn't the whole fragment
-    if ent.start > 0 and ent.doc[ent.start - 1].ent_type_ != 'stop':
+    if ent.start > 0 and ent.doc[ent.start - 1].ent_type_ != "stop":
         raise RejectMatch
 
     if body_part.start == ent.start:
-        body_part._.data['description'] = trim(ent.doc[body_part.end: ent.end - 1])
+        body_part._.data["description"] = trim(ent.doc[body_part.end : ent.end - 1])
 
     elif body_part.end == ent.end - 1:
-        body_part._.data['description'] = trim(ent.doc[ent.start: body_part.start])
+        body_part._.data["description"] = trim(ent.doc[ent.start : body_part.start])
 
     else:
-        body_part._.data['description'] = [
-            trim(ent.doc[ent.start:body_part.start]),
-            trim(ent.doc[body_part.end:ent.end - 1]),
+        body_part._.data["description"] = [
+            trim(ent.doc[ent.start : body_part.start]),
+            trim(ent.doc[body_part.end : ent.end - 1]),
         ]
 
 
 def trim(span):
     """Cleanup the text."""
-    return TRIM.sub('', span.text.lower())
+    return TRIM.sub("", span.text.lower())
+
 
 # def description(doc):
 #     """Look for trait descriptions in sentences."""

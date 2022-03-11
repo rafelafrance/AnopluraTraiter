@@ -1,5 +1,4 @@
 """Parse date notations."""
-
 # import spacy
 # from dateutil import parser
 #

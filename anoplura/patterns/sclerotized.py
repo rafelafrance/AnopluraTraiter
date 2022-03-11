@@ -1,8 +1,5 @@
 """Extract sclerotized annotations."""
-
 # from ..util import ATTACH_STEP, TRAIT_STEP
-
-
 # def sclerotized(span):
 #     """Enrich the match."""
 #     data = {}
@@ -12,8 +9,6 @@
 #         else:
 #             data['sclerotized'] = token.lower_
 #     return data
-
-
 # def sclerotized_part(span):
 #     """Enrich the match."""
 #     data = {}
@@ -33,8 +28,6 @@
 #         data['body_part'] += ' ' + seg
 #
 #     return data
-
-
 # SCLEROTIZED = {
 #     TRAIT_STEP: [
 #         {

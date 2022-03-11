@@ -1,23 +1,22 @@
 """Get scientific names."""
-
 import spacy
 from spacy.tokens import Token
 from traiter.patterns.matcher_patterns import MatcherPatterns
 
 from anoplura.pylib.const import REPLACE
 
-NAMES = ['anoplura', 'mammalia']
+NAMES = ["anoplura", "mammalia"]
 
 SCI_NAME = MatcherPatterns(
-    'sci_name',
-    on_match='anoplura.sci_name.v1',
-    patterns=[[{'ENT_TYPE': {'IN': NAMES}}]],
+    "sci_name",
+    on_match="anoplura.sci_name.v1",
+    patterns=[[{"ENT_TYPE": {"IN": NAMES}}]],
 )
 
 GENUS = MatcherPatterns(
-    'genus',
-    on_match='anoplura.genus.v1',
-    patterns=[[{'ENT_TYPE': 'anoplura_genus'}]],
+    "genus",
+    on_match="anoplura.genus.v1",
+    patterns=[[{"ENT_TYPE": "anoplura_genus"}]],
 )
 
 
@@ -28,8 +27,8 @@ def sci_name(ent):
         return
 
     ent._.data = {
-        'sci_name': REPLACE.get(ent.text.lower(), ent.text.capitalize()),
-        'group': ent[0]._.first_label,
+        "sci_name": REPLACE.get(ent.text.lower(), ent.text.capitalize()),
+        "group": ent[0]._.first_label,
     }
 
 
@@ -40,6 +39,6 @@ def genus(ent):
         return
 
     ent._.data = {
-        'genus': REPLACE.get(ent.text.lower(), ent.text.capitalize()),
-        'group': ent[0]._.first_label.split('_')[0],
+        "genus": REPLACE.get(ent.text.lower(), ent.text.capitalize()),
+        "group": ent[0]._.first_label.split("_")[0],
     }

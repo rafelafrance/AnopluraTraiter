@@ -1,5 +1,4 @@
 """Parse elevation notations."""
-
 # import spacy
 # from traiter.util import to_positive_float
 #

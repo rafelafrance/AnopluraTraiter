@@ -1,15 +1,16 @@
 """Setup for all tests."""
+from typing import Dict
+from typing import List
 
-from typing import Dict, List
-
-from traiter.util import clean_text, shorten
+from traiter.util import clean_text
+from traiter.util import shorten
 
 from anoplura.pylib.pipeline import pipeline
 
 NLP = pipeline()  # Singleton for testing
 
 # Translate characters resulting from PDF madness
-TRANS = str.maketrans({'¼': '=', '⫻': '×', '#': '♂', '$': '♀'})
+TRANS = str.maketrans({"¼": "=", "⫻": "×", "#": "♂", "$": "♀"})
 
 
 def test_traits(text: str) -> List[Dict]:

@@ -1,18 +1,17 @@
 """Parse count notations."""
-
 import spacy
 from traiter.patterns.matcher_patterns import MatcherPatterns
 from traiter.util import to_positive_int
 
 SEX_COUNT = MatcherPatterns(
-    'sex_count',
-    on_match='anoplura.sex_count.v1',
+    "sex_count",
+    on_match="anoplura.sex_count.v1",
     patterns=[
         [
-            {'IS_DIGIT': True},
-            {'ENT_TYPE': 'sex'},
+            {"IS_DIGIT": True},
+            {"ENT_TYPE": "sex"},
         ]
-    ]
+    ],
 )
 
 
@@ -25,9 +24,9 @@ def sex_count(ent):
         label = token.ent_type_
         value = token.lower_
 
-        if label == 'sex':
-            data['sex'] = value
+        if label == "sex":
+            data["sex"] = value
         elif (as_int := to_positive_int(value)) is not None:
-            data['count'] = as_int
+            data["count"] = as_int
 
     ent._.data = data
