@@ -1,33 +1,33 @@
 """Create a trait pipeline."""
 import spacy
+from traiter.old_pipes.add_entity_data import ADD_ENTITY_DATA
+from traiter.old_pipes.cache import CACHE_LABEL
+from traiter.old_pipes.cleanup import CLEANUP
+from traiter.old_pipes.sentence import SENTENCE
+from traiter.old_pipes.update_entity_data import UPDATE_ENTITY_DATA
 from traiter.patterns.matcher_patterns import add_ruler_patterns
 from traiter.patterns.matcher_patterns import as_dicts
 from traiter.patterns.matcher_patterns import patterns_to_dispatch
-from traiter.pipes.add_entity_data import ADD_ENTITY_DATA
-from traiter.pipes.cache import CACHE_LABEL
-from traiter.pipes.cleanup import CLEANUP
-from traiter.pipes.sentence import SENTENCE
-from traiter.pipes.update_entity_data import UPDATE_ENTITY_DATA
 from traiter.tokenizer_util import append_abbrevs
 from traiter.tokenizer_util import append_tokenizer_regexes
 
-from anoplura.patterns.body_part import BODY_PART
-from anoplura.patterns.description import DESCRIPTION
-from anoplura.patterns.measurement import LENGTH
-from anoplura.patterns.measurement import MAX_WIDTH
-from anoplura.patterns.measurement import MEAN
-from anoplura.patterns.measurement import MEASUREMENT
-from anoplura.patterns.measurement import SAMPLE
-from anoplura.patterns.sci_name import GENUS
-from anoplura.patterns.sci_name import SCI_NAME
-from anoplura.patterns.seta_count import MULTIPLE_SETA
-from anoplura.patterns.seta_count import SETA_COUNT
-from anoplura.patterns.seta_count import SETAE
-from anoplura.patterns.seta_count import SETAE_ABBREV
-from anoplura.pylib.actions import ACTIONS
-from anoplura.pylib.const import ABBREVS
-from anoplura.pylib.const import FORGET
-from anoplura.pylib.const import TERMS
+from ..patterns.body_part import BODY_PART
+from ..patterns.description import DESCRIPTION
+from ..patterns.measurement import LENGTH
+from ..patterns.measurement import MAX_WIDTH
+from ..patterns.measurement import MEAN
+from ..patterns.measurement import MEASUREMENT
+from ..patterns.measurement import SAMPLE
+from ..patterns.sci_name import GENUS
+from ..patterns.sci_name import SCI_NAME
+from ..patterns.seta_count import MULTIPLE_SETA
+from ..patterns.seta_count import SETA_COUNT
+from ..patterns.seta_count import SETAE
+from ..patterns.seta_count import SETAE_ABBREV
+from ..pylib.actions import ACTIONS
+from ..pylib.const import ABBREVS
+from ..pylib.const import FORGET
+from ..pylib.const import TERMS
 
 # from traiter.pipes.debug import debug_ents, debug_tokens
 
@@ -66,8 +66,6 @@ def pipeline():
     match_ruler = nlp.add_pipe("entity_ruler", name="match_ruler", config=config)
     add_ruler_patterns(match_ruler, MATCHERS)
 
-    # debug_tokens(nlp)
-
     config = {"dispatch": patterns_to_dispatch(GROUPERS + MATCHERS) | ACTIONS}
     nlp.add_pipe(ADD_ENTITY_DATA, config=config)
 
@@ -76,7 +74,7 @@ def pipeline():
     nlp.add_pipe(UPDATE_ENTITY_DATA, config=config)
 
     # Remove unused entities
-    nlp.add_pipe(CLEANUP, config={"entities": FORGET})
+    nlp.add_pipe(CLEANUP, config={"forget": FORGET})
 
     # config = {'patterns': as_dict(PART_LINKER, SEX_LINKER, SUBPART_LINKER)}
     # nlp.add_pipe(DEPENDENCY, name='part_linker', config=config)

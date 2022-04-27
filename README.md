@@ -1,5 +1,7 @@
 # The Anoplura Traits Database Project ![CI](https://github.com/rafelafrance/traiter_anoplura/workflows/CI/badge.svg)
 
+**Thanks to Dr. Vjay Barve for providing the initial species list of Anoplura.**
+
 
 ## What we're doing
 
@@ -26,7 +28,7 @@ I will extract:
 - etc.
 
 ## Multiple methods for parsing
-1. Rule-based parsing. Most machine learning models require a substantial training dataset. I use this method to bootstrap the training data. And, if other methods fail, I can fall back to this method. The downside of this method rule-based matchers are tricky and time consuming to get right.
+1. Rule-based parsing. Most machine learning models require a substantial training dataset. I use this method to bootstrap the training data. And, if other methods fail, I can fall back to this method. The downside of this method rule-based matchers are tricky and time-consuming to get right.
     - There is one set of rules for identifying the traits themselves. This is called Named Entity Recognition (NER).
     - There is another set of rules for associating traits with one another. For instance, determining that a maximum width measurement is for a male *Lemurpediculus robbinsi* (holotype).
 1. (In progress) Machine learning models. Once we have enough relevant data from the rules we can train models with that data. We are using two different models.

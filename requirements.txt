@@ -1,3 +1,4 @@
+flake8
 regex
 python-dateutil
 beautifulsoup4
@@ -5,3 +6,4 @@ markupsafe
 toml
 Jinja2
 spacy
+click==7.1.2

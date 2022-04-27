@@ -5,13 +5,22 @@ import spacy
 from traiter.const import FLOAT_RE
 from traiter.const import INT_RE
 from traiter.patterns.matcher_patterns import MatcherPatterns
-from traiter.util import list_to_re_choice
 from traiter.util import to_positive_float
 from traiter.util import to_positive_int
 
 from anoplura.pylib.const import COMMON_PATTERNS
 from anoplura.pylib.const import REPLACE
 from anoplura.pylib.const import TERMS
+
+
+def list_to_re_choice(values):
+    """Convert a list of values into a regex choice."""
+    values = sorted(values, key=lambda v: -len(v))
+    values = [re.escape(v) for v in values]
+    pattern = "|".join(values)
+    pattern = rf"({pattern})"
+    return pattern
+
 
 UNITS_RE = [t["pattern"] for t in TERMS if t["label"] == "metric_length"]
 UNITS_RE = "(?<![A-Za-z])" + list_to_re_choice(UNITS_RE) + r"\b"

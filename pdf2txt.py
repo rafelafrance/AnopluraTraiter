@@ -17,6 +17,14 @@ from anoplura.pylib.const import DASH
 from anoplura.pylib.pipeline import pipeline
 
 
+class DotDict(dict):
+    """Allow dot.notation access to dictionary items."""
+
+    __getattr__ = dict.get
+    __setattr__ = dict.__setitem__
+    __delattr__ = dict.__delitem__
+
+
 def main(args):
     """Convert the PDF to a text format we can use.
 
@@ -159,7 +167,7 @@ def toml_args(args):
         mojibake = {k: v for k, v in zip(mojibake[:-1:2], mojibake[1::2])}
         new_args["mojibake"] = mojibake
 
-    new_args = t_util.DotDict(new_args)
+    new_args = DotDict(new_args)
     return new_args
 
 

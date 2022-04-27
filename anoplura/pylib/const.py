@@ -22,7 +22,7 @@ VOCAB_DIR = Path.cwd() / "anoplura" / "vocabulary"
 # Term relate constants
 
 TERMS = Itis.shared("animals insect_anatomy numerics")
-TERMS += Itis.shared("units", labels="metric_length")
+TERMS += Itis.shared("units")
 TERMS += Itis.read_csv(VOCAB_DIR / "common_terms.csv")
 TERMS += Itis.read_csv(VOCAB_DIR / "anoplura_terms.csv")
 TERMS += Itis.read_csv(VOCAB_DIR / "anoplura_species.csv")
@@ -75,4 +75,4 @@ COMMON_PATTERNS = {
 # #########################################################################
 # Remove these stray entities
 
-FORGET = """ number_word part_loc sclerotin stop """.split()
+FORGET = """ number_word part_loc sclerotin stop imperial_length """.split()

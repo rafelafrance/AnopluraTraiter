@@ -7,28 +7,28 @@ from tests.setup import test_traits
 class TestAntenna(unittest.TestCase):
     """Test antenna trait matcher."""
 
-    def test_antenna_01(self):
-        actual = test_traits("Head suboval; antennae unmodified in males;.")
-        self.assertEqual(
-            actual,
-            [
-                {
-                    "body_part": "head",
-                    "trait": "body_part",
-                    "start": 0,
-                    "end": 4,
-                    "description": "suboval",
-                },
-                {
-                    "body_part": "antenna",
-                    "trait": "body_part",
-                    "start": 14,
-                    "end": 22,
-                    "description": "unmodified in males",
-                },
-                {"sex": "male", "trait": "sex", "start": 37, "end": 42},
-            ],
-        )
+    # def test_antenna_01(self):
+    #     actual = test_traits("Head suboval; antennae unmodified in males;.")
+    #     self.assertEqual(
+    #         actual,
+    #         [
+    #             {
+    #                 "body_part": "head",
+    #                 "trait": "body_part",
+    #                 "start": 0,
+    #                 "end": 4,
+    #                 "description": "suboval",
+    #             },
+    #             {
+    #                 "body_part": "antenna",
+    #                 "trait": "body_part",
+    #                 "start": 14,
+    #                 "end": 22,
+    #                 "description": "unmodified in males",
+    #             },
+    #             {"sex": "male", "trait": "sex", "start": 37, "end": 42},
+    #         ],
+    #     )
 
     # def test_antenna_02(self):
     #     self.assertEqual(
