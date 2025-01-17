@@ -1,7 +1,7 @@
 .PHONY: test install dev venv
 .ONESHELL:
 
-test:6
+test:
 	. .venv/bin/activate
 	python3.11 -m unittest discover
 
