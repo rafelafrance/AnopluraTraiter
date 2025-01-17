@@ -1,32 +1,11 @@
-"""Setup for all tests."""
-from typing import Dict
-from typing import List
+from traiter.pylib import pipeline
+from traiter.pylib.util import compress
 
-from traiter.util import clean_text
-from traiter.util import shorten
-
-from anoplura.pylib.pipeline import pipeline
-
-NLP = pipeline()  # Singleton for testing
-
-# Translate characters resulting from PDF madness
-TRANS = str.maketrans({"¼": "=", "⫻": "×", "#": "♂", "$": "♀"})
+PIPELINE = pipeline.build()
 
 
-def test_traits(text: str) -> List[Dict]:
-    """Find entities in the doc."""
-    text = shorten(text)
-    text = clean_text(text, trans=TRANS)
+def parse(text: str) -> list:
+    text = compress(text)
+    doc = PIPELINE(text)
 
-    doc = NLP(text)
-
-    traits = [e._.data for e in doc.ents]
-
-    # from pprint import pp
-    # pp(traits)
-
-    # from spacy import displacy
-    # options = {'collapse_punct': False, 'compact': True}
-    # displacy.serve(doc, options=options)
-
-    return traits
+    return [e._.trait for e in doc.ents]

@@ -1,4 +1,3 @@
-"""Parse count notations."""
 import spacy
 from traiter.patterns.matcher_patterns import MatcherPatterns
 from traiter.util import to_positive_int
@@ -17,7 +16,6 @@ SEX_COUNT = MatcherPatterns(
 
 @spacy.registry.misc(SEX_COUNT.on_match)
 def sex_count(ent):
-    """Enrich the match with data."""
     data = {}
 
     for token in ent:

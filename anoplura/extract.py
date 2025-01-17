@@ -1,23 +1,22 @@
 #!/usr/bin/env python3
-"""Extract anoplura traits from scientific literature (PDFs to text)."""
+
 import argparse
 import textwrap
 from copy import deepcopy
+from pathlib import Path
 
 from anoplura.pylib.pipeline import pipeline
-from anoplura.writers.html_writer import html_writer
+from anoplura.pylib.writers.html_writer import html_writer
 
 
 def main(args):
-    """Extract data from the files."""
     nlp = pipeline()
     rows = []
 
-    with open(args.text) as in_file:
+    with args.text.open() as in_file:
         lines = [ln.strip() for ln in in_file.readlines()]
 
-    for doc in nlp.pipe(lines):
-        rows.append({"doc": doc})
+    rows = [{"doc": doc} for doc in nlp.pipe(lines)]
 
     if args.html_file:
         copied = deepcopy(rows)
@@ -25,18 +24,23 @@ def main(args):
 
 
 def parse_args():
-    """Process command-line arguments."""
-    description = """Parse data from lice papers."""
     arg_parser = argparse.ArgumentParser(
-        description=textwrap.dedent(description), fromfile_prefix_chars="@"
+        allow_abbrev=True,
+        description=textwrap.dedent("""Parse data from lice papers."""),
     )
 
-    arg_parser.add_argument("--text", "-t", help="""Path to the text file to parse.""")
+    arg_parser.add_argument(
+        "--text",
+        type=Path,
+        required=True,
+        metavar="PATH",
+        help="""Path to the text file to parse.""",
+    )
 
     arg_parser.add_argument(
         "--html-file",
-        "-H",
-        type=argparse.FileType("w"),
+        type=Path,
+        metavar="PATH",
         help="""Output the results to this HTML file.""",
     )
 

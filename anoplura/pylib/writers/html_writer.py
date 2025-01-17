@@ -4,10 +4,8 @@ from datetime import datetime
 from html import escape
 from itertools import cycle
 
-from jinja2 import Environment
-from jinja2 import FileSystemLoader
+from jinja2 import Environment, FileSystemLoader
 from spacy import displacy
-
 
 OPTIONS = {
     "colors": {
@@ -73,7 +71,8 @@ def html_writer_(args, rows):
 
 
 def build_classes(rows):
-    """Make tags for HTML text color highlighting.
+    """
+    Make tags for HTML text color highlighting.
 
     Tag keys are the trait name and if it's an open or close tag.
     For example:
