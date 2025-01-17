@@ -1,7 +1,7 @@
 # """Test sternal thoracic plate trait matcher."""
 # import unittest
 #
-# # from tests.setup import test_traits
+# # from tests.setup import parse
 #
 #
 # class TestThoracicSternalPlate(unittest.TestCase):
@@ -9,7 +9,7 @@
 #
 #     # def test_sternal_plate_01(self):
 #     #     self.assertEqual(
-#     #         test_traits(
+#     #         parse(
 #     #             """
 #     #             Thoracic sternal plate subrectangular, about 3⫻ as wide as
 #     #             long; thorax rounded."""

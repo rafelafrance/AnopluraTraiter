@@ -42,6 +42,9 @@ py-modules = []
 target-version = "py311"
 
 show-fixes = true
+exclude = [
+    "**/external/*.py", # External code
+]
 
 lint.select = [
     "F",

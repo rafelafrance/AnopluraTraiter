@@ -1,7 +1,7 @@
 # """Test description trait matcher."""
 # import unittest
 #
-# from tests.setup import test_traits
+# from tests.setup import parse
 #
 #
 # class TestDescription(unittest.TestCase):
@@ -9,7 +9,7 @@
 #
 #     # def test_description_01(self):
 #     #     self.assertEqual(
-#     #         test_traits(
+#     #         parse(
 #     #             """
 #     #             Head: More heavily sclerotized along anterior margin;
 #     #             longer than broad with squarish, slightly convex anterior margin.
@@ -35,7 +35,7 @@
 #
 #     # def test_description_02(self):
 #     #     self.assertEqual(
-#     #         test_traits(
+#     #         parse(
 #     #             """
 #     #             Thorax slightly wider and elongate.
 #     #             Thoracic sternal plate extended anteriorly.
@@ -61,7 +61,7 @@
 #
 #     def test_description_03(self):
 #         self.assertEqual(
-#             test_traits("""Stuff on head."""),
+#             parse("""Stuff on head."""),
 #             [
 #                 {
 #                     "body_part": "head",
@@ -75,7 +75,7 @@
 #
 #     def test_description_04(self):
 #         self.assertEqual(
-#             test_traits("""Stuff on head but not on top."""),
+#             parse("""Stuff on head but not on top."""),
 #             [
 #                 {
 #                     "body_part": "head",

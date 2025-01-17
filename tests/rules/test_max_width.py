@@ -2,7 +2,7 @@
 # # pylint: disable=missing-function-docstring, too-many-public-methods
 # import unittest
 #
-# from tests.setup import test_traits
+# from tests.setup import parse
 #
 #
 # class TestMaxWidth(unittest.TestCase):
@@ -10,7 +10,7 @@
 #
 #     def test_max_width_01(self):
 #         self.assertEqual(
-#             test_traits("Maximum head width, 0.150–0.163 mm (mean, 0.17 mm, n = 4)."),
+#             parse("Maximum head width, 0.150–0.163 mm (mean, 0.17 mm, n = 4)."),
 #             [
 #                 {
 #                     "n": 4,
@@ -29,7 +29,7 @@
 #
 #     def test_length_02(self):
 #         self.assertEqual(
-#             test_traits("Maximum thorax width, 0.193–0.228 mm (mean, 0.210, n = 4)."),
+#             parse("Maximum thorax width, 0.193–0.228 mm (mean, 0.210, n = 4)."),
 #             [
 #                 {
 #                     "body_part": "thorax",

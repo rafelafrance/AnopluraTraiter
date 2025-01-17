@@ -34,15 +34,16 @@ I will extract:
 - sclerotized part: part = [head, thorax, abdomen], sclerotized = lightly
 - etc.
 
-## Multiple methods for parsing
+## Methods for parsing
 
-1. Rule-based parsing. Most machine learning models require a substantial training dataset. I use this method to bootstrap the training data. And, if other methods fail, I can fall back to this method. The downside of this method rule-based matchers are tricky and time-consuming to get right.
+1. Rule-based parsing. Most machine learning models require a substantial training dataset. I use this method to bootstrap the training data. And, if other methods fail, I can fall back to this method. The downside of this method is that rule-based matchers are tricky and time-consuming to get right.
    - There is one set of rules for identifying the traits themselves. This is called Named Entity Recognition (NER).
    - There is another set of rules for associating traits with one another. For instance, determining that a maximum width measurement is for a male _Lemurpediculus robbinsi_ (holotype).
-1. (In progress) Machine learning models. Once we have enough relevant data from the rules we can train models with that data. We are using two different models.
-   - One for named entity recognition (NER) to identify the traits.
-   - And another model for associating traits with one another. As mentioned above.
-   - It may be possible to combine these models.
+2. ~~Machine learning models. Once we have enough relevant data from the rules we can train models with that data. We are using two different models.~~
+   - ~~One for named entity recognition (NER) to identify the traits.~~
+   - ~~And another model for associating traits with one another. As mentioned above.~~
+   - ~~It may be possible to combine these models.~~
+   - I probably do not have time to do this.
 
 ## Rule-based parsing strategy
 
@@ -53,25 +54,20 @@ For example, given the text: `Head, thorax, and abdomen lightly sclerotized.`
    - `thorax`
    - `abdomen`
    - `sclerotized`
-1. These terms are used as anchors for finding phrase patterns in the document using spaCy's rule based matchers. Relevant patterns for this example are:
+2. These terms are used as anchors for finding phrase patterns in the document using spaCy's rule based matchers. Relevant patterns for this example are:
    - Body part words separated by commas or conjunctions. Here we get `Head, thorax, and abdomen` and the extracted data is `part = [head, thorax, abdomen]`
    - An adverb followed by the word "sclerotin". Which would recognize `lightly sclerotized` which yields the data `sclerotized = lightly`
-1. Now I recognize the full trait by looking for patterns that work on the previous matches:
+3. Now I recognize the full trait by looking for patterns that work on the previous matches:
    - In this case, a body part followed by some possible filler which is then followed by a sclerotin notation. So we now have the full trait: `Head, thorax, and abdomen lightly sclerotized.` and its data `sclerotized part: part = [head, thorax, abdomen], sclerotized = lightly`.
    - Please note that there may be more levels of matching.
-1. Finally, I associate traits with a species, sex, holotype/allotype/paratype, etc. using a different set of spaCy matchers and some simple heuristics.
+4. Finally, I associate traits with a species, sex, holotype/allotype/paratype, etc. using a different set of spaCy matchers and some simple heuristics.
 
 ## Install
 
 You will need to have Python 3.8 (or later) installed. You can install the requirements into your python environment like so:
 
 ```
-git clone https://github.com/rafelafrance/traiter_efloras.git
-cd traiter_efloras
-optional: virtualenv -p python3.8 venv
-optional: source venv/bin/activate
-python3 -m pip install --requirement requirements.txt
-python3 -m pip install git+https://github.com/rafelafrance/traiter.git@master#egg=traiter
+make install
 ```
 
 ## Run
@@ -87,6 +83,5 @@ Having a test suite is absolutely critical. The strategy I use is every new trai
 You can run the tests like so:
 
 ```
-cd /my/path/to/eforas_traiter
-python -m unittest discover
+make test
 ```

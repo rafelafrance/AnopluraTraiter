@@ -1,7 +1,7 @@
 # """Test setae count trait matcher."""
 # import unittest
 #
-# from tests.setup import test_traits
+# from tests.setup import parse
 #
 #
 # class TestSetaeCount(unittest.TestCase):
@@ -9,7 +9,7 @@
 #
 #     def test_setae_count_01(self):
 #         self.assertEqual(
-#             test_traits("One long Dorsal Principal Head Seta (DPHS)"),
+#             parse("One long Dorsal Principal Head Seta (DPHS)"),
 #             [
 #                 {
 #                     "count": 1,
@@ -24,7 +24,7 @@
 #
 #     def test_setae_count_02(self):
 #         self.assertEqual(
-#             test_traits("no Dorsal Mesothoracic Setae (DMsS);"),
+#             parse("no Dorsal Mesothoracic Setae (DMsS);"),
 #             [
 #                 {
 #                     "count": 0,
@@ -39,7 +39,7 @@
 #
 #     def test_setae_count_03(self):
 #         self.assertEqual(
-#             test_traits("with pair of long setae"),
+#             parse("with pair of long setae"),
 #             [
 #                 {
 #                     "body_part": "seta",
@@ -55,7 +55,7 @@
 #
 #     def test_setae_count_04(self):
 #         self.assertEqual(
-#             test_traits("with 16–18 contiguous curved setae on each side;"),
+#             parse("with 16–18 contiguous curved setae on each side;"),
 #             [
 #                 {
 #                     "low": 16,
@@ -72,7 +72,7 @@
 #
 #     def test_setae_count_05(self):
 #         self.assertEqual(
-#             test_traits("One long and one tiny seta immediately posterior to"),
+#             parse("One long and one tiny seta immediately posterior to"),
 #             [
 #                 {
 #                     "seta": "seta",

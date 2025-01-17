@@ -1,11 +1,11 @@
 # import unittest
 #
-# from tests.setup import test_traits
+# from tests.setup import parse
 #
 #
 # class TestAntenna(unittest.TestCase):
 # def test_antenna_01(self):
-#     actual = test_traits("Head suboval; antennae unmodified in males;.")
+#     actual = parse("Head suboval; antennae unmodified in males;.")
 #     self.assertEqual(
 #         actual,
 #         [
@@ -29,7 +29,7 @@
 
 # def test_antenna_02(self):
 #     self.assertEqual(
-#         test_traits(
+#         parse(
 #             """
 #             Antennae five-segmented with basal segment wider than long and
 #             much larger than second segment; fourth segment slightly
@@ -67,7 +67,7 @@
 
 # def test_antenna_03(self):
 #     self.assertEqual(
-#         test_traits(
+#         parse(
 #             """
 #             Head lacking eyes, with 5-segmented antennae which are often
 #             sexually dimorphic.
@@ -94,7 +94,7 @@
 
 # def test_antenna_04(self):
 #     self.assertEqual(
-#         test_traits(
+#         parse(
 #             """
 #             third antennal segment modified with anterodorsal projection.
 #             """
@@ -112,7 +112,7 @@
 
 # def test_antenna_05(self):
 #     self.assertEqual(
-#         test_traits("Antennal segments 3-5 not fused;"),
+#         parse("Antennal segments 3-5 not fused;"),
 #         [
 #             {
 #                 "body_part": "antenna segment 3-5",

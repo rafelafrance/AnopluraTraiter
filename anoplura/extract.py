@@ -5,13 +5,12 @@ import textwrap
 from copy import deepcopy
 from pathlib import Path
 
-from anoplura.pylib.pipeline import pipeline
+from anoplura.pylib import pipeline
 from anoplura.pylib.writers.html_writer import html_writer
 
 
 def main(args):
-    nlp = pipeline()
-    rows = []
+    nlp = pipeline.build()
 
     with args.text.open() as in_file:
         lines = [ln.strip() for ln in in_file.readlines()]

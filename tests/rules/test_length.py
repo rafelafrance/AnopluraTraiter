@@ -2,7 +2,7 @@
 # # pylint: disable=missing-function-docstring, too-many-public-methods
 # import unittest
 #
-# from tests.setup import test_traits
+# from tests.setup import parse
 #
 #
 # class TestLength(unittest.TestCase):
@@ -10,7 +10,7 @@
 #
 #     def test_length_01(self):
 #         self.assertEqual(
-#             test_traits("Total body length: 0.99–1.16 mm; mean, 1.09 mm (n = 4)."),
+#             parse("Total body length: 0.99–1.16 mm; mean, 1.09 mm (n = 4)."),
 #             [
 #                 {
 #                     "n": 4,
@@ -29,7 +29,7 @@
 #
 #     def test_length_02(self):
 #         self.assertEqual(
-#             test_traits(
+#             parse(
 #                 """
 #                 DPTS length 0.137 mm (n = 1) (only one unbroken DPTS present).
 #                 """

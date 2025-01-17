@@ -1,7 +1,7 @@
 # """Test body part trait matcher."""
 # import unittest
 #
-# from tests.setup import test_traits
+# from tests.setup import parse
 #
 #
 # class TestBodyPart(unittest.TestCase):
@@ -9,7 +9,7 @@
 #
 #     # def test_body_part_01(self):
 #     #     self.assertEqual(
-#     #         test_traits("fourth segment"),
+#     #         parse("fourth segment"),
 #     #         [
 #     #             {
 #     #                 "body_part": "fourth segment",
@@ -22,7 +22,7 @@
 #
 #     def test_body_part_02(self):
 #         self.assertEqual(
-#             test_traits("head, thorax, abdomen"),
+#             parse("head, thorax, abdomen"),
 #             [
 #                 {
 #                     "body_part": "head, thorax, abdomen",
@@ -35,7 +35,7 @@
 #
 #     def test_body_part_03(self):
 #         self.assertEqual(
-#             test_traits("missing eyes"),
+#             parse("missing eyes"),
 #             [
 #                 {
 #                     "body_part": "missing eye",
