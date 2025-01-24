@@ -1,5 +1,6 @@
-from traiter.pylib import pipeline
 from traiter.pylib.util import compress
+
+from anoplura.pylib import pipeline
 
 PIPELINE = pipeline.build()
 

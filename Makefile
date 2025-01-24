@@ -3,23 +3,25 @@
 
 test:
 	. .venv/bin/activate
-	python3.11 -m unittest discover
+	python3.12 -m unittest discover
 
 install:
-	test -d .venv || python3.11 -m venv .venv
+	test -d .venv || python3.12 -m venv .venv
 	. .venv/bin/activate
-	python3.11 -m pip install -U pip setuptools wheel
-	python3.11 -m pip install git+https://github.com/rafelafrance/traiter.git@master#egg=traiter
-	python3.11 -m pip install .
-	python3.11 -m spacy download en_core_web_md
+	python3.12 -m pip install -U pip setuptools wheel
+	python3.12 -m pip install git+https://github.com/rafelafrance/common_utils.git@main#egg=common_utils
+	python3.12 -m pip install git+https://github.com/rafelafrance/traiter.git@master#egg=traiter
+	python3.12 -m pip install .
+	python3.12 -m spacy download en_core_web_md
 
 dev:
-	test -d .venv || python3.11 -m venv .venv
+	test -d .venv || python3.12 -m venv .venv
 	. .venv/bin/activate
-	python3.11 -m pip install -U pip setuptools wheel
-	python3.11 -m pip install -e ../../traiter/traiter
-	python3.11 -m pip install -e .[dev]
-	python3.11 -m spacy download en_core_web_md
+	python3.12 -m pip install -U pip setuptools wheel
+	python3.12 -m pip install -e ../../misc/common_utils
+	python3.12 -m pip install -e ../../traiter/traiter
+	python3.12 -m pip install -e .[dev]
+	python3.12 -m spacy download en_core_web_md
 	pre-commit install
 
 clean:

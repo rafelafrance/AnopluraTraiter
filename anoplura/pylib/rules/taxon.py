@@ -4,7 +4,7 @@ from typing import ClassVar
 
 from spacy.language import Language
 from spacy.util import registry
-from traiter.pylib import const, term_util
+from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
 from traiter.pylib.pipes import add
 
@@ -30,6 +30,7 @@ class Taxon(Base):
     @classmethod
     def pipe(cls, nlp: Language):
         add.term_pipe(nlp, name="taxon_terms", path=cls.taxon_csv)
+        add.debug_tokens(nlp)
         add.trait_pipe(nlp, name="taxon_patterns", compiler=cls.taxon_patterns())
         add.cleanup_pipe(nlp, name="taxon_cleanup")
 
@@ -41,24 +42,20 @@ class Taxon(Base):
                 on_match="taxon_match",
                 keep="color",
                 decoder={
-                    "-": {"TEXT": {"IN": const.DASH}},
-                    "color": {"ENT_TYPE": "taxon_term"},
-                    "taxon_words": {"ENT_TYPE": {"IN": ["taxon_term", "taxon_mod"]}},
-                    "missing": {"ENT_TYPE": "taxon_missing"},
-                    "to": {"POS": {"IN": ["AUX"]}},
+                    "anoplura": {"ENT_TYPE": "anoplura"},
                 },
                 patterns=[
-                    "missing? taxon_words* -* color+ -* taxon_words*",
-                    "missing? taxon_words+ to taxon_words+ color+ -* taxon_words*",
+                    "anoplura+",
                 ],
             ),
         ]
 
     @classmethod
     def taxon_match(cls, ent):
-        taxon = ""
-        rank = ""
-        group = ""
+        text = ent.text.lower()
+        taxon = cls.replace.get(text, text)
+        rank = cls.ranks.get(text, "species")
+        group = cls.groups.get(text, "mammal")
         return super().from_ent(ent, taxon=taxon, rank=rank, group=group)
 
 

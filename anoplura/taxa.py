@@ -11,9 +11,8 @@ from pathlib import Path
 class Taxon:
     label: str
     pattern: str
+    replace: str
     rank: str
-    raw: str
-    replace: str = ""
 
 
 def main(args):
@@ -23,40 +22,74 @@ def main(args):
 
     taxa = {}
 
+    # The rows look like any of the below:
+    # header row: label,pattern,replace,rank
+    # Whis a replacment name: anoplura,scipio longiceps,Scipio aulacodi,species
+    # Without a replacment name: anoplura,scipio tripedatus,,species
     for row in rows:
-        # From pattern
-        label = row["label"]
         pattern = row["pattern"].lower()
-        raw = row["pattern"]
-        replace = row.get("replace", row["pattern"])
-
+        replace = row["replace"] if row["replace"] else row["pattern"]
         words = pattern.split()
         abbrev = " ".join([f"{words[0][0]}."] + words[1:])
 
+        # Regular species name, Canis lupus
         taxa[pattern] = Taxon(
-            label=label, pattern=pattern, rank="species", raw=raw, replace=replace
+            label=row["label"],
+            pattern=pattern,
+            replace=replace,
+            rank="species",
         )
-        taxa[abbrev] = Taxon(
-            label=label, pattern=abbrev, rank="species", raw=raw, replace=replace
-        )
-        taxa[words[0]] = Taxon(label=label, pattern=words[0], raw=raw, rank="genus")
 
-        if pattern == replace:
+        # Species with the genus abbreviated, like C. lupus
+        if len(words) > 1:
+            taxa[abbrev] = Taxon(
+                label=row["label"],
+                pattern=abbrev,
+                replace=replace,
+                rank="species",
+            )
+
+        # Genus only, like Canis
+        taxa[words[0]] = Taxon(
+            label=row["label"],
+            pattern=words[0],
+            replace=words[0].title(),
+            rank="genus",
+        )
+
+        # We have to do the same for a replaced species name
+        if not row["replace"]:
             continue
 
         # From replace
         pattern = row["replace"].lower()
-        raw = row["replace"]
         words = pattern.split()
         abbrev = " ".join([f"{words[0][0]}."] + words[1:])
 
+        # Regular species name from the replace column, Canis lupus
         taxa[pattern] = Taxon(
-            label=label, pattern=pattern, rank="species", raw=raw, replace=replace
+            label=row["label"],
+            pattern=pattern,
+            replace=row["replace"],
+            rank="species",
         )
-        taxa[abbrev] = Taxon(
-            label=label, pattern=abbrev, rank="species", raw=raw, replace=replace
+
+        # Species with the genus abbreviated from the replace column, like C. lupus
+        if len(words) > 1:
+            taxa[abbrev] = Taxon(
+                label=row["label"],
+                pattern=abbrev,
+                replace=row["replace"],
+                rank="species",
+            )
+
+        # Genus only, like Canis
+        taxa[words[0]] = Taxon(
+            label=row["label"],
+            pattern=words[0],
+            replace=words[0].title(),
+            rank="genus",
         )
-        taxa[words[0]] = Taxon(label=label, pattern=words[0], raw=raw, rank="genus")
 
     taxa = sorted(taxa.values(), key=lambda t: (t.rank, t.pattern))
 
