@@ -56,7 +56,7 @@ class Taxon(Base):
         taxon = cls.replace.get(text, text)
         rank = cls.ranks.get(text, "species")
         group = cls.groups.get(text, "mammal")
-        return super().from_ent(ent, taxon=taxon, rank=rank, group=group)
+        return cls.from_ent(ent, taxon=taxon, rank=rank, group=group)
 
 
 @registry.misc("taxon_match")

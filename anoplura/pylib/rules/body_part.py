@@ -95,14 +95,14 @@ class BodyPart(Base):
     def body_part_patterns(cls):
         return [
             Compiler(
-                label="color",
+                label="body_part",
                 on_match="body_part_match",
-                keep="color",
+                keep="body_part",
                 decoder={
-                    "anoplura": {"ENT_TYPE": "anoplura"},
+                    "seta": {"ENT_TYPE": "setae"},
                 },
                 patterns=[
-                    "anoplura+",
+                    "seta+",
                 ],
             ),
         ]
@@ -111,9 +111,7 @@ class BodyPart(Base):
     def body_part_match(cls, ent):
         text = ent.text.lower()
         body_part = cls.replace.get(text, text)
-        rank = cls.ranks.get(text, "species")
-        group = cls.groups.get(text, "mammal")
-        return super().from_ent(ent, body_part=body_part, rank=rank, group=group)
+        return cls.from_ent(ent, body_part=body_part)
 
 
 @registry.misc("body_part_match")

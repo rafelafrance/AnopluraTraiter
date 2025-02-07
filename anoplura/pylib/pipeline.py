@@ -1,6 +1,7 @@
 import spacy
 from traiter.pylib.pipes import extensions, sentence, tokenizer
 
+from anoplura.pylib.rules.body_part import BodyPart
 from anoplura.pylib.rules.taxon import Taxon
 
 
@@ -14,5 +15,6 @@ def build():
     nlp.add_pipe(sentence.SENTENCES, before="parser")
 
     Taxon.pipe(nlp)
+    BodyPart.pipe(nlp)
 
     return nlp
