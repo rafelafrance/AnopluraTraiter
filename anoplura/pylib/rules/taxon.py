@@ -30,7 +30,7 @@ class Taxon(Base):
     @classmethod
     def pipe(cls, nlp: Language):
         add.term_pipe(nlp, name="taxon_terms", path=cls.taxon_csv)
-        add.debug_tokens(nlp)
+        # add.debug_tokens(nlp)
         add.trait_pipe(nlp, name="taxon_patterns", compiler=cls.taxon_patterns())
         add.cleanup_pipe(nlp, name="taxon_cleanup")
 
@@ -38,9 +38,9 @@ class Taxon(Base):
     def taxon_patterns(cls):
         return [
             Compiler(
-                label="color",
+                label="taxon",
                 on_match="taxon_match",
-                keep="color",
+                keep="taxon",
                 decoder={
                     "anoplura": {"ENT_TYPE": "anoplura"},
                 },

@@ -1,91 +1,4 @@
 label,pattern,replace,rank
-anoplura,abrocomaphthirus,Abrocomaphthirus,genus
-anoplura,acanthopinus,Acanthopinus,genus
-anoplura,achimella,Achimella,genus
-anoplura,ahaematopinus,Ahaematopinus,genus
-anoplura,alenapthirus,Alenapthirus,genus
-anoplura,ancistroplax,Ancistroplax,genus
-anoplura,antarctophthirus,Antarctophthirus,genus
-anoplura,arctophthirus,Arctophthirus,genus
-anoplura,atopophthirus,Atopophthirus,genus
-anoplura,bathyergicola,Bathyergicola,genus
-anoplura,bedfordia,Bedfordia,genus
-anoplura,cervophthirius,Cervophthirius,genus
-anoplura,cervophthrius,Cervophthrius,genus
-anoplura,ctenophthirus,Ctenophthirus,genus
-anoplura,ctenopleura,Ctenopleura,genus
-anoplura,ctenura,Ctenura,genus
-anoplura,cuyana,Cuyana,genus
-anoplura,cyclophthirus,Cyclophthirus,genus
-anoplura,docophthirus,Docophthirus,genus
-anoplura,echinophthirius,Echinophthirius,genus
-anoplura,enderleinellus,Enderleinellus,genus
-anoplura,eremophthirius,Eremophthirius,genus
-anoplura,euendelerleinellus,Euendelerleinellus,genus
-anoplura,euenderleinellus,Euenderleinellus,genus
-anoplura,euhaematopinus,Euhaematopinus,genus
-anoplura,euhoplopleura,Euhoplopleura,genus
-anoplura,eulinognathus,Eulinognathus,genus
-anoplura,fahrenholzia,Fahrenholzia,genus
-anoplura,ferrisella,Ferrisella,genus
-anoplura,galeophthirus,Galeophthirus,genus
-anoplura,haematopinoides,Haematopinoides,genus
-anoplura,haematopinus,Haematopinus,genus
-anoplura,haemodipsus,Haemodipsus,genus
-anoplura,hamophthirius,Hamophthirius,genus
-anoplura,hamophthirus,Hamophthirus,genus
-anoplura,hasellus,Hasellus,genus
-anoplura,hematopinus,Hematopinus,genus
-anoplura,hoplophthirus,Hoplophthirus,genus
-anoplura,hoplopleura,Hoplopleura,genus
-anoplura,hybophthirus,Hybophthirus,genus
-anoplura,johnsonpthirus,Johnsonpthirus,genus
-anoplura,lagidiophthirus,Lagidiophthirus,genus
-anoplura,latagophthirus,Latagophthirus,genus
-anoplura,lemurpediculus,Lemurpediculus,genus
-anoplura,lemurphthirus,Lemurphthirus,genus
-anoplura,lepidophthirus,Lepidophthirus,genus
-anoplura,linognathella,Linognathella,genus
-anoplura,linognathoides,Linognathoides,genus
-anoplura,linognathus,Linognathus,genus
-anoplura,linognatoides,Linognatoides,genus
-anoplura,lutegus,Lutegus,genus
-anoplura,microphthirus,Microphthirus,genus
-anoplura,microthoracius,Microthoracius,genus
-anoplura,mirophthirus,Mirophthirus,genus
-anoplura,neohaematopinus,Neohaematopinus,genus
-anoplura,neolinognathus,Neolinognathus,genus
-anoplura,neopedicinus,Neopedicinus,genus
-anoplura,neumannellus,Neumannellus,genus
-anoplura,paradoxophthirus,Paradoxophthirus,genus
-anoplura,pecaroecus,Pecaroecus,genus
-anoplura,pedicinus,Pedicinus,genus
-anoplura,pediculus,Pediculus,genus
-anoplura,petauristophthirus,Petauristophthirus,genus
-anoplura,phthirpedicinus,Phthirpedicinus,genus
-anoplura,phthirpediculus,Phthirpediculus,genus
-anoplura,phthirunculus,Phthirunculus,genus
-anoplura,phthirus,Phthirus,genus
-anoplura,polyplax,Polyplax,genus
-anoplura,proechinophthirus,Proechinophthirus,genus
-anoplura,proenderleinellus,Proenderleinellus,genus
-anoplura,prolinognathus,Prolinognathus,genus
-anoplura,pterophthirus,Pterophthirus,genus
-anoplura,pthirus,Pthirus,genus
-anoplura,ratemia,Ratemia,genus
-anoplura,rhinophthirus,Rhinophthirus,genus
-anoplura,sathrax,Sathrax,genus
-anoplura,schizophthirus,Schizophthirus,genus
-anoplura,scipio,Scipio,genus
-anoplura,solenopotes,Solenopotes,genus
-anoplura,stobella,Stobella,genus
-anoplura,symoca,Symoca,genus
-anoplura,symysadus,Symysadus,genus
-anoplura,trichaulus,Trichaulus,genus
-anoplura,tupaiphthirus,Tupaiphthirus,genus
-anoplura,typhlomyophthirus,Typhlomyophthirus,genus
-anoplura,waterstonia,Waterstonia,genus
-anoplura,werneckia,Werneckia,genus
 anoplura,a. antennatus,Neohaematopinus sciurinus,species
 anoplura,a. calforhini,Antarctophthirus callorhini,species
 anoplura,a. callorhini,Antarctophthirus callorhini,species
@@ -100,8 +13,8 @@ anoplura,a. insulsus,Polyplax insulsa,species
 anoplura,a. lobodontis,Antarctophthirus lobodontis,species
 anoplura,a. longus,Abrocomaphthirus longus,species
 anoplura,a. mawsoni,Antarctophthirus mawsoni,species
-anoplura,a. microchir,Antarctophthirus microchir,species
 anoplura,a. microchir californicus,Antarctophthirus microchir,species
+anoplura,a. microchir,Antarctophthirus microchir,species
 anoplura,a. monarchus,Antarctophthirus callorhini,species
 anoplura,a. nasuta,Ancistroplax nasuta,species
 anoplura,a. nepalensis,Ancistroplax nepalensis,species
@@ -114,29 +27,38 @@ anoplura,a. trichechi,Antarctophthirus trichechi,species
 anoplura,abrocomaphthirus chilensis,Abrocomaphthirus chilensis,species
 anoplura,abrocomaphthirus hoplai,Abrocomaphthirus hoplai,species
 anoplura,abrocomaphthirus longus,Abrocomaphthirus longus,species
+anoplura,abrocomaphthirus,Abrocomaphthirus,genus
 anoplura,acanthopinus antennatus,Neohaematopinus sciurinus,species
 anoplura,acanthopinus sciurinus,Neohaematopinus sciurinus,species
+anoplura,acanthopinus,Acanthopinus,genus
 anoplura,achimella calforhini,Antarctophthirus callorhini,species
+anoplura,achimella,Achimella,genus
 anoplura,ahaematopinus inornatus,Neohaematopinus inornatus,species
 anoplura,ahaematopinus insulsus,Polyplax insulsa,species
+anoplura,ahaematopinus,Ahaematopinus,genus
 anoplura,alenapthirus spinosissimus,Johnsonpthirus spinosissimus,species
+anoplura,alenapthirus,Alenapthirus,genus
 anoplura,ancistroplax chodsigoae,Ancistroplax chodsigoae,species
 anoplura,ancistroplax crocidurae,Ancistroplax crocidurae,species
 anoplura,ancistroplax nasuta,Ancistroplax nasuta,species
 anoplura,ancistroplax nepalensis,Ancistroplax nepalensis,species
 anoplura,ancistroplax taiwanensis,Ancistroplax taiwanensis,species
+anoplura,ancistroplax,Ancistroplax,genus
 anoplura,antarctophthirus callorhini,Antarctophthirus callorhini,species
 anoplura,antarctophthirus carlinii,Antarctophthirus carlinii,species
 anoplura,antarctophthirus lobodontis,Antarctophthirus lobodontis,species
 anoplura,antarctophthirus mawsoni,Antarctophthirus mawsoni,species
-anoplura,antarctophthirus microchir,Antarctophthirus microchir,species
 anoplura,antarctophthirus microchir californicus,Antarctophthirus microchir,species
+anoplura,antarctophthirus microchir,Antarctophthirus microchir,species
 anoplura,antarctophthirus monarchus,Antarctophthirus callorhini,species
 anoplura,antarctophthirus ogmorhini,Antarctophthirus ogmorhini,species
 anoplura,antarctophthirus trichechi,Antarctophthirus trichechi,species
+anoplura,antarctophthirus,Antarctophthirus,genus
 anoplura,arctophthirus trichechi,Antarctophthirus trichechi,species
+anoplura,arctophthirus,Arctophthirus,genus
 anoplura,atopophthirus emersoni,Atopophthirus emersoni,species
 anoplura,atopophthirus setosus,Atopophthirus setosus,species
+anoplura,atopophthirus,Atopophthirus,genus
 anoplura,b. hilli,Eulinognathus hilli,species
 anoplura,b. lawrensis,Eulinognathus lawrensis,species
 anoplura,b. lophiomydis,Eulinognathus lophiomydis,species
@@ -144,7 +66,9 @@ anoplura,b. tripedata,Scipio tripedatus,species
 anoplura,bathyergicola hilli,Eulinognathus hilli,species
 anoplura,bathyergicola lawrensis,Eulinognathus lawrensis,species
 anoplura,bathyergicola lophiomydis,Eulinognathus lophiomydis,species
+anoplura,bathyergicola,Bathyergicola,genus
 anoplura,bedfordia tripedata,Scipio tripedatus,species
+anoplura,bedfordia,Bedfordia,genus
 anoplura,c. burmeisteri,Solenopotes burmeisteri,species
 anoplura,c. capreoli,Solenopotes capreoli,species
 anoplura,c. cercomydis,Ctenophthirus cercomydis,species
@@ -159,15 +83,23 @@ anoplura,cervophthirius capreoli,Solenopotes capreoli,species
 anoplura,cervophthirius crassicornis,Solenopotes burmeisteri,species
 anoplura,cervophthirius ferrisi,Solenopotes ferrisi,species
 anoplura,cervophthirius tarandi,Solenopotes tarandi,species
+anoplura,cervophthirius,Cervophthirius,genus
 anoplura,cervophthrius burmeisteri,Solenopotes burmeisteri,species
+anoplura,cervophthrius,Cervophthrius,genus
 anoplura,ctenophthirus cercomydis,Ctenophthirus cercomydis,species
+anoplura,ctenophthirus,Ctenophthirus,genus
 anoplura,ctenopleura cryptica,Hoplopleura cryptica,species
+anoplura,ctenopleura,Ctenopleura,genus
 anoplura,ctenura pectinata,Hoplopleura pectinata,species
+anoplura,ctenura,Ctenura,genus
 anoplura,cuyana maurii,Cuyana maurii,species
+anoplura,cuyana,Cuyana,genus
 anoplura,cyclophthirus ferrisi,Enderleinellus ferrisi,species
 anoplura,cyclophthirus suturalis,Enderleinellus suturalis,species
+anoplura,cyclophthirus,Cyclophthirus,genus
 anoplura,d. acinetus,Docophthirus acinetus,species
 anoplura,docophthirus acinetus,Docophthirus acinetus,species
+anoplura,docophthirus,Docophthirus,genus
 anoplura,e. abnormis,Haematopinoides squamosus,species
 anoplura,e. aculeatus,Eulinognathus aculeatus,species
 anoplura,e. alactaguli,Eulinognathus alactaguli,species
@@ -183,9 +115,9 @@ anoplura,e. cardiocranius,Eulinognathus cardiocranius,species
 anoplura,e. caviae,Galeophthirus caviae,species
 anoplura,e. corrugatus,Enderleinellus corrugatus,species
 anoplura,e. crucuformis,Eulinognathus crucuformis,species
-anoplura,e. denticulatus,Eulinognathus denticulatus,species
 anoplura,e. denticulatus denticulatus,Eulinognathus denticulatus,species
 anoplura,e. denticulatus surdasteri,Eulinognathus denticulatus,species
+anoplura,e. denticulatus,Eulinognathus denticulatus,species
 anoplura,e. deppei,Enderleinellus deppei,species
 anoplura,e. dipodis,Eulinognathus dipodis,species
 anoplura,e. disparilis,Enderleinellus disparilis,species
@@ -210,9 +142,9 @@ anoplura,e. hepperi,Eulinognathus hepperi,species
 anoplura,e. hesperius,Eulinognathus hesperius,species
 anoplura,e. hilli,Eulinognathus hilli,species
 anoplura,e. hondurensis,Enderleinellus hondurensis,species
-anoplura,e. horridus,Echinophthirius horridus,species
 anoplura,e. horridus baikalensis,Echinophthirius horridus,species
 anoplura,e. horridus erignathi,Echinophthirius horridus,species
+anoplura,e. horridus,Echinophthirius horridus,species
 anoplura,e. hypogeomydis,Eulinognathus hypogeomydis,species
 anoplura,e. inermis,Eulinognathus inermis,species
 anoplura,e. insularis,Enderleinellus insularis,species
@@ -253,6 +185,7 @@ anoplura,e. propinquus,Enderleinellus propinquus,species
 anoplura,e. puvensis,Enderleinellus puvensis,species
 anoplura,e. pygerethmi,Eulinognathus pygerethmi,species
 anoplura,e. replicates,Enderleinellus replicates,species
+anoplura,e. replicatus,Enderleinellus replicatus,species
 anoplura,e. scirtopodae,Eulinognathus scirtopodae,species
 anoplura,e. sciurotamiasis,Enderleinellus sciurotamiasis,species
 anoplura,e. sericans,Echinophthirius horridus,species
@@ -262,8 +195,8 @@ anoplura,e. spaerocephalus,Enderleinellus nitzschi,species
 anoplura,e. sphaerocephalus,Enderleinellus nitzschi,species
 anoplura,e. stephensi,Polyplax stephensi,species
 anoplura,e. subtaterae,Polyplax subtaterae,species
-anoplura,e. suturalis,Enderleinellus suturalis,species
 anoplura,e. suturalis occidentalis,Enderleinellus suturalis,species
+anoplura,e. suturalis,Enderleinellus suturalis,species
 anoplura,e. tamiasciuri,Enderleinellus tamiasciuri,species
 anoplura,e. tamiasis,Enderleinellus tamiasis,species
 anoplura,e. tamiopsis,Enderleinellus tamiopsis,species
@@ -280,14 +213,15 @@ anoplura,e. werneri,Polyplax werneri,species
 anoplura,e. zonatus,Enderleinellus zonatus,species
 anoplura,echinophthirius fluctus,Proechinophthirus fluctus,species
 anoplura,echinophthirius groenlandicus,Echinophthirius horridus,species
-anoplura,echinophthirius horridus,Echinophthirius horridus,species
 anoplura,echinophthirius horridus baikalensis,Echinophthirius horridus,species
 anoplura,echinophthirius horridus erignathi,Echinophthirius horridus,species
+anoplura,echinophthirius horridus,Echinophthirius horridus,species
 anoplura,echinophthirius microchir,Antarctophthirus microchir,species
 anoplura,echinophthirius phocae,Echinophthirius horridus,species
 anoplura,echinophthirius sericans,Echinophthirius horridus,species
 anoplura,echinophthirius sericeus,Echinophthirius horridus,species
 anoplura,echinophthirius setosus,Echinophthirius horridus,species
+anoplura,echinophthirius,Echinophthirius,genus
 anoplura,enderleinellus arizonensis,Enderleinellus arizonensis,species
 anoplura,enderleinellus blagoveshtchenskyi,Enderleinellus blagoveshtchenskyi,species
 anoplura,enderleinellus brasiliensis,Enderleinellus brasiliensis,species
@@ -329,11 +263,12 @@ anoplura,enderleinellus pratti,Enderleinellus pratti,species
 anoplura,enderleinellus propinquus,Enderleinellus propinquus,species
 anoplura,enderleinellus puvensis,Enderleinellus puvensis,species
 anoplura,enderleinellus replicates,Enderleinellus replicates,species
+anoplura,enderleinellus replicatus,Enderleinellus replicatus,species
 anoplura,enderleinellus sciurotamiasis,Enderleinellus sciurotamiasis,species
 anoplura,enderleinellus spaerocephalus,Enderleinellus nitzschi,species
 anoplura,enderleinellus sphaerocephalus,Enderleinellus nitzschi,species
-anoplura,enderleinellus suturalis,Enderleinellus suturalis,species
 anoplura,enderleinellus suturalis occidentalis,Enderleinellus suturalis,species
+anoplura,enderleinellus suturalis,Enderleinellus suturalis,species
 anoplura,enderleinellus tamiasciuri,Enderleinellus tamiasciuri,species
 anoplura,enderleinellus tamiasis,Enderleinellus tamiasis,species
 anoplura,enderleinellus tamiopsis,Enderleinellus tamiopsis,species
@@ -341,6 +276,7 @@ anoplura,enderleinellus uncinatus,Microphthirus uncinatus,species
 anoplura,enderleinellus urosciuri,Enderleinellus urosciuri,species
 anoplura,enderleinellus venezuelae,Enderleinellus venezuelae,species
 anoplura,enderleinellus zonatus,Enderleinellus zonatus,species
+anoplura,enderleinellus,Enderleinellus,genus
 anoplura,eremophthirius biseriatus,Polyplax biseriata,species
 anoplura,eremophthirius ellobii,Polyplax ellobii,species
 anoplura,eremophthirius eropepli,Polyplax eropepli,species
@@ -351,12 +287,17 @@ anoplura,eremophthirius subtaterae,Polyplax subtaterae,species
 anoplura,eremophthirius tarsomydis,Polyplax tarsomydis,species
 anoplura,eremophthirius taterae,Polyplax taterae,species
 anoplura,eremophthirius werneri,Polyplax werneri,species
+anoplura,eremophthirius,Eremophthirius,genus
 anoplura,euendelerleinellus platyspicatus,Enderleinellus platyspicatus,species
+anoplura,euendelerleinellus,Euendelerleinellus,genus
 anoplura,euenderleinellus larisei,Enderleinellus larisci,species
 anoplura,euenderleinellus menetensis,Enderleinellus menetensis,species
 anoplura,euenderleinellus zonatus,Enderleinellus zonatus,species
+anoplura,euenderleinellus,Euenderleinellus,genus
 anoplura,euhaematopinus abnormis,Haematopinoides squamosus,species
+anoplura,euhaematopinus,Euhaematopinus,genus
 anoplura,euhoplopleura trispinosa,Hoplopleura trispinosa,species
+anoplura,euhoplopleura,Euhoplopleura,genus
 anoplura,eulinognathus aculeatus,Eulinognathus aculeatus,species
 anoplura,eulinognathus alactaguli,Eulinognathus alactaguli,species
 anoplura,eulinognathus allactagae,Eulinognathus allactagae,species
@@ -366,9 +307,9 @@ anoplura,eulinognathus bolivianus,Eulinognathus bolivianus,species
 anoplura,eulinognathus cardiocranius,Eulinognathus cardiocranius,species
 anoplura,eulinognathus caviae,Galeophthirus caviae,species
 anoplura,eulinognathus crucuformis,Eulinognathus crucuformis,species
-anoplura,eulinognathus denticulatus,Eulinognathus denticulatus,species
 anoplura,eulinognathus denticulatus denticulatus,Eulinognathus denticulatus,species
 anoplura,eulinognathus denticulatus surdasteri,Eulinognathus denticulatus,species
+anoplura,eulinognathus denticulatus,Eulinognathus denticulatus,species
 anoplura,eulinognathus dipodis,Eulinognathus dipodis,species
 anoplura,eulinognathus elateri,Eulinognathus elateri,species
 anoplura,eulinognathus eremodipodis,Eulinognathus eremodipodis,species
@@ -391,6 +332,7 @@ anoplura,eulinognathus scirtopodae,Eulinognathus scirtopodae,species
 anoplura,eulinognathus tokmaki,Eulinognathus tokmaki,species
 anoplura,eulinognathus torquatus,Eulinognathus torquatus,species
 anoplura,eulinognathus wernecki,Eulinognathus wernecki,species
+anoplura,eulinognathus,Eulinognathus,genus
 anoplura,f. barrerae,Ferrisella barrerae,species
 anoplura,f. boleni,Fahrenholzia boleni,species
 anoplura,f. disgrega,Hoplopleura disgrega,species
@@ -407,10 +349,10 @@ anoplura,f. pinnata,Fahrenholzia pinnata,species
 anoplura,f. reducta,Fahrenholzia reducta,species
 anoplura,f. schwartzi,Fahrenholzia schwartzi,species
 anoplura,f. texana,Fahrenholzia texana,species
-anoplura,f. tribulosa,Fahrenholzia tribulosa,species
 anoplura,f. tribulosa reducta,Fahrenholzia reducta,species
 anoplura,f. tribulosa tribulosa,Fahrenholzia tribulosa,species
 anoplura,f. tribulosa zacatecae,Fahrenholzia zacatecae,species
+anoplura,f. tribulosa,Fahrenholzia tribulosa,species
 anoplura,f. zacatecae,Fahrenholzia zacatecae,species
 anoplura,fahrenholzia boleni,Fahrenholzia boleni,species
 anoplura,fahrenholzia ehrlichi,Fahrenholzia ehrlichi,species
@@ -423,35 +365,39 @@ anoplura,fahrenholzia pinnata,Fahrenholzia pinnata,species
 anoplura,fahrenholzia reducta,Fahrenholzia reducta,species
 anoplura,fahrenholzia schwartzi,Fahrenholzia schwartzi,species
 anoplura,fahrenholzia texana,Fahrenholzia texana,species
-anoplura,fahrenholzia tribulosa,Fahrenholzia tribulosa,species
 anoplura,fahrenholzia tribulosa reducta,Fahrenholzia reducta,species
 anoplura,fahrenholzia tribulosa tribulosa,Fahrenholzia tribulosa,species
 anoplura,fahrenholzia tribulosa zacatecae,Fahrenholzia zacatecae,species
+anoplura,fahrenholzia tribulosa,Fahrenholzia tribulosa,species
 anoplura,fahrenholzia zacatecae,Fahrenholzia zacatecae,species
+anoplura,fahrenholzia,Fahrenholzia,genus
 anoplura,ferrisella barrerae,Ferrisella barrerae,species
 anoplura,ferrisella disgrega,Hoplopleura disgrega,species
 anoplura,ferrisella emarginata,Paradoxophthirus emarginata,species
 anoplura,ferrisella malaysiana,Hoplopleura malaysiana,species
 anoplura,ferrisella ochotonae,Hoplopleura ochotonae,species
+anoplura,ferrisella,Ferrisella,genus
 anoplura,g. caviae,Galeophthirus caviae,species
 anoplura,galeophthirus caviae,Galeophthirus caviae,species
+anoplura,galeophthirus,Galeophthirus,genus
 anoplura,h. abeli,Hoplopleura abeli,species
 anoplura,h. abstrusus,Hoplopleura abstrusus,species
-anoplura,h. acanthopus,Hoplopleura acanthopus,species
 anoplura,h. acanthopus acanthopus,Hoplopleura acanthopus,species
 anoplura,h. acanthopus edentulus,Hoplopleura edentula,species
+anoplura,h. acanthopus,Hoplopleura acanthopus,species
 anoplura,h. acuticeps,Haematopinus acuticeps,species
 anoplura,h. adventicus,Haematopinus suis,species
 anoplura,h. aethomydis,Hoplopleura aethomydis,species
-anoplura,h. affinis,Hoplopleura affinis,species
 anoplura,h. affinis affinis,Hoplopleura affinis,species
 anoplura,h. affinis argentina,Hoplopleura argentina,species
+anoplura,h. affinis,Hoplopleura affinis,species
 anoplura,h. africanus,Haemodipsus africanus,species
 anoplura,h. aitkeni,Hoplopleura aitkeni,species
 anoplura,h. akanezumi,Hoplopleura affinis,species
 anoplura,h. alata,Pterophthirus alata,species
 anoplura,h. albidus,Pedicinus albidus,species
 anoplura,h. alstoni,Hoplopleura alstoni,species
+anoplura,h. altaiensis,Hoplopleura altaiensis,species
 anoplura,h. alticola,Hoplopleura alticola,species
 anoplura,h. andina,Hoplopleura andina,species
 anoplura,h. angulata,Hoplopleura angulata,species
@@ -463,12 +409,12 @@ anoplura,h. apri,Haematopinus apri,species
 anoplura,h. arboricola,Hoplopleura arboricola,species
 anoplura,h. argentina,Hoplopleura argentina,species
 anoplura,h. arizonensis,Hoplopleura arizonensis,species
-anoplura,h. asini,Haematopinus asini,species
 anoplura,h. asini asini,Haematopinus asini,species
 anoplura,h. asini burchellis,Haematopinus asini,species
 anoplura,h. asini elegans,Haematopinus asini,species
 anoplura,h. asini macrocephalus,Haematopinus asini,species
 anoplura,h. asini minor,Haematopinus asini,species
+anoplura,h. asini,Haematopinus asini,species
 anoplura,h. audax,Pterophthirus audax,species
 anoplura,h. aulacodi,Scipio aulacodi,species
 anoplura,h. auliscomydis,Hoplopleura auliscomydis,species
@@ -483,10 +429,10 @@ anoplura,h. breviceps,Linognathus breviceps,species
 anoplura,h. brevicornis,Linognathus brevicornis,species
 anoplura,h. breviculus,Haematopinus breviculus,species
 anoplura,h. brevipes,Haematopinus eurysternus,species
-anoplura,h. bufali,Haematopinus bufali,species
 anoplura,h. bufali bufali,Haematopinus bufali,species
 anoplura,h. bufali europaei,Haematopinus tuberculatus,species
 anoplura,h. bufali punctatus,Haematopinus tuberculatus,species
+anoplura,h. bufali,Haematopinus bufali,species
 anoplura,h. calabyi,Hoplopleura calabyi,species
 anoplura,h. callorhini,Antarctophthirus callorhini,species
 anoplura,h. cameli,Microthoracius cameli,species
@@ -505,6 +451,7 @@ anoplura,h. colomydis,Hoplopleura colomydis,species
 anoplura,h. columbianus,Linognathoides laeviusculus,species
 anoplura,h. conformalis,Haemodipsus conformalis,species
 anoplura,h. confuciana,Hoplopleura confuciana,species
+anoplura,h. conilurudis,Hoplopleura conilurudis,species
 anoplura,h. contigua,Hoplopleura contigua,species
 anoplura,h. cooki,Hoplopleura cooki,species
 anoplura,h. cornata,Hoplopleura cornata,species
@@ -517,9 +464,9 @@ anoplura,h. dendromuris,Hoplopleura dendromuris,species
 anoplura,h. desmodilli,Hoplopleura capensis,species
 anoplura,h. diaphora,Hoplopleura diaphora,species
 anoplura,h. difficilis,Hoplopleura difficilis,species
-anoplura,h. disgrega,Hoplopleura disgrega,species
 anoplura,h. disgrega chilensis,Hoplopleura chilensis,species
 anoplura,h. disgrega disgrega,Hoplopleura disgrega,species
+anoplura,h. disgrega,Hoplopleura disgrega,species
 anoplura,h. dissicula,Hoplopleura dissicula,species
 anoplura,h. dissimilis,Hoplopleura dissimilis,species
 anoplura,h. distorta,Hoplopleura distorta,species
@@ -528,33 +475,37 @@ anoplura,h. edentula,Hoplopleura edentula,species
 anoplura,h. elegans,Haematopinus asini,species
 anoplura,h. emarginata,Paradoxophthirus emarginata,species
 anoplura,h. emphereia,Hoplopleura emphereia,species
-anoplura,h. enormis,Hoplopleura enormis,species
 anoplura,h. enormis enormis,Hoplopleura enormis,species
 anoplura,h. enormis mylomydis,Hoplopleura mylomydis,species
 anoplura,h. enormis pelomydis,Hoplopleura pelomydis,species
+anoplura,h. enormis,Hoplopleura enormis,species
 anoplura,h. equi,Haematopinus asini,species
 anoplura,h. erismata,Hoplopleura erismata,species
-anoplura,h. erratica,Hoplopleura erratica,species
 anoplura,h. erratica arboricola,Hoplopleura arboricola,species
 anoplura,h. erratica erratica,Hoplopleura erratica,species
+anoplura,h. erratica,Hoplopleura erratica,species
 anoplura,h. erraticus,Hoplopleura erratica,species
 anoplura,h. eurysternus,Haematopinus eurysternus,species
 anoplura,h. euxeri,Enderleinellus euxeri,species
 anoplura,h. exima,Hoplopleura exima,species
 anoplura,h. fahrenholzi,Hoplopleura acanthopus,species
-anoplura,h. ferrisi,Hoplopleura ferrisi,species
 anoplura,h. ferrisi emphereia,Hoplopleura emphereia,species
 anoplura,h. ferrisi ferrisi,Hoplopleura ferrisi,species
+anoplura,h. ferrisi,Hoplopleura ferrisi,species
 anoplura,h. fonsecai,Hoplopleura fonsecai,species
 anoplura,h. forficulus,Linognathus stenopsis,species
+anoplura,h. forrestima,Hoplopleura forrestima,species
 anoplura,h. funambuli,Hoplopleura funambuli,species
 anoplura,h. galeopitheci,Hamophthirius galeopitheci,species
 anoplura,h. gorgonis,Haematopinus gorgonis,species
+anoplura,h. gracilicaudatusa,Hoplopleura gracilicaudatusa,species
+anoplura,h. granti,Hoplopleura granti,species
 anoplura,h. griseoflavae,Hoplopleura griseoflavae,species
 anoplura,h. gyomydis,Hoplopleura gyomydis,species
 anoplura,h. handleyi,Hoplopleura handleyi,species
-anoplura,h. hesperomydis,Hoplopleura hesperomydis,species
+anoplura,h. heinrichi,Hoplopleura heinrichi,species
 anoplura,h. hesperomydis occidentalis,Hoplopleura hesperomydis,species
+anoplura,h. hesperomydis,Hoplopleura hesperomydis,species
 anoplura,h. himalayana,Hoplopleura himalayana,species
 anoplura,h. himenezumi,Hoplopleura himenezumi,species
 anoplura,h. hirsuta,Hoplopleura hirsuta,species
@@ -568,8 +519,8 @@ anoplura,h. imparata,Hoplopleura imparata,species
 anoplura,h. inagakii,Hoplopleura inagakii,species
 anoplura,h. incisus,Haematopinus latus,species
 anoplura,h. indiscreta,Hoplopleura indiscreta,species
-anoplura,h. inexpectans,Hoplopleura inexpectans,species
 anoplura,h. inexpectans occidentalis,Hoplopleura inexpectans,species
+anoplura,h. inexpectans,Hoplopleura inexpectans,species
 anoplura,h. ingens,Hoplopleura ingens,species
 anoplura,h. intermedia,Hoplopleura intermedia,species
 anoplura,h. inusitata,Hoplopleura inusitata,species
@@ -585,8 +536,10 @@ anoplura,h. kitti,Hoplopleura kitti,species
 anoplura,h. kondana,Hoplopleura kondana,species
 anoplura,h. laeviusculus,Linognathoides laeviusculus,species
 anoplura,h. laticeps,Hoplopleura laticeps,species
-anoplura,h. latus,Haematopinus latus,species
 anoplura,h. latus latissimus,Haematopinus latus,species
+anoplura,h. latus,Haematopinus latus,species
+anoplura,h. leggadinadis,Hoplopleura leggadinadis,species
+anoplura,h. leporilludis,Hoplopleura leporilludis,species
 anoplura,h. leporis,Haemodipsus leporis,species
 anoplura,h. leptocephalus,Prolinognathus leptocephalus,species
 anoplura,h. leucomus,Hoplopleura leucomus,species
@@ -600,6 +553,7 @@ anoplura,h. longus,Haematopinus longus,species
 anoplura,h. ludwigi,Haematopinus ludwigi,species
 anoplura,h. lyriocephalus,Haemodipsus lyriocephalus,species
 anoplura,h. macrocephalus,Haematopinus asini,species
+anoplura,h. macrurusa,Hoplopleura macrurusa,species
 anoplura,h. malabarica,Hoplopleura malabarica,species
 anoplura,h. malaysiana,Hoplopleura malaysiana,species
 anoplura,h. maniculata,Hoplopleura maniculata,species
@@ -610,6 +564,7 @@ anoplura,h. melomydis,Hoplopleura melomydis,species
 anoplura,h. mendezi,Hoplopleura mendezi,species
 anoplura,h. mendozana,Hoplopleura mendozana,species
 anoplura,h. meridionidis,Hoplopleura meridionidis,species
+anoplura,h. mesembriomydis,Hoplopleura mesembriomydis,species
 anoplura,h. microcepahlus,Linognathus pedalis,species
 anoplura,h. minasensis,Hoplopleura minasensis,species
 anoplura,h. minor,Haematopinus asini,species
@@ -625,6 +580,7 @@ anoplura,h. musculi,Hoplopleura captiosa,species
 anoplura,h. musseri,Hoplopleura musseri,species
 anoplura,h. mylomydis,Hoplopleura mylomydis,species
 anoplura,h. myomyis,Hoplopleura myomyis,species
+anoplura,h. nanusa,Hoplopleura nanusa,species
 anoplura,h. nasvikae,Hoplopleura nasvikae,species
 anoplura,h. neotomydis,Hoplopleura neotomydis,species
 anoplura,h. nesoryzomydis,Hoplopleura nesoryzomydis,species
@@ -665,6 +621,7 @@ anoplura,h. phaiomydis,Hoplopleura phaiomydis,species
 anoplura,h. phthiropsis,Haematopinus bufali,species
 anoplura,h. piliferus,Linognathus setosus,species
 anoplura,h. pleurophaeus,Schizophthirus pleurophaeus,species
+anoplura,h. pogonomydis,Hoplopleura pogonomydis,species
 anoplura,h. polyplax aculeatus,Eulinognathus aculeatus,species
 anoplura,h. polyplax bidentatus,Hoplopleura bidentata,species
 anoplura,h. polyplax echinatus,Neohaematopinus echinatus,species
@@ -674,8 +631,8 @@ anoplura,h. polyplax maniculatus,Hoplopleura maniculata,species
 anoplura,h. polyplax pectinifer,Linognathoides pectinifer,species
 anoplura,h. polyplax praecisus,Polyplax praecisa,species
 anoplura,h. polyplax quadridentatus,Hoplopleura quadridentata,species
-anoplura,h. polyplax spiniger,Polyplax spinigera,species
 anoplura,h. polyplax spiniger reclinatus,Polyplax reclinata,species
+anoplura,h. polyplax spiniger,Polyplax spinigera,species
 anoplura,h. polyplax spinulosus,Polyplax spinulosa,species
 anoplura,h. polyplax stephensi,Polyplax stephensi,species
 anoplura,h. polyplax ventricosus,Haemodipsus ventricosus,species
@@ -725,12 +682,12 @@ anoplura,h. splendida,Pterophthirus splendida,species
 anoplura,h. squamosus,Haematopinoides squamosus,species
 anoplura,h. stenopsis,Linognathus stenopsis,species
 anoplura,h. stephensi,Polyplax stephensi,species
-anoplura,h. suis,Haematopinus suis,species
 anoplura,h. suis adventicus,Haematopinus suis,species
 anoplura,h. suis chinensis,Haematopinus suis,species
 anoplura,h. suis germanus,Haematopinus suis,species
 anoplura,h. suis sardinensis,Haematopinus suis,species
 anoplura,h. suis suis,Haematopinus suis,species
+anoplura,h. suis,Haematopinus suis,species
 anoplura,h. sukenyae,Hoplopleura rukenyae,species
 anoplura,h. suturalis,Enderleinellus suturalis,species
 anoplura,h. taurotragi,Haematopinus taurotragi,species
@@ -745,6 +702,7 @@ anoplura,h. travassosi,Hoplopleura travassosi,species
 anoplura,h. trichechi,Antarctophthirus trichechi,species
 anoplura,h. trispinosa,Hoplopleura trispinosa,species
 anoplura,h. tuberculatus,Haematopinus tuberculatus,species
+anoplura,h. tunneya,Hoplopleura tunneya,species
 anoplura,h. ungulatus,Linognathus angulatus,species
 anoplura,h. uralensis,Hoplopleura uralensis,species
 anoplura,h. urius,Haematopinus apri,species
@@ -757,11 +715,13 @@ anoplura,h. vietnamensis,Hoplopleura vietnamensis,species
 anoplura,h. villosissima,Hoplopleura villosissima,species
 anoplura,h. vituli,Linognathus vituli,species
 anoplura,h. wernecki,Pterophthirus wernecki,species
+anoplura,h. xeromydis,Hoplopleura xeromydis,species
 anoplura,h. xiei,Hoplopleura xiei,species
 anoplura,h. zelotomydis,Hoplopleura zelotomydis,species
 anoplura,h. zentaensi,Hoplopleura zentaensi,species
 anoplura,h. zyzomydis,Hoplopleura zyzomydis,species
 anoplura,haematopinoides squamosus,Haematopinoides squamosus,species
+anoplura,haematopinoides,Haematopinoides,genus
 anoplura,haematopinus acanthopus,Hoplopleura acanthopus,species
 anoplura,haematopinus acuticeps,Haematopinus acuticeps,species
 anoplura,haematopinus adventicus,Haematopinus suis,species
@@ -771,22 +731,22 @@ anoplura,haematopinus annulatus,Echinophthirius horridus,species
 anoplura,haematopinus antennatus,Neohaematopinus sciurinus,species
 anoplura,haematopinus aperis,Haematopinus apri,species
 anoplura,haematopinus apri,Haematopinus apri,species
-anoplura,haematopinus asini,Haematopinus asini,species
 anoplura,haematopinus asini asini,Haematopinus asini,species
 anoplura,haematopinus asini burchellis,Haematopinus asini,species
 anoplura,haematopinus asini elegans,Haematopinus asini,species
 anoplura,haematopinus asini macrocephalus,Haematopinus asini,species
 anoplura,haematopinus asini minor,Haematopinus asini,species
+anoplura,haematopinus asini,Haematopinus asini,species
 anoplura,haematopinus aulacodi,Scipio aulacodi,species
 anoplura,haematopinus bicolor,Linognathus setosus,species
 anoplura,haematopinus breviceps,Linognathus breviceps,species
 anoplura,haematopinus brevicornis,Linognathus brevicornis,species
 anoplura,haematopinus breviculus,Haematopinus breviculus,species
 anoplura,haematopinus brevipes,Haematopinus eurysternus,species
-anoplura,haematopinus bufali,Haematopinus bufali,species
 anoplura,haematopinus bufali bufali,Haematopinus bufali,species
 anoplura,haematopinus bufali europaei,Haematopinus tuberculatus,species
 anoplura,haematopinus bufali punctatus,Haematopinus tuberculatus,species
+anoplura,haematopinus bufali,Haematopinus bufali,species
 anoplura,haematopinus callorhini,Antarctophthirus callorhini,species
 anoplura,haematopinus cameli,Microthoracius cameli,species
 anoplura,haematopinus cervicaprae,Linognathus cervicaprae,species
@@ -808,8 +768,8 @@ anoplura,haematopinus incisus,Haematopinus latus,species
 anoplura,haematopinus irritans,Haematopinus suis,species
 anoplura,haematopinus jeannereti,Haematopinus jeannereti,species
 anoplura,haematopinus laeviusculus,Linognathoides laeviusculus,species
-anoplura,haematopinus latus,Haematopinus latus,species
 anoplura,haematopinus latus latissimus,Haematopinus latus,species
+anoplura,haematopinus latus,Haematopinus latus,species
 anoplura,haematopinus leptocephalus,Prolinognathus leptocephalus,species
 anoplura,haematopinus leucophaeus,Schizophthirus pleurophaeus,species
 anoplura,haematopinus linognathus piliferus,Linognathus setosus,species
@@ -847,8 +807,8 @@ anoplura,haematopinus polyplax lyriocephalus,Haemodipsus lyriocephalus,species
 anoplura,haematopinus polyplax maniculatus,Hoplopleura maniculata,species
 anoplura,haematopinus polyplax pectinifer,Linognathoides pectinifer,species
 anoplura,haematopinus polyplax quadridentatus,Hoplopleura quadridentata,species
-anoplura,haematopinus polyplax spiniger,Polyplax spinigera,species
 anoplura,haematopinus polyplax spiniger reclinatus,Polyplax reclinata,species
+anoplura,haematopinus polyplax spiniger,Polyplax spinigera,species
 anoplura,haematopinus polyplax spinulosus,Polyplax spinulosa,species
 anoplura,haematopinus polyplax stephensi,Polyplax stephensi,species
 anoplura,haematopinus polyplax ventricosus,Haemodipsus ventricosus,species
@@ -868,12 +828,12 @@ anoplura,haematopinus spiniger,Polyplax spinigera,species
 anoplura,haematopinus spinulosus,Polyplax spinulosa,species
 anoplura,haematopinus stenopsis,Linognathus stenopsis,species
 anoplura,haematopinus stephensi,Polyplax stephensi,species
-anoplura,haematopinus suis,Haematopinus suis,species
 anoplura,haematopinus suis adventicus,Haematopinus suis,species
 anoplura,haematopinus suis chinensis,Haematopinus suis,species
 anoplura,haematopinus suis germanus,Haematopinus suis,species
 anoplura,haematopinus suis sardinensis,Haematopinus suis,species
 anoplura,haematopinus suis suis,Haematopinus suis,species
+anoplura,haematopinus suis,Haematopinus suis,species
 anoplura,haematopinus suturalis,Enderleinellus suturalis,species
 anoplura,haematopinus taurotragi,Haematopinus taurotragi,species
 anoplura,haematopinus tenuirostris,Linognathus vituli,species
@@ -884,6 +844,7 @@ anoplura,haematopinus ungulatus,Linognathus angulatus,species
 anoplura,haematopinus urius,Haematopinus apri,species
 anoplura,haematopinus ventricosus,Haemodipsus ventricosus,species
 anoplura,haematopinus vituli,Linognathus vituli,species
+anoplura,haematopinus,Haematopinus,genus
 anoplura,haemodipsus africanus,Haemodipsus africanus,species
 anoplura,haemodipsus brachylagi,Haemodipsus brachylagi,species
 anoplura,haemodipsus conformalis,Haemodipsus conformalis,species
@@ -893,24 +854,32 @@ anoplura,haemodipsus lyriocephalus,Haemodipsus lyriocephalus,species
 anoplura,haemodipsus parvus,Lagidiophthirus parvus,species
 anoplura,haemodipsus setoni,Haemodipsus setoni,species
 anoplura,haemodipsus ventricosus,Haemodipsus ventricosus,species
+anoplura,haemodipsus,Haemodipsus,genus
 anoplura,hamophthirius galeopitheci,Hamophthirius galeopitheci,species
+anoplura,hamophthirius,Hamophthirius,genus
 anoplura,hamophthirus galeopitheci,Hamophthirius galeopitheci,species
+anoplura,hamophthirus,Hamophthirus,genus
 anoplura,hasellus pleurophaeus,Schizophthirus pleurophaeus,species
+anoplura,hasellus,Hasellus,genus
 anoplura,hematopinus polyplax praecisus,Polyplax praecisa,species
+anoplura,hematopinus,Hematopinus,genus
 anoplura,hoplophthirus euxeri,Enderleinellus euxeri,species
+anoplura,hoplophthirus,Hoplophthirus,genus
 anoplura,hoplopleura abeli,Hoplopleura abeli,species
 anoplura,hoplopleura abstrusus,Hoplopleura abstrusus,species
-anoplura,hoplopleura acanthopus,Hoplopleura acanthopus,species
+anoplura,hoplopleura abstrusus,Hoplopleura abstrusus,species
 anoplura,hoplopleura acanthopus acanthopus,Hoplopleura acanthopus,species
 anoplura,hoplopleura acanthopus edentulus,Hoplopleura edentula,species
+anoplura,hoplopleura acanthopus,Hoplopleura acanthopus,species
 anoplura,hoplopleura aethomydis,Hoplopleura aethomydis,species
-anoplura,hoplopleura affinis,Hoplopleura affinis,species
 anoplura,hoplopleura affinis affinis,Hoplopleura affinis,species
 anoplura,hoplopleura affinis argentina,Hoplopleura argentina,species
+anoplura,hoplopleura affinis,Hoplopleura affinis,species
 anoplura,hoplopleura aitkeni,Hoplopleura aitkeni,species
 anoplura,hoplopleura akanezumi,Hoplopleura affinis,species
 anoplura,hoplopleura alata,Pterophthirus alata,species
 anoplura,hoplopleura alstoni,Hoplopleura alstoni,species
+anoplura,hoplopleura altaiensis,Hoplopleura altaiensis,species
 anoplura,hoplopleura alticola,Hoplopleura alticola,species
 anoplura,hoplopleura andina,Hoplopleura andina,species
 anoplura,hoplopleura angulata,Hoplopleura angulata,species
@@ -935,6 +904,7 @@ anoplura,hoplopleura chrotomydis,Hoplopleura chrotomydis,species
 anoplura,hoplopleura chrysocomi,Hoplopleura chrysocomi,species
 anoplura,hoplopleura colomydis,Hoplopleura colomydis,species
 anoplura,hoplopleura confuciana,Hoplopleura confuciana,species
+anoplura,hoplopleura conilurudis,Hoplopleura conilurudis,species
 anoplura,hoplopleura contigua,Hoplopleura contigua,species
 anoplura,hoplopleura cooki,Hoplopleura cooki,species
 anoplura,hoplopleura cornata,Hoplopleura cornata,species
@@ -946,35 +916,40 @@ anoplura,hoplopleura dendromuris,Hoplopleura dendromuris,species
 anoplura,hoplopleura desmodilli,Hoplopleura capensis,species
 anoplura,hoplopleura diaphora,Hoplopleura diaphora,species
 anoplura,hoplopleura difficilis,Hoplopleura difficilis,species
-anoplura,hoplopleura disgrega,Hoplopleura disgrega,species
 anoplura,hoplopleura disgrega chilensis,Hoplopleura chilensis,species
 anoplura,hoplopleura disgrega disgrega,Hoplopleura disgrega,species
+anoplura,hoplopleura disgrega,Hoplopleura disgrega,species
 anoplura,hoplopleura dissicula,Hoplopleura dissicula,species
 anoplura,hoplopleura dissimilis,Hoplopleura dissimilis,species
 anoplura,hoplopleura distorta,Hoplopleura distorta,species
 anoplura,hoplopleura edentula,Hoplopleura edentula,species
 anoplura,hoplopleura emarginata,Paradoxophthirus emarginata,species
 anoplura,hoplopleura emphereia,Hoplopleura emphereia,species
-anoplura,hoplopleura enormis,Hoplopleura enormis,species
 anoplura,hoplopleura enormis enormis,Hoplopleura enormis,species
 anoplura,hoplopleura enormis mylomydis,Hoplopleura mylomydis,species
 anoplura,hoplopleura enormis pelomydis,Hoplopleura pelomydis,species
+anoplura,hoplopleura enormis,Hoplopleura enormis,species
 anoplura,hoplopleura erismata,Hoplopleura erismata,species
-anoplura,hoplopleura erratica,Hoplopleura erratica,species
 anoplura,hoplopleura erratica arboricola,Hoplopleura arboricola,species
 anoplura,hoplopleura erratica erratica,Hoplopleura erratica,species
+anoplura,hoplopleura erratica,Hoplopleura erratica,species
+anoplura,hoplopleura erratica,Hoplopleura erratica,species
 anoplura,hoplopleura exima,Hoplopleura exima,species
 anoplura,hoplopleura fahrenholzi,Hoplopleura acanthopus,species
-anoplura,hoplopleura ferrisi,Hoplopleura ferrisi,species
 anoplura,hoplopleura ferrisi emphereia,Hoplopleura emphereia,species
 anoplura,hoplopleura ferrisi ferrisi,Hoplopleura ferrisi,species
+anoplura,hoplopleura ferrisi,Hoplopleura ferrisi,species
 anoplura,hoplopleura fonsecai,Hoplopleura fonsecai,species
+anoplura,hoplopleura forrestim,Hoplopleura forrestima,species
 anoplura,hoplopleura funambuli,Hoplopleura funambuli,species
+anoplura,hoplopleura gracilicaudatusa,Hoplopleura gracilicaudatusa,species
+anoplura,hoplopleura granti,Hoplopleura granti,species
 anoplura,hoplopleura griseoflavae,Hoplopleura griseoflavae,species
 anoplura,hoplopleura gyomydis,Hoplopleura gyomydis,species
 anoplura,hoplopleura handleyi,Hoplopleura handleyi,species
-anoplura,hoplopleura hesperomydis,Hoplopleura hesperomydis,species
+anoplura,hoplopleura heinrichi,Hoplopleura heinrichi,species
 anoplura,hoplopleura hesperomydis occidentalis,Hoplopleura hesperomydis,species
+anoplura,hoplopleura hesperomydis,Hoplopleura hesperomydis,species
 anoplura,hoplopleura himalayana,Hoplopleura himalayana,species
 anoplura,hoplopleura himenezumi,Hoplopleura himenezumi,species
 anoplura,hoplopleura hirsuta,Hoplopleura hirsuta,species
@@ -986,8 +961,8 @@ anoplura,hoplopleura imitans,Pterophthirus imitans,species
 anoplura,hoplopleura imparata,Hoplopleura imparata,species
 anoplura,hoplopleura inagakii,Hoplopleura inagakii,species
 anoplura,hoplopleura indiscreta,Hoplopleura indiscreta,species
-anoplura,hoplopleura inexpectans,Hoplopleura inexpectans,species
 anoplura,hoplopleura inexpectans occidentalis,Hoplopleura inexpectans,species
+anoplura,hoplopleura inexpectans,Hoplopleura inexpectans,species
 anoplura,hoplopleura ingens,Hoplopleura ingens,species
 anoplura,hoplopleura intermedia,Hoplopleura intermedia,species
 anoplura,hoplopleura inusitata,Hoplopleura inusitata,species
@@ -1000,9 +975,12 @@ anoplura,hoplopleura khandala,Hoplopleura khandala,species
 anoplura,hoplopleura kitti,Hoplopleura kitti,species
 anoplura,hoplopleura kondana,Hoplopleura kondana,species
 anoplura,hoplopleura laticeps,Hoplopleura laticeps,species
+anoplura,hoplopleura leggadinadis,Hoplopleura leggadinadis,species
+anoplura,hoplopleura leporilludis,Hoplopleura leporilludis,species
 anoplura,hoplopleura leucomus,Hoplopleura leucomus,species
 anoplura,hoplopleura lineata,Hoplopleura longula,species
 anoplura,hoplopleura longula,Hoplopleura longula,species
+anoplura,hoplopleura macrurusa,Hoplopleura macrurusa,species
 anoplura,hoplopleura malabarica,Hoplopleura malabarica,species
 anoplura,hoplopleura malaysiana,Hoplopleura malaysiana,species
 anoplura,hoplopleura maniculata,Hoplopleura maniculata,species
@@ -1012,6 +990,7 @@ anoplura,hoplopleura melomydis,Hoplopleura melomydis,species
 anoplura,hoplopleura mendezi,Hoplopleura mendezi,species
 anoplura,hoplopleura mendozana,Hoplopleura mendozana,species
 anoplura,hoplopleura meridionidis,Hoplopleura meridionidis,species
+anoplura,hoplopleura mesembriomydis,Hoplopleura mesembriomydis,species
 anoplura,hoplopleura minasensis,Hoplopleura minasensis,species
 anoplura,hoplopleura minuta,Hoplopleura minuta,species
 anoplura,hoplopleura misionalis,Hoplopleura misionalis,species
@@ -1024,6 +1003,7 @@ anoplura,hoplopleura musculi,Hoplopleura captiosa,species
 anoplura,hoplopleura musseri,Hoplopleura musseri,species
 anoplura,hoplopleura mylomydis,Hoplopleura mylomydis,species
 anoplura,hoplopleura myomyis,Hoplopleura myomyis,species
+anoplura,hoplopleura nanusa,Hoplopleura nanusa,species
 anoplura,hoplopleura nasvikae,Hoplopleura nasvikae,species
 anoplura,hoplopleura neotomydis,Hoplopleura neotomydis,species
 anoplura,hoplopleura nesoryzomydis,Hoplopleura nesoryzomydis,species
@@ -1046,6 +1026,7 @@ anoplura,hoplopleura pavlovskyi,Hoplopleura pavlovskyi,species
 anoplura,hoplopleura pectinata,Hoplopleura pectinata,species
 anoplura,hoplopleura pelomydis,Hoplopleura pelomydis,species
 anoplura,hoplopleura phaiomydis,Hoplopleura phaiomydis,species
+anoplura,hoplopleura pogonomydis,Hoplopleura pogonomydis,species
 anoplura,hoplopleura quadridentata,Hoplopleura quadridentata,species
 anoplura,hoplopleura quadridentatus,Hoplopleura quadridentata,species
 anoplura,hoplopleura rajah,Hoplopleura rajah,species
@@ -1083,6 +1064,7 @@ anoplura,hoplopleura torresi,Hoplopleura travassosi,species
 anoplura,hoplopleura traubi,Hoplopleura traubi,species
 anoplura,hoplopleura travassosi,Hoplopleura travassosi,species
 anoplura,hoplopleura trispinosa,Hoplopleura trispinosa,species
+anoplura,hoplopleura tunneya,Hoplopleura tunneya,species
 anoplura,hoplopleura uralensis,Hoplopleura uralensis,species
 anoplura,hoplopleura uromydis,Hoplopleura uromydis,species
 anoplura,hoplopleura vandeleuria,Hoplopleura silvula,species
@@ -1091,12 +1073,15 @@ anoplura,hoplopleura veprecula,Hoplopleura veprecula,species
 anoplura,hoplopleura vietnamensis,Hoplopleura vietnamensis,species
 anoplura,hoplopleura villosissima,Hoplopleura villosissima,species
 anoplura,hoplopleura wernecki,Pterophthirus wernecki,species
+anoplura,hoplopleura xeromydis,Hoplopleura xeromydis,species
 anoplura,hoplopleura xiei,Hoplopleura xiei,species
 anoplura,hoplopleura zelotomydis,Hoplopleura zelotomydis,species
 anoplura,hoplopleura zentaensi,Hoplopleura zentaensi,species
 anoplura,hoplopleura zyzomydis,Hoplopleura zyzomydis,species
+anoplura,hoplopleura,Hoplopleura,genus
 anoplura,hybophthirus notophallus,Hybophthirus notophallus,species
 anoplura,hybophthirus orycteropodi,Hybophthirus notophallus,species
+anoplura,hybophthirus,Hybophthirus,genus
 anoplura,j. chlorotalpae,Johnsonpthirus chlorotalpae,species
 anoplura,j. heliosciuri,Johnsonpthirus heliosciuri,species
 anoplura,j. keniae,Johnsonpthirus keniae,species
@@ -1107,6 +1092,7 @@ anoplura,johnsonpthirus heliosciuri,Johnsonpthirus heliosciuri,species
 anoplura,johnsonpthirus keniae,Johnsonpthirus keniae,species
 anoplura,johnsonpthirus spinosissimus,Johnsonpthirus spinosissimus,species
 anoplura,johnsonpthirus suahelicus,Johnsonpthirus suahelicus,species
+anoplura,johnsonpthirus,Johnsonpthirus,genus
 anoplura,l. aepycerus,Linognathus aepycerus,species
 anoplura,l. africanus,Linognathus africanus,species
 anoplura,l. albifrontis,Linognathus damaliscus,species
@@ -1189,8 +1175,8 @@ anoplura,l. saccatus,Linognathus saccatus,species
 anoplura,l. samburi,Linognathus samburi,species
 anoplura,l. schistopygus,Linognathus stenopsis,species
 anoplura,l. schizodactylus,Linognathoides schizodactylus,species
-anoplura,l. setosus,Linognathus setosus,species
 anoplura,l. setosus bhatii,Linognathus bhatii,species
+anoplura,l. setosus,Linognathus setosus,species
 anoplura,l. sosninae,Linognathus sosninae,species
 anoplura,l. spermophili,Linognathoides citelli,species
 anoplura,l. spicatus,Linognathus spicatus,species
@@ -1211,19 +1197,26 @@ anoplura,l. vulpis,Linognathus vulpis,species
 anoplura,l. weissei,Linognathus weissei,species
 anoplura,l. zumpti,Linognathus zumpti,species
 anoplura,lagidiophthirus parvus,Lagidiophthirus parvus,species
+anoplura,lagidiophthirus,Lagidiophthirus,genus
 anoplura,latagophthirus rauschi,Latagophthirus rauschi,species
+anoplura,latagophthirus,Latagophthirus,genus
 anoplura,lemurpediculus claytoni,Lemurpediculus claytoni,species
 anoplura,lemurpediculus madagascariensis,Lemurpediculus madagascariensis,species
 anoplura,lemurpediculus petterorum,Lemurpediculus petterorum,species
 anoplura,lemurpediculus robbinsi,Lemurpediculus robbinsi,species
 anoplura,lemurpediculus verruculosus,Lemurpediculus verruculosus,species
+anoplura,lemurpediculus,Lemurpediculus,genus
 anoplura,lemurphthirus galagus,Lemurphthirus galagus,species
 anoplura,lemurphthirus stigmosus,Lemurphthirus stigmosus,species
 anoplura,lemurphthirus verruculosus,Lemurpediculus verruculosus,species
 anoplura,lemurphthirus vincenti,Lemurphthirus vincenti,species
+anoplura,lemurphthirus,Lemurphthirus,genus
+anoplura,lepidophthirus macrorhini,Lepidophthirus macrorhini,species
 anoplura,lepidophthirus macrorhini,Lepidophthirus macrorhini,species
 anoplura,lepidophthirus piriformis,Lepidophthirus piriformis,species
+anoplura,lepidophthirus,Lepidophthirus,genus
 anoplura,linognathella vituli,Linognathus vituli,species
+anoplura,linognathella,Linognathella,genus
 anoplura,linognathoides baibacinae,Linognathoides baibacinae,species
 anoplura,linognathoides citelli,Linognathoides citelli,species
 anoplura,linognathoides cynomyis,Linognathoides cynomyis,species
@@ -1239,6 +1232,7 @@ anoplura,linognathoides setosus,Linognathoides pectinifer,species
 anoplura,linognathoides spermophili,Linognathoides citelli,species
 anoplura,linognathoides traubi,Linognathoides traubi,species
 anoplura,linognathoides urocitelli,Linognathoides urocitelli,species
+anoplura,linognathoides,Linognathoides,genus
 anoplura,linognathus aepycerus,Linognathus aepycerus,species
 anoplura,linognathus africanus,Linognathus africanus,species
 anoplura,linognathus albifrontis,Linognathus damaliscus,species
@@ -1300,8 +1294,8 @@ anoplura,linognathus rupicaprae,Linognathus stenopsis,species
 anoplura,linognathus saccatus,Linognathus saccatus,species
 anoplura,linognathus samburi,Linognathus samburi,species
 anoplura,linognathus schistopygus,Linognathus stenopsis,species
-anoplura,linognathus setosus,Linognathus setosus,species
 anoplura,linognathus setosus bhatii,Linognathus bhatii,species
+anoplura,linognathus setosus,Linognathus setosus,species
 anoplura,linognathus sosninae,Linognathus sosninae,species
 anoplura,linognathus spicatus,Linognathus spicatus,species
 anoplura,linognathus stenopsis,Linognathus stenopsis,species
@@ -1315,8 +1309,11 @@ anoplura,linognathus vituli,Linognathus vituli,species
 anoplura,linognathus vulpis,Linognathus vulpis,species
 anoplura,linognathus weissei,Linognathus weissei,species
 anoplura,linognathus zumpti,Linognathus zumpti,species
+anoplura,linognathus,Linognathus,genus
 anoplura,linognatoides inornatus,Neohaematopinus inornatus,species
+anoplura,linognatoides,Linognatoides,genus
 anoplura,lutegus pectinifer,Linognathoides pectinifer,species
+anoplura,lutegus,Lutegus,genus
 anoplura,m. cameli,Microthoracius cameli,species
 anoplura,m. liae,Mirophthirus liae,species
 anoplura,m. mazzai,Microthoracius mazzai,species
@@ -1324,13 +1321,16 @@ anoplura,m. minor,Microthoracius minor,species
 anoplura,m. praelongiceps,Microthoracius praelongiceps,species
 anoplura,m. uncinatus,Microphthirus uncinatus,species
 anoplura,microphthirus uncinatus,Microphthirus uncinatus,species
+anoplura,microphthirus,Microphthirus,genus
 anoplura,microthoracius cameli,Microthoracius cameli,species
 anoplura,microthoracius mazzai,Microthoracius mazzai,species
 anoplura,microthoracius minor,Microthoracius minor,species
 anoplura,microthoracius praelongiceps,Microthoracius praelongiceps,species
+anoplura,microthoracius,Microthoracius,genus
 anoplura,mirophthirus liae,Mirophthirus liae,species
-anoplura,n. antennatus,Neohaematopinus sciurinus,species
+anoplura,mirophthirus,Mirophthirus,genus
 anoplura,n. antennatus semifasciatus,Neohaematopinus semifasciatus,species
+anoplura,n. antennatus,Neohaematopinus sciurinus,species
 anoplura,n. appressus,Neohaematopinus appressus,species
 anoplura,n. aulacodi,Scipio aulacodi,species
 anoplura,n. baibacinae,Linognathoides baibacinae,species
@@ -1375,9 +1375,9 @@ anoplura,n. robustus,Neohaematopinus robustus,species
 anoplura,n. rupestis,Neohaematopinus rupestis,species
 anoplura,n. schizodactylus,Linognathoides schizodactylus,species
 anoplura,n. sciuri,Neohaematopinus sciuri,species
-anoplura,n. sciurinus,Neohaematopinus sciurinus,species
 anoplura,n. sciurinus griseicolus,Neohaematopinus griseicolus,species
 anoplura,n. sciurinus sciurinus,Neohaematopinus sciurinus,species
+anoplura,n. sciurinus,Neohaematopinus sciurinus,species
 anoplura,n. sciuropteri,Neohaematopinus sciuropteri,species
 anoplura,n. semifasciatus,Neohaematopinus semifasciatus,species
 anoplura,n. setosus,Neohaematopinus setosus,species
@@ -1386,8 +1386,8 @@ anoplura,n. suahelicus,Johnsonpthirus suahelicus,species
 anoplura,n. sundasciuri,Neohaematopinus sundasciuri,species
 anoplura,n. syriacus,Neohaematopinus syriacus,species
 anoplura,n. traubi,Linognathoides traubi,species
-anoplura,neohaematopinus antennatus,Neohaematopinus sciurinus,species
 anoplura,neohaematopinus antennatus semifasciatus,Neohaematopinus semifasciatus,species
+anoplura,neohaematopinus antennatus,Neohaematopinus sciurinus,species
 anoplura,neohaematopinus appressus,Neohaematopinus appressus,species
 anoplura,neohaematopinus baibacinae,Linognathoides baibacinae,species
 anoplura,neohaematopinus batuanae,Neohaematopinus batuanae,species
@@ -1428,9 +1428,9 @@ anoplura,neohaematopinus robustus,Neohaematopinus robustus,species
 anoplura,neohaematopinus rupestis,Neohaematopinus rupestis,species
 anoplura,neohaematopinus schizodactylus,Linognathoides schizodactylus,species
 anoplura,neohaematopinus sciuri,Neohaematopinus sciuri,species
-anoplura,neohaematopinus sciurinus,Neohaematopinus sciurinus,species
 anoplura,neohaematopinus sciurinus griseicolus,Neohaematopinus griseicolus,species
 anoplura,neohaematopinus sciurinus sciurinus,Neohaematopinus sciurinus,species
+anoplura,neohaematopinus sciurinus,Neohaematopinus sciurinus,species
 anoplura,neohaematopinus sciuropteri,Neohaematopinus sciuropteri,species
 anoplura,neohaematopinus semifasciatus,Neohaematopinus semifasciatus,species
 anoplura,neohaematopinus setosus,Neohaematopinus setosus,species
@@ -1439,10 +1439,14 @@ anoplura,neohaematopinus suahelicus,Johnsonpthirus suahelicus,species
 anoplura,neohaematopinus sundasciuri,Neohaematopinus sundasciuri,species
 anoplura,neohaematopinus syriacus,Neohaematopinus syriacus,species
 anoplura,neohaematopinus traubi,Linognathoides traubi,species
+anoplura,neohaematopinus,Neohaematopinus,genus
 anoplura,neolinognathus elephantuli,Neolinognathus elephantuli,species
 anoplura,neolinognathus praelautus,Neolinognathus praelautus,species
+anoplura,neolinognathus,Neolinognathus,genus
 anoplura,neopedicinus patas,Pedicinus patas,species
+anoplura,neopedicinus,Neopedicinus,genus
 anoplura,neumannellus aulacodi,Scipio aulacodi,species
+anoplura,neumannellus,Neumannellus,genus
 anoplura,p. abscisa,Polyplax alaskensis,species
 anoplura,p. abyssinica,Polyplax abyssinica,species
 anoplura,p. acanthopus,Hoplopleura acanthopus,species
@@ -1481,9 +1485,9 @@ anoplura,p. brachyrrhynchus,Polyplax brachyrrhyncha,species
 anoplura,p. brachyuromyis,Polyplax brachyuromyis,species
 anoplura,p. breviceps,Pedicinus obtusus,species
 anoplura,p. brygooi,Phthirpediculus brygooi,species
-anoplura,p. bufali,Haematopinus bufali,species
 anoplura,p. bufali capensis,Haematopinus bufali,species
 anoplura,p. bufali europaei,Haematopinus tuberculatus,species
+anoplura,p. bufali,Haematopinus bufali,species
 anoplura,p. bullimae,Polyplax bullimae,species
 anoplura,p. bureschi,Polyplax bureschi,species
 anoplura,p. calomysci,Polyplax calomysci,species
@@ -1492,9 +1496,9 @@ anoplura,p. calva,Proenderleinellus calva,species
 anoplura,p. cameli,Microthoracius cameli,species
 anoplura,p. campylopteri,Polyplax spinulosa,species
 anoplura,p. cannomydis,Polyplax cannomydis,species
-anoplura,p. capitis,Pediculus humanus,species
 anoplura,p. capitis angustus,Pediculus humanus,species
 anoplura,p. capitis maculatus,Pediculus humanus,species
+anoplura,p. capitis,Pediculus humanus,species
 anoplura,p. caviae capensis,Prolinognathus caviae-capensis,species
 anoplura,p. caviae-capensis,Prolinognathus caviae-capensis,species
 anoplura,p. cercocebi,Pedicinus cercocebi,species
@@ -1507,10 +1511,10 @@ anoplura,p. collaris,Prolinognathus caviae-capensis,species
 anoplura,p. colobi,Pedicinus colobi,species
 anoplura,p. columbiana,Linognathoides laeviusculus,species
 anoplura,p. consobrinus,Pediculus humanus,species
-anoplura,p. corporis,Pediculus humanus,species
 anoplura,p. corporis angustus,Pediculus humanus,species
 anoplura,p. corporis marginatus,Pediculus humanus,species
 anoplura,p. corporis nigritarum,Pediculus humanus,species
+anoplura,p. corporis,Pediculus humanus,species
 anoplura,p. crassicornis,Solenopotes burmeisteri,species
 anoplura,p. cricetulis,Polyplax cricetulis,species
 anoplura,p. cummingsi,Polyplax cummingsi,species
@@ -1536,8 +1540,8 @@ anoplura,p. fastigatus,Pedicinus pictus,species
 anoplura,p. ferrisi,Prolinognathus ferrisi,species
 anoplura,p. ferus,Pthirus pubis,species
 anoplura,p. flavidus,Linognathus setosus,species
-anoplura,p. fluctus,Proechinophthirus fluctus,species
 anoplura,p. fluctus ochotensis,Proechinophthirus fluctus,species
+anoplura,p. fluctus,Proechinophthirus fluctus,species
 anoplura,p. foleyi,Prolinognathus foleyi,species
 anoplura,p. friedenthali,Pediculus humanus,species
 anoplura,p. gerbilli,Polyplax gerbilli,species
@@ -1557,7 +1561,6 @@ anoplura,p. hoogstraali,Polyplax hoogstraali,species
 anoplura,p. hopkinsi,Polyplax hopkinsi,species
 anoplura,p. horridus,Echinophthirius horridus,species
 anoplura,p. humae,Polyplax humae,species
-anoplura,p. humanus,Pediculus humanus,species
 anoplura,p. humanus americanus,Pediculus humanus,species
 anoplura,p. humanus capitis,Pediculus humanus,species
 anoplura,p. humanus chinensis,Pediculus humanus,species
@@ -1565,6 +1568,7 @@ anoplura,p. humanus corporis,Pediculus humanus,species
 anoplura,p. humanus humanus,Pediculus humanus,species
 anoplura,p. humanus marginatus,Pediculus humanus,species
 anoplura,p. humanus schaeffi,Pediculus schaeffi,species
+anoplura,p. humanus,Pediculus humanus,species
 anoplura,p. hurrianicus,Polyplax hurrianicus,species
 anoplura,p. imitans,Pterophthirus imitans,species
 anoplura,p. indica,Polyplax indica,species
@@ -1601,12 +1605,12 @@ anoplura,p. neopedicinus cercocebi,Pedicinus cercocebi,species
 anoplura,p. neopedicinus ferrisi,Pedicinus ferrisi,species
 anoplura,p. neopedicinus miopitheci,Pedicinus miopitheci,species
 anoplura,p. neopedicinus patas,Pedicinus patas,species
-anoplura,p. neopedicinus pictus,Pedicinus pictus,species
 anoplura,p. neopedicinus pictus ethiopicus,Pedicinus pictus,species
 anoplura,p. neopedicinus pictus fastigatus,Pedicinus pictus,species
 anoplura,p. neopedicinus pictus gambiensis,Pedicinus pictus,species
 anoplura,p. neopedicinus pictus pictus,Pedicinus pictus,species
 anoplura,p. neopedicinus pictus polykomi,Pedicinus pictus,species
+anoplura,p. neopedicinus pictus,Pedicinus pictus,species
 anoplura,p. neopedicinus veri,Pedicinus veri,species
 anoplura,p. nesomydis,Polyplax nesomydis,species
 anoplura,p. nigrescens,Pediculus humanus,species
@@ -1670,8 +1674,8 @@ anoplura,p. pubis,Pthirus pubis,species
 anoplura,p. punctatus,Haematopinus tuberculatus,species
 anoplura,p. qiuae,Polyplax qiuae,species
 anoplura,p. quadrumanus,Pediculus quadrumanus,species
-anoplura,p. reclinata,Polyplax reclinata,species
 anoplura,p. reclinata reclinata,Polyplax reclinata,species
+anoplura,p. reclinata,Polyplax reclinata,species
 anoplura,p. reclinatus,Polyplax reclinata,species
 anoplura,p. rhesi,Pedicinus obtusus,species
 anoplura,p. rhizomydis,Polyplax rhizomydis,species
@@ -1680,8 +1684,8 @@ anoplura,p. schaeffi,Pediculus schaeffi,species
 anoplura,p. schistopyga,Linognathus stenopsis,species
 anoplura,p. schulzi,Prolinognathus schulzi,species
 anoplura,p. senegalemsis,Pedicinus senegalemsis,species
-anoplura,p. serrata,Polyplax serrata,species
 anoplura,p. serrata paxi,Polyplax serrata,species
+anoplura,p. serrata,Polyplax serrata,species
 anoplura,p. serratus,Polyplax serrata,species
 anoplura,p. setosus,Linognathus setosus,species
 anoplura,p. shimizui,Polyplax reclinata,species
@@ -1704,9 +1708,9 @@ anoplura,p. suis,Haematopinus suis,species
 anoplura,p. sumatranus,Phthirunculus sumatranus,species
 anoplura,p. tabescentium,Pediculus humanus,species
 anoplura,p. tarsomydis,Polyplax tarsomydis,species
-anoplura,p. taterae,Polyplax taterae,species
 anoplura,p. taterae mombassae,Polyplax taterae,species
 anoplura,p. taterae subtaterae,Polyplax subtaterae,species
+anoplura,p. taterae,Polyplax taterae,species
 anoplura,p. tenuirostris,Linognathus vituli,species
 anoplura,p. thamnomydis,Polyplax thamnomydis,species
 anoplura,p. tongkinensis,Pedicinus tongkinensis,species
@@ -1729,7 +1733,9 @@ anoplura,p. wernecki,Pterophthirus wernecki,species
 anoplura,p. werneri,Polyplax werneri,species
 anoplura,p. zumpti,Proechinophthirus zumpti,species
 anoplura,paradoxophthirus emarginata,Paradoxophthirus emarginata,species
+anoplura,paradoxophthirus,Paradoxophthirus,genus
 anoplura,pecaroecus javalii,Pecaroecus javalii,species
+anoplura,pecaroecus,Pecaroecus,genus
 anoplura,pedicinus albidus,Pedicinus albidus,species
 anoplura,pedicinus ancoratus,Pedicinus ancoratus,species
 anoplura,pedicinus atratulus,Pedicinus atratulus,species
@@ -1755,12 +1761,12 @@ anoplura,pedicinus neopedicinus cercocebi,Pedicinus cercocebi,species
 anoplura,pedicinus neopedicinus ferrisi,Pedicinus ferrisi,species
 anoplura,pedicinus neopedicinus miopitheci,Pedicinus miopitheci,species
 anoplura,pedicinus neopedicinus patas,Pedicinus patas,species
-anoplura,pedicinus neopedicinus pictus,Pedicinus pictus,species
 anoplura,pedicinus neopedicinus pictus ethiopicus,Pedicinus pictus,species
 anoplura,pedicinus neopedicinus pictus fastigatus,Pedicinus pictus,species
 anoplura,pedicinus neopedicinus pictus gambiensis,Pedicinus pictus,species
 anoplura,pedicinus neopedicinus pictus pictus,Pedicinus pictus,species
 anoplura,pedicinus neopedicinus pictus polykomi,Pedicinus pictus,species
+anoplura,pedicinus neopedicinus pictus,Pedicinus pictus,species
 anoplura,pedicinus neopedicinus veri,Pedicinus veri,species
 anoplura,pedicinus obtusus,Pedicinus obtusus,species
 anoplura,pedicinus paralleliceps,Pedicinus obtusus,species
@@ -1789,6 +1795,7 @@ anoplura,pedicinus senegalemsis,Pedicinus senegalemsis,species
 anoplura,pedicinus tongkinensis,Pedicinus tongkinensis,species
 anoplura,pedicinus veri,Pedicinus veri,species
 anoplura,pedicinus vulgaris,Pedicinus obtusus,species
+anoplura,pedicinus,Pedicinus,genus
 anoplura,pediculus acanthopus,Hoplopleura acanthopus,species
 anoplura,pediculus affinis,Pediculus mj�bergi,species
 anoplura,pediculus albidior,Pediculus humanus,species
@@ -1797,23 +1804,23 @@ anoplura,pediculus asini,Haematopinus asini,species
 anoplura,pediculus assimilis,Pediculus humanus,species
 anoplura,pediculus atelophilus,Pediculus mj�bergi,species
 anoplura,pediculus bovis vituli,Linognathus vituli,species
-anoplura,pediculus bufali,Haematopinus bufali,species
 anoplura,pediculus bufali capensis,Haematopinus bufali,species
 anoplura,pediculus bufali europaei,Haematopinus tuberculatus,species
+anoplura,pediculus bufali,Haematopinus bufali,species
 anoplura,pediculus cameli,Microthoracius cameli,species
-anoplura,pediculus capitis,Pediculus humanus,species
 anoplura,pediculus capitis angustus,Pediculus humanus,species
 anoplura,pediculus capitis maculatus,Pediculus humanus,species
+anoplura,pediculus capitis,Pediculus humanus,species
 anoplura,pediculus caviae capensis,Prolinognathus caviae-capensis,species
 anoplura,pediculus cervicalis,Pediculus humanus,species
 anoplura,pediculus chapini,Pediculus mj�bergi,species
 anoplura,pediculus clavicornis,Pediculus clavicornis,species
 anoplura,pediculus collaris,Prolinognathus caviae-capensis,species
 anoplura,pediculus consobrinus,Pediculus humanus,species
-anoplura,pediculus corporis,Pediculus humanus,species
 anoplura,pediculus corporis angustus,Pediculus humanus,species
 anoplura,pediculus corporis marginatus,Pediculus humanus,species
 anoplura,pediculus corporis nigritarum,Pediculus humanus,species
+anoplura,pediculus corporis,Pediculus humanus,species
 anoplura,pediculus crassicornis,Solenopotes burmeisteri,species
 anoplura,pediculus denticulatus,Polyplax spinulosa,species
 anoplura,pediculus eurygaster,Pedicinus eurygaster,species
@@ -1824,7 +1831,6 @@ anoplura,pediculus friedenthali,Pediculus humanus,species
 anoplura,pediculus hirci,Linognathus stenopsis,species
 anoplura,pediculus hispidus,Hoplopleura hispida,species
 anoplura,pediculus horridus,Echinophthirius horridus,species
-anoplura,pediculus humanus,Pediculus humanus,species
 anoplura,pediculus humanus americanus,Pediculus humanus,species
 anoplura,pediculus humanus capitis,Pediculus humanus,species
 anoplura,pediculus humanus chinensis,Pediculus humanus,species
@@ -1832,6 +1838,7 @@ anoplura,pediculus humanus corporis,Pediculus humanus,species
 anoplura,pediculus humanus humanus,Pediculus humanus,species
 anoplura,pediculus humanus marginatus,Pediculus humanus,species
 anoplura,pediculus humanus schaeffi,Pediculus schaeffi,species
+anoplura,pediculus humanus,Pediculus humanus,species
 anoplura,pediculus isopus,Linognathus setosus,species
 anoplura,pediculus laeviusculus,Linognathoides laeviusculus,species
 anoplura,pediculus leptocephalus,Prolinognathus leptocephalus,species
@@ -1880,18 +1887,24 @@ anoplura,pediculus tuberculatus,Haematopinus tuberculatus,species
 anoplura,pediculus urius,Haematopinus suis,species
 anoplura,pediculus vestimenti,Pediculus humanus,species
 anoplura,pediculus vituli,Linognathus vituli,species
+anoplura,pediculus,Pediculus,genus
 anoplura,petauristophthirus petauristae,Neohaematopinus petauristae,species
+anoplura,petauristophthirus,Petauristophthirus,genus
 anoplura,phthirpedicinus eurygaster,Pedicinus eurygaster,species
 anoplura,phthirpedicinus micropilosus,Pedicinus eurygaster,species
 anoplura,phthirpedicinus microps,Pedicinus eurygaster,species
 anoplura,phthirpedicinus piageti,Pedicinus eurygaster,species
+anoplura,phthirpedicinus,Phthirpedicinus,genus
 anoplura,phthirpediculus avahidis,Phthirpediculus avahidis,species
 anoplura,phthirpediculus brygooi,Phthirpediculus brygooi,species
 anoplura,phthirpediculus propitheci,Phthirpediculus propitheci,species
+anoplura,phthirpediculus,Phthirpediculus,genus
 anoplura,phthirunculus sumatranus,Phthirunculus sumatranus,species
+anoplura,phthirunculus,Phthirunculus,genus
 anoplura,phthirus chavesi,Pthirus pubis,species
 anoplura,phthirus gorillae,Pthirus gorillae,species
 anoplura,phthirus pubis,Pthirus pubis,species
+anoplura,phthirus,Phthirus,genus
 anoplura,polyplax abscisa,Polyplax alaskensis,species
 anoplura,polyplax abyssinica,Polyplax abyssinica,species
 anoplura,polyplax acanthopus,Hoplopleura acanthopus,species
@@ -1971,12 +1984,12 @@ anoplura,polyplax praecisa,Polyplax praecisa,species
 anoplura,polyplax praomydis,Polyplax praomydis,species
 anoplura,polyplax pricei,Polyplax pricei,species
 anoplura,polyplax qiuae,Polyplax qiuae,species
-anoplura,polyplax reclinata,Polyplax reclinata,species
 anoplura,polyplax reclinata reclinata,Polyplax reclinata,species
+anoplura,polyplax reclinata,Polyplax reclinata,species
 anoplura,polyplax rhizomydis,Polyplax rhizomydis,species
 anoplura,polyplax roseinnesi,Polyplax roseinnesi,species
-anoplura,polyplax serrata,Polyplax serrata,species
 anoplura,polyplax serrata paxi,Polyplax serrata,species
+anoplura,polyplax serrata,Polyplax serrata,species
 anoplura,polyplax shimizui,Polyplax reclinata,species
 anoplura,polyplax sindensis,Polyplax sindensis,species
 anoplura,polyplax smallwoodae,Polyplax smallwoodae,species
@@ -1988,9 +2001,9 @@ anoplura,polyplax steatomydis,Polyplax steatomydis,species
 anoplura,polyplax stephensi,Polyplax stephensi,species
 anoplura,polyplax subtaterae,Polyplax subtaterae,species
 anoplura,polyplax tarsomydis,Polyplax tarsomydis,species
-anoplura,polyplax taterae,Polyplax taterae,species
 anoplura,polyplax taterae mombassae,Polyplax taterae,species
 anoplura,polyplax taterae subtaterae,Polyplax subtaterae,species
+anoplura,polyplax taterae,Polyplax taterae,species
 anoplura,polyplax thamnomydis,Polyplax thamnomydis,species
 anoplura,polyplax turkestanica major,Polyplax asiatica,species
 anoplura,polyplax turkestanica turkestanica,Polyplax asiatica,species
@@ -2002,13 +2015,16 @@ anoplura,polyplax visenda,Polyplax visenda,species
 anoplura,polyplax wallacei,Polyplax wallacei,species
 anoplura,polyplax waterstoni,Polyplax waterstoni,species
 anoplura,polyplax werneri,Polyplax werneri,species
-anoplura,proechinophthirus fluctus,Proechinophthirus fluctus,species
+anoplura,polyplax,Polyplax,genus
 anoplura,proechinophthirus fluctus ochotensis,Proechinophthirus fluctus,species
+anoplura,proechinophthirus fluctus,Proechinophthirus fluctus,species
 anoplura,proechinophthirus zumpti,Proechinophthirus zumpti,species
+anoplura,proechinophthirus,Proechinophthirus,genus
 anoplura,proenderleinellus africanus,Proenderleinellus calva,species
 anoplura,proenderleinellus calva,Proenderleinellus calva,species
 anoplura,proenderleinellus hilli,Eulinognathus hilli,species
 anoplura,proenderleinellus lawrensis,Eulinognathus lawrensis,species
+anoplura,proenderleinellus,Proenderleinellus,genus
 anoplura,prolinognathus aethiopicus,Prolinognathus aethiopicus,species
 anoplura,prolinognathus arcuatus,Prolinognathus arcuatus,species
 anoplura,prolinognathus caviae-capensis,Prolinognathus caviae-capensis,species
@@ -2018,14 +2034,17 @@ anoplura,prolinognathus foleyi,Prolinognathus foleyi,species
 anoplura,prolinognathus leptocephalus,Prolinognathus leptocephalus,species
 anoplura,prolinognathus marouaensis,Prolinognathus marouaensis,species
 anoplura,prolinognathus schulzi,Prolinognathus schulzi,species
+anoplura,prolinognathus,Prolinognathus,genus
 anoplura,pterophthirus alata,Pterophthirus alata,species
 anoplura,pterophthirus audax,Pterophthirus audax,species
 anoplura,pterophthirus imitans,Pterophthirus imitans,species
 anoplura,pterophthirus splendida,Pterophthirus splendida,species
 anoplura,pterophthirus wernecki,Pterophthirus wernecki,species
+anoplura,pterophthirus,Pterophthirus,genus
 anoplura,pthirus gorillae,Pthirus gorillae,species
 anoplura,pthirus inguinalis,Pthirus pubis,species
 anoplura,pthirus pubis,Pthirus pubis,species
+anoplura,pthirus,Pthirus,genus
 anoplura,r. asiatica,Ratemia asiatica,species
 anoplura,r. bassoni,Ratemia bassoni,species
 anoplura,r. heliosciuri,Enderleinellus heliosciuri,species
@@ -2035,7 +2054,9 @@ anoplura,ratemia asiatica,Ratemia asiatica,species
 anoplura,ratemia bassoni,Ratemia bassoni,species
 anoplura,ratemia squamulata,Ratemia squamulata,species
 anoplura,ratemia squamulatus,Ratemia squamulata,species
+anoplura,ratemia,Ratemia,genus
 anoplura,rhinophthirus heliosciuri,Enderleinellus heliosciuri,species
+anoplura,rhinophthirus,Rhinophthirus,genus
 anoplura,s. aethogliris,Schizophthirus aethogliris,species
 anoplura,s. aulacodi,Scipio aulacodi,species
 anoplura,s. binipilosus,Solenopotes binipilosus,species
@@ -2043,8 +2064,8 @@ anoplura,s. brachyrrhyncha,Polyplax brachyrrhyncha,species
 anoplura,s. breviceps,Scipio breviceps,species
 anoplura,s. burmeisteri,Solenopotes burmeisteri,species
 anoplura,s. calva,Proenderleinellus calva,species
-anoplura,s. capillatus,Solenopotes capillatus,species
 anoplura,s. capillatus dubius,Solenopotes capillatus,species
+anoplura,s. capillatus,Solenopotes capillatus,species
 anoplura,s. capreoli,Solenopotes capreoli,species
 anoplura,s. dryomydis,Schizophthirus dryomydis,species
 anoplura,s. durus,Sathrax durus,species
@@ -2066,6 +2087,7 @@ anoplura,s. singularis,Schizophthirus singularis,species
 anoplura,s. tarandi,Solenopotes tarandi,species
 anoplura,s. tripedatus,Scipio tripedatus,species
 anoplura,sathrax durus,Sathrax durus,species
+anoplura,sathrax,Sathrax,genus
 anoplura,schizophthirus aethogliris,Schizophthirus aethogliris,species
 anoplura,schizophthirus dryomydis,Schizophthirus dryomydis,species
 anoplura,schizophthirus gliris,Schizophthirus gliris,species
@@ -2075,14 +2097,16 @@ anoplura,schizophthirus pleurophaeus,Schizophthirus pleurophaeus,species
 anoplura,schizophthirus sicistae,Schizophthirus sicistae,species
 anoplura,schizophthirus similes,Schizophthirus similes,species
 anoplura,schizophthirus singularis,Schizophthirus singularis,species
+anoplura,schizophthirus,Schizophthirus,genus
 anoplura,scipio aulacodi,Scipio aulacodi,species
 anoplura,scipio breviceps,Scipio breviceps,species
 anoplura,scipio longiceps,Scipio aulacodi,species
 anoplura,scipio tripedatus,Scipio tripedatus,species
+anoplura,scipio,Scipio,genus
 anoplura,solenopotes binipilosus,Solenopotes binipilosus,species
 anoplura,solenopotes burmeisteri,Solenopotes burmeisteri,species
-anoplura,solenopotes capillatus,Solenopotes capillatus,species
 anoplura,solenopotes capillatus dubius,Solenopotes capillatus,species
+anoplura,solenopotes capillatus,Solenopotes capillatus,species
 anoplura,solenopotes capreoli,Solenopotes capreoli,species
 anoplura,solenopotes ferrisi,Solenopotes ferrisi,species
 anoplura,solenopotes hologastrus,Solenopotes hologastrus,species
@@ -2091,9 +2115,13 @@ anoplura,solenopotes natalensis,Solenopotes natalensis,species
 anoplura,solenopotes panamensis,Linognathus panamensis,species
 anoplura,solenopotes sinensis,Solenopotes muntiacus,species
 anoplura,solenopotes tarandi,Solenopotes tarandi,species
+anoplura,solenopotes,Solenopotes,genus
 anoplura,stobella pithodes,Linognathus pithodes,species
+anoplura,stobella,Stobella,genus
 anoplura,symoca brachyrrhyncha,Polyplax brachyrrhyncha,species
+anoplura,symoca,Symoca,genus
 anoplura,symysadus calva,Proenderleinellus calva,species
+anoplura,symysadus,Symysadus,genus
 anoplura,t. bifoliatus,Typhlomyophthirus bifoliatus,species
 anoplura,t. brevicornis,Linognathus brevicornis,species
 anoplura,t. dolabrifer,Sathrax durus,species
@@ -2109,9 +2137,12 @@ anoplura,trichaulus piliferus,Linognathus setosus,species
 anoplura,trichaulus stenopsis,Linognathus stenopsis,species
 anoplura,trichaulus tibialis,Linognathus tibialis,species
 anoplura,trichaulus vituli,Linognathus vituli,species
+anoplura,trichaulus,Trichaulus,genus
 anoplura,tupaiphthirus dolabrifer,Sathrax durus,species
+anoplura,tupaiphthirus,Tupaiphthirus,genus
 anoplura,typhlomyophthirus bifoliatus,Typhlomyophthirus bifoliatus,species
 anoplura,typhlomyophthirus lithosis,Typhlomyophthirus lithosis,species
+anoplura,typhlomyophthirus,Typhlomyophthirus,genus
 anoplura,w. africana,Werneckia africana,species
 anoplura,w. calva calva,Proenderleinellus calva,species
 anoplura,w. calva zanzibariensis,Proenderleinellus calva,species
@@ -2121,8 +2152,10 @@ anoplura,w. nigeriensis,Werneckia nigeriensis,species
 anoplura,w. paraxeri,Werneckia paraxeri,species
 anoplura,waterstonia calva calva,Proenderleinellus calva,species
 anoplura,waterstonia calva zanzibariensis,Proenderleinellus calva,species
+anoplura,waterstonia,Waterstonia,genus
 anoplura,werneckia africana,Werneckia africana,species
 anoplura,werneckia funisciuri,Werneckia funisciuri,species
 anoplura,werneckia minuta,Werneckia minuta,species
 anoplura,werneckia nigeriensis,Werneckia nigeriensis,species
 anoplura,werneckia paraxeri,Werneckia paraxeri,species
+anoplura,werneckia,Werneckia,genus
