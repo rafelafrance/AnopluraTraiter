@@ -1,0 +1,74 @@
+label,pattern,replace
+seta_abbrev,anmhs,anterior marginal head setae
+seta_abbrev,aphs,apical head setae
+seta_abbrev,dachs,dorsal accessory head setae
+seta_abbrev,dahs,dorsal accessory head setae
+seta_abbrev,danchs,dorsal anterior central head setae
+seta_abbrev,danhs,dorsal anterior head setae
+seta_abbrev,dcas,dorsal central abdominal setae
+seta_abbrev,dlas,dorsal lateral abdominal setae
+seta_abbrev,dmas,dorsal marginal abdominal setae
+seta_abbrev,dmhs,dorsal marginal head setae
+seta_abbrev,dmss,dorsal mesothoracic setae
+seta_abbrev,dmts,mesothoracic setae
+seta_abbrev,dpahs,dorsal preantennal head setae
+seta_abbrev,dpchs,posterior central setae
+seta_abbrev,dphs,dorsal principal head setae
+seta_abbrev,dpochs,dorsal posterior central head setae
+seta_abbrev,dpohs,dorsal posterior head setae
+seta_abbrev,dprs,dorsal paratergal setae
+seta_abbrev,dpts,dorsal principal thoracic setae
+seta_abbrev,lrs,labral setae
+seta_abbrev,mas1,first marginal setae
+seta_abbrev,mas2,second marginal setae
+seta_abbrev,mhs,marginal setae
+seta_abbrev,oms,oral marginal setae
+seta_abbrev,ors,oral setae
+seta_abbrev,os,oral setae
+seta_abbrev,pas,preantennal setae
+seta_abbrev,prs,paratergal setae
+seta_abbrev,shs,sutural head setae
+seta_abbrev,spahs,supraantennal head setae
+seta_abbrev,spaths,supra-antennal head setae
+seta_abbrev,stas,sternal abdominal setae
+seta_abbrev,suhs,sutural head setae
+seta_abbrev,teas,tergal abdominal setae
+seta_abbrev,vcas,ventral central abdominal setae
+seta_abbrev,vlas,ventral lateral abdominal setae
+seta_abbrev,vmas,ventral marginal abdominal setae
+seta_abbrev,vpahs,ventral preantennal head setae
+seta_abbrev,vphs,ventral principal head setae
+seta_abbrev,vpomhs,ventral posterior marginal head setae
+seta_abbrev,vprs,ventral paratergal setae
+seta_word,abdominal,
+seta_word,accessory,
+seta_word,anterior,
+seta_word,apical,
+seta_word,central,
+seta_word,dorsal,
+seta_word,first,
+seta_word,head,
+seta_word,labral,
+seta_word,lateral,
+seta_word,marginal,
+seta_word,mesothoracic,
+seta_word,oral,
+seta_word,paratergal,
+seta_word,posterior,
+seta_word,preantennal,
+seta_word,principal,
+seta_word,second,
+seta_word,sternal,
+seta_word,supra-antennal,
+seta_word,supraantennal,
+seta_word,sutural,
+seta_word,tergal,
+seta_word,thoracic,
+seta_word,ventral,
+chaeta,chaeta,
+chaeta,cheta,
+chaeta,seta,
+chaeta,setaceous,
+chaeta,setae,
+chaeta,setose,
+chaeta,setula,

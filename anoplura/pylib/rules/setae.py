@@ -67,53 +67,49 @@ from anoplura.pylib.rules.base import Base
 
 
 @dataclass(eq=False)
-class BodyPart(Base):
-    # Class vars ----------
-    body_part_csv: ClassVar[Path] = (
-        Path(__file__).parent / "terms" / "body_part_terms.csv"
-    )
-    replace: ClassVar[dict[str, str]] = term_util.look_up_table(
-        body_part_csv, "replace"
-    )
+class Setae(Base):  # Class vars ----------
+    setae_csv: ClassVar[Path] = Path(__file__).parent / "terms" / "setae_terms.csv"
+    replace: ClassVar[dict[str, str]] = term_util.look_up_table(setae_csv, "replace")
     # ---------------------
 
-    body_part: str = None
+    setae: str = None
 
     def formatted(self) -> dict[str, str]:
-        return {"Body Part": self.body_part}
+        return {"Body Part": self.setae}
 
     @classmethod
     def pipe(cls, nlp: Language):
-        add.term_pipe(nlp, name="body_part_terms", path=cls.body_part_csv)
-        # add.debug_tokens(nlp)
-        add.trait_pipe(
-            nlp, name="body_part_patterns", compiler=cls.body_part_patterns()
-        )
-        add.cleanup_pipe(nlp, name="body_part_cleanup")
+        add.term_pipe(nlp, name="setae_terms", path=cls.setae_csv)
+        add.trait_pipe(nlp, name="setae_patterns", compiler=cls.setae_patterns())
+        add.cleanup_pipe(nlp, name="setae_cleanup")
 
     @classmethod
-    def body_part_patterns(cls):
+    def setae_patterns(cls):
         return [
             Compiler(
-                label="body_part",
-                on_match="body_part_match",
-                keep="body_part",
+                label="setae",
+                on_match="setae_match",
+                keep="setae",
                 decoder={
-                    "seta": {"ENT_TYPE": "setae"},
+                    "abbrev": {"ENT_TYPE": "seta_abbrev"},
+                    "seta": {"ENT_TYPE": "chaeta"},
+                    "word": {"ENT_TYPE": "seta_word"},
                 },
                 patterns=[
-                    "seta+",
+                    "abbrev",
+                    "word+ seta word*",
+                    "word* seta word+",
                 ],
             ),
         ]
 
     @classmethod
-    def body_part_match(cls, ent):
+    def setae_match(cls, ent):
         text = ent.text.lower()
-        body_part = cls.replace.get(text, text)
-        return cls.from_ent(ent, body_part=body_part)
+        setae = cls.replace.get(text, text)
+        return cls.from_ent(ent, setae=setae)
 
 
-@registry.misc("body_part_match")
-def body_part_match(ent):
-    return BodyPart.body_part_match(ent)
+@registry.misc("setae_match")
+def setae_match(ent):
+    return Setae.setae_match(ent)

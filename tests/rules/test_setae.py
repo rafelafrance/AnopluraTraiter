@@ -1,18 +1,23 @@
 import unittest
 
-from anoplura.pylib.rules.body_part import BodyPart
+from anoplura.pylib.rules.setae import Setae
 from tests.setup import parse
 
 
-class TestBodyPart(unittest.TestCase):
-    def test_body_part_01(self):
+class TestSetae(unittest.TestCase):
+    def test_setae_01(self):
         self.assertEqual(
             parse("dachs"),
-            [BodyPart(body_part="dorsal accessory head setae", start=0, end=5)],
+            [Setae(setae="dorsal accessory head setae", start=0, end=5)],
+        )
+
+    def test_setae_02(self):
+        self.assertEqual(
+            parse("dorsal accessory head setae"),
+            [Setae(setae="dorsal accessory head setae", start=0, end=27)],
         )
 
 
-#
 #     # def test_body_part_01(self):
 #     #     self.assertEqual(
 #     #         parse("head, thorax, abdomen"),
