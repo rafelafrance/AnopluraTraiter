@@ -1,27 +1,19 @@
-# """Test setae count trait matcher."""
-# import unittest
-#
-# from tests.setup import parse
-#
-#
-# class TestSetaeCount(unittest.TestCase):
-#     """Test setae count trait matcher."""
-#
-#     def test_setae_count_01(self):
-#         self.assertEqual(
-#             parse("One long Dorsal Principal Head Seta (DPHS)"),
-#             [
-#                 {
-#                     "count": 1,
-#                     "body_part": "seta",
-#                     "seta": "dorsal principal head seta",
-#                     "trait": "seta_count",
-#                     "start": 0,
-#                     "end": 42,
-#                 }
-#             ],
-#         )
-#
+import unittest
+
+from anoplura.pylib.rules.seta_count import SetaCount
+from tests.setup import parse
+
+
+class TestSetaCount(unittest.TestCase):
+    def test_seta_count_01(self):
+        self.assertEqual(
+            parse("1 DMHS"),
+            [
+                SetaCount(seta="dorsal marginal head setae", low=1, start=0, end=6),
+            ],
+        )
+
+
 #     def test_setae_count_02(self):
 #         self.assertEqual(
 #             parse("no Dorsal Mesothoracic Setae (DMsS);"),

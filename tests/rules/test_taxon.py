@@ -1,5 +1,7 @@
 import unittest
 
+from traiter.pylib.rules.number import Number
+
 from anoplura.pylib.rules.taxon import Taxon
 from tests.setup import parse
 
@@ -24,12 +26,13 @@ class TestSciName(unittest.TestCase):
         self.assertEqual(
             parse("four known species of Abrocomaphthirus"),
             [
+                Number(start=0, end=4, number=4, is_fraction=None, is_word=True),
                 Taxon(
                     taxon="Abrocomaphthirus",
                     rank="genus",
                     group="anoplura",
                     start=22,
                     end=38,
-                )
+                ),
             ],
         )

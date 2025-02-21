@@ -13,8 +13,5 @@ class Base(TraiterBase):
     def pipe(cls, nlp: Language):
         raise NotImplementedError
 
-    def formatted(self) -> dict[str, str]:
-        raise NotImplementedError
-
     def to_dwc(self, dwc) -> DarwinCore:
         ...

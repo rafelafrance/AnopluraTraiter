@@ -1,20 +1,20 @@
 import unittest
 
-from anoplura.pylib.rules.setae import Setae
+from anoplura.pylib.rules.seta import Seta
 from tests.setup import parse
 
 
-class TestSetae(unittest.TestCase):
-    def test_setae_01(self):
+class TestSeta(unittest.TestCase):
+    def test_seta_01(self):
         self.assertEqual(
             parse("dachs"),
-            [Setae(setae="dorsal accessory head setae", start=0, end=5)],
+            [Seta(seta="dorsal accessory head setae", start=0, end=5)],
         )
 
-    def test_setae_02(self):
+    def test_seta_02(self):
         self.assertEqual(
             parse("dorsal accessory head setae"),
-            [Setae(setae="dorsal accessory head setae", start=0, end=27)],
+            [Seta(seta="dorsal accessory head setae", start=0, end=27)],
         )
 
 
