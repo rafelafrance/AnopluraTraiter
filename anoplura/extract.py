@@ -2,24 +2,20 @@
 
 import argparse
 import textwrap
-from copy import deepcopy
 from pathlib import Path
 
-from anoplura.pylib import pipeline
-from anoplura.pylib.writers.html_writer import html_writer
+from pylib import pipeline
+from pylib.writers import html_writer
+from traiter.pylib.util import clean_text
 
 
 def main(args):
     nlp = pipeline.build()
 
     with args.text.open() as in_file:
-        lines = [ln.strip() for ln in in_file.readlines()]
-
-    rows = [{"doc": doc} for doc in nlp.pipe(lines)]
-
-    if args.html_file:
-        copied = deepcopy(rows)
-        html_writer(args, copied)
+        text = " ".join(in_file.readlines())
+        text = clean_text(text)
+        html_writer.writer(nlp, text)
 
 
 def parse_args():

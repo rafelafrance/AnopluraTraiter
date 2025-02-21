@@ -1,11 +1,9 @@
-"""Write output to an HTML file."""
 from collections import defaultdict
 from datetime import datetime
 from html import escape
 from itertools import cycle
 
 from jinja2 import Environment, FileSystemLoader
-from spacy import displacy
 
 OPTIONS = {
     "colors": {
@@ -27,20 +25,6 @@ OPTIONS = {
 }
 
 
-def html_writer(_, rows):
-    """Output the data."""
-    sentences = []
-    for row in rows:
-        sentences += list(row["doc"].sents)
-        # for sent in row['doc'].sents:
-        #     print('=' * 80)
-        #     print(sent)
-        #     for ent in sent.ents:
-        #         print(ent.label_, ent._.data)
-        #     print()
-    displacy.serve(sentences, style="ent", options=OPTIONS)
-
-
 COLOR_COUNT = 14
 BACKGROUNDS = cycle([f"c{i}" for i in range(COLOR_COUNT)])
 BORDERS = cycle([f"b{i}" for i in range(COLOR_COUNT)])
@@ -48,29 +32,26 @@ BORDERS = cycle([f"b{i}" for i in range(COLOR_COUNT)])
 SKIPS = {"start", "end", "trait", "part", "subpart"}
 
 
-def html_writer_(args, rows):
-    """Output the data."""
-    rows = sorted(rows, key=lambda r: (r.get("flora_id"), r["family"], r["taxon"]))
-
-    classes = build_classes(rows)
-
-    for row in rows:
-        row["raw_text"] = row["text"]
-        row["text"] = format_text(row, classes)
-        row["traits"] = format_traits(row, classes)
+def writer(nlp, text, html_file):
+    doc = nlp(text)
+    for ent in doc.ents:
+        print(ent._.trait)
 
     env = Environment(
         loader=FileSystemLoader("./anoplura/writers/templates"), autoescape=True
     )
 
+    classes = build_classes(text)
+
     template = env.get_template("html_writer.html").render(
-        now=datetime.strftime(datetime.now(), "%Y-%m-%d %H:%M"), rows=rows
+        now=datetime.strftime(datetime.now(), "%Y-%m-%d %H:%M"),
+        text=format_text(text, classes),
     )
-    args.html_file.write(template)
-    args.html_file.close()
+    html_file.write(template)
+    html_file.close()
 
 
-def build_classes(rows):
+def build_classes(_doc):
     """
     Make tags for HTML text color highlighting.
 
@@ -79,64 +60,29 @@ def build_classes(rows):
         (trait_name, is_open) -> <span class="css_class">
         (trait_name, not_open) -> </span>
     """
-    backgrounds = {}
-    borders = {}
+    # backgrounds = {}
+    # borders = {}
 
     tags = {
         "part": "bold",
         "subpart": "bold-italic",
     }
 
-    for row in rows:
-        for trait in row["traits"]:
-            if trait["trait"] in {"part", "subpart"}:
-                continue
-            if "part" not in trait:
-                continue
-            name = trait_label(trait, "_")
-            name_parts = name.split("_")
-            bg, border = name_parts[0], name_parts[-1]
-            if bg not in backgrounds:
-                backgrounds[bg] = next(BACKGROUNDS)
-            if border not in borders:
-                borders[border] = next(BORDERS)
-            classes = f"{backgrounds[bg]} {borders[border]} c{backgrounds[bg]}"
-            tags[name] = classes
+    # for trait in row["traits"]:
+    #     if trait["trait"] in {"part", "subpart"}:
+    #         continue
+    #     if "part" not in trait:
+    #         continue
+    #     name = trait_label(trait, "_")
+    #     name_parts = name.split("_")
+    #     bg, border = name_parts[0], name_parts[-1]
+    #     if bg not in backgrounds:
+    #         backgrounds[bg] = next(BACKGROUNDS)
+    #     if border not in borders:
+    #         borders[border] = next(BORDERS)
+    #     classes = f"{backgrounds[bg]} {borders[border]} c{backgrounds[bg]}"
+    #     tags[name] = classes
     return tags
-
-
-def format_traits(row, classes):
-    """Format the traits for HTML."""
-    new_dict = {}
-
-    # Group by trait name
-    groups = defaultdict(list)
-    for trait in row["traits"]:
-        if "part" not in trait:
-            continue
-        if trait["trait"] not in {"part", "subpart"}:
-            label = trait_label(trait, "_")
-            groups[label].append(trait)
-    groups = dict(sorted(groups.items(), key=lambda i: i[0]))
-
-    # Format each trait group
-    for name, traits in groups.items():
-        label = name.replace("_", " ")
-        span = f'<span class="{classes[name]}">{label}</span>'
-
-        # Format each trait within a trait group
-        new_traits = []
-        for trait in traits:
-            text = row["raw_text"][trait["start"] : trait["end"]]
-            trait = ", ".join(
-                f'<span title="{text}">{k}:&nbsp;{v}</span>'
-                for k, v in trait.items()
-                if k not in SKIPS
-            )
-            new_traits.append(trait)
-        new_dict[span] = "<br/>".join(new_traits)
-
-    return new_dict
 
 
 def format_text(row, classes):
@@ -173,6 +119,40 @@ def format_text(row, classes):
         frags.append(text[prev:])
 
     return "".join(frags)
+
+
+def format_traits(row, classes):
+    """Format the traits for HTML."""
+    new_dict = {}
+
+    # Group by trait name
+    groups = defaultdict(list)
+    for trait in row["traits"]:
+        if "part" not in trait:
+            continue
+        if trait["trait"] not in {"part", "subpart"}:
+            label = trait_label(trait, "_")
+            groups[label].append(trait)
+    groups = dict(sorted(groups.items(), key=lambda i: i[0]))
+
+    # Format each trait group
+    for name, traits in groups.items():
+        label = name.replace("_", " ")
+        span = f'<span class="{classes[name]}">{label}</span>'
+
+        # Format each trait within a trait group
+        new_traits = []
+        for trait in traits:
+            text = row["raw_text"][trait["start"] : trait["end"]]
+            trait = ", ".join(
+                f'<span title="{text}">{k}:&nbsp;{v}</span>'
+                for k, v in trait.items()
+                if k not in SKIPS
+            )
+            new_traits.append(trait)
+        new_dict[span] = "<br/>".join(new_traits)
+
+    return new_dict
 
 
 def trait_label(trait, sep=" "):

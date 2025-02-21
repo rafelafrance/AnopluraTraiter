@@ -29,11 +29,11 @@ optional-dependencies.dev = [
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["ranges"]
+include = ["anoplura"]
 namespaces = false
 
 [project.scripts]
-parse-gbif = "ranges.parse_gbif:main"
+parse-gbif = "anoplura.parse_gbif:main"
 
 [tool.setuptools]
 py-modules = []
@@ -43,7 +43,7 @@ target-version = "py312"
 
 show-fixes = true
 exclude = [
-    "**/external/*.py", # External code
+    "**/external/**", # External code
 ]
 
 lint.select = [

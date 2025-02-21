@@ -1,5 +1,6 @@
 import spacy
-from traiter.pylib.pipes import extensions, sentence, tokenizer
+from traiter.pylib.pipeline import tokenizer
+from traiter.pylib.pipes import extensions
 
 from anoplura.pylib.rules.setae import Setae
 from anoplura.pylib.rules.taxon import Taxon
@@ -12,9 +13,12 @@ def build():
 
     tokenizer.setup_tokenizer(nlp)
 
-    nlp.add_pipe(sentence.SENTENCES, before="parser")
+    # nlp.add_pipe("sentencizer", before="parser")
 
     Taxon.pipe(nlp)
     Setae.pipe(nlp)
+
+    # for name in nlp.pipe_names:
+    #     print(name)
 
     return nlp
