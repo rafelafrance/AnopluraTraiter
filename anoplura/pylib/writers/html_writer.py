@@ -11,10 +11,7 @@ BACKGROUNDS = cycle([f"cc{i}" for i in range(COLOR_COUNT)])
 SKIPS = {"start", "end", "trait", "part", "subpart"}
 
 
-def writer(nlp, text, html_file):
-    doc = nlp(text)
-    traits = [e._.trait for e in doc.ents]
-
+def writer(traits, text, html_file):
     env = Environment(
         loader=FileSystemLoader("./anoplura/pylib/writers/templates"), autoescape=True
     )

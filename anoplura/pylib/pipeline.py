@@ -1,11 +1,11 @@
 import spacy
-from traiter.pylib.pipeline import tokenizer
-from traiter.pylib.pipes import extensions
+from traiter.pylib.pipes import extensions, tokenizer
 from traiter.pylib.rules.number import Number
 
 from anoplura.pylib.rules.range import Range
 from anoplura.pylib.rules.seta import Seta
 from anoplura.pylib.rules.seta_count import SetaCount
+from anoplura.pylib.rules.sex import Sex
 from anoplura.pylib.rules.taxon import Taxon
 
 
@@ -16,9 +16,8 @@ def build():
 
     tokenizer.setup_tokenizer(nlp)
 
-    # nlp.add_pipe("sentencizer", before="parser")
-
     Taxon.pipe(nlp)
+    Sex.pipe(nlp)
 
     Seta.pipe(nlp)
 

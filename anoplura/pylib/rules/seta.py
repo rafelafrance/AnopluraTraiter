@@ -16,7 +16,7 @@ class Seta(Base):
     # Class vars ----------
     seta_csv: ClassVar[Path] = Path(__file__).parent / "terms" / "seta_terms.csv"
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(seta_csv, "replace")
-    # --e-------------------
+    # ----------------------
 
     seta: str = None
 

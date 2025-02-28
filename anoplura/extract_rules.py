@@ -15,7 +15,9 @@ def main(args):
     with args.text.open() as in_file:
         text = " ".join(in_file.readlines())
         text = clean_text(text)
-        html_writer.writer(nlp, text, args.html_file)
+        doc = nlp(text)
+        traits = [e._.trait for e in doc.ents]
+        html_writer.writer(traits, text, args.html_file)
 
 
 def parse_args():
