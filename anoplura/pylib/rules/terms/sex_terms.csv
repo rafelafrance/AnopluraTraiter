@@ -1,5 +1,5 @@
 label,pattern,replace
-sex,female,female
-sex,females,female
-sex,male,male
-sex,males,male
+sex_,female,female
+sex_,females,female
+sex_,male,male
+sex_,males,male

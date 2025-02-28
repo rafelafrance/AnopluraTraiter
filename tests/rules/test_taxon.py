@@ -2,6 +2,7 @@ import unittest
 
 from traiter.pylib.rules.number import Number
 
+from anoplura.pylib.rules.sex import Sex
 from anoplura.pylib.rules.taxon import Taxon
 from tests.setup import parse
 
@@ -11,7 +12,7 @@ class TestSciName(unittest.TestCase):
         self.assertEqual(
             parse("females of L. CLAYTONI sp. nov., ."),
             [
-                # {"sex": "female", "trait": "sex", "start": 0, "end": 7},
+                Sex(sex="female", start=0, end=7),
                 Taxon(
                     taxon="Lemurpediculus claytoni",
                     rank="species",

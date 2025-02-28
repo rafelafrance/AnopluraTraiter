@@ -37,7 +37,7 @@ class Sex(Base):
                 on_match="sex_match",
                 keep="sex",
                 decoder={
-                    "sex": {"ENT_TYPE": "sex"},
+                    "sex": {"ENT_TYPE": "sex_"},
                 },
                 patterns=[
                     " sex ",
@@ -47,7 +47,8 @@ class Sex(Base):
 
     @classmethod
     def sex_match(cls, ent):
-        sex = cls.replace.get(ent.text.lower(), ent.text.lower())
+        sex = ent.text.lower()
+        sex = cls.replace.get(sex, sex)
         return cls.from_ent(ent, sex=sex)
 
 
