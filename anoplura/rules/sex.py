@@ -7,7 +7,7 @@ from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
 from traiter.pylib.pipes import add
 
-from anoplura.pylib.rules.base import Base
+from anoplura.rules.base import Base
 
 
 @dataclass(eq=False)
@@ -17,7 +17,7 @@ class Sex(Base):
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(sex_csv, "replace")
     # ---------------------
 
-    sex: str = None
+    sex: str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):

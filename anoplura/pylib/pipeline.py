@@ -2,11 +2,11 @@ import spacy
 from traiter.pylib.pipes import extensions, tokenizer
 from traiter.pylib.rules.number import Number
 
-from anoplura.pylib.rules.range import Range
-from anoplura.pylib.rules.seta import Seta
-from anoplura.pylib.rules.seta_count import SetaCount
-from anoplura.pylib.rules.sex import Sex
-from anoplura.pylib.rules.taxon import Taxon
+from anoplura.rules.range import Range
+from anoplura.rules.seta import Seta
+from anoplura.rules.seta_count import SetaCount
+from anoplura.rules.sex import Sex
+from anoplura.rules.taxon import Taxon
 
 
 def build():

@@ -5,8 +5,8 @@ import textwrap
 from pathlib import Path
 
 from pylib import pipeline
-from pylib.writers import html_writer
 from traiter.pylib.util import clean_text
+from writers import html_writer
 
 
 def main(args):

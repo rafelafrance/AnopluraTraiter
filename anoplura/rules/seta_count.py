@@ -5,14 +5,14 @@ from spacy.util import registry
 from traiter.pylib.pattern_compiler import Compiler
 from traiter.pylib.pipes import add
 
-from anoplura.pylib.rules.base import Base
+from anoplura.rules.base import Base
 
 
 @dataclass(eq=False)
 class SetaCount(Base):
-    seta: str = None
-    low: int = None
-    high: int = None
+    seta: str | None = None
+    low: int | None = None
+    high: int | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):

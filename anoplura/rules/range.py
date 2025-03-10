@@ -6,7 +6,7 @@ from spacy.language import Language
 from traiter.pylib.pattern_compiler import Compiler
 from traiter.pylib.pipes import add
 
-from anoplura.pylib.rules.base import Base
+from anoplura.rules.base import Base
 
 
 @dataclass(eq=False)

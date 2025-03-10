@@ -8,7 +8,7 @@ from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
 from traiter.pylib.pipes import add
 
-from anoplura.pylib.rules.base import Base
+from anoplura.rules.base import Base
 
 
 @dataclass(eq=False)
@@ -20,9 +20,9 @@ class Taxon(Base):
     groups: ClassVar[dict[str, str]] = term_util.look_up_table(taxon_csv, "label")
     # ---------------------
 
-    taxon: str = None
-    rank: str = None
-    group: str = None
+    taxon: str | None = None
+    rank: str | None = None
+    group: str | None = None
 
     def formatted(self) -> dict[str, str]:
         return {"Taxon": self.taxon, "Rank": self.rank, "Group": self.group}

@@ -7,7 +7,7 @@ from traiter.pylib.rules.base import Base as TraiterBase
 
 @dataclass(eq=False)
 class Base(TraiterBase):
-    _paragraph: str = None
+    _paragraph: str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):

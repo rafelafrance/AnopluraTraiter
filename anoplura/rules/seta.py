@@ -8,7 +8,7 @@ from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
 from traiter.pylib.pipes import add
 
-from anoplura.pylib.rules.base import Base
+from anoplura.rules.base import Base
 
 
 @dataclass(eq=False)
@@ -18,7 +18,7 @@ class Seta(Base):
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(seta_csv, "replace")
     # ----------------------
 
-    seta: str = None
+    seta: str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):

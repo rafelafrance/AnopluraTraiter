@@ -7,13 +7,14 @@ name = "AnopluraTraiter"
 version = "0.0.1"
 readme = "README.md"
 description = ""
-license = {file = "LICENSE"}
-authors = [{name="Raphael LaFrance", email="raphael.lafrance@gmail.com"}]
+license = { file = "LICENSE" }
+authors = [{ name = "Raphael LaFrance", email = "raphael.lafrance@gmail.com" }]
 requires-python = ">=3.12"
 dependencies = [
     "Jinja2",
     "dspy",
     "dspy-ai",
+    "ftfy",
     "jupyter",
     "pandas",
     "regex",
@@ -35,7 +36,6 @@ include = ["anoplura"]
 namespaces = false
 
 [project.scripts]
-parse-gbif = "anoplura.parse_gbif:main"
 
 [tool.setuptools]
 py-modules = []
@@ -96,35 +96,35 @@ lint.select = [
     "FLY",
     "NPY",
     "PERF",
-#    "FURB",  # refurb
-#    "LOG",  # flake8-logging
+    #    "FURB",  # refurb
+    #    "LOG",  # flake8-logging
     "RUF",
 ]
 
 lint.ignore = [
-    "A003",  # Class attribute is shadowing a Python builtin
+    "A003",    # Class attribute is shadowing a Python builtin
     "COM812",  # Trailing comma missing
-    "D100",  # Missing docstring in public module
-    "D101",  # Missing docstring in public class
-    "D102",  # Missing docstring in public method
-    "D103",  # Missing docstring in public function
-    "D104",  # Missing docstring in public package
-    "D105",  # Missing docstring in public method
-    "D107",  # Missing docstring in public __init__
-    "D203",  # 1 blank line required before class docstring
-    "D212",  # Multi-line docstring summary should start at the first line
+    "D100",    # Missing docstring in public module
+    "D101",    # Missing docstring in public class
+    "D102",    # Missing docstring in public method
+    "D103",    # Missing docstring in public function
+    "D104",    # Missing docstring in public package
+    "D105",    # Missing docstring in public method
+    "D107",    # Missing docstring in public __init__
+    "D203",    # 1 blank line required before class docstring
+    "D212",    # Multi-line docstring summary should start at the first line
     "ISC001",  # Implicitly concatenated string literals on one line
-    "N818",  # Exception name {name} should be named with an Error suffix
-    "PD901",  # Avoid using the generic variable name df for DataFrames
-    "PLR0913",  # Too many arguments in function definition ({c_args} > {max_args})
-    "PLW2901",  # Outer {outer_kind} variable {name} overwritten by inner {inner_kind} target
-    "PLW0603",  # Using the global statement to update {name} is discouraged
-    "PT009",  # Use a regular assert instead of unittest-style {assertion}
+    "N818",    # Exception name {name} should be named with an Error suffix
+    "PD901",   # Avoid using the generic variable name df for DataFrames
+    "PLR0913", # Too many arguments in function definition ({c_args} > {max_args})
+    "PLW2901", # Outer {outer_kind} variable {name} overwritten by inner {inner_kind} target
+    "PLW0603", # Using the global statement to update {name} is discouraged
+    "PT009",   # Use a regular assert instead of unittest-style {assertion}
     "RET504",  # Unnecessary assignment to {name} before return statement
     "RUF001",  # String contains ambiguous {}. Did you mean {}?
     "RUF003",  # Comment contains ambiguous character
     "SIM114",  # Combine if branches using logical or operator
     "SIM117",  # Use a single with statement with multiple contexts instead of nested with statements
     "SLF001",  # Private member accessed: {access}
-    "T201",  # print found
+    "T201",    # print found
 ]

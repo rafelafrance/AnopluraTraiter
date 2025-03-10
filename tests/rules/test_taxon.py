@@ -2,8 +2,8 @@ import unittest
 
 from traiter.pylib.rules.number import Number
 
-from anoplura.pylib.rules.sex import Sex
-from anoplura.pylib.rules.taxon import Taxon
+from anoplura.rules.sex import Sex
+from anoplura.rules.taxon import Taxon
 from tests.setup import parse
 
 

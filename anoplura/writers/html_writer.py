@@ -13,7 +13,7 @@ SKIPS = {"start", "end", "trait", "part", "subpart"}
 
 def writer(traits, text, html_file):
     env = Environment(
-        loader=FileSystemLoader("./anoplura/pylib/writers/templates"), autoescape=True
+        loader=FileSystemLoader("./anoplura/writers/templates"), autoescape=True
     )
 
     classes = build_classes(traits)
