@@ -6,6 +6,7 @@ from anoplura.rules.range import Range
 from anoplura.rules.seta import Seta
 from anoplura.rules.seta_count import SetaCount
 from anoplura.rules.sex import Sex
+from anoplura.rules.size import Size
 from anoplura.rules.taxon import Taxon
 
 
@@ -23,6 +24,7 @@ def build():
 
     Number.pipe(nlp)
     Range.pipe(nlp)
+    Size.pipe(nlp)
 
     SetaCount.pipe(nlp)
 

@@ -3,6 +3,7 @@ from typing import ClassVar
 
 from spacy import registry
 from spacy.language import Language
+from traiter.pylib import const as t_const
 from traiter.pylib.pattern_compiler import Compiler
 from traiter.pylib.pipes import add
 
@@ -36,11 +37,12 @@ class Range(Base):
                 keep="range",
                 on_match="range_match",
                 decoder={
+                    "[+]": {"TEXT": {"IN": t_const.PLUS}},
                     "-": {"TEXT": {"IN": cls.dash}, "OP": "+"},
                     "99": {"ENT_TYPE": "number"},
                 },
                 patterns=[
-                    " 99 - 99 ",
+                    " 99 - 99 [+]? ",
                 ],
             ),
         ]
