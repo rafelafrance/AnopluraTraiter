@@ -26,6 +26,7 @@ class Sex(Base):
             nlp,
             name="sex_patterns",
             compiler=cls.sex_patterns(),
+            overwrite=["sex"],
         )
         add.cleanup_pipe(nlp, name="sex_cleanup")
 
@@ -37,7 +38,7 @@ class Sex(Base):
                 on_match="sex_match",
                 keep="sex",
                 decoder={
-                    "sex": {"ENT_TYPE": "sex_"},
+                    "sex": {"ENT_TYPE": "sex"},
                 },
                 patterns=[
                     " sex ",

@@ -14,15 +14,15 @@ from anoplura.rules.base import Base
 @dataclass(eq=False)
 class Seta(Base):
     # Class vars ----------
-    seta_csv: ClassVar[Path] = Path(__file__).parent / "terms" / "seta_terms.csv"
-    replace: ClassVar[dict[str, str]] = term_util.look_up_table(seta_csv, "replace")
+    terms: ClassVar[Path] = Path(__file__).parent / "terms" / "seta_terms.csv"
+    replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
     # ----------------------
 
     seta: str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
-        add.term_pipe(nlp, name="seta_terms", path=cls.seta_csv)
+        add.term_pipe(nlp, name="seta_terms", path=cls.terms)
         add.trait_pipe(nlp, name="seta_patterns", compiler=cls.seta_patterns())
         add.cleanup_pipe(nlp, name="seta_cleanup")
 

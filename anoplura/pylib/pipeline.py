@@ -12,7 +12,7 @@ from anoplura.rules.taxon import Taxon
 def build():
     extensions.add_extensions()
 
-    nlp = spacy.load("en_core_web_md", exclude=["ner", "lemmatizer", "tok2vec"])
+    nlp = spacy.load("en_core_web_md", exclude=["ner", "tok2vec"])
 
     tokenizer.setup_tokenizer(nlp)
 
