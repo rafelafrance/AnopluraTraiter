@@ -1,0 +1,32 @@
+label,pattern,replace
+bug_part,total body,body
+bug_part,body,body
+bug_part,head,head
+bug_part,thorax,thorax
+bug_part,abdomen,abdomen
+bug_part,segment,segment
+bug_part,segments,segment
+bug_part,antennal,antenna
+bug_part,antenna,antenna
+bug_part,antennas,antenna
+bug_part,antennae,antenna
+bug_part,femur,femur
+bug_part,femora,femur
+bug_part,sternum,sternum
+bug_part,sterna,sternum
+bug_part,sternite,sternum
+bug_part,sternal plate,femur
+bug_part,tergum,tergum
+bug_part,terga,tergum
+bug_part,tergite,tergum
+bug_part,tergites,tergum
+bug_part,sclerite,sclerite
+bug_part,sclerotin,sclerite
+bug_part,sclerotized,sclerite
+bug_part,sclerotization,sclerite
+bug_part,chitin,chitin
+bug_part,chitinous,chitin
+bug_part,chitinized,chitin
+bug_part,cuticle,cuticle
+bug_part,spiracle,spiracle
+bug_part,spiracles,spiracle

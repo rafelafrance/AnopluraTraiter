@@ -27,7 +27,7 @@ class Size(Base):
         ALL_CSVS, "factor_cm", float
     )
     factors_cm["in"] = 2.54
-    lengths: ClassVar[list[str]] = ["metric_length", "imperial_length"]
+    units: ClassVar[list[str]] = ["metric_length", "imperial_length"]
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(ALL_CSVS, "replace")
     # ---------------------
 
@@ -41,7 +41,7 @@ class Size(Base):
             nlp,
             name="size_patterns",
             compiler=cls.size_patterns(),
-            overwrite=["range", "dim", "metric_length", "imperial_length"],
+            overwrite=["range", "number", "dim", "metric_length", "imperial_length"],
         )
 
         add.cleanup_pipe(nlp, name="size_cleanup")
@@ -55,10 +55,11 @@ class Size(Base):
         decoder = {
             "(": {"TEXT": {"IN": t_const.OPEN}},
             ")": {"TEXT": {"IN": t_const.CLOSE}},
-            "99.9": {"TEXT": {"REGEX": t_const.FLOAT_TOKEN_RE}},
+            "99": {"ENT_TYPE": "number"},
             "99-99": {"ENT_TYPE": "range"},
-            "cm": {"ENT_TYPE": {"IN": cls.lengths}},
-            "dim": {"ENT_TYPE": "dim"},
+            "cm": {"ENT_TYPE": {"IN": cls.units}},
+            "dim": {"ENT_TYPE": "dimension"},
+            "sep": {"ENT_TYPE": "separator"},
             "x": {"ENT_TYPE": "cross"},
         }
         return [
@@ -68,50 +69,49 @@ class Size(Base):
                 on_match="size_match",
                 decoder=decoder,
                 patterns=[
+                    "99+    cm+ dim*",
                     "99-99+ cm+ dim*",
                     "99-99+ cm* dim* x 99-99+ cm+ dim*",
-                    "99-99+ cm* dim* x 99-99+ cm* dim* x 99-99+ cm+ dim*",
+                    " dim+ sep* 99+    cm+ ",
+                    " dim+ sep* 99-99+ cm+ ",
                 ],
             ),
         ]
 
-    @staticmethod
-    def get_indices(ent, start, end) -> tuple[int, int]:
-        first, last = ent[0], ent[-1]
+    @classmethod
+    def update_indices(cls, sub_ent, dims):
+        if dims[-1].start is None:
+            dims[-1].start = sub_ent[0].idx
 
-        if start == -1 or first.idx < start:
-            start = first.idx
-
-        fin = last.idx + len(last)
-        if end == -1 or fin > end:
-            end = fin
-
-        return start, end
+        last = sub_ent[-1]
+        dims[-1].end = last.idx + len(last)
 
     @classmethod
     def scan_parts(cls, ent):
         dims = [Dimension()]
-        start, end = -1, -1
 
-        for e in ent.ents:
-            if e.label_ == "range":
-                dims[-1].low = e._.trait.low
-                dims[-1].high = e._.trait.high
+        for sub_ent in ent.ents:
+            if sub_ent.label_ == "range":
+                dims[-1].low = sub_ent._.trait.low
+                dims[-1].high = sub_ent._.trait.high
+                cls.update_indices(sub_ent, dims)
 
-                start, end = cls.get_indices(e, start, end)
-                dims[-1].start = start
-                dims[-1].end = end
+            elif sub_ent.label_ == "number":
+                dims[-1].low = sub_ent._.trait.number
+                cls.update_indices(sub_ent, dims)
 
-            elif e.label_ in cls.lengths:
-                dims[-1].units = cls.replace.get(e.text.lower(), e.text.lower())
+            elif sub_ent.label_ == "dimension":
+                text = sub_ent.text.lower()
+                dims[-1].dim = cls.replace.get(text, text)
+                cls.update_indices(sub_ent, dims)
 
-                start, end = cls.get_indices(e, start, end)
-                dims[-1].start = start
-                dims[-1].end = end
+            elif sub_ent.label_ in cls.units:
+                text = sub_ent.text.lower()
+                dims[-1].units = cls.replace.get(text, text)
+                cls.update_indices(sub_ent, dims)
 
-            elif e.label_ == "cross":
+            elif sub_ent.label_ == "cross":
                 dims.append(Dimension())
-                start, end = -1, -1
 
         return dims
 

@@ -30,7 +30,7 @@ class TestSize(unittest.TestCase):
     def test_size_02(self):
         """It handles two dimensions."""
         self.assertEqual(
-            parse("""30–60 × 10-20 cm"""),
+            parse("""30–60 × 10-20 cm,"""),
             [
                 Size(
                     dims=[
@@ -60,7 +60,7 @@ class TestSize(unittest.TestCase):
     def test_size_03(self):
         """It handles an extra plus sign."""
         self.assertEqual(
-            parse("""10–30+ cm"""),
+            parse("""10–30+ cm,"""),
             [
                 Size(
                     dims=[
@@ -75,6 +75,26 @@ class TestSize(unittest.TestCase):
                     ],
                     start=0,
                     end=9,
+                ),
+            ],
+        )
+
+    def test_size_04(self):
+        self.assertEqual(
+            parse("""length, 1.02 mm."""),
+            [
+                Size(
+                    dims=[
+                        Dimension(
+                            dim="length",
+                            low=1.02,
+                            units="mm",
+                            start=0,
+                            end=16,
+                        )
+                    ],
+                    start=0,
+                    end=16,
                 ),
             ],
         )

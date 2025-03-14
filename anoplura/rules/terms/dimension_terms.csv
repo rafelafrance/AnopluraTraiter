@@ -30,3 +30,6 @@ dimension,width,width
 cross,x,×
 cross,X,×
 cross,×,×
+separator,",",
+separator,=,
+separator,is,
