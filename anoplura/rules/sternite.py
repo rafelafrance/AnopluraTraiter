@@ -26,7 +26,7 @@ class Sternite(Base):
     @classmethod
     def pipe(cls, nlp: Language):
         add.term_pipe(nlp, name="sternite_terms", path=cls.terms)
-        add.debug_tokens(nlp)  # ##########################################
+        # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
             name="sternite_patterns",
