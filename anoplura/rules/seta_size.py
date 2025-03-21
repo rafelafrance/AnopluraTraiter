@@ -4,6 +4,7 @@ from typing import ClassVar
 
 from spacy.language import Language
 from spacy.util import registry
+from traiter.pylib import const as t_const
 from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
 from traiter.pylib.pipes import add
@@ -13,14 +14,13 @@ from anoplura.rules.base import Base
 
 
 @dataclass(eq=False)
-class PartSize(Base):
+class SetaSize(Base):
     # Class vars ----------
     terms: ClassVar[Path] = Path(__file__).parent / "terms" / "dimension_terms.csv"
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
-    sep: ClassVar[list[str]] = " , = is ".split()
     # ---------------------
 
-    part: str | None = None
+    seta: str | None = None
     dims: list[Dimension] = field(default_factory=list)
 
     @classmethod
@@ -28,42 +28,43 @@ class PartSize(Base):
         # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
-            name="part_size_patterns",
-            compiler=cls.part_size_patterns(),
-            overwrite=["size", "part"],
+            name="seta_size_patterns",
+            compiler=cls.seta_size_patterns(),
+            overwrite=["size", "seta"],
         )
 
     @classmethod
-    def part_size_patterns(cls):
+    def seta_size_patterns(cls):
         return [
             Compiler(
-                label="part_size",
-                on_match="part_size_match",
-                keep="part_size",
+                label="seta_size",
+                on_match="seta_size_match",
+                keep="seta_size",
                 decoder={
-                    "part": {"ENT_TYPE": "part"},
+                    "(": {"TEXT": {"IN": t_const.OPEN}},
+                    ")": {"TEXT": {"IN": t_const.CLOSE}},
+                    "seta": {"ENT_TYPE": "seta"},
                     "size": {"ENT_TYPE": "size"},
-                    ",": {"LOWER": {"IN": cls.sep}},
                 },
                 patterns=[
-                    " part+ ,* size+ ",
+                    " (? seta )? size+ ",
                 ],
             ),
         ]
 
     @classmethod
-    def part_size_match(cls, ent):
-        part, dims = None, None
+    def seta_size_match(cls, ent):
+        seta, dims = None, None
 
         for e in ent.ents:
             if e.label_ == "size":
                 dims = e._.trait.dims
-            elif e.label_ == "part":
-                part = e._.trait.part
+            elif e.label_ == "seta":
+                seta = e._.trait.seta
 
-        return cls.from_ent(ent, dims=dims, part=part)
+        return cls.from_ent(ent, dims=dims, seta=seta)
 
 
-@registry.misc("part_size_match")
-def part_size_match(ent):
-    return PartSize.part_size_match(ent)
+@registry.misc("seta_size_match")
+def seta_size_match(ent):
+    return SetaSize.seta_size_match(ent)

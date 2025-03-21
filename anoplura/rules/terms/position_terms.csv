@@ -1,28 +1,48 @@
-label,pattern,replace
-position,anterior,
-position,anteriorly,
-position,contralateral,
-position,deep,
-position,distal,
-position,dorsal,
-position,frontal,
-position,inferior,
-position,ipsilateral,
-position,lateral,
-position,medial,
-position,posterior,
-position,proximal,
-position,sagittal,
-position,superficial,
-position,superior,
-position,transverse,
-position,ventral,
-position,frontal plane,
-position,sagittal plane,
-position,caudal,
-position,cranial,
-position,horizontal,
-position,horizontal plane,
-position,cephalic,
-position,posterolateral,
-position,dorsolateral,
+label,pattern
+position,abdominal
+position,antennal
+position,anterior
+position,anteriorly
+position,apical
+position,basal
+position,caudal
+position,central
+position,cephalic
+position,contralateral
+position,cranial
+position,deep
+position,distal
+position,dorsal
+position,dorsolateral
+position,first
+position,frontal
+position,frontal plane
+position,horizontal
+position,horizontal plane
+position,inferior
+position,ipsilateral
+position,labral
+position,last
+position,lateral
+position,marginal
+position,medial
+position,mesothoracic
+position,oral
+position,paratergal
+position,posterior
+position,posterolateral
+position,preantennal
+position,proximal
+position,sagittal
+position,sagittal plane
+position,second
+position,sternal
+position,subterminal
+position,superficial
+position,superior
+position,supra-antennal
+position,supraantennal
+position,tergal
+position,thoracic
+position,transverse
+position,ventral

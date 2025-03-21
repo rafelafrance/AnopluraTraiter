@@ -8,7 +8,7 @@ from jinja2 import Environment, FileSystemLoader
 COLOR_COUNT = 14
 BACKGROUNDS = cycle([f"cc{i}" for i in range(COLOR_COUNT)])
 
-SKIPS = {"start", "end", "trait", "part", "subpart"}
+SKIPS = {"start", "end", "trait"}
 
 
 def writer(traits, text, html_file):

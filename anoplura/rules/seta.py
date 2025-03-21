@@ -14,7 +14,12 @@ from anoplura.rules.base import Base
 @dataclass(eq=False)
 class Seta(Base):
     # Class vars ----------
-    terms: ClassVar[Path] = Path(__file__).parent / "terms" / "seta_terms.csv"
+    terms: ClassVar[list[Path]] = [
+        Path(__file__).parent / "terms" / "position_terms.csv",
+        Path(__file__).parent / "terms" / "part_terms.csv",
+        Path(__file__).parent / "terms" / "seta_terms.csv",
+    ]
+    words: ClassVar[list[str]] = ["seta_word", "position", "bug_part"]
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
     # ----------------------
 
@@ -23,6 +28,7 @@ class Seta(Base):
     @classmethod
     def pipe(cls, nlp: Language):
         add.term_pipe(nlp, name="seta_terms", path=cls.terms)
+        # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(nlp, name="seta_patterns", compiler=cls.seta_patterns())
         add.cleanup_pipe(nlp, name="seta_cleanup")
 
@@ -36,7 +42,7 @@ class Seta(Base):
                 decoder={
                     "abbrev": {"ENT_TYPE": "seta_abbrev"},
                     "setae": {"ENT_TYPE": "chaeta"},
-                    "word": {"ENT_TYPE": "seta_word"},
+                    "word": {"ENT_TYPE": {"IN": cls.words}},
                 },
                 patterns=[
                     "abbrev",
