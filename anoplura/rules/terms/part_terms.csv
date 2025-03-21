@@ -24,7 +24,6 @@ bug_part,segments,segment
 bug_part,spiracle,spiracle
 bug_part,spiracles,spiracle
 bug_part,sterna,sternum
-bug_part,sternite,sternite
 bug_part,sternum,sternum
 bug_part,suture,suture
 bug_part,terga,tergum
@@ -33,3 +32,5 @@ bug_part,tergites,tergum
 bug_part,tergum,tergum
 bug_part,thorax,thorax
 bug_part,total body,body
+sternite,sternite,sternite
+sternite,sternites,sternite
