@@ -8,12 +8,14 @@ from anoplura.rules.part import Part
 from anoplura.rules.part_size import PartSize
 from anoplura.rules.range import Range
 from anoplura.rules.sclerotized import Sclerotized
+from anoplura.rules.segment import Segment
 from anoplura.rules.seta import Seta
 from anoplura.rules.seta_count import SetaCount
 from anoplura.rules.seta_size import SetaSize
 from anoplura.rules.sex import Sex
 from anoplura.rules.size import Size
 from anoplura.rules.sternite import Sternite
+from anoplura.rules.sternite_count import SterniteCount
 from anoplura.rules.subpart_count import SubpartCount
 from anoplura.rules.taxon import Taxon
 
@@ -41,10 +43,12 @@ def build():
     Range.pipe(nlp)
     Size.pipe(nlp)
     Sternite.pipe(nlp)
+    Segment.pipe(nlp)
 
     SubpartCount.pipe(nlp)
     SetaCount.pipe(nlp)
     SetaSize.pipe(nlp)
+    SterniteCount.pipe(nlp)
 
     Sclerotized.pipe(nlp)
 

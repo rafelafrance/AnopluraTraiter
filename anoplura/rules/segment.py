@@ -11,60 +11,60 @@ from anoplura.rules.base import Base
 
 
 @dataclass(eq=False)
-class Sternite(Base):
+class Segment(Base):
     # Class vars ----------
     terms: ClassVar[Path] = Path(__file__).parent / "terms" / "part_terms.csv"
     # ----------------------
 
-    sternites: list[int] | None = None
+    segments: list[int] | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
-        add.term_pipe(nlp, name="sternite_terms", path=cls.terms)
+        add.term_pipe(nlp, name="segment_terms", path=cls.terms)
         # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
-            name="sternite_patterns",
-            compiler=cls.sternite_patterns(),
-            overwrite=["sternite", "number", "range"],
+            name="segment_patterns",
+            compiler=cls.segment_patterns(),
+            overwrite=["segment", "number", "range"],
         )
-        add.cleanup_pipe(nlp, name="sternite_cleanup")
+        add.cleanup_pipe(nlp, name="segment_cleanup")
 
     @classmethod
-    def sternite_patterns(cls):
+    def segment_patterns(cls):
         return [
             Compiler(
-                label="sternite",
-                on_match="sternite_match",
-                keep="sternite",
+                label="segment",
+                on_match="segment_match",
+                keep="segment",
                 decoder={
                     "9": {"ENT_TYPE": "number"},
                     "9-9": {"ENT_TYPE": "range"},
-                    "sternite": {"ENT_TYPE": "sternite"},
+                    "segment": {"ENT_TYPE": "segment"},
                 },
                 patterns=[
-                    " sternite 9 ",
-                    " sternite 9-9+ ",
+                    " segment 9 ",
+                    " segment 9-9+ ",
                 ],
             ),
         ]
 
     @classmethod
-    def sternite_match(cls, ent):
-        sternites = []
+    def segment_match(cls, ent):
+        segments = []
 
         for sub_ent in ent.ents:
             if sub_ent.label_ == "number":
-                sternites.append(int(sub_ent._.trait.number))
+                segments.append(int(sub_ent._.trait.number))
 
             elif sub_ent.label_ == "range":
                 low = int(sub_ent._.trait.low)
                 high = int(sub_ent._.trait.high)
-                sternites += list(range(low, high + 1))
+                segments += list(range(low, high + 1))
 
-        return cls.from_ent(ent, sternites=sternites)
+        return cls.from_ent(ent, segments=segments)
 
 
-@registry.misc("sternite_match")
-def sternite_match(ent):
-    return Sternite.sternite_match(ent)
+@registry.misc("segment_match")
+def segment_match(ent):
+    return Segment.segment_match(ent)

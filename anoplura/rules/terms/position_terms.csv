@@ -3,18 +3,23 @@ position,abdominal
 position,antennal
 position,anterior
 position,anteriorly
+position,anterolateral
 position,apical
 position,basal
 position,caudal
 position,central
 position,cephalic
 position,contralateral
+position,coxa
+position,coxae
 position,cranial
 position,deep
 position,distal
 position,dorsal
 position,dorsolateral
 position,first
+position,forecoxa
+position,forecoxae
 position,frontal
 position,frontal plane
 position,horizontal
@@ -37,6 +42,7 @@ position,sagittal
 position,sagittal plane
 position,second
 position,sternal
+position,subgenital
 position,subterminal
 position,superficial
 position,superior
