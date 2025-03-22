@@ -62,7 +62,7 @@ class Segment(Base):
                 high = int(sub_ent._.trait.high)
                 segments += list(range(low, high + 1))
 
-        return cls.from_ent(ent, segments=segments)
+        return cls.from_ent(ent, segments=sorted(set(segments)))
 
 
 @registry.misc("segment_match")

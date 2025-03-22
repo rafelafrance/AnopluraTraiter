@@ -14,6 +14,7 @@ from anoplura.rules.base import Base
 class Range(Base):
     # Class vars ----------
     dash: ClassVar[list[str]] = " - – , or to ".split()
+    numbers: ClassVar[list[str]] = ["number", "roman"]
     # ---------------------
 
     low: float = None
@@ -21,11 +22,10 @@ class Range(Base):
 
     @classmethod
     def pipe(cls, nlp: Language):
-        # add.term_pipe(nlp, name="range_terms", path=cls.all_csvs)
         add.trait_pipe(
             nlp,
             name="range_patterns",
-            overwrite=["number"],
+            overwrite=["number", "roman"],
             compiler=cls.range_patterns(),
         )
 
@@ -40,17 +40,19 @@ class Range(Base):
                     "[+]": {"TEXT": {"IN": t_const.PLUS}},
                     "-": {"TEXT": {"IN": cls.dash}, "OP": "+"},
                     "99": {"ENT_TYPE": "number"},
+                    "iv": {"ENT_TYPE": "roman"},
                 },
                 patterns=[
                     " 99 - 99 [+]? ",
+                    " iv - iv ",
                 ],
             ),
         ]
 
     @classmethod
     def range_match(cls, ent):
-        numbers = [t._.trait.number for t in ent if t.ent_type_ == "number"]
-        return cls.from_ent(ent, low=numbers[0], high=numbers[-1])
+        nums = sorted([e._.trait.number for e in ent.ents if e.label_ in cls.numbers])
+        return cls.from_ent(ent, low=nums[0], high=nums[-1])
 
 
 @registry.misc("range_match")

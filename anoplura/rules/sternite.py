@@ -62,7 +62,7 @@ class Sternite(Base):
                 high = int(sub_ent._.trait.high)
                 sternites += list(range(low, high + 1))
 
-        return cls.from_ent(ent, sternites=sternites)
+        return cls.from_ent(ent, sternites=sorted(set(sternites)))
 
 
 @registry.misc("sternite_match")
