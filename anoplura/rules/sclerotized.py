@@ -32,7 +32,7 @@ class Sclerotized(Base):
             nlp,
             name="sclerotized_patterns",
             compiler=cls.sclerotized_patterns(),
-            overwrite=["part", "sclerotized"],
+            overwrite=["part"],
         )
         add.cleanup_pipe(nlp, name="sclerotized_cleanup")
 
@@ -46,7 +46,7 @@ class Sclerotized(Base):
                 decoder={
                     "adv": {"POS": "ADV"},
                     "part": {"ENT_TYPE": "part"},
-                    "sclerotized": {"ENT_TYPE": "sclerotized"},
+                    "sclerotized": {"ENT_TYPE": "sclerotization"},
                     ",": {"LOWER": {"IN": cls.sep}},
                 },
                 patterns=[

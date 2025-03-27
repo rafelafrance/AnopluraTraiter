@@ -11,59 +11,59 @@ from anoplura.rules.base import Base
 
 
 @dataclass(eq=False)
-class Segment(Base):
+class Sternite(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "position_terms.csv",
-        Path(__file__).parent / "terms" / "part_terms.csv",
     ]
     # ----------------------
 
-    segments: list[int] | None = None
-    segment_position: str | None = None
+    sternites: list[int] | None = None
+    sternite_position: str | None = None
+    seta: str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
-        add.term_pipe(nlp, name="segment_terms", path=cls.terms)
+        add.term_pipe(nlp, name="sternite_terms", path=cls.terms)
         # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
-            name="segment_patterns",
-            compiler=cls.segment_patterns(),
-            overwrite=["number", "range"],
+            name="sternite_patterns",
+            compiler=cls.sternite_patterns(),
+            overwrite=["sternite", "seta"],
         )
-        add.cleanup_pipe(nlp, name="segment_cleanup")
+        add.cleanup_pipe(nlp, name="sternite_cleanup")
 
     @classmethod
-    def segment_patterns(cls):
+    def sternite_patterns(cls):
         return [
             Compiler(
-                label="segment",
-                on_match="segment_match",
-                keep="segment",
+                label="sternite",
+                on_match="sternite_match",
+                keep="sternite",
                 decoder={
                     "9": {"ENT_TYPE": "number"},
                     "9-9": {"ENT_TYPE": "range"},
                     "pos": {"ENT_TYPE": "position"},
-                    "segment": {"ENT_TYPE": "segments"},
+                    "sternite": {"ENT_TYPE": "sternites"},
                 },
                 patterns=[
-                    " segment 9 ",
-                    " segment 9-9+ ",
-                    " pos+ segment 9* ",
-                    " pos+ segment 9-9* ",
+                    " sternite 9+ ",
+                    " sternite 9-9+ ",
+                    " pos+ sternite 9* ",
+                    " pos+ sternite 9-9* ",
                 ],
             ),
         ]
 
     @classmethod
-    def segment_match(cls, ent):
-        segments = []
+    def sternite_match(cls, ent):
+        sternites = []
         pos = []
 
         for sub_ent in ent.ents:
             if sub_ent.label_ == "number":
-                segments.append(int(sub_ent._.trait.number))
+                sternites.append(int(sub_ent._.trait.number))
 
             elif sub_ent.label_ == "position":
                 pos.append(sub_ent.text.lower())
@@ -71,14 +71,14 @@ class Segment(Base):
             elif sub_ent.label_ == "range":
                 low = int(sub_ent._.trait.low)
                 high = int(sub_ent._.trait.high)
-                segments += list(range(low, high + 1))
+                sternites += list(range(low, high + 1))
 
-        segments = sorted(set(segments)) if segments else None
+        sternites = sorted(set(sternites)) if sternites else None
         pos = " ".join(pos) if pos else None
 
-        return cls.from_ent(ent, segments=segments, segment_position=pos)
+        return cls.from_ent(ent, sternites=sternites, sternite_position=pos)
 
 
-@registry.misc("segment_match")
-def segment_match(ent):
-    return Segment.segment_match(ent)
+@registry.misc("sternite_match")
+def sternite_match(ent):
+    return Sternite.sternite_match(ent)

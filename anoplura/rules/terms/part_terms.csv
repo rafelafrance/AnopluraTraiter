@@ -10,9 +10,13 @@ bug_part,apodeme,apodeme
 bug_part,apodemes,apodeme
 bug_part,body,body
 bug_part,chitin,chitin
+bug_part,claw,claw
+bug_part,claws,claw
 bug_part,cuticle,cuticle
 bug_part,femora,femur
 bug_part,femur,femur
+bug_part,forecoxa,forecoxae
+bug_part,forecoxae,forecoxae
 bug_part,genitalia,genitalia
 bug_part,genitals,genitalia
 bug_part,head,head
@@ -33,11 +37,11 @@ bug_part,thorax,thorax
 bug_part,total body,body
 chitinized,chitinized,chitinized
 chitinized,chitinous,chitinized
-plate,plate,plate
-plate,plates,plate
-sclerotized,sclerotization,sclerotized
-sclerotized,sclerotized,sclerotized
-segment,segment,segment
-segment,segments,segment
-sternite,sternite,sternite
-sternite,sternites,sternite
+plates,plate,plate
+plates,plates,plate
+sclerotization,sclerotization,sclerotized
+sclerotization,sclerotized,sclerotized
+segments,segment,segment
+segments,segments,segment
+sternites,sternite,sternite
+sternites,sternites,sternite

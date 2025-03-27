@@ -44,9 +44,9 @@ def build():
     Number.pipe(nlp)
     Range.pipe(nlp)
 
-    Sternite.pipe(nlp)
     Segment.pipe(nlp)
     Plate.pipe(nlp)
+    Sternite.pipe(nlp)
 
     SubpartCount.pipe(nlp)
     SetaCount.pipe(nlp)

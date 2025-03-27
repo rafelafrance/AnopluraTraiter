@@ -16,7 +16,7 @@ def main(args):
         text = " ".join(in_file.readlines())
         text = clean_text(text)
         doc = nlp(text)
-        traits = [e._.trait for e in doc.ents if e._.trait]
+        traits = [e._.trait for e in doc.ents]
         html_writer.writer(traits, text, args.html_file)
 
 

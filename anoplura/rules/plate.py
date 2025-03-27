@@ -20,7 +20,7 @@ class Plate(Base):
     # ----------------------
 
     plates: list[int] | None = None
-    position: str | None = None
+    plate_position: str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
@@ -30,7 +30,7 @@ class Plate(Base):
             nlp,
             name="plate_patterns",
             compiler=cls.plate_patterns(),
-            overwrite=["plate", "number", "range", "roman"],
+            overwrite=["number", "range", "roman"],
         )
         add.cleanup_pipe(nlp, name="plate_cleanup")
 
@@ -45,14 +45,15 @@ class Plate(Base):
                     "9": {"ENT_TYPE": "number"},
                     "9-9": {"ENT_TYPE": "range"},
                     "iv": {"ENT_TYPE": "roman"},
-                    "plate": {"ENT_TYPE": "plate"},
+                    "plate": {"ENT_TYPE": "plates"},
                     "pos": {"ENT_TYPE": "position"},
                 },
                 patterns=[
                     " plate 9 ",
                     " plate iv ",
                     " plate 9-9+ ",
-                    " pos+ plate ",
+                    " pos+ plate 9* ",
+                    " pos+ plate 9-9* ",
                 ],
             ),
         ]
@@ -77,7 +78,7 @@ class Plate(Base):
         plates = sorted(set(plates)) if plates else None
         pos = " ".join(pos) if pos else None
 
-        return cls.from_ent(ent, plates=plates, position=pos)
+        return cls.from_ent(ent, plates=plates, plate_position=pos)
 
 
 @registry.misc("plate_match")

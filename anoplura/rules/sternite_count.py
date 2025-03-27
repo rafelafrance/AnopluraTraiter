@@ -21,7 +21,7 @@ class SterniteCount(Base):
     low: int | None = None
     high: int | None = None
     number: list[int] | None = None
-    segment: int | None = None
+    position: int | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
@@ -55,23 +55,19 @@ class SterniteCount(Base):
 
     @classmethod
     def sternite_count_match(cls, ent):
-        low, high, sternite, group = None, None, None, None
+        low, high, sternites = None, None, None
 
         for e in ent.ents:
             if e.label_ == "sternite":
-                sternite = e._.trait.sternite
+                print(e)
+                sternites = e._.trait.sternites
             elif e.label_ == "number":
                 low = int(e._.trait.number)
             elif e.label_ == "range":
                 low = int(e._.trait.low)
                 high = int(e._.trait.high)
-            elif e.label_ == "missing":
-                low = 0
-            elif e.label_ == "group":
-                group = e.text.lower()
-                low = int(cls.replace.get(group, group)) if low is None else low
 
-        return cls.from_ent(ent, sternite=sternite, low=low, high=high, group=group)
+        return cls.from_ent(ent, sternites=sternites, low=low, high=high)
 
 
 @registry.misc("sternite_count_match")
