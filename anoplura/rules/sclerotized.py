@@ -15,14 +15,14 @@ from anoplura.rules.base import Base
 class Sclerotized(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
-        Path(__file__).parent / "terms" / "part_terms.csv",
+        Path(__file__).parent / "terms" / "body_part_terms.csv",
     ]
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
     sep: ClassVar[list[str]] = " , and ".split()
     # ----------------------
 
-    part: list[str] | None = None
-    amount: str | None = None
+    body_part: list[str] | None = None
+    amount_sclerotized: str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
@@ -32,7 +32,7 @@ class Sclerotized(Base):
             nlp,
             name="sclerotized_patterns",
             compiler=cls.sclerotized_patterns(),
-            overwrite=["part"],
+            overwrite=["body_part"],
         )
         add.cleanup_pipe(nlp, name="sclerotized_cleanup")
 
@@ -45,7 +45,7 @@ class Sclerotized(Base):
                 keep="sclerotized",
                 decoder={
                     "adv": {"POS": "ADV"},
-                    "part": {"ENT_TYPE": "part"},
+                    "part": {"ENT_TYPE": "body_part"},
                     "sclerotized": {"ENT_TYPE": "sclerotization"},
                     ",": {"LOWER": {"IN": cls.sep}},
                 },
@@ -61,13 +61,13 @@ class Sclerotized(Base):
     def sclerotized_match(cls, ent):
         part = []
         for sub_ent in ent.ents:
-            if sub_ent.label_ == "part":
+            if sub_ent.label_ == "body_part":
                 text = sub_ent.text.lower()
                 part.append(cls.replace.get(text, text))
 
         amount = next((t.lower_ for t in ent if t.pos_ == "ADV"), None)
 
-        return cls.from_ent(ent, part=part, amount=amount)
+        return cls.from_ent(ent, body_part=part, amount_sclerotized=amount)
 
 
 @registry.misc("sclerotized_match")

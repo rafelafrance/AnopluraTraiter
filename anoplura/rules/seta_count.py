@@ -22,9 +22,9 @@ class SetaCount(Base):
     # ----------------------
 
     seta: str | None = None
-    low: int | None = None
-    high: int | None = None
-    group: str | None = None
+    seta_count_low: int | None = None
+    seta_count_high: int | None = None
+    seta_count_group: str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
@@ -82,7 +82,13 @@ class SetaCount(Base):
                 group = e.text.lower()
                 low = int(cls.replace.get(group, group)) if low is None else low
 
-        return cls.from_ent(ent, seta=seta, low=low, high=high, group=group)
+        return cls.from_ent(
+            ent,
+            seta=seta,
+            seta_count_low=low,
+            seta_count_high=high,
+            seta_count_group=group,
+        )
 
 
 @registry.misc("seta_count_match")

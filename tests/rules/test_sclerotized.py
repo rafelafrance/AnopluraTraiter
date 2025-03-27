@@ -10,8 +10,8 @@ class TestSclerotized(unittest.TestCase):
             parse("Head, thorax, and abdomen moderately sclerotized"),
             [
                 Sclerotized(
-                    part=["head", "thorax", "abdomen"],
-                    amount="moderately",
+                    body_part=["head", "thorax", "abdomen"],
+                    amount_sclerotized="moderately",
                     start=0,
                     end=48,
                 )

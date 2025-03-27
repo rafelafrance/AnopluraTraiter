@@ -12,7 +12,7 @@ class TestSetaCount(unittest.TestCase):
             [
                 SetaSize(
                     seta="dorsal principal thoracic setae",
-                    dims=[
+                    seta_dims=[
                         Dimension(
                             dim="length",
                             low=0.123,

@@ -20,28 +20,28 @@ class PartSize(Base):
     sep: ClassVar[list[str]] = " , = is ".split()
     # ---------------------
 
-    part: str | None = None
-    dims: list[Dimension] = field(default_factory=list)
+    body_part: str | None = None
+    body_part_dims: list[Dimension] = field(default_factory=list)
 
     @classmethod
     def pipe(cls, nlp: Language):
         # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
-            name="part_size_patterns",
-            compiler=cls.part_size_patterns(),
-            overwrite=["size", "part"],
+            name="body_part_size_patterns",
+            compiler=cls.body_part_size_patterns(),
+            overwrite=["size", "body_part"],
         )
 
     @classmethod
-    def part_size_patterns(cls):
+    def body_part_size_patterns(cls):
         return [
             Compiler(
-                label="part_size",
-                on_match="part_size_match",
-                keep="part_size",
+                label="body_part_size",
+                on_match="body_part_size_match",
+                keep="body_part_size",
                 decoder={
-                    "part": {"ENT_TYPE": "part"},
+                    "part": {"ENT_TYPE": "body_part"},
                     "size": {"ENT_TYPE": "size"},
                     ",": {"LOWER": {"IN": cls.sep}},
                 },
@@ -52,18 +52,18 @@ class PartSize(Base):
         ]
 
     @classmethod
-    def part_size_match(cls, ent):
+    def body_part_size_match(cls, ent):
         part, dims = None, None
 
         for e in ent.ents:
             if e.label_ == "size":
                 dims = e._.trait.dims
-            elif e.label_ == "part":
-                part = e._.trait.part
+            elif e.label_ == "body_part":
+                part = e._.trait.body_part
 
-        return cls.from_ent(ent, dims=dims, part=part)
+        return cls.from_ent(ent, body_part_dims=dims, body_part=part)
 
 
-@registry.misc("part_size_match")
-def part_size_match(ent):
-    return PartSize.part_size_match(ent)
+@registry.misc("body_part_size_match")
+def body_part_size_match(ent):
+    return PartSize.body_part_size_match(ent)

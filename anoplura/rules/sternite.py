@@ -15,12 +15,12 @@ class Sternite(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "position_terms.csv",
-        Path(__file__).parent / "terms" / "part_terms.csv",
+        Path(__file__).parent / "terms" / "body_part_terms.csv",
     ]
     # ----------------------
 
     sternites: list[int] | None = None
-    position: str | None = None
+    sternite_position: str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
@@ -76,7 +76,7 @@ class Sternite(Base):
         sternites = sorted(set(sternites)) if sternites else None
         pos = " ".join(pos) if pos else None
 
-        return cls.from_ent(ent, sternites=sternites, position=pos)
+        return cls.from_ent(ent, sternites=sternites, sternite_position=pos)
 
 
 @registry.misc("sternite_match")

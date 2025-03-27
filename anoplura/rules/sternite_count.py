@@ -18,10 +18,10 @@ class SterniteCount(Base):
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
     # ----------------------
 
-    low: int | None = None
-    high: int | None = None
-    number: list[int] | None = None
-    position: int | None = None
+    sternites: list[int] | None = None
+    sternite_count_low: int | None = None
+    sternite_count_high: int | None = None
+    sternite_position: int | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
@@ -67,7 +67,9 @@ class SterniteCount(Base):
                 low = int(e._.trait.low)
                 high = int(e._.trait.high)
 
-        return cls.from_ent(ent, sternites=sternites, low=low, high=high)
+        return cls.from_ent(
+            ent, sternites=sternites, sternite_count_low=low, sternite_count_high=high
+        )
 
 
 @registry.misc("sternite_count_match")

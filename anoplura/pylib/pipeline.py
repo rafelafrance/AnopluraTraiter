@@ -5,8 +5,8 @@ from traiter.pylib.rules.lat_long import LatLong
 from traiter.pylib.rules.number import Number
 
 from anoplura.rules import clean
-from anoplura.rules.part import Part
-from anoplura.rules.part_size import PartSize
+from anoplura.rules.body_part import BodyPart
+from anoplura.rules.body_part_size import PartSize
 from anoplura.rules.plate import Plate
 from anoplura.rules.range import Range
 from anoplura.rules.roman import Roman
@@ -35,7 +35,7 @@ def build():
     Taxon.pipe(nlp)
     Sex.pipe(nlp)
     Seta.pipe(nlp)
-    Part.pipe(nlp)
+    BodyPart.pipe(nlp)
 
     LatLong.pipe(nlp)
     Elevation.pipe(nlp)

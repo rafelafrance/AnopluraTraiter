@@ -9,7 +9,9 @@ class TestSetaCount(unittest.TestCase):
         self.assertEqual(
             parse("1 DMHS"),
             [
-                SetaCount(seta="dorsal marginal head setae", low=1, start=0, end=6),
+                SetaCount(
+                    seta="dorsal marginal head setae", seta_count_low=1, start=0, end=6
+                ),
             ],
         )
 
@@ -19,7 +21,7 @@ class TestSetaCount(unittest.TestCase):
             [
                 SetaCount(
                     seta="dorsal mesothoracic setae",
-                    low=0,
+                    seta_count_low=0,
                     start=0,
                     end=28,
                 ),
@@ -32,8 +34,8 @@ class TestSetaCount(unittest.TestCase):
             [
                 SetaCount(
                     seta="long setae",
-                    group="pair of",
-                    low=2,
+                    seta_count_group="pair of",
+                    seta_count_low=2,
                     start=5,
                     end=23,
                 ),
@@ -45,25 +47,12 @@ class TestSetaCount(unittest.TestCase):
             parse("with 16–18 contiguous curved setae on each side;"),
             [
                 SetaCount(
-                    low=16,
-                    high=18,
+                    seta_count_low=16,
+                    seta_count_high=18,
                     seta="contiguous curved setae",
-                    group="on each side",
+                    seta_count_group="on each side",
                     start=5,
                     end=47,
                 ),
             ],
         )
-
-    # def test_setae_count_05(self):
-    #     self.assertEqual(
-    #         parse("One long and one tiny seta immediately posterior to"),
-    #         [
-    #             SetaCount(
-    #                 seta="",
-    #                 low=2,
-    #                 start=0,
-    #                 end=26,
-    #             ),
-    #         ],
-    #     )

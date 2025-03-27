@@ -21,7 +21,7 @@ class SetaSize(Base):
     # ---------------------
 
     seta: str | None = None
-    dims: list[Dimension] = field(default_factory=list)
+    seta_dims: list[Dimension] = field(default_factory=list)
 
     @classmethod
     def pipe(cls, nlp: Language):
@@ -62,7 +62,7 @@ class SetaSize(Base):
             elif e.label_ == "seta":
                 seta = e._.trait.seta
 
-        return cls.from_ent(ent, dims=dims, seta=seta)
+        return cls.from_ent(ent, seta_dims=dims, seta=seta)
 
 
 @registry.misc("seta_size_match")
