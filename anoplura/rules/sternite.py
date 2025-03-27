@@ -44,6 +44,7 @@ class Sternite(Base):
                 decoder={
                     "9": {"ENT_TYPE": "number"},
                     "9-9": {"ENT_TYPE": "range"},
+                    "adj": {"POS": {"IN": ["ADP", "ADJ"]}},
                     "pos": {"ENT_TYPE": "position"},
                     "sternite": {"ENT_TYPE": "sternites"},
                 },

@@ -56,3 +56,17 @@ class TestSetaCount(unittest.TestCase):
                 ),
             ],
         )
+
+    def test_setae_count_05(self):
+        self.assertEqual(
+            parse("1 relatively short terminal seta on each side dorsally."),
+            [
+                SetaCount(
+                    seta_count_low=1,
+                    seta="short terminal seta",
+                    seta_count_group="on each side",
+                    start=0,
+                    end=45,
+                ),
+            ],
+        )

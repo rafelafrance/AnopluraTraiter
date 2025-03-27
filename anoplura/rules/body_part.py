@@ -14,7 +14,10 @@ from anoplura.rules.base import Base
 @dataclass(eq=False)
 class BodyPart(Base):
     # Class vars ----------
-    terms: ClassVar[Path] = Path(__file__).parent / "terms" / "body_part_terms.csv"
+    terms: ClassVar[list[Path]] = [
+        Path(__file__).parent / "terms" / "body_part_terms.csv",
+        Path(__file__).parent / "terms" / "position_terms.csv",
+    ]
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
     # ----------------------
 
@@ -37,9 +40,10 @@ class BodyPart(Base):
                 keep="body_part",
                 decoder={
                     "body_part": {"ENT_TYPE": "bug_part"},
+                    "pos": {"ENT_TYPE": "position"},
                 },
                 patterns=[
-                    " body_part ",
+                    " pos* body_part+ ",
                 ],
             ),
         ]

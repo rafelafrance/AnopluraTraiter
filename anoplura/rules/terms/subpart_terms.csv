@@ -1,2 +1,4 @@
 label,pattern,replace
+subpart,lobe,lobe
+subpart,indentation,lobe
 subpart_suffix,segmented,segment

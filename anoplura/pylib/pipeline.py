@@ -19,6 +19,7 @@ from anoplura.rules.sex import Sex
 from anoplura.rules.size import Size
 from anoplura.rules.sternite import Sternite
 from anoplura.rules.sternite_count import SterniteCount
+from anoplura.rules.sternite_seta import SterniteSeta
 from anoplura.rules.subpart_count import SubpartCount
 from anoplura.rules.taxon import Taxon
 
@@ -51,6 +52,8 @@ def build():
     SubpartCount.pipe(nlp)
     SetaCount.pipe(nlp)
     SterniteCount.pipe(nlp)
+
+    SterniteSeta.pipe(nlp)
 
     Sclerotized.pipe(nlp)
 

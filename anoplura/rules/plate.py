@@ -49,9 +49,9 @@ class Plate(Base):
                     "pos": {"ENT_TYPE": "position"},
                 },
                 patterns=[
-                    " plate 9 ",
-                    " plate iv ",
-                    " plate 9-9+ ",
+                    " pos* plate 9 ",
+                    " pos* plate iv ",
+                    " pos* plate 9-9+ ",
                     " pos+ plate 9* ",
                     " pos+ plate 9-9* ",
                 ],

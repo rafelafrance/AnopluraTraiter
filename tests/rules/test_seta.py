@@ -16,3 +16,15 @@ class TestSeta(unittest.TestCase):
             parse("dorsal accessory head setae"),
             [Seta(seta="dorsal accessory head setae", start=0, end=27)],
         )
+
+    def test_setae_03(self):
+        self.assertEqual(
+            parse("Dorsal Mesothoracic Setae;"),
+            [
+                Seta(
+                    seta="dorsal mesothoracic setae",
+                    start=0,
+                    end=25,
+                ),
+            ],
+        )
