@@ -63,10 +63,12 @@ def build():
 
     Sclerotized.pipe(nlp)
 
-    clean.pipe(nlp, ["roman"])
+    clean.pipe(nlp, traits=["roman"])
     Size.pipe(nlp)
     SetaSize.pipe(nlp)
     PartSize.pipe(nlp)
+
+    # clean.pipe(nlp, traits=["number", "range"])
 
     # for name in nlp.pipe_names:
     #     print(name)

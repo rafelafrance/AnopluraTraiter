@@ -3,9 +3,9 @@ from spacy.tokens import Doc
 from traiter.pylib.pipes import add
 
 
-def pipe(nlp: Language, clean: list[str]):
-    config = {"clean": clean}
-    add.custom_pipe(nlp, "clean", config=config)
+def pipe(nlp: Language, traits: list[str]):
+    config = {"traits": traits}
+    add.custom_pipe(nlp, "clean_traits", config=config)
 
 
 def clean_tokens(ent):
@@ -18,24 +18,24 @@ def clean_tokens(ent):
         token._.term = ""
 
 
-@Language.factory("clean")
-class Clean:
+@Language.factory("clean_traits")
+class CleanTraits:
     def __init__(
         self,
         nlp: Language,
         name: str,
-        clean: list[str],
+        traits: list[str],
     ):
         super().__init__()
         self.nlp = nlp
         self.name = name
-        self.clean = clean if clean else []  # List of traits to clean
+        self.traits = traits if traits else []  # List of traits to clean
 
     def __call__(self, doc: Doc) -> Doc:
         entities = []
 
         for ent in doc.ents:
-            if ent.label_ in self.clean:
+            if ent.label_ in self.traits:
                 clean_tokens(ent)
                 continue
 

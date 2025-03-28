@@ -35,7 +35,7 @@ class TestSetaCount(unittest.TestCase):
                 SetaCount(
                     seta="long setae",
                     seta_count_group="pair of",
-                    seta_count_low=2,
+                    seta_count_group_count=2,
                     start=5,
                     end=23,
                 ),
@@ -51,6 +51,7 @@ class TestSetaCount(unittest.TestCase):
                     seta_count_high=18,
                     seta="contiguous curved setae",
                     seta_count_group="on each side",
+                    seta_count_group_count=2,
                     start=5,
                     end=47,
                 ),
@@ -65,6 +66,7 @@ class TestSetaCount(unittest.TestCase):
                     seta_count_low=1,
                     seta="short terminal seta",
                     seta_count_group="on each side",
+                    seta_count_group_count=2,
                     start=0,
                     end=45,
                 ),
@@ -80,6 +82,20 @@ class TestSetaCount(unittest.TestCase):
                     seta="long apical setae",
                     start=0,
                     end=19,
+                ),
+            ],
+        )
+
+    def test_setae_count_07(self):
+        self.assertEqual(
+            parse("3 rows of setae"),
+            [
+                SetaCount(
+                    seta="setae",
+                    seta_count_group="rows of",
+                    seta_count_group_count=3,
+                    start=0,
+                    end=15,
                 ),
             ],
         )

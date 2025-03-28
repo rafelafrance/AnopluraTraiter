@@ -45,7 +45,7 @@ class SterniteCount(Base):
                     "sternite": {"ENT_TYPE": "sternite"},
                     "99": {"ENT_TYPE": "number"},
                     "99-99": {"ENT_TYPE": "range"},
-                    "adj": {"POS": {"IN": ["ADP", "ADJ"]}},
+                    "adj": {"POS": {"IN": ["ADP", "ADJ", "PUNCT"]}},
                 },
                 patterns=[
                     " 99+ adj* sternite ",
@@ -59,7 +59,6 @@ class SterniteCount(Base):
 
         for e in ent.ents:
             if e.label_ == "sternite":
-                print(e)
                 sternites = e._.trait.sternites
             elif e.label_ == "number":
                 low = int(e._.trait.number)

@@ -49,7 +49,7 @@ class Sternite(Base):
                     "sternite": {"ENT_TYPE": "sternites"},
                 },
                 patterns=[
-                    " sternite 9+ ",
+                    " sternite 9* ",
                     " sternite 9-9+ ",
                     " pos+ sternite 9* ",
                     " pos+ sternite 9-9* ",

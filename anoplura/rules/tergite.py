@@ -51,6 +51,7 @@ class Tergite(Base):
                     "tergite": {"ENT_TYPE": "tergites"},
                 },
                 patterns=[
+                    " pos* tergite ",
                     " pos* tergite 9+ ",
                     " pos* tergite 9+   ,* 9+ ",
                     " pos* tergite 9+   ,* 9+ ,* 9+ ",
@@ -58,6 +59,7 @@ class Tergite(Base):
                     " pos+ tergite 9* ",
                     " pos+ tergite 9-9* ",
                     " pos* tergite 9-9+ ,* 9+ ",
+                    " pos* tergite ",
                 ],
             ),
         ]

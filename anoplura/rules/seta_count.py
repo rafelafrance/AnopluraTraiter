@@ -17,6 +17,7 @@ class SetaCount(Base):
     terms: ClassVar[Path] = [
         Path(__file__).parent / "terms" / "missing_terms.csv",
         Path(__file__).parent / "terms" / "group_terms.csv",
+        Path(__file__).parent / "terms" / "seta_terms.csv",
     ]
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
     # ----------------------
@@ -25,17 +26,18 @@ class SetaCount(Base):
     seta_count_low: int | None = None
     seta_count_high: int | None = None
     seta_count_group: str | None = None
+    seta_count_group_count: int | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
         add.term_pipe(nlp, name="seta_count_terms", path=cls.terms)
+        # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
             name="seta_count_patterns",
             compiler=cls.seta_count_patterns(),
             overwrite=["number", "range", "seta"],
         )
-        # add.debug_tokens(nlp)  # ##########################################
         add.cleanup_pipe(nlp, name="seta_count_cleanup")
 
     @classmethod
@@ -46,7 +48,8 @@ class SetaCount(Base):
                 on_match="seta_count_match",
                 keep="seta_count",
                 decoder={
-                    "cheata": {"ENT_TYPE": "seta"},
+                    "chaeta": {"ENT_TYPE": "chaeta"},
+                    "seta": {"ENT_TYPE": "seta"},
                     "99": {"ENT_TYPE": "number"},
                     "99-99": {"ENT_TYPE": "range"},
                     "filler": {"POS": {"IN": ["ADP", "ADJ", "ADV", "PRON"]}},
@@ -54,23 +57,27 @@ class SetaCount(Base):
                     "missing": {"ENT_TYPE": "missing"},
                 },
                 patterns=[
-                    " group* 99+    filler* cheata+ group*   ",
-                    " group* 99-99+ filler* cheata+ group*   ",
-                    " group+        filler* cheata+          ",
-                    "                       cheata+ group+   ",
-                    " missing+      filler* cheata+          ",
-                    "                       cheata+ missing+ ",
+                    " group* 99+    filler* seta+ group*   ",
+                    " group* 99-99+ filler* seta+ group*   ",
+                    " group+        filler* seta+          ",
+                    "                       seta+ group+   ",
+                    " missing+      filler* seta+          ",
+                    "                       seta+ missing+ ",
+                    " 99+ group* seta+ ",
+                    " 99+ group* chaeta+ ",
                 ],
             ),
         ]
 
     @classmethod
     def seta_count_match(cls, ent):
-        low, high, seta, group = None, None, None, None
+        low, high, seta, group, g_count = None, None, None, None, None
 
         for e in ent.ents:
             if e.label_ == "seta":
                 seta = e._.trait.seta
+            elif e.label_ == "chaeta":
+                seta = e.text.lower()
             elif e.label_ == "number":
                 low = int(e._.trait.number)
             elif e.label_ == "range":
@@ -80,7 +87,12 @@ class SetaCount(Base):
                 low = 0
             elif e.label_ == "group":
                 group = e.text.lower()
-                low = int(cls.replace.get(group, group)) if low is None else low
+                g_count = cls.replace.get(group)
+                g_count = int(g_count) if g_count else None
+
+        if group and g_count is None:
+            g_count = low
+            low = None
 
         return cls.from_ent(
             ent,
@@ -88,6 +100,7 @@ class SetaCount(Base):
             seta_count_low=low,
             seta_count_high=high,
             seta_count_group=group,
+            seta_count_group_count=g_count,
         )
 
 
