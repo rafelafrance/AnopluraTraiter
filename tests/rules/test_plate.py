@@ -28,3 +28,9 @@ class TestPlate(unittest.TestCase):
             parse("Thoracic sternal plate"),
             [Plate(plate_position="thoracic sternal", start=0, end=22)],
         )
+
+    def test_plate_04(self):
+        self.assertEqual(
+            parse("plates VI and VII"),
+            [Plate(plates=[6, 7], start=0, end=17)],
+        )

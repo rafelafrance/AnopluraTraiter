@@ -15,12 +15,11 @@ bug_part,claws,claw
 bug_part,cuticle,cuticle
 bug_part,femora,femur
 bug_part,femur,femur
-bug_part,forecoxa,forecoxae
+bug_part,femur,femur
+bug_part,fimbriae,fimbriae
 bug_part,forecoxae,forecoxae
 bug_part,genitalia,genitalia
 bug_part,genitals,genitalia
-bug_part,gonopod,gonopod
-bug_part,gonopods,gonopod
 bug_part,head,head
 bug_part,labra,labrum
 bug_part,labrum,labrum
@@ -31,14 +30,12 @@ bug_part,spiracles,spiracle
 bug_part,sterna,sternum
 bug_part,sternum,sternum
 bug_part,suture,suture
-bug_part,terga,tergum
-bug_part,tergite,tergum
-bug_part,tergites,tergum
-bug_part,tergum,tergum
 bug_part,thorax,thorax
 bug_part,total body,body
 chitinized,chitinized,chitinized
 chitinized,chitinous,chitinized
+gonopods,gonopod,gonopod
+gonopods,gonopods,gonopod
 plates,plate,plate
 plates,plates,plate
 sclerotization,sclerotization,sclerotized
@@ -47,3 +44,7 @@ segments,segment,segment
 segments,segments,segment
 sternites,sternite,sternite
 sternites,sternites,sternite
+tergites,terga,tergite
+tergites,tergite,tergite
+tergites,tergites,tergite
+tergites,tergum,tergite

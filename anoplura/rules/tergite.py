@@ -11,60 +11,65 @@ from anoplura.rules.base import Base
 
 
 @dataclass(eq=False)
-class Sternite(Base):
+class Tergite(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "position_terms.csv",
         Path(__file__).parent / "terms" / "body_part_terms.csv",
     ]
+    sep: ClassVar[list[str]] = " , and ".split()
     # ----------------------
 
-    sternites: list[int] | None = None
-    sternite_position: str | None = None
+    tergites: list[int] | None = None
+    tergite_position: str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
-        add.term_pipe(nlp, name="sternite_terms", path=cls.terms)
+        add.term_pipe(nlp, name="tergite_terms", path=cls.terms)
+        # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
-            name="sternite_patterns",
-            compiler=cls.sternite_patterns(),
+            name="tergite_patterns",
+            compiler=cls.tergite_patterns(),
             overwrite=["number", "range"],
         )
-        # add.debug_tokens(nlp)  # ##########################################
-        add.cleanup_pipe(nlp, name="sternite_cleanup")
+        add.cleanup_pipe(nlp, name="tergite_cleanup")
 
     @classmethod
-    def sternite_patterns(cls):
+    def tergite_patterns(cls):
         return [
             Compiler(
-                label="sternite",
-                on_match="sternite_match",
-                keep="sternite",
+                label="tergite",
+                on_match="tergite_match",
+                keep="tergite",
                 decoder={
+                    ",": {"LOWER": {"IN": cls.sep}},
                     "9": {"ENT_TYPE": "number"},
                     "9-9": {"ENT_TYPE": "range"},
                     "adj": {"POS": {"IN": ["ADP", "ADJ"]}},
                     "pos": {"ENT_TYPE": "position"},
-                    "sternite": {"ENT_TYPE": "sternites"},
+                    "tergite": {"ENT_TYPE": "tergites"},
                 },
                 patterns=[
-                    " sternite 9+ ",
-                    " sternite 9-9+ ",
-                    " pos+ sternite 9* ",
-                    " pos+ sternite 9-9* ",
+                    " pos* tergite 9+ ",
+                    " pos* tergite 9+   ,* 9+ ",
+                    " pos* tergite 9+   ,* 9+ ,* 9+ ",
+                    " pos* tergite 9-9+ ",
+                    " pos+ tergite 9* ",
+                    " pos+ tergite 9-9* ",
+                    " pos* tergite 9-9+ ,* 9+ ",
                 ],
             ),
         ]
 
     @classmethod
-    def sternite_match(cls, ent):
-        sternites = []
+    def tergite_match(cls, ent):
+        tergites = []
         pos = []
 
         for sub_ent in ent.ents:
             if sub_ent.label_ == "number":
-                sternites.append(int(sub_ent._.trait.number))
+                tergites.append(int(sub_ent._.trait.number))
 
             elif sub_ent.label_ == "position":
                 pos.append(sub_ent.text.lower())
@@ -72,14 +77,14 @@ class Sternite(Base):
             elif sub_ent.label_ == "range":
                 low = int(sub_ent._.trait.low)
                 high = int(sub_ent._.trait.high)
-                sternites += list(range(low, high + 1))
+                tergites += list(range(low, high + 1))
 
-        sternites = sorted(set(sternites)) if sternites else None
+        tergites = sorted(set(tergites)) if tergites else None
         pos = " ".join(pos) if pos else None
 
-        return cls.from_ent(ent, sternites=sternites, sternite_position=pos)
+        return cls.from_ent(ent, tergites=tergites, tergite_position=pos)
 
 
-@registry.misc("sternite_match")
-def sternite_match(ent):
-    return Sternite.sternite_match(ent)
+@registry.misc("tergite_match")
+def tergite_match(ent):
+    return Tergite.tergite_match(ent)

@@ -12,7 +12,7 @@ from anoplura.rules.base import Base
 
 
 @dataclass(eq=False)
-class SterniteSeta(Base):
+class PlateSeta(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "missing_terms.csv",
@@ -21,8 +21,8 @@ class SterniteSeta(Base):
     ]
     # ----------------------
 
-    sternites: list[int] | None = None
-    sternite_position: str | None = None
+    plates: list[int] | None = None
+    plate_position: str | None = None
     seta: str | None = None
     seta_count_low: int | None = None
     seta_count_high: int | None = None
@@ -30,50 +30,51 @@ class SterniteSeta(Base):
 
     @classmethod
     def pipe(cls, nlp: Language):
-        add.term_pipe(nlp, name="sternite_seta_terms", path=cls.terms)
+        add.term_pipe(nlp, name="plate_seta_terms", path=cls.terms)
         add.trait_pipe(
             nlp,
-            name="sternite_seta_patterns",
-            compiler=cls.sternite_seta_patterns(),
-            overwrite=["sternite", "seta", "seta_count"],
+            name="plate_seta_patterns",
+            compiler=cls.plate_seta_patterns(),
+            overwrite=["plate", "seta", "seta_count"],
         )
         # add.debug_tokens(nlp)  # ##########################################
-        add.cleanup_pipe(nlp, name="sternite_seta_cleanup")
+        add.cleanup_pipe(nlp, name="plate_seta_cleanup")
 
     @classmethod
-    def sternite_seta_patterns(cls):
+    def plate_seta_patterns(cls):
         return [
             Compiler(
-                label="sternite_seta",
-                on_match="sternite_seta_match",
-                keep="sternite_seta",
+                label="plate_seta",
+                on_match="plate_seta_match",
+                keep="plate_seta",
                 decoder={
                     "(": {"LOWER": {"IN": t_const.OPEN}},
                     ")": {"LOWER": {"IN": t_const.CLOSE}},
                     "count": {"ENT_TYPE": "seta_count"},
                     "filler": {"POS": {"IN": ["ADP", "PRON", "NOUN", "PART"]}},
-                    "sternite": {"ENT_TYPE": "sternite"},
+                    "plate": {"ENT_TYPE": "plate"},
                     "group": {"ENT_TYPE": "group"},
                     "chaeta": {"ENT_TYPE": "chaeta"},
                     "seta": {"ENT_TYPE": "seta"},
                     "missing": {"ENT_TYPE": "missing"},
                 },
                 patterns=[
-                    " sternite+ filler*  count+ ",
-                    " sternite+ missing+ chaeta+  ",
-                    " (? seta+ )? filler* sternite+ group* ",
+                    " plate+ filler*  count+ ",
+                    " plate+ filler*  count+ ",
+                    " plate+ missing+ chaeta+  ",
+                    " (? seta+ )? filler* plate+ group* ",
                 ],
             ),
         ]
 
     @classmethod
-    def sternite_seta_match(cls, ent):
-        sternites, pos, seta, low, high, group = None, None, None, None, None, None
+    def plate_seta_match(cls, ent):
+        plates, pos, seta, low, high, group = None, None, None, None, None, None
 
         for sub_ent in ent.ents:
-            if sub_ent.label_ == "sternite":
-                sternites = sub_ent._.trait.sternites
-                pos = sub_ent._.trait.sternite_position
+            if sub_ent.label_ == "plate":
+                plates = sub_ent._.trait.plates
+                pos = sub_ent._.trait.plate_position
 
             elif sub_ent.label_ == "seta_count":
                 seta = sub_ent._.trait.seta
@@ -93,8 +94,8 @@ class SterniteSeta(Base):
 
         return cls.from_ent(
             ent,
-            sternites=sternites,
-            sternite_position=pos,
+            plates=plates,
+            plate_position=pos,
             seta=seta,
             seta_count_low=low,
             seta_count_high=high,
@@ -102,6 +103,6 @@ class SterniteSeta(Base):
         )
 
 
-@registry.misc("sternite_seta_match")
-def sternite_seta_match(ent):
-    return SterniteSeta.sternite_seta_match(ent)
+@registry.misc("plate_seta_match")
+def plate_seta_match(ent):
+    return PlateSeta.plate_seta_match(ent)

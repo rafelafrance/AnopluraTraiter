@@ -28,8 +28,8 @@ class Seta(Base):
     @classmethod
     def pipe(cls, nlp: Language):
         add.term_pipe(nlp, name="seta_terms", path=cls.terms)
-        # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(nlp, name="seta_patterns", compiler=cls.seta_patterns())
+        # add.debug_tokens(nlp)  # ##########################################
         add.cleanup_pipe(nlp, name="seta_cleanup")
 
     @classmethod

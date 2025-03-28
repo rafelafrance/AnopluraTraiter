@@ -17,6 +17,7 @@ class Plate(Base):
         Path(__file__).parent / "terms" / "position_terms.csv",
         Path(__file__).parent / "terms" / "body_part_terms.csv",
     ]
+    sep: ClassVar[list[str]] = " , and ".split()
     # ----------------------
 
     plates: list[int] | None = None
@@ -25,13 +26,13 @@ class Plate(Base):
     @classmethod
     def pipe(cls, nlp: Language):
         add.term_pipe(nlp, name="plate_terms", path=cls.terms)
-        # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
             name="plate_patterns",
             compiler=cls.plate_patterns(),
             overwrite=["number", "range", "roman"],
         )
+        # add.debug_tokens(nlp)  # ##########################################
         add.cleanup_pipe(nlp, name="plate_cleanup")
 
     @classmethod
@@ -42,6 +43,7 @@ class Plate(Base):
                 on_match="plate_match",
                 keep="plate",
                 decoder={
+                    ",": {"LOWER": {"IN": cls.sep}},
                     "9": {"ENT_TYPE": "number"},
                     "9-9": {"ENT_TYPE": "range"},
                     "iv": {"ENT_TYPE": "roman"},
@@ -49,8 +51,13 @@ class Plate(Base):
                     "pos": {"ENT_TYPE": "position"},
                 },
                 patterns=[
-                    " pos* plate 9 ",
+                    " pos* plate 9+ ",
+                    " pos* plate 9+ ,* 9+ ",
+                    " pos* plate 9+ ,* 9+ ,* 9+ ",
+                    " pos* plate 9-9+ ,* 9+ ",
                     " pos* plate iv ",
+                    " pos* plate iv ",
+                    " pos* plate iv , iv ",
                     " pos* plate 9-9+ ",
                     " pos+ plate 9* ",
                     " pos+ plate 9-9* ",

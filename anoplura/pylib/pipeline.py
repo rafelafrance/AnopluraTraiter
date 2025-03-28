@@ -7,7 +7,9 @@ from traiter.pylib.rules.number import Number
 from anoplura.rules import clean
 from anoplura.rules.body_part import BodyPart
 from anoplura.rules.body_part_size import PartSize
+from anoplura.rules.gonopod import Gonopod
 from anoplura.rules.plate import Plate
+from anoplura.rules.plate_seta import PlateSeta
 from anoplura.rules.range import Range
 from anoplura.rules.roman import Roman
 from anoplura.rules.sclerotized import Sclerotized
@@ -22,6 +24,7 @@ from anoplura.rules.sternite_count import SterniteCount
 from anoplura.rules.sternite_seta import SterniteSeta
 from anoplura.rules.subpart_count import SubpartCount
 from anoplura.rules.taxon import Taxon
+from anoplura.rules.tergite import Tergite
 
 # from traiter.pylib.pipes.debug import tokens
 
@@ -47,13 +50,16 @@ def build():
 
     Segment.pipe(nlp)
     Plate.pipe(nlp)
+    Gonopod.pipe(nlp)
     Sternite.pipe(nlp)
+    Tergite.pipe(nlp)
 
     SubpartCount.pipe(nlp)
     SetaCount.pipe(nlp)
     SterniteCount.pipe(nlp)
 
     SterniteSeta.pipe(nlp)
+    PlateSeta.pipe(nlp)
 
     Sclerotized.pipe(nlp)
 

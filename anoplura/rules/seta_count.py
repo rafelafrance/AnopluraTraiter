@@ -29,13 +29,13 @@ class SetaCount(Base):
     @classmethod
     def pipe(cls, nlp: Language):
         add.term_pipe(nlp, name="seta_count_terms", path=cls.terms)
-        # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
             name="seta_count_patterns",
             compiler=cls.seta_count_patterns(),
             overwrite=["number", "range", "seta"],
         )
+        # add.debug_tokens(nlp)  # ##########################################
         add.cleanup_pipe(nlp, name="seta_count_cleanup")
 
     @classmethod
@@ -49,7 +49,7 @@ class SetaCount(Base):
                     "cheata": {"ENT_TYPE": "seta"},
                     "99": {"ENT_TYPE": "number"},
                     "99-99": {"ENT_TYPE": "range"},
-                    "filler": {"POS": {"IN": ["ADP", "ADJ", "ADV"]}},
+                    "filler": {"POS": {"IN": ["ADP", "ADJ", "ADV", "PRON"]}},
                     "group": {"ENT_TYPE": "group"},
                     "missing": {"ENT_TYPE": "missing"},
                 },

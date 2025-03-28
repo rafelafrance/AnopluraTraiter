@@ -70,3 +70,16 @@ class TestSetaCount(unittest.TestCase):
                 ),
             ],
         )
+
+    def test_setae_count_06(self):
+        self.assertEqual(
+            parse("2 long apical setae."),
+            [
+                SetaCount(
+                    seta_count_low=2,
+                    seta="long apical setae",
+                    start=0,
+                    end=19,
+                ),
+            ],
+        )
