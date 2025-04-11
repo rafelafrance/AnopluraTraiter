@@ -4,7 +4,7 @@ from traiter.pylib.rules.elevation import Elevation
 from traiter.pylib.rules.lat_long import LatLong
 from traiter.pylib.rules.number import Number
 
-from anoplura.rules import clean
+from anoplura.rules import clean_traits
 from anoplura.rules.body_part import BodyPart
 from anoplura.rules.body_part_size import PartSize
 from anoplura.rules.gonopod import Gonopod
@@ -14,6 +14,7 @@ from anoplura.rules.range import Range
 from anoplura.rules.roman import Roman
 from anoplura.rules.sclerotized import Sclerotized
 from anoplura.rules.segment import Segment
+from anoplura.rules.segment_sternite_count import SegmentSterniteCount
 from anoplura.rules.seta import Seta
 from anoplura.rules.seta_count import SetaCount
 from anoplura.rules.seta_size import SetaSize
@@ -61,14 +62,17 @@ def build():
     SterniteSeta.pipe(nlp)
     PlateSeta.pipe(nlp)
 
+    SegmentSterniteCount.pipe(nlp)
+
     Sclerotized.pipe(nlp)
 
-    clean.pipe(nlp, traits=["roman"])
+    clean_traits.pipe(nlp, traits=["roman"])
+
     Size.pipe(nlp)
     SetaSize.pipe(nlp)
     PartSize.pipe(nlp)
 
-    # clean.pipe(nlp, traits=["number", "range"])
+    clean_traits.pipe(nlp, traits=["number", "range"])
 
     # for name in nlp.pipe_names:
     #     print(name)

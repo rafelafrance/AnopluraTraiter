@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import ClassVar
 
+import traiter.pylib.const as t_const
 from spacy.language import Language
 from spacy.util import registry
 from traiter.pylib.pattern_compiler import Compiler
@@ -14,6 +15,7 @@ from anoplura.rules.base import Base
 class Tergite(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
+        Path(__file__).parent / "terms" / "group_terms.csv",
         Path(__file__).parent / "terms" / "position_terms.csv",
         Path(__file__).parent / "terms" / "body_part_terms.csv",
     ]
@@ -43,10 +45,13 @@ class Tergite(Base):
                 on_match="tergite_match",
                 keep="tergite",
                 decoder={
+                    "(": {"LOWER": {"IN": t_const.OPEN}},
+                    ")": {"LOWER": {"IN": t_const.CLOSE}},
                     ",": {"LOWER": {"IN": cls.sep}},
                     "9": {"ENT_TYPE": "number"},
                     "9-9": {"ENT_TYPE": "range"},
                     "adj": {"POS": {"IN": ["ADP", "ADJ"]}},
+                    "label": {"ENT_TYPE": "labels"},
                     "pos": {"ENT_TYPE": "position"},
                     "tergite": {"ENT_TYPE": "tergites"},
                 },
@@ -60,6 +65,8 @@ class Tergite(Base):
                     " pos+ tergite 9-9* ",
                     " pos* tergite 9-9+ ,* 9+ ",
                     " pos* tergite ",
+                    " pos* tergite (* label* 9      )* ",
+                    " pos* tergite (* label* 9 ,* 9 )* ",
                 ],
             ),
         ]

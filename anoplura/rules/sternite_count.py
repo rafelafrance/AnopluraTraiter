@@ -45,21 +45,22 @@ class SterniteCount(Base):
                     "sternite": {"ENT_TYPE": "sternite"},
                     "99": {"ENT_TYPE": "number"},
                     "99-99": {"ENT_TYPE": "range"},
-                    "adj": {"POS": {"IN": ["ADP", "ADJ", "PUNCT"]}},
+                    "adj": {"POS": {"IN": ["ADP", "ADJ", "PUNCT", "NOUN"]}},
                 },
                 patterns=[
-                    " 99+ adj* sternite ",
+                    " 99+ adj* sternite+ ",
                 ],
             ),
         ]
 
     @classmethod
     def sternite_count_match(cls, ent):
-        low, high, sternites = None, None, None
+        low, high, sternites, position = None, None, None, None
 
         for e in ent.ents:
             if e.label_ == "sternite":
                 sternites = e._.trait.sternites
+                position = e._.trait.sternite_position
             elif e.label_ == "number":
                 low = int(e._.trait.number)
             elif e.label_ == "range":
@@ -67,7 +68,11 @@ class SterniteCount(Base):
                 high = int(e._.trait.high)
 
         return cls.from_ent(
-            ent, sternites=sternites, sternite_count_low=low, sternite_count_high=high
+            ent,
+            sternites=sternites,
+            sternite_count_low=low,
+            sternite_count_high=high,
+            sternite_position=position,
         )
 
 

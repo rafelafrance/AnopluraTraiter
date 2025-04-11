@@ -1,13 +1,11 @@
 import unittest
 
-from traiter.pylib.rules.number import Number
-
 from anoplura.rules.sex import Sex
 from anoplura.rules.taxon import Taxon
 from tests.setup import parse
 
 
-class TestSciName(unittest.TestCase):
+class TestTaxon(unittest.TestCase):
     def test_taxon_01(self):
         self.assertEqual(
             parse("females of L. CLAYTONI sp. nov., ."),
@@ -27,7 +25,7 @@ class TestSciName(unittest.TestCase):
         self.assertEqual(
             parse("four known species of Abrocomaphthirus"),
             [
-                Number(start=0, end=4, number=4, is_fraction=None, is_word=True),
+                # Number(start=0, end=4, number=4, is_fraction=None, is_word=True),
                 Taxon(
                     taxon="Abrocomaphthirus",
                     rank="genus",

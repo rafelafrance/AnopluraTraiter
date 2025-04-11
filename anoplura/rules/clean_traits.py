@@ -1,21 +1,14 @@
 from spacy.language import Language
 from spacy.tokens import Doc
-from traiter.pylib.pipes import add
+
+CLEAN_COUNT = 0
 
 
 def pipe(nlp: Language, traits: list[str]):
+    global CLEAN_COUNT
+    CLEAN_COUNT += 1
     config = {"traits": traits}
-    add.custom_pipe(nlp, "clean_traits", config=config)
-
-
-def clean_tokens(ent):
-    if "" not in ent.doc.vocab.strings:
-        ent.doc.vocab.strings.add("")
-    ent.label = ent.doc.vocab.strings[""]
-    for token in ent:
-        token.ent_type = ent.doc.vocab.strings[""]
-        token._.flag = ""
-        token._.term = ""
+    nlp.add_pipe("clean_traits", name=f"clean_traits_{CLEAN_COUNT}", config=config)
 
 
 @Language.factory("clean_traits")
@@ -43,3 +36,13 @@ class CleanTraits:
 
         doc.ents = entities
         return doc
+
+
+def clean_tokens(ent):
+    if "" not in ent.doc.vocab.strings:
+        ent.doc.vocab.strings.add("")
+    ent.label = ent.doc.vocab.strings[""]
+    for token in ent:
+        token.ent_type = ent.doc.vocab.strings[""]
+        token._.flag = ""
+        token._.term = ""

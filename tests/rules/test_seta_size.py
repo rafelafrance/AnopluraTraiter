@@ -5,7 +5,7 @@ from anoplura.rules.size import Dimension
 from tests.setup import parse
 
 
-class TestSetaCount(unittest.TestCase):
+class TestSetaSize(unittest.TestCase):
     def test_seta_size_01(self):
         self.assertEqual(
             parse("(DPTS) length, 0.123 mm;"),
