@@ -1,5 +1,6 @@
 label,pattern,replace
 group,each side,2
+group,each with,
 group,on each of,
 group,on each side,2
 group,pair of,2

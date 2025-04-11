@@ -13,6 +13,7 @@ class TestPlateSeta(unittest.TestCase):
                     plates=[6, 7],
                     seta="long apical setae",
                     seta_count_low=2,
+                    seta_count_group="each with",
                     start=0,
                     end=47,
                 )

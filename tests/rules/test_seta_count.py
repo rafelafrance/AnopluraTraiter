@@ -93,9 +93,23 @@ class TestSetaCount(unittest.TestCase):
                 SetaCount(
                     seta="setae",
                     seta_count_group="rows of",
-                    seta_count_group_count=3,
+                    seta_count_low=3,
                     start=0,
                     end=15,
+                ),
+            ],
+        )
+
+    def test_setae_count_08(self):
+        self.assertEqual(
+            parse("8-11 TeAS;"),
+            [
+                SetaCount(
+                    seta="tergal abdominal setae",
+                    seta_count_low=8,
+                    seta_count_high=11,
+                    start=0,
+                    end=9,
                 ),
             ],
         )

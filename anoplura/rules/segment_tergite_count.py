@@ -12,7 +12,7 @@ from anoplura.rules.base import Base
 
 
 @dataclass(eq=False)
-class SegmentSterniteCount(Base):
+class SegmentTergiteCount(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "group_terms.csv",
@@ -23,35 +23,35 @@ class SegmentSterniteCount(Base):
 
     segments: list[int] | None = None
     segment_position: str | None = None
-    sternites: list[int] | None = None
-    sternite_count_low: int | None = None
-    sternite_count_high: int | None = None
-    sternite_position: int | None = None
-    segment_sternite_count_position: str | None = None
-    segment_sternite_count_group: str | None = None
+    tergites: list[int] | None = None
+    tergite_count_low: int | None = None
+    tergite_count_high: int | None = None
+    tergite_position: int | None = None
+    segment_tergite_count_position: str | None = None
+    segment_tergite_count_group: str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
-        add.term_pipe(nlp, name="segment_sternite_count_terms", path=cls.terms)
+        add.term_pipe(nlp, name="segment_tergite_count_terms", path=cls.terms)
         # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
-            name="segment_sternite_count_patterns",
-            compiler=cls.segment_sternite_count_patterns(),
-            overwrite=["segment", "sternite_count"],
+            name="segment_tergite_count_patterns",
+            compiler=cls.segment_tergite_count_patterns(),
+            overwrite=["segment", "tergite_count"],
         )
-        add.cleanup_pipe(nlp, name="segment_sternite_count_cleanup")
+        add.cleanup_pipe(nlp, name="segment_tergite_count_cleanup")
 
     @classmethod
-    def segment_sternite_count_patterns(cls):
+    def segment_tergite_count_patterns(cls):
         return [
             Compiler(
-                label="segment_sternite_count",
-                on_match="segment_sternite_count_match",
-                keep="segment_sternite_count",
+                label="segment_tergite_count",
+                on_match="segment_tergite_count_match",
+                keep="segment_tergite_count",
                 decoder={
                     "filler": {"POS": {"IN": ["ADP"]}},
-                    "count": {"ENT_TYPE": "sternite_count"},
+                    "count": {"ENT_TYPE": "tergite_count"},
                     "group": {"ENT_TYPE": "group"},
                     "pos": {"ENT_TYPE": "position"},
                     "seg": {"ENT_TYPE": "segment"},
@@ -63,9 +63,9 @@ class SegmentSterniteCount(Base):
         ]
 
     @classmethod
-    def segment_sternite_count_match(cls, ent):
+    def segment_tergite_count_match(cls, ent):
         segs, seg_pos = None, None
-        stern, stern_low, stern_high, stern_pos = None, None, None, None
+        terg, terg_low, terg_high, terg_pos = None, None, None, None
         pos, group = None, None
 
         for sub_ent in ent.ents:
@@ -73,11 +73,11 @@ class SegmentSterniteCount(Base):
                 segs = sub_ent._.trait.segments
                 seg_pos = sub_ent._.trait.segment_position
 
-            elif sub_ent.label_ == "sternite_count":
-                stern = sub_ent._.trait.sternites
-                stern_low = sub_ent._.trait.sternite_count_low
-                stern_high = sub_ent._.trait.sternite_count_high
-                stern_pos = sub_ent._.trait.sternite_position
+            elif sub_ent.label_ == "tergite_count":
+                terg = sub_ent._.trait.tergites
+                terg_low = sub_ent._.trait.tergite_count_low
+                terg_high = sub_ent._.trait.tergite_count_high
+                terg_pos = sub_ent._.trait.tergite_position
 
             elif sub_ent.label_ == "position":
                 text = sub_ent.text.lower()
@@ -91,15 +91,15 @@ class SegmentSterniteCount(Base):
             ent,
             segments=segs,
             segment_position=seg_pos,
-            sternites=stern,
-            sternite_count_low=stern_low,
-            sternite_count_high=stern_high,
-            sternite_position=stern_pos,
-            segment_sternite_count_position=pos,
-            segment_sternite_count_group=group,
+            tergites=terg,
+            tergite_count_low=terg_low,
+            tergite_count_high=terg_high,
+            tergite_position=terg_pos,
+            segment_tergite_count_position=pos,
+            segment_tergite_count_group=group,
         )
 
 
-@registry.misc("segment_sternite_count_match")
-def segment_sternite_count_match(ent):
-    return SegmentSterniteCount.segment_sternite_count_match(ent)
+@registry.misc("segment_tergite_count_match")
+def segment_tergite_count_match(ent):
+    return SegmentTergiteCount.segment_tergite_count_match(ent)

@@ -15,6 +15,7 @@ from anoplura.rules.roman import Roman
 from anoplura.rules.sclerotized import Sclerotized
 from anoplura.rules.segment import Segment
 from anoplura.rules.segment_sternite_count import SegmentSterniteCount
+from anoplura.rules.segment_tergite_count import SegmentTergiteCount
 from anoplura.rules.seta import Seta
 from anoplura.rules.seta_count import SetaCount
 from anoplura.rules.seta_size import SetaSize
@@ -26,6 +27,8 @@ from anoplura.rules.sternite_seta import SterniteSeta
 from anoplura.rules.subpart_count import SubpartCount
 from anoplura.rules.taxon import Taxon
 from anoplura.rules.tergite import Tergite
+from anoplura.rules.tergite_count import TergiteCount
+from anoplura.rules.tergite_seta import TergiteSeta
 
 # from traiter.pylib.pipes.debug import tokens
 
@@ -58,11 +61,14 @@ def build():
     SubpartCount.pipe(nlp)
     SetaCount.pipe(nlp)
     SterniteCount.pipe(nlp)
+    TergiteCount.pipe(nlp)
 
     SterniteSeta.pipe(nlp)
+    TergiteSeta.pipe(nlp)
     PlateSeta.pipe(nlp)
 
     SegmentSterniteCount.pipe(nlp)
+    SegmentTergiteCount.pipe(nlp)
 
     Sclerotized.pipe(nlp)
 

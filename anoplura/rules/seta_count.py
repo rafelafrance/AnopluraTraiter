@@ -90,10 +90,6 @@ class SetaCount(Base):
                 g_count = cls.replace.get(group)
                 g_count = int(g_count) if g_count else None
 
-        if group and g_count is None:
-            g_count = low
-            low = None
-
         return cls.from_ent(
             ent,
             seta=seta,
