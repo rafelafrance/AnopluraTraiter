@@ -4,10 +4,12 @@ position,antennal
 position,anterior
 position,anteriorly
 position,anterolateral
+position,anteromedial
 position,apical
 position,basal
 position,caudal
 position,central
+position,centrally
 position,cephalic
 position,contralateral
 position,coxa
@@ -16,8 +18,8 @@ position,cranial
 position,deep
 position,distal
 position,dorsal
-position,dorsolateral
 position,dorsally
+position,dorsolateral
 position,first
 position,frontal
 position,frontal plane
@@ -25,18 +27,22 @@ position,genital
 position,hind
 position,horizontal
 position,horizontal plane
+position,immediately
 position,inferior
 position,ipsilateral
 position,labral
 position,last
 position,lateral
+position,laterally
 position,marginal
 position,medial
 position,mesothoracic
 position,oral
 position,paratergal
 position,posterior
+position,posteriorly
 position,posterolateral
+position,posteromedially
 position,preantennal
 position,proximal
 position,sagittal

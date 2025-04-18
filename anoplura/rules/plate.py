@@ -17,7 +17,7 @@ class Plate(Base):
         Path(__file__).parent / "terms" / "position_terms.csv",
         Path(__file__).parent / "terms" / "body_part_terms.csv",
     ]
-    sep: ClassVar[list[str]] = " , and ".split()
+    sep: ClassVar[list[str]] = [",", "and"]
     # ----------------------
 
     plates: list[int] | None = None

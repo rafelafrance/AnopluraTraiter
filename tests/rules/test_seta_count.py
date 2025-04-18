@@ -66,9 +66,10 @@ class TestSetaCount(unittest.TestCase):
                     seta_count_low=1,
                     seta="short terminal seta",
                     seta_count_group="on each side",
+                    seta_count_position="dorsally",
                     seta_count_group_count=2,
                     start=0,
-                    end=45,
+                    end=54,
                 ),
             ],
         )

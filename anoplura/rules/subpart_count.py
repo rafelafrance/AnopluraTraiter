@@ -19,7 +19,7 @@ class SubpartCount(Base):
         Path(__file__).parent / "terms" / "subpart_terms.csv",
     ]
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
-    dash: ClassVar[list[str]] = " - – ".split()
+    dash: ClassVar[list[str]] = ["-", "–"]
     # ----------------------
 
     body_part: str | None = None

@@ -8,6 +8,7 @@ from anoplura.rules import clean_traits
 from anoplura.rules.body_part import BodyPart
 from anoplura.rules.body_part_size import PartSize
 from anoplura.rules.gonopod import Gonopod
+from anoplura.rules.gonopod_seta import GonopodSeta
 from anoplura.rules.plate import Plate
 from anoplura.rules.plate_seta import PlateSeta
 from anoplura.rules.range import Range
@@ -66,6 +67,7 @@ def build():
     SterniteSeta.pipe(nlp)
     TergiteSeta.pipe(nlp)
     PlateSeta.pipe(nlp)
+    GonopodSeta.pipe(nlp)
 
     SegmentSterniteCount.pipe(nlp)
     SegmentTergiteCount.pipe(nlp)

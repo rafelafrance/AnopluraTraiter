@@ -18,7 +18,7 @@ class Sclerotized(Base):
         Path(__file__).parent / "terms" / "body_part_terms.csv",
     ]
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
-    sep: ClassVar[list[str]] = " , and ".split()
+    sep: ClassVar[list[str]] = [",", "and"]
     # ----------------------
 
     body_part: list[str] | None = None

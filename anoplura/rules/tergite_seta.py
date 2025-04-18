@@ -27,6 +27,7 @@ class TergiteSeta(Base):
     seta_count_low: int | None = None
     seta_count_high: int | None = None
     seta_count_group: str | None = None
+    seta_count_position: str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
@@ -69,6 +70,7 @@ class TergiteSeta(Base):
     @classmethod
     def tergite_seta_match(cls, ent):
         tergites, pos, seta, low, high, group = None, None, None, None, None, None
+        seta_pos = None
 
         for sub_ent in ent.ents:
             if sub_ent.label_ == "tergite":
@@ -80,6 +82,7 @@ class TergiteSeta(Base):
                 low = sub_ent._.trait.seta_count_low
                 high = sub_ent._.trait.seta_count_high
                 group = sub_ent._.trait.seta_count_group
+                seta_pos = sub_ent._.trait.seta_count_position
 
             elif sub_ent.label_ == "missing":
                 seta = "missing"
@@ -99,6 +102,7 @@ class TergiteSeta(Base):
             seta_count_low=low,
             seta_count_high=high,
             seta_count_group=group,
+            seta_count_position=seta_pos,
         )
 
 

@@ -17,7 +17,7 @@ class PartSize(Base):
     # Class vars ----------
     terms: ClassVar[Path] = Path(__file__).parent / "terms" / "dimension_terms.csv"
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
-    sep: ClassVar[list[str]] = " , = is ".split()
+    sep: ClassVar[list[str]] = [",", "=", "is"]
     # ---------------------
 
     body_part: str | None = None

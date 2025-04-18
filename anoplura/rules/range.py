@@ -13,7 +13,7 @@ from anoplura.rules.base import Base
 @dataclass(eq=False)
 class Range(Base):
     # Class vars ----------
-    dash: ClassVar[list[str]] = " - – , or to ".split()
+    dash: ClassVar[list[str]] = ["-", "–", ",", "or", "to"]
     numbers: ClassVar[list[str]] = ["number", "roman"]
     # ---------------------
 

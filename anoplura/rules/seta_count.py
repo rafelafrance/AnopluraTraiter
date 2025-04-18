@@ -15,6 +15,7 @@ from anoplura.rules.base import Base
 class SetaCount(Base):
     # Class vars ----------
     terms: ClassVar[Path] = [
+        Path(__file__).parent / "terms" / "position_terms.csv",
         Path(__file__).parent / "terms" / "missing_terms.csv",
         Path(__file__).parent / "terms" / "group_terms.csv",
         Path(__file__).parent / "terms" / "seta_terms.csv",
@@ -26,6 +27,7 @@ class SetaCount(Base):
     seta_count_low: int | None = None
     seta_count_high: int | None = None
     seta_count_group: str | None = None
+    seta_count_position: str | None = None
     seta_count_group_count: int | None = None
 
     @classmethod
@@ -55,13 +57,14 @@ class SetaCount(Base):
                     "filler": {"POS": {"IN": ["ADP", "ADJ", "ADV", "PRON"]}},
                     "group": {"ENT_TYPE": "group"},
                     "missing": {"ENT_TYPE": "missing"},
+                    "pos": {"ENT_TYPE": "position"},
                 },
                 patterns=[
-                    " group* 99+    filler* seta+ group*   ",
-                    " group* 99-99+ filler* seta+ group*   ",
-                    " group+        filler* seta+          ",
-                    "                       seta+ group+   ",
-                    " missing+      filler* seta+          ",
+                    " group* 99+    filler* seta+ group* pos* ",
+                    " group* 99-99+ filler* seta+ group* pos* ",
+                    " group+        filler* seta+ ",
+                    "                       seta+ group+ pos* ",
+                    " missing+      filler* seta+ ",
                     "                       seta+ missing+ ",
                     " 99+ group* seta+ ",
                     " 99+ group* chaeta+ ",
@@ -71,7 +74,7 @@ class SetaCount(Base):
 
     @classmethod
     def seta_count_match(cls, ent):
-        low, high, seta, group, g_count = None, None, None, None, None
+        low, high, seta, group, g_count, pos = None, None, None, None, None, None
 
         for e in ent.ents:
             if e.label_ == "seta":
@@ -85,6 +88,8 @@ class SetaCount(Base):
                 high = int(e._.trait.high)
             elif e.label_ == "missing":
                 low = 0
+            elif e.label_ == "position":
+                pos = e.text.lower()
             elif e.label_ == "group":
                 group = e.text.lower()
                 g_count = cls.replace.get(group)
@@ -96,6 +101,7 @@ class SetaCount(Base):
             seta_count_low=low,
             seta_count_high=high,
             seta_count_group=group,
+            seta_count_position=pos,
             seta_count_group_count=g_count,
         )
 
