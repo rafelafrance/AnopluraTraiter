@@ -22,7 +22,7 @@ dev:
 	python3.12 -m spacy download en_core_web_md
 	pre-commit install
 	cd ./anoplura  # This is so stupid
-	ln -s ../traiter/traiter traiter  # the stupid payload
+	ln -s ../../traiter/traiter traiter  # The stupid payload
 
 clean:
 	rm -rf .venv

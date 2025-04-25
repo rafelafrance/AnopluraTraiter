@@ -22,6 +22,7 @@ from anoplura.rules.seta_count import SetaCount
 from anoplura.rules.seta_position import SetaPosition
 from anoplura.rules.seta_size import SetaSize
 from anoplura.rules.sex import Sex
+from anoplura.rules.sexual_dimorphism import SexualDimorphism
 from anoplura.rules.size import Size
 from anoplura.rules.sternite import Sternite
 from anoplura.rules.sternite_count import SterniteCount
@@ -81,7 +82,9 @@ def build():
     SetaSize.pipe(nlp)
     PartSize.pipe(nlp)
 
-    SetaPosition.pipe(nlp)  # Do this last
+    SexualDimorphism.pipe(nlp)
+
+    SetaPosition.pipe(nlp)  # Do this last or near last
 
     clean_traits.pipe(nlp, traits=["number", "range"])
 
