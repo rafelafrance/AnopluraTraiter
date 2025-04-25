@@ -45,3 +45,9 @@ scratch/
 pilot/
 old/
 experiments/
+
+# Annoying stuff
+# Trying to figure out how use local models in editors can be a major pain, so I just
+# create a symlink which I do not want to commit to the repository. A BFH for what
+# should be easily configurable.
+traiter

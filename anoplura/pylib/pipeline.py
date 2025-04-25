@@ -19,6 +19,7 @@ from anoplura.rules.segment_sternite_count import SegmentSterniteCount
 from anoplura.rules.segment_tergite_count import SegmentTergiteCount
 from anoplura.rules.seta import Seta
 from anoplura.rules.seta_count import SetaCount
+from anoplura.rules.seta_position import SetaPosition
 from anoplura.rules.seta_size import SetaSize
 from anoplura.rules.sex import Sex
 from anoplura.rules.size import Size
@@ -79,6 +80,8 @@ def build():
     Size.pipe(nlp)
     SetaSize.pipe(nlp)
     PartSize.pipe(nlp)
+
+    SetaPosition.pipe(nlp)  # Do this last
 
     clean_traits.pipe(nlp, traits=["number", "range"])
 

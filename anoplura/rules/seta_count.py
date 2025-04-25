@@ -14,7 +14,7 @@ from anoplura.rules.base import Base
 @dataclass(eq=False)
 class SetaCount(Base):
     # Class vars ----------
-    terms: ClassVar[Path] = [
+    terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "position_terms.csv",
         Path(__file__).parent / "terms" / "missing_terms.csv",
         Path(__file__).parent / "terms" / "group_terms.csv",
