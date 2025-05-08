@@ -1,9 +1,0 @@
-label,pattern,attr,replace
-dna_count,base pairs,lower,
-dna_count,bp,lower,base pairs
-type,allotype,lower,allotype
-type,allotypes,lower,allotype
-type,holotype,lower,holotype
-type,holotypes,lower,holotype
-type,paratype,lower,paratype
-type,paratypes,lower,paratype

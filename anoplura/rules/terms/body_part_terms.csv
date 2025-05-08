@@ -28,6 +28,9 @@ bug_part,labra,labrum
 bug_part,labrum,labrum
 bug_part,midcoxa,midcoxa
 bug_part,midcoxae,midcoxa
+bug_part,paramere,paramere
+bug_part,parameres,paramere
+bug_part,pseudopenis,pseudopenis
 bug_part,sclerite,sclerite
 bug_part,sclerotin,sclerite
 bug_part,spiracle,spiracle

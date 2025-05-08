@@ -1,0 +1,13 @@
+label,pattern,replace
+specimen_type,allotype,allotype
+specimen_type,allotypes,allotype
+specimen_type,ergatotype,ergatotype
+specimen_type,ergatotypes,ergatotype
+specimen_type,holotype,holotype
+specimen_type,holotypes,holotype
+specimen_type,lectotype,lectotype
+specimen_type,lectotypes,lectotype
+specimen_type,paratype,paratype
+specimen_type,paratypes,paratype
+specimen_type,syntype,syntype
+specimen_type,syntypes,syntype

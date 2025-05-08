@@ -24,6 +24,7 @@ from anoplura.rules.seta_size import SetaSize
 from anoplura.rules.sex import Sex
 from anoplura.rules.sexual_dimorphism import SexualDimorphism
 from anoplura.rules.size import Size
+from anoplura.rules.specimen_type import SpecimenType
 from anoplura.rules.sternite import Sternite
 from anoplura.rules.sternite_count import SterniteCount
 from anoplura.rules.sternite_seta import SterniteSeta
@@ -82,6 +83,7 @@ def build():
     SetaSize.pipe(nlp)
     PartSize.pipe(nlp)
 
+    SpecimenType.pipe(nlp)
     SexualDimorphism.pipe(nlp)
 
     SetaPosition.pipe(nlp)  # Do this last or near last

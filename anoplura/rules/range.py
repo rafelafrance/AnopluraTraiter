@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 from typing import ClassVar
 
-from spacy import registry
 from spacy.language import Language
+from spacy.util import registry
 from traiter.pylib import const as t_const
 from traiter.pylib.pattern_compiler import Compiler
 from traiter.pylib.pipes import add
@@ -17,8 +17,8 @@ class Range(Base):
     numbers: ClassVar[list[str]] = ["number", "roman"]
     # ---------------------
 
-    low: float = None
-    high: float = None
+    low: float | None = None
+    high: float | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):

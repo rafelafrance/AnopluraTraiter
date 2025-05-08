@@ -1,7 +1,8 @@
 from dataclasses import dataclass
 from typing import ClassVar
 
-from spacy import Language, registry
+from spacy.language import Language
+from spacy.util import registry
 from traiter.pylib.pattern_compiler import Compiler
 from traiter.pylib.pipes import add
 
