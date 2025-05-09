@@ -22,6 +22,9 @@ class PartSize(Base):
 
     part: str | None = None
     part_dims: list[Dimension] = field(default_factory=list)
+    specimen_type: str | None = None
+    specimen_sex: str | None = None
+    specimen_type_other: str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
@@ -30,7 +33,7 @@ class PartSize(Base):
             nlp,
             name="part_size_patterns",
             compiler=cls.part_size_patterns(),
-            overwrite=["size", "part"],
+            overwrite=["size", "part", "specimen_type"],
         )
 
     @classmethod
@@ -41,12 +44,15 @@ class PartSize(Base):
                 on_match="part_size_match",
                 keep="part_size",
                 decoder={
+                    ",": {"LOWER": {"IN": cls.sep}},
                     "part": {"ENT_TYPE": "part"},
                     "size": {"ENT_TYPE": "size"},
-                    ",": {"LOWER": {"IN": cls.sep}},
+                    "type": {"ENT_TYPE": "specimen_type"},
+                    "filler": {"POS": {"IN": ["ADP", "NOUN"]}},
                 },
                 patterns=[
-                    " part+ ,* size+ ",
+                    " part+ ,*      type* size+ ",
+                    " part+ filler* type* size+ ",
                 ],
             ),
         ]
@@ -54,14 +60,26 @@ class PartSize(Base):
     @classmethod
     def part_size_match(cls, ent):
         part, dims = None, None
+        type_, sex, other = None, None, None
 
         for e in ent.ents:
             if e.label_ == "size":
                 dims = e._.trait.dims
             elif e.label_ == "part":
                 part = e._.trait.part
+            elif e.label_ == "specimen_type":
+                type_ = e._.trait.specimen_type
+                sex = e._.trait.specimen_sex
+                other = e._.trait.specimen_type_other
 
-        return cls.from_ent(ent, part_dims=dims, part=part)
+        return cls.from_ent(
+            ent,
+            part_dims=dims,
+            part=part,
+            specimen_type=type_,
+            specimen_sex=sex,
+            specimen_type_other=other,
+        )
 
 
 @registry.misc("part_size_match")

@@ -11,3 +11,4 @@ specimen_type,paratype,paratype
 specimen_type,paratypes,paratype
 specimen_type,syntype,syntype
 specimen_type,syntypes,syntype
+other_type,other,other

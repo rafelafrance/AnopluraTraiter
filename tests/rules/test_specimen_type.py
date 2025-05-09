@@ -17,3 +17,16 @@ class TestSpecimenType(unittest.TestCase):
                 ),
             ],
         )
+
+    def test_specimen_type_02(self):
+        self.assertEqual(
+            parse("Other paratypes are in the collections"),
+            [
+                SpecimenType(
+                    specimen_type="paratypes",
+                    specimen_type_other="other",
+                    start=0,
+                    end=15,
+                ),
+            ],
+        )

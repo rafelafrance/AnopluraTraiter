@@ -20,6 +20,7 @@ from anoplura.rules.segment_tergite_count import SegmentTergiteCount
 from anoplura.rules.seta import Seta
 from anoplura.rules.seta_count import SetaCount
 from anoplura.rules.seta_position import SetaPosition
+from anoplura.rules.seta_row import SetaRow
 from anoplura.rules.seta_size import SetaSize
 from anoplura.rules.sex import Sex
 from anoplura.rules.sexual_dimorphism import SexualDimorphism
@@ -68,6 +69,7 @@ def build():
 
     SubpartCount.pipe(nlp)
     SetaCount.pipe(nlp)
+    SetaRow.pipe(nlp)
     SterniteCount.pipe(nlp)
     TergiteCount.pipe(nlp)
 
@@ -83,12 +85,12 @@ def build():
 
     clean_traits.pipe(nlp, traits=["roman"])
 
+    SpecimenType.pipe(nlp)
+    SexualDimorphism.pipe(nlp)
+
     Size.pipe(nlp)
     SetaSize.pipe(nlp)
     PartSize.pipe(nlp)
-
-    SpecimenType.pipe(nlp)
-    SexualDimorphism.pipe(nlp)
 
     SetaPosition.pipe(nlp)  # Do this last or near last
 

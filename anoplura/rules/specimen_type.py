@@ -21,6 +21,7 @@ class SpecimenType(Base):
 
     specimen_type: str | None = None
     specimen_sex: str | None = None
+    specimen_type_other: str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
@@ -46,24 +47,30 @@ class SpecimenType(Base):
                     ")": {"LOWER": {"IN": t_const.CLOSE}},
                     "sex": {"ENT_TYPE": "sex"},
                     "type": {"ENT_TYPE": "specimen_type"},
+                    "other": {"ENT_TYPE": "other_type"},
                 },
                 patterns=[
                     " type+ ",
                     " type+ (? sex+ )? ",
+                    " other type+ ",
                 ],
             ),
         ]
 
     @classmethod
     def specimen_type_match(cls, ent):
-        type_, sex = None, None
+        type_, sex, other = None, None, None
         for sub_ent in ent.ents:
             if sub_ent.label_ == "specimen_type":
                 type_ = sub_ent.text.lower()
             elif sub_ent.label_ == "sex":
                 sex = sub_ent._.trait.sex
+            elif sub_ent.label_ == "other_type":
+                other = sub_ent.text.lower()
 
-        return cls.from_ent(ent, specimen_type=type_, specimen_sex=sex)
+        return cls.from_ent(
+            ent, specimen_type=type_, specimen_sex=sex, specimen_type_other=other
+        )
 
 
 @registry.misc("specimen_type_match")
