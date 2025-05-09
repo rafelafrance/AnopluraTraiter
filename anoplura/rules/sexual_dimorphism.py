@@ -25,7 +25,7 @@ class SexualDimorphism(Base):
             nlp,
             name="sexual_dimorphism_patterns",
             compiler=cls.sexual_dimorphism_patterns(),
-            overwrite=["sex", "body_part"],
+            overwrite=["sex", "part"],
         )
         add.cleanup_pipe(nlp, name="sexual_dimorphism_cleanup")
 
@@ -39,7 +39,7 @@ class SexualDimorphism(Base):
                 decoder={
                     ",": {"LOWER": {"IN": cls.sep}},
                     "fill": {"POS": {"IN": ["ADP", "PART", "PRON"]}},
-                    "part": {"ENT_TYPE": "body_part"},
+                    "part": {"ENT_TYPE": "part"},
                     "sex": {"ENT_TYPE": "sex"},
                 },
                 patterns=[
@@ -57,8 +57,8 @@ class SexualDimorphism(Base):
         for sub_ent in ent.ents:
             if sub_ent.label_ == "sex":
                 sex = sub_ent._.trait.sex
-            elif sub_ent.label_ == "body_part":
-                parts.append(sub_ent._.trait.body_part)
+            elif sub_ent.label_ == "part":
+                parts.append(sub_ent._.trait.part)
 
         return cls.from_ent(ent, reference_sex=sex, body_parts=parts)
 

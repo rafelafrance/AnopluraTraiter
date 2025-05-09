@@ -31,7 +31,7 @@ class Subpart(Base):
             nlp,
             name="subpart_patterns",
             compiler=cls.subpart_patterns(),
-            overwrite=["body_part"],
+            overwrite=["part"],
         )
         add.cleanup_pipe(nlp, name="subpart_cleanup")
 
@@ -43,7 +43,7 @@ class Subpart(Base):
                 on_match="subpart_match",
                 keep="subpart",
                 decoder={
-                    "part": {"ENT_TYPE": "body_part"},
+                    "part": {"ENT_TYPE": "part"},
                     "subpart": {"ENT_TYPE": "bug_subpart"},
                     "pos": {"ENT_TYPE": "position"},
                 },

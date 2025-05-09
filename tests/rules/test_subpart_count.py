@@ -10,7 +10,7 @@ class TestSubpartCount(unittest.TestCase):
             parse("Antennae 5-segmented"),
             [
                 SubpartCount(
-                    body_part="antenna",
+                    part="antenna",
                     subpart="segment",
                     subpart_count=5,
                     start=0,

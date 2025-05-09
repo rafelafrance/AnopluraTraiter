@@ -21,7 +21,7 @@ class Sclerotized(Base):
     sep: ClassVar[list[str]] = [",", "and"]
     # ----------------------
 
-    body_part: list[str] | None = None
+    part: list[str] | None = None
     amount_sclerotized: str | None = None
 
     @classmethod
@@ -32,7 +32,7 @@ class Sclerotized(Base):
             nlp,
             name="sclerotized_patterns",
             compiler=cls.sclerotized_patterns(),
-            overwrite=["body_part"],
+            overwrite=["part"],
         )
         add.cleanup_pipe(nlp, name="sclerotized_cleanup")
 
@@ -45,7 +45,7 @@ class Sclerotized(Base):
                 keep="sclerotized",
                 decoder={
                     "adv": {"POS": "ADV"},
-                    "part": {"ENT_TYPE": "body_part"},
+                    "part": {"ENT_TYPE": "part"},
                     "sclerotized": {"ENT_TYPE": "sclerotization"},
                     ",": {"LOWER": {"IN": cls.sep}},
                 },
@@ -61,13 +61,13 @@ class Sclerotized(Base):
     def sclerotized_match(cls, ent):
         part = []
         for sub_ent in ent.ents:
-            if sub_ent.label_ == "body_part":
+            if sub_ent.label_ == "part":
                 text = sub_ent.text.lower()
                 part.append(cls.replace.get(text, text))
 
         amount = next((t.lower_ for t in ent if t.pos_ == "ADV"), None)
 
-        return cls.from_ent(ent, body_part=part, amount_sclerotized=amount)
+        return cls.from_ent(ent, part=part, amount_sclerotized=amount)
 
 
 @registry.misc("sclerotized_match")

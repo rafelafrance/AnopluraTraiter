@@ -20,7 +20,7 @@ class PartSize(Base):
     sep: ClassVar[list[str]] = [",", "=", "is"]
     # ---------------------
 
-    body_part: str | None = None
+    part: str | None = None
     body_part_dims: list[Dimension] = field(default_factory=list)
 
     @classmethod
@@ -30,7 +30,7 @@ class PartSize(Base):
             nlp,
             name="body_part_size_patterns",
             compiler=cls.body_part_size_patterns(),
-            overwrite=["size", "body_part"],
+            overwrite=["size", "part"],
         )
 
     @classmethod
@@ -41,7 +41,7 @@ class PartSize(Base):
                 on_match="body_part_size_match",
                 keep="body_part_size",
                 decoder={
-                    "part": {"ENT_TYPE": "body_part"},
+                    "part": {"ENT_TYPE": "part"},
                     "size": {"ENT_TYPE": "size"},
                     ",": {"LOWER": {"IN": cls.sep}},
                 },
@@ -58,10 +58,10 @@ class PartSize(Base):
         for e in ent.ents:
             if e.label_ == "size":
                 dims = e._.trait.dims
-            elif e.label_ == "body_part":
-                part = e._.trait.body_part
+            elif e.label_ == "part":
+                part = e._.trait.part
 
-        return cls.from_ent(ent, body_part_dims=dims, body_part=part)
+        return cls.from_ent(ent, body_part_dims=dims, part=part)
 
 
 @registry.misc("body_part_size_match")

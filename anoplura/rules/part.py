@@ -12,7 +12,7 @@ from anoplura.rules.base import Base
 
 
 @dataclass(eq=False)
-class BodyPart(Base):
+class Part(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "part_terms.csv",
@@ -21,40 +21,38 @@ class BodyPart(Base):
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
     # ----------------------
 
-    body_part: str | None = None
+    part: str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
         add.term_pipe(nlp, name="part_terms", path=cls.terms)
-        add.trait_pipe(
-            nlp, name="body_part_patterns", compiler=cls.body_part_patterns()
-        )
-        add.cleanup_pipe(nlp, name="body_part_cleanup")
+        add.trait_pipe(nlp, name="part_patterns", compiler=cls.part_patterns())
+        add.cleanup_pipe(nlp, name="part_cleanup")
 
     @classmethod
-    def body_part_patterns(cls):
+    def part_patterns(cls):
         return [
             Compiler(
-                label="body_part",
-                on_match="body_part_match",
-                keep="body_part",
+                label="part",
+                on_match="part_match",
+                keep="part",
                 decoder={
-                    "body_part": {"ENT_TYPE": "bug_part"},
+                    "part": {"ENT_TYPE": "bug_part"},
                     "pos": {"ENT_TYPE": "position"},
                 },
                 patterns=[
-                    " pos* body_part+ ",
+                    " pos* part+ ",
                 ],
             ),
         ]
 
     @classmethod
-    def body_part_match(cls, ent):
+    def part_match(cls, ent):
         text = ent.text.lower()
-        body_part = cls.replace.get(text, text)
-        return cls.from_ent(ent, body_part=body_part)
+        part = cls.replace.get(text, text)
+        return cls.from_ent(ent, part=part)
 
 
-@registry.misc("body_part_match")
-def body_part_match(ent):
-    return BodyPart.body_part_match(ent)
+@registry.misc("part_match")
+def part_match(ent):
+    return Part.part_match(ent)

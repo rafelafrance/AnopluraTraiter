@@ -1,6 +1,6 @@
 # import unittest
 #
-# from anoplura.rules.body_part import BodyPart
+# from anoplura.rules.part import Part
 # from tests.setup import parse
 #
 #
@@ -8,5 +8,5 @@
 #     def test_body_part_01(self):
 #         self.assertEqual(
 #             parse("dorsal head suture"),
-#             [BodyPart(body_part="dorsal head suture", start=0, end=18)],
+#             [Part(part="dorsal head suture", start=0, end=18)],
 #         )

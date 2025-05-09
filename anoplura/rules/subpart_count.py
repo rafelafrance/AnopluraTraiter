@@ -21,7 +21,7 @@ class SubpartCount(Base):
     dash: ClassVar[list[str]] = ["-", "–"]
     # ----------------------
 
-    body_part: str | None = None
+    part: str | None = None
     subpart: str | None = None
     subpart_count: int | None = None
 
@@ -33,7 +33,7 @@ class SubpartCount(Base):
             nlp,
             name="subpart_count_patterns",
             compiler=cls.subpart_count_patterns(),
-            overwrite=["body_part", "number"],
+            overwrite=["part", "number"],
         )
         add.cleanup_pipe(nlp, name="subpart_count_cleanup")
 
@@ -45,7 +45,7 @@ class SubpartCount(Base):
                 on_match="subpart_count_match",
                 keep="subpart_count",
                 decoder={
-                    "part": {"ENT_TYPE": "body_part"},
+                    "part": {"ENT_TYPE": "part"},
                     "number": {"ENT_TYPE": "number"},
                     "-": {"TEXT": {"IN": cls.dash}, "OP": "+"},
                     "subpart": {"ENT_TYPE": "subpart_suffix"},
@@ -60,15 +60,15 @@ class SubpartCount(Base):
     def subpart_count_match(cls, ent):
         part, subpart, count = "", "", 0
         for sub_ent in ent.ents:
-            if sub_ent.label_ == "body_part":
-                part = sub_ent._.trait.body_part
+            if sub_ent.label_ == "part":
+                part = sub_ent._.trait.part
             elif sub_ent.label_ == "subpart_suffix":
                 text = sub_ent.text.lower()
                 subpart = cls.replace.get(text, text)
             elif sub_ent.label_ == "number":
                 count = int(sub_ent._.trait.number)
 
-        return cls.from_ent(ent, body_part=part, subpart=subpart, subpart_count=count)
+        return cls.from_ent(ent, part=part, subpart=subpart, subpart_count=count)
 
 
 @registry.misc("subpart_count_match")
