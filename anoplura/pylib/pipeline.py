@@ -28,6 +28,7 @@ from anoplura.rules.specimen_type import SpecimenType
 from anoplura.rules.sternite import Sternite
 from anoplura.rules.sternite_count import SterniteCount
 from anoplura.rules.sternite_seta import SterniteSeta
+from anoplura.rules.subpart import Subpart
 from anoplura.rules.subpart_count import SubpartCount
 from anoplura.rules.taxon import Taxon
 from anoplura.rules.tergite import Tergite
@@ -48,6 +49,7 @@ def build():
     Sex.pipe(nlp)
     Seta.pipe(nlp)
     BodyPart.pipe(nlp)
+    Subpart.pipe(nlp)
 
     LatLong.pipe(nlp)
     Elevation.pipe(nlp)

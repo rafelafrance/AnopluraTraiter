@@ -17,7 +17,7 @@ class Tergite(Base):
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "group_terms.csv",
         Path(__file__).parent / "terms" / "position_terms.csv",
-        Path(__file__).parent / "terms" / "body_part_terms.csv",
+        Path(__file__).parent / "terms" / "part_terms.csv",
     ]
     sep: ClassVar[list[str]] = [",", "and"]
     # ----------------------

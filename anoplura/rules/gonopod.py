@@ -15,7 +15,7 @@ class Gonopod(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "position_terms.csv",
-        Path(__file__).parent / "terms" / "body_part_terms.csv",
+        Path(__file__).parent / "terms" / "part_terms.csv",
     ]
     # ----------------------
 

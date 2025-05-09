@@ -12,7 +12,7 @@ from anoplura.rules.base import Base
 
 
 @dataclass(eq=False)
-class BodyPart(Base):
+class Subpart(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "part_terms.csv",
@@ -21,40 +21,46 @@ class BodyPart(Base):
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
     # ----------------------
 
-    body_part: str | None = None
+    subpart: str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
-        add.term_pipe(nlp, name="part_terms", path=cls.terms)
+        add.term_pipe(nlp, name="subpart_terms", path=cls.terms)
+        # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
-            nlp, name="body_part_patterns", compiler=cls.body_part_patterns()
+            nlp,
+            name="subpart_patterns",
+            compiler=cls.subpart_patterns(),
+            overwrite=["body_part"],
         )
-        add.cleanup_pipe(nlp, name="body_part_cleanup")
+        add.cleanup_pipe(nlp, name="subpart_cleanup")
 
     @classmethod
-    def body_part_patterns(cls):
+    def subpart_patterns(cls):
         return [
             Compiler(
-                label="body_part",
-                on_match="body_part_match",
-                keep="body_part",
+                label="subpart",
+                on_match="subpart_match",
+                keep="subpart",
                 decoder={
-                    "body_part": {"ENT_TYPE": "bug_part"},
+                    "part": {"ENT_TYPE": "body_part"},
+                    "subpart": {"ENT_TYPE": "bug_subpart"},
                     "pos": {"ENT_TYPE": "position"},
                 },
                 patterns=[
-                    " pos* body_part+ ",
+                    " part* pos* subpart+ pos* ",
+                    " pos* part* subpart+ pos* ",
                 ],
             ),
         ]
 
     @classmethod
-    def body_part_match(cls, ent):
+    def subpart_match(cls, ent):
         text = ent.text.lower()
-        body_part = cls.replace.get(text, text)
-        return cls.from_ent(ent, body_part=body_part)
+        subpart = cls.replace.get(text, text)
+        return cls.from_ent(ent, subpart=subpart)
 
 
-@registry.misc("body_part_match")
-def body_part_match(ent):
-    return BodyPart.body_part_match(ent)
+@registry.misc("subpart_match")
+def subpart_match(ent):
+    return Subpart.subpart_match(ent)

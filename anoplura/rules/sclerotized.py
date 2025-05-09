@@ -15,7 +15,7 @@ from anoplura.rules.base import Base
 class Sclerotized(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
-        Path(__file__).parent / "terms" / "body_part_terms.csv",
+        Path(__file__).parent / "terms" / "part_terms.csv",
     ]
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
     sep: ClassVar[list[str]] = [",", "and"]

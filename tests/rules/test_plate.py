@@ -34,3 +34,9 @@ class TestPlate(unittest.TestCase):
             parse("plates VI and VII"),
             [Plate(plates=[6, 7], start=0, end=17)],
         )
+
+    def test_plate_05(self):
+        self.assertEqual(
+            parse("paratergal plate I"),
+            [Plate(plates=[1], plate_position="paratergal", start=0, end=18)],
+        )
