@@ -51,8 +51,8 @@ class PartSize(Base):
                     "filler": {"POS": {"IN": ["ADP", "NOUN"]}},
                 },
                 patterns=[
-                    " part+ ,*      type* size+ ",
-                    " part+ filler* type* size+ ",
+                    " part+ ,*      type* ,* size+ ",
+                    " part+ filler* type* ,* size+ ",
                 ],
             ),
         ]
