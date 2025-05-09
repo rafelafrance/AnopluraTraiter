@@ -30,7 +30,7 @@ class SterniteCount(Base):
             nlp,
             name="sternite_count_patterns",
             compiler=cls.sternite_count_patterns(),
-            overwrite=["number", "range", "sternite"],
+            overwrite=["number", "range", "sternite", "shape"],
         )
         add.cleanup_pipe(nlp, name="sternite_count_cleanup")
 
@@ -45,6 +45,7 @@ class SterniteCount(Base):
                     "sternite": {"ENT_TYPE": "sternite"},
                     "99": {"ENT_TYPE": "number"},
                     "99-99": {"ENT_TYPE": "range"},
+                    "shape": {"ENT_TYPE": "shape_term"},
                     "filler": {"POS": {"IN": ["ADP", "ADJ", "PUNCT", "NOUN"]}},
                 },
                 patterns=[

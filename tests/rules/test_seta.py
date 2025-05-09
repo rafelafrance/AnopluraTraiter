@@ -28,3 +28,15 @@ class TestSeta(unittest.TestCase):
                 ),
             ],
         )
+
+    def test_setae_04(self):
+        self.assertEqual(
+            parse("Long curved Setae;"),
+            [
+                Seta(
+                    seta="long curved setae",
+                    start=0,
+                    end=17,
+                ),
+            ],
+        )

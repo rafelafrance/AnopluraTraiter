@@ -114,3 +114,17 @@ class TestSetaCount(unittest.TestCase):
                 ),
             ],
         )
+
+    # def test_setae_count_09(self):
+    #     self.assertEqual(
+    #         parse("4 (anterior row), 2 (middle row), and 1 (posterior row) setae"),
+    #         [
+    #             SetaCount(
+    #                 seta="tergal abdominal setae",
+    #                 seta_count_low=8,
+    #                 seta_count_high=11,
+    #                 start=0,
+    #                 end=9,
+    #             ),
+    #         ],
+    #     )

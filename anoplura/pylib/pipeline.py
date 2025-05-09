@@ -23,6 +23,7 @@ from anoplura.rules.seta_position import SetaPosition
 from anoplura.rules.seta_size import SetaSize
 from anoplura.rules.sex import Sex
 from anoplura.rules.sexual_dimorphism import SexualDimorphism
+from anoplura.rules.shape import Shape
 from anoplura.rules.size import Size
 from anoplura.rules.specimen_type import SpecimenType
 from anoplura.rules.sternite import Sternite
@@ -47,6 +48,7 @@ def build():
 
     Taxon.pipe(nlp)
     Sex.pipe(nlp)
+    Shape.pipe(nlp)
     Seta.pipe(nlp)
     Part.pipe(nlp)
     Subpart.pipe(nlp)
@@ -90,7 +92,7 @@ def build():
 
     SetaPosition.pipe(nlp)  # Do this last or near last
 
-    clean_traits.pipe(nlp, traits=["number", "range"])
+    clean_traits.pipe(nlp, traits=["number", "range", "shape"])
 
     # for name in nlp.pipe_names:
     #     print(name)

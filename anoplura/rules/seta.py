@@ -19,7 +19,7 @@ class Seta(Base):
         Path(__file__).parent / "terms" / "part_terms.csv",
         Path(__file__).parent / "terms" / "seta_terms.csv",
     ]
-    words: ClassVar[list[str]] = ["seta_word", "position", "bug_part"]
+    words: ClassVar[list[str]] = ["seta_word", "position", "bug_part", "shape"]
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
     # ----------------------
 
@@ -29,7 +29,9 @@ class Seta(Base):
     def pipe(cls, nlp: Language):
         add.term_pipe(nlp, name="seta_terms", path=cls.terms)
         # add.debug_tokens(nlp)  # ##########################################
-        add.trait_pipe(nlp, name="seta_patterns", compiler=cls.seta_patterns())
+        add.trait_pipe(
+            nlp, name="seta_patterns", compiler=cls.seta_patterns(), overwrite=["shape"]
+        )
         add.cleanup_pipe(nlp, name="seta_cleanup")
 
     @classmethod
@@ -42,11 +44,12 @@ class Seta(Base):
                 decoder={
                     "abbrev": {"ENT_TYPE": "seta_abbrev"},
                     "setae": {"ENT_TYPE": "chaeta"},
+                    "filler": {"POS": {"IN": ["ADP", "ADJ", "ADV", "PRON", "NOUN"]}},
                     "word": {"ENT_TYPE": {"IN": cls.words}},
                 },
                 patterns=[
                     "abbrev",
-                    "word+ setae word*",
+                    "word+ filler* setae+ word*",
                 ],
             ),
         ]
