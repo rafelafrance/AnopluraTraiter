@@ -5,10 +5,10 @@ from traiter.pylib.rules.lat_long import LatLong
 from traiter.pylib.rules.number import Number
 
 from anoplura.rules import clean_traits
-from anoplura.rules.body_part_size import PartSize
 from anoplura.rules.gonopod import Gonopod
 from anoplura.rules.gonopod_seta import GonopodSeta
 from anoplura.rules.part import Part
+from anoplura.rules.part_size import PartSize
 from anoplura.rules.plate import Plate
 from anoplura.rules.plate_seta import PlateSeta
 from anoplura.rules.range import Range

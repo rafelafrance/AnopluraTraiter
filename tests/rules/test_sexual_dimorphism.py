@@ -11,7 +11,7 @@ class TestSexualDimprphism(unittest.TestCase):
             [
                 SexualDimorphism(
                     reference_sex="male",
-                    body_parts=["head", "thorax", "abdomen"],
+                    parts=["head", "thorax", "abdomen"],
                     start=0,
                     end=36,
                 ),

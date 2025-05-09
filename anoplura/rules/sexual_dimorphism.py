@@ -16,7 +16,7 @@ class SexualDimorphism(Base):
     # ---------------------
 
     reference_sex: str | None = None
-    body_parts: list[str] | None = None
+    parts: list[str] | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
@@ -60,7 +60,7 @@ class SexualDimorphism(Base):
             elif sub_ent.label_ == "part":
                 parts.append(sub_ent._.trait.part)
 
-        return cls.from_ent(ent, reference_sex=sex, body_parts=parts)
+        return cls.from_ent(ent, reference_sex=sex, parts=parts)
 
 
 @registry.misc("sexual_dimorphism_match")
