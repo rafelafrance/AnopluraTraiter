@@ -11,6 +11,7 @@ from anoplura.rules.part import Part
 from anoplura.rules.part_mean import PartMean
 from anoplura.rules.part_range import PartRange
 from anoplura.rules.part_sample import PartSample
+from anoplura.rules.part_shape import PartShape
 from anoplura.rules.part_size import PartSize
 from anoplura.rules.part_stats import PartStats
 from anoplura.rules.plate import Plate
@@ -86,6 +87,8 @@ def build():
     SegmentTergiteCount.pipe(nlp)
 
     Sclerotized.pipe(nlp)
+
+    PartShape.pipe(nlp)
 
     clean_traits.pipe(nlp, traits=["roman"])
 
