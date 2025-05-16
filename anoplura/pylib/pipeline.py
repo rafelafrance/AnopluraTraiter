@@ -8,7 +8,11 @@ from anoplura.rules import clean_traits
 from anoplura.rules.gonopod import Gonopod
 from anoplura.rules.gonopod_seta import GonopodSeta
 from anoplura.rules.part import Part
+from anoplura.rules.part_mean import PartMean
+from anoplura.rules.part_range import PartRange
+from anoplura.rules.part_sample import PartSample
 from anoplura.rules.part_size import PartSize
+from anoplura.rules.part_stats import PartStats
 from anoplura.rules.plate import Plate
 from anoplura.rules.plate_seta import PlateSeta
 from anoplura.rules.range import Range
@@ -54,12 +58,12 @@ def build():
     Part.pipe(nlp)
     Subpart.pipe(nlp)
 
-    LatLong.pipe(nlp)
-    Elevation.pipe(nlp)
-
     Roman.pipe(nlp)
     Number.pipe(nlp)
     Range.pipe(nlp)
+
+    LatLong.pipe(nlp)
+    Elevation.pipe(nlp)
 
     Segment.pipe(nlp)
     Plate.pipe(nlp)
@@ -91,6 +95,10 @@ def build():
     Size.pipe(nlp)
     SetaSize.pipe(nlp)
     PartSize.pipe(nlp)
+    PartMean.pipe(nlp)
+    PartRange.pipe(nlp)
+    PartSample.pipe(nlp)
+    PartStats.pipe(nlp)
 
     SetaPosition.pipe(nlp)  # Do this last or near last
 

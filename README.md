@@ -64,7 +64,7 @@ For example, given the text: `Head, thorax, and abdomen lightly sclerotized.`
 
 ## Install
 
-You will need to have Python 3.8 (or later) installed. You can install the requirements into your python environment like so:
+You will need to have Python 3.12 (or later) installed. You can install the requirements into your python environment like so:
 
 ```
 make install

@@ -1,4 +1,7 @@
 label,pattern,replace
+cross,X,×
+cross,x,×
+cross,×,×
 dimension,broad,broad
 dimension,broader,broad
 dimension,dbh,dbh
@@ -27,9 +30,13 @@ dimension,thick,thickness
 dimension,thickness,thickness
 dimension,wide,width
 dimension,width,width
-cross,x,×
-cross,X,×
-cross,×,×
+mean_term,average,mean
+mean_term,avg,mean
+mean_term,mean of series,mean
+mean_term,mean,mean
+range_term,range,range
+sample_term,n,sample
+sample_term,sample,sample
 separator,",",
 separator,=,
 separator,is,

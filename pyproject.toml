@@ -96,8 +96,8 @@ lint.select = [
     "FLY",
     "NPY",
     "PERF",
-    #    "FURB",  # refurb
-    #    "LOG",  # flake8-logging
+    # "FURB",  # refurb
+    # "LOG",  # flake8-logging
     "RUF",
 ]
 

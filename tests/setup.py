@@ -4,7 +4,7 @@ PIPELINE = pipeline.build()
 
 
 def parse(text: str) -> list:
-    text = util.compress(text)
+    text = util.shorten(text)
     doc = PIPELINE(text)
 
     traits = [e._.trait for e in doc.ents]

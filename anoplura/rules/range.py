@@ -13,7 +13,7 @@ from anoplura.rules.base import Base
 @dataclass(eq=False)
 class Range(Base):
     # Class vars ----------
-    dash: ClassVar[list[str]] = ["-", "–", ",", "or", "to"]
+    dash: ClassVar[list[str]] = ["-", "–", "—", ",", "or", "to"]
     numbers: ClassVar[list[str]] = ["number", "roman"]
     # ---------------------
 
@@ -38,13 +38,13 @@ class Range(Base):
                 on_match="range_match",
                 decoder={
                     "[+]": {"TEXT": {"IN": t_const.PLUS}},
-                    "-": {"TEXT": {"IN": cls.dash}, "OP": "+"},
+                    "-": {"TEXT": {"IN": cls.dash}},
                     "99": {"ENT_TYPE": "number"},
                     "iv": {"ENT_TYPE": "roman"},
                 },
                 patterns=[
-                    " 99 - 99 [+]? ",
-                    " iv - iv ",
+                    " 99 -+ 99 [+]? ",
+                    " iv -+ iv ",
                 ],
             ),
         ]
