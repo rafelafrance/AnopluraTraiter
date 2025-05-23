@@ -15,10 +15,12 @@ from anoplura.rules.base import Base
 class PartShape(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
+        Path(__file__).parent / "terms" / "part_terms.csv",
         Path(__file__).parent / "terms" / "shape_terms.csv",
         Path(__file__).parent / "terms" / "position_terms.csv",
     ]
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
+    sep: ClassVar[list[str]] = [",", "and", "is"]
     # ---------------------
 
     part: str | None = None
@@ -45,29 +47,40 @@ class PartShape(Base):
                 on_match="part_shape_match",
                 keep="part_shape",
                 decoder={
+                    ",": {"LOWER": {"IN": cls.sep}},
+                    "fill": {"POS": {"IN": ["ADP", "ADV"]}},
+                    "rel": {"ENT_TYPE": "relative_term"},
                     "shape": {"ENT_TYPE": "shape"},
                     "part": {"ENT_TYPE": "part"},
                     "pos": {"ENT_TYPE": "position"},
                 },
                 patterns=[
                     " shape+ part+ pos* ",
+                    " part+ fill* rel+ fill* rel+ ,* fill* rel* shape+ pos* ",
                 ],
             ),
         ]
 
     @classmethod
     def part_shape_match(cls, ent):
-        part, shape, pos = None, None, None
+        part, shape, pos = [], [], []
 
-        for e in ent.ents:
-            if e.label_ == "shape":
-                text = e.text.lower()
-                shape = cls.replace.get(text, text)
-            elif e.label_ == "position":
-                text = e.text.lower()
-                pos = cls.replace.get(text, text)
-            elif e.label_ == "part":
-                part = e._.trait.part
+        for t in ent:
+            if t._.term == "bug_part":
+                text = cls.replace.get(t.lower_, t.lower_)
+                part.append(text)
+            elif t._.term == "position":
+                pos.append(t.lower_)
+            else:
+                shape.append(t.lower_)
+
+        part = " ".join(part)
+        part = cls.replace.get(part, part)
+
+        pos = " ".join(pos)
+
+        shape = " ".join(shape)
+        shape = shape.replace(" , ", ", ")
 
         return cls.from_ent(ent, part=part, part_shape=shape, part_shape_position=pos)
 

@@ -33,6 +33,7 @@ shape_term,bilobate,bilobate
 shape_term,bipinnate,bipinnate
 shape_term,bipinnatisect,bipinnatisect
 shape_term,biternate,biternate
+shape_term,blunt,blunt
 shape_term,bowl-shaped,saucerlike
 shape_term,bowlshaped,saucerlike
 shape_term,branched,branched
@@ -222,7 +223,6 @@ shape_term,plumose,plumose
 shape_term,plumpy,plumpy
 shape_term,pluripinnate,pluripinnate
 shape_term,polygonal,polygonal
-shape_term,polygonal - angulate,polygonal
 shape_term,polygonal-angulate,polygonal
 shape_term,pseudoracemose,pseudoracemose
 shape_term,pulvinate,pulvinate
@@ -362,3 +362,9 @@ shape_term,vase-shaped,vase-shaped
 shape_term,verruciform,verruciform
 shape_term,zygomorphic,bilaterally symmetric
 shape_term,zygomorphous,bilaterally symmetric
+relative_term,long,
+relative_term,longer,
+relative_term,wide,
+relative_term,wider,
+relative_term,relative,
+relative_term,relatively,

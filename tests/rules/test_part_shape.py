@@ -18,3 +18,31 @@ class TestPartShape(unittest.TestCase):
                 )
             ],
         )
+
+    def test_part_shape_02(self):
+        self.assertEqual(
+            parse("Head slightly longer than wide, relatively blunt anteriorly"),
+            [
+                PartShape(
+                    part="head",
+                    part_shape="slightly longer than wide, relatively blunt",
+                    part_shape_position="anteriorly",
+                    start=0,
+                    end=59,
+                )
+            ],
+        )
+
+    def test_part_shape_03(self):
+        self.assertEqual(
+            parse("Head longer than wide, broadly rounded anteriorly"),
+            [
+                PartShape(
+                    part="head",
+                    part_shape="longer than wide, broadly rounded",
+                    part_shape_position="anteriorly",
+                    start=0,
+                    end=49,
+                )
+            ],
+        )

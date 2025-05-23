@@ -11,6 +11,7 @@ from anoplura.rules.part import Part
 from anoplura.rules.part_mean import PartMean
 from anoplura.rules.part_range import PartRange
 from anoplura.rules.part_sample import PartSample
+from anoplura.rules.part_sclerotization import PartSclerotization
 from anoplura.rules.part_shape import PartShape
 from anoplura.rules.part_size import PartSize
 from anoplura.rules.part_stats import PartStats
@@ -18,7 +19,6 @@ from anoplura.rules.plate import Plate
 from anoplura.rules.plate_seta import PlateSeta
 from anoplura.rules.range import Range
 from anoplura.rules.roman import Roman
-from anoplura.rules.sclerotized import Sclerotized
 from anoplura.rules.segment import Segment
 from anoplura.rules.segment_sternite_count import SegmentSterniteCount
 from anoplura.rules.segment_tergite_count import SegmentTergiteCount
@@ -86,7 +86,7 @@ def build():
     SegmentSterniteCount.pipe(nlp)
     SegmentTergiteCount.pipe(nlp)
 
-    Sclerotized.pipe(nlp)
+    PartSclerotization.pipe(nlp)
 
     PartShape.pipe(nlp)
 
