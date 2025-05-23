@@ -3,13 +3,13 @@
 
 <head>
 <meta charset="utf-8" />
-<title>Traiter</title>
+<title>Traiter: {{ file_name }}</title>
 <style>
 {% include 'html_writer.css' -%}
 </style>
 </head>
 <body>
-    <h1>Traiter <span>{{ now }}</span></h1>
+    <h1>Traiter: {{ file_name }} <span>{{ now }}</span></h1>
     <div>{{ text | safe }}</div>
 
     <table>

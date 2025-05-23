@@ -22,6 +22,7 @@ def writer(traits, text, html_file):
         now=datetime.strftime(datetime.now(), "%Y-%m-%d %H:%M"),
         text=format_text(text, traits, classes),
         traits=format_traits(text, traits, classes),
+        file_name=html_file.stem,
     )
 
     with html_file.open("w") as out_file:

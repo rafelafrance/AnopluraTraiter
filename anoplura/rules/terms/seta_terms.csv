@@ -35,7 +35,7 @@ seta_abbrev,os,oral setae
 seta_abbrev,pas,preantennal setae
 seta_abbrev,prs,paratergal setae
 seta_abbrev,shs,sutural head setae
-seta_abbrev,spahs,supraantennal head setae
+seta_abbrev,spahs,supra-antennal head setae
 seta_abbrev,spaths,supra-antennal head setae
 seta_abbrev,stas,sternal abdominal setae
 seta_abbrev,suhs,sutural head setae
@@ -51,8 +51,10 @@ seta_word,accessory,
 seta_word,contiguous,
 seta_word,fairly,
 seta_word,intermediate-sized,
+seta_word,large,
 seta_word,long,
 seta_word,principal,
 seta_word,short,
 seta_word,small,
 seta_word,sutural,
+seta_word,tiny,

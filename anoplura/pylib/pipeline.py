@@ -59,12 +59,12 @@ def build():
     Part.pipe(nlp)
     Subpart.pipe(nlp)
 
+    LatLong.pipe(nlp)
+    Elevation.pipe(nlp)
+
     Roman.pipe(nlp)
     Number.pipe(nlp)
     Range.pipe(nlp)
-
-    LatLong.pipe(nlp)
-    Elevation.pipe(nlp)
 
     Segment.pipe(nlp)
     Plate.pipe(nlp)
