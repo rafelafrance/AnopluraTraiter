@@ -1,10 +1,9 @@
 import spacy
-from traiter.pylib.pipes import extensions, tokenizer
-from traiter.pylib.rules.elevation import Elevation
-from traiter.pylib.rules.lat_long import LatLong
-from traiter.pylib.rules.number import Number
+from traiter.pipes import delete, extensions, tokenizer
+from traiter.rules.elevation import Elevation
+from traiter.rules.lat_long import LatLong
+from traiter.rules.number import Number
 
-from anoplura.rules import clean_traits
 from anoplura.rules.gonopod import Gonopod
 from anoplura.rules.gonopod_seta import GonopodSeta
 from anoplura.rules.part import Part
@@ -28,6 +27,7 @@ from anoplura.rules.seta_position import SetaPosition
 from anoplura.rules.seta_row import SetaRow
 from anoplura.rules.seta_size import SetaSize
 from anoplura.rules.sex import Sex
+from anoplura.rules.sex_count import SexCount
 from anoplura.rules.sexual_dimorphism import SexualDimorphism
 from anoplura.rules.shape import Shape
 from anoplura.rules.size import Size
@@ -42,7 +42,7 @@ from anoplura.rules.tergite import Tergite
 from anoplura.rules.tergite_count import TergiteCount
 from anoplura.rules.tergite_seta import TergiteSeta
 
-# from traiter.pylib.pipes.debug import tokens
+# from traiter.pipes.debug import tokens
 
 
 def build():
@@ -90,10 +90,11 @@ def build():
 
     PartShape.pipe(nlp)
 
-    clean_traits.pipe(nlp, traits=["roman"])
+    delete.pipe(nlp, traits=["roman"])
 
     SpecimenType.pipe(nlp)
     SexualDimorphism.pipe(nlp)
+    SexCount.pipe(nlp)
 
     Size.pipe(nlp)
     SetaSize.pipe(nlp)
@@ -105,7 +106,7 @@ def build():
 
     SetaPosition.pipe(nlp)  # Do this last or near last
 
-    clean_traits.pipe(nlp, traits=["number", "range", "shape"])
+    delete.pipe(nlp, traits=["number", "range", "shape"])
 
     # for name in nlp.pipe_names:
     #     print(name)

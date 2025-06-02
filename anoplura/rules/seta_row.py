@@ -4,8 +4,8 @@ from typing import ClassVar
 
 from spacy.language import Language
 from spacy.util import registry
+from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
-from traiter.pylib.pipes import add
 
 from anoplura.rules.base import Base
 
@@ -43,7 +43,6 @@ class SetaRow(Base):
             Compiler(
                 label="seta_row",
                 on_match="seta_row_match",
-                keep="seta_row",
                 decoder={
                     ",": {"LOWER": {"IN": cls.sep}},
                     "99": {"ENT_TYPE": "number"},

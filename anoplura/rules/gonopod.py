@@ -4,8 +4,8 @@ from typing import ClassVar
 
 from spacy.language import Language
 from spacy.util import registry
+from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
-from traiter.pylib.pipes import add
 
 from anoplura.rules.base import Base
 
@@ -39,7 +39,6 @@ class Gonopod(Base):
             Compiler(
                 label="gonopod",
                 on_match="gonopod_match",
-                keep="gonopod",
                 decoder={
                     "9": {"ENT_TYPE": "number"},
                     "iv": {"ENT_TYPE": "roman"},

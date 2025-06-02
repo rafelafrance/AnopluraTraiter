@@ -3,8 +3,8 @@ from typing import ClassVar
 
 from spacy.language import Language
 from spacy.util import registry
+from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
-from traiter.pylib.pipes import add
 
 from anoplura.rules.base import Base
 
@@ -35,7 +35,6 @@ class SexualDimorphism(Base):
             Compiler(
                 label="sexual_dimorphism",
                 on_match="sexual_dimorphism_match",
-                keep="sexual_dimorphism",
                 decoder={
                     ",": {"LOWER": {"IN": cls.sep}},
                     "fill": {"POS": {"IN": ["ADP", "PART", "PRON"]}},

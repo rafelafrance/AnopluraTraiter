@@ -3,9 +3,9 @@ from pathlib import Path
 from typing import ClassVar
 
 from spacy import Language, registry
+from traiter.pipes import add
 from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
-from traiter.pylib.pipes import add
 
 from anoplura.rules.base import Base
 
@@ -35,7 +35,6 @@ class Sex(Base):
             Compiler(
                 label="sex",
                 on_match="sex_match",
-                keep="sex",
                 decoder={
                     "sex": {"ENT_TYPE": "sexes"},
                 },

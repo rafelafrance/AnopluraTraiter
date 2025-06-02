@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from spacy.language import Language
 from traiter.pylib.darwin_core import DarwinCore
-from traiter.pylib.rules.base import Base as TraiterBase
+from traiter.rules.base import Base as TraiterBase
 
 
 @dataclass(eq=False)

@@ -4,8 +4,8 @@ from typing import ClassVar
 
 from spacy.language import Language
 from spacy.util import registry
+from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
-from traiter.pylib.pipes import add
 
 from anoplura.rules.base import Base
 
@@ -37,7 +37,6 @@ class PartSample(Base):
             Compiler(
                 label="part_sample",
                 on_match="part_sample_match",
-                keep="part_sample",
                 decoder={
                     "=": {"LOWER": {"IN": cls.eq}},
                     "label": {"ENT_TYPE": "sample_term"},

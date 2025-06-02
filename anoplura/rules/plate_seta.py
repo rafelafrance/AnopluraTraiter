@@ -5,8 +5,8 @@ from typing import ClassVar
 import traiter.pylib.const as t_const
 from spacy.language import Language
 from spacy.util import registry
+from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
-from traiter.pylib.pipes import add
 
 from anoplura.rules.base import Base
 
@@ -46,7 +46,6 @@ class PlateSeta(Base):
             Compiler(
                 label="plate_seta",
                 on_match="plate_seta_match",
-                keep="plate_seta",
                 decoder={
                     "(": {"LOWER": {"IN": t_const.OPEN}},
                     ")": {"LOWER": {"IN": t_const.CLOSE}},

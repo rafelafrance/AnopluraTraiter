@@ -5,8 +5,8 @@ from typing import ClassVar
 import traiter.pylib.const as t_const
 from spacy.language import Language
 from spacy.util import registry
+from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
-from traiter.pylib.pipes import add
 
 from anoplura.rules.base import Base
 
@@ -41,7 +41,6 @@ class SpecimenType(Base):
             Compiler(
                 label="specimen_type",
                 on_match="specimen_type_match",
-                keep="specimen_type",
                 decoder={
                     "(": {"LOWER": {"IN": t_const.OPEN}},
                     ")": {"LOWER": {"IN": t_const.CLOSE}},

@@ -5,9 +5,9 @@ from typing import ClassVar
 import traiter.pylib.const as t_const
 from spacy.language import Language
 from spacy.util import registry
+from traiter.pipes import add
 from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
-from traiter.pylib.pipes import add
 
 from anoplura.pylib.dimension import Dimension
 from anoplura.rules.base import Base
@@ -46,7 +46,6 @@ class PartStats(Base):
             Compiler(
                 label="part_stats",
                 on_match="part_stats_match",
-                keep="part_stats",
                 decoder={
                     "(": {"LOWER": {"IN": t_const.OPEN}},
                     ")": {"LOWER": {"IN": t_const.CLOSE}},

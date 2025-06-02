@@ -4,8 +4,8 @@ from typing import ClassVar
 
 from spacy.language import Language
 from spacy.util import registry
+from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
-from traiter.pylib.pipes import add
 
 from anoplura.rules.base import Base
 
@@ -40,7 +40,6 @@ class Segment(Base):
             Compiler(
                 label="segment",
                 on_match="segment_match",
-                keep="segment",
                 decoder={
                     "9": {"ENT_TYPE": "number"},
                     "9-9": {"ENT_TYPE": "range"},

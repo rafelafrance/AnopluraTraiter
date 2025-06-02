@@ -4,9 +4,9 @@ from typing import ClassVar
 
 from spacy.language import Language
 from spacy.util import registry
+from traiter.pipes import add
 from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
-from traiter.pylib.pipes import add
 
 from anoplura.pylib.dimension import Dimension
 from anoplura.rules.base import Base
@@ -42,7 +42,6 @@ class PartSize(Base):
             Compiler(
                 label="part_size",
                 on_match="part_size_match",
-                keep="part_size",
                 decoder={
                     ",": {"LOWER": {"IN": cls.sep}},
                     "part": {"ENT_TYPE": "part"},

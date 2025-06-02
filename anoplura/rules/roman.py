@@ -2,8 +2,8 @@ from dataclasses import dataclass
 
 from spacy import registry
 from spacy.language import Language
+from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
-from traiter.pylib.pipes import add
 
 from anoplura.pylib import roman
 from anoplura.rules.base import Base
@@ -30,7 +30,6 @@ class Roman(Base):
         return [
             Compiler(
                 label="roman",
-                keep="roman",
                 on_match="roman_match",
                 decoder={
                     "iv": {"LOWER": {"REGEX": roman.LENIENT_PATTERN}},

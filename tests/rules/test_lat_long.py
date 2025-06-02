@@ -1,6 +1,6 @@
 import unittest
 
-from traiter.pylib.rules.lat_long import LatLong
+from traiter.rules.lat_long import LatLong
 
 from tests.setup import parse
 

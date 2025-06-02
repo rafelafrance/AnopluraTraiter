@@ -4,9 +4,9 @@ from typing import ClassVar
 
 from spacy.language import Language
 from spacy.util import registry
+from traiter.pipes import add
 from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
-from traiter.pylib.pipes import add
 
 from anoplura.rules.base import Base
 
@@ -40,7 +40,6 @@ class Taxon(Base):
             Compiler(
                 label="taxon",
                 on_match="taxon_match",
-                keep="taxon",
                 decoder={
                     "anoplura": {"ENT_TYPE": "anoplura"},
                 },

@@ -4,9 +4,9 @@ from typing import ClassVar
 
 from spacy.language import Language
 from spacy.util import registry
+from traiter.pipes import add
 from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
-from traiter.pylib.pipes import add
 
 from anoplura.rules.base import Base
 
@@ -43,7 +43,6 @@ class SubpartCount(Base):
             Compiler(
                 label="subpart_count",
                 on_match="subpart_count_match",
-                keep="subpart_count",
                 decoder={
                     "part": {"ENT_TYPE": "part"},
                     "number": {"ENT_TYPE": "number"},

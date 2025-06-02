@@ -3,8 +3,8 @@ from pathlib import Path
 from typing import ClassVar
 
 from spacy import Language, registry
+from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
-from traiter.pylib.pipes import add
 
 from anoplura.rules.base import Base
 
@@ -33,7 +33,6 @@ class Shape(Base):
             Compiler(
                 label="shape",
                 on_match="shape_match",
-                keep="shape",
                 decoder={
                     "shape": {"ENT_TYPE": "shape_term"},
                 },

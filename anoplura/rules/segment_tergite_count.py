@@ -4,9 +4,9 @@ from typing import ClassVar
 
 from spacy.language import Language
 from spacy.util import registry
+from traiter.pipes import add
 from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
-from traiter.pylib.pipes import add
 
 from anoplura.rules.base import Base
 
@@ -48,7 +48,6 @@ class SegmentTergiteCount(Base):
             Compiler(
                 label="segment_tergite_count",
                 on_match="segment_tergite_count_match",
-                keep="segment_tergite_count",
                 decoder={
                     "filler": {"POS": {"IN": ["ADP"]}},
                     "count": {"ENT_TYPE": "tergite_count"},

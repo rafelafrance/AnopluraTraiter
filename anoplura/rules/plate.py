@@ -4,8 +4,8 @@ from typing import ClassVar
 
 from spacy.language import Language
 from spacy.util import registry
+from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
-from traiter.pylib.pipes import add
 
 from anoplura.rules.base import Base
 
@@ -41,7 +41,6 @@ class Plate(Base):
             Compiler(
                 label="plate",
                 on_match="plate_match",
-                keep="plate",
                 decoder={
                     ",": {"LOWER": {"IN": cls.sep}},
                     "9": {"ENT_TYPE": "number"},

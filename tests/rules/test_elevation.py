@@ -1,6 +1,6 @@
 import unittest
 
-from traiter.pylib.rules.elevation import Elevation
+from traiter.rules.elevation import Elevation
 
 from tests.setup import parse
 
