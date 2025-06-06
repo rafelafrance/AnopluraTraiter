@@ -18,6 +18,7 @@ class PartShape(Base):
         Path(__file__).parent / "terms" / "part_terms.csv",
         Path(__file__).parent / "terms" / "shape_terms.csv",
         Path(__file__).parent / "terms" / "position_terms.csv",
+        Path(__file__).parent / "terms" / "relative_terms.csv",
     ]
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
     sep: ClassVar[list[str]] = [",", "and", "is"]

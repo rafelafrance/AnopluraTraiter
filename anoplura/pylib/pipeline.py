@@ -19,6 +19,7 @@ from anoplura.rules.plate_seta import PlateSeta
 from anoplura.rules.range import Range
 from anoplura.rules.roman import Roman
 from anoplura.rules.segment import Segment
+from anoplura.rules.segment_comparison import SegmentComparison
 from anoplura.rules.segment_sternite_count import SegmentSterniteCount
 from anoplura.rules.segment_tergite_count import SegmentTergiteCount
 from anoplura.rules.seta import Seta
@@ -85,6 +86,7 @@ def build():
 
     SegmentSterniteCount.pipe(nlp)
     SegmentTergiteCount.pipe(nlp)
+    SegmentComparison.pipe(nlp)
 
     PartSclerotization.pipe(nlp)
 
