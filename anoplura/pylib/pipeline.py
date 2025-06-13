@@ -1,12 +1,12 @@
 import spacy
 from traiter.pipes import delete, extensions, tokenizer
-from traiter.rules.elevation import Elevation
-from traiter.rules.lat_long import LatLong
 from traiter.rules.number import Number
 
 from anoplura.rules import sex_assignment
+from anoplura.rules.elevation import Elevation
 from anoplura.rules.gonopod import Gonopod
 from anoplura.rules.gonopod_seta import GonopodSeta
+from anoplura.rules.lat_long import LatLong
 from anoplura.rules.part import Part
 from anoplura.rules.part_mean import PartMean
 from anoplura.rules.part_range import PartRange

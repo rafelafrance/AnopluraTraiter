@@ -21,6 +21,7 @@ class Segment(Base):
 
     segments: list[int] | None = None
     segment_position: str | None = None
+    segment_subpart: str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
@@ -30,7 +31,7 @@ class Segment(Base):
             nlp,
             name="segment_patterns",
             compiler=cls.segment_patterns(),
-            overwrite=["number", "range"],
+            overwrite=["number", "range", "subpart"],
         )
         add.cleanup_pipe(nlp, name="segment_cleanup")
 
@@ -43,14 +44,20 @@ class Segment(Base):
                 decoder={
                     "9": {"ENT_TYPE": "number"},
                     "9-9": {"ENT_TYPE": "range"},
+                    "adp": {"POS": "ADP"},
                     "pos": {"ENT_TYPE": "position"},
                     "segment": {"ENT_TYPE": "segments"},
+                    "subpart": {"ENT_TYPE": "subpart"},
                 },
                 patterns=[
                     " segment 9 ",
                     " segment 9-9+ ",
+                    " segment 9    adp* subpart+ ",
+                    " segment 9-9+ adp* subpart+ ",
                     " pos+ segment 9* ",
                     " pos+ segment 9-9* ",
+                    " pos+ segment 9*   adp* subpart+ ",
+                    " pos+ segment 9-9* adp* subpart+ ",
                 ],
             ),
         ]
@@ -59,6 +66,7 @@ class Segment(Base):
     def segment_match(cls, ent):
         segments = []
         pos = []
+        subpart = None
 
         for sub_ent in ent.ents:
             if sub_ent.label_ == "number":
@@ -66,6 +74,9 @@ class Segment(Base):
 
             elif sub_ent.label_ == "position":
                 pos.append(sub_ent.text.lower())
+
+            elif sub_ent.label_ == "subpart":
+                subpart = sub_ent._.trait.subpart
 
             elif sub_ent.label_ == "range":
                 low = int(sub_ent._.trait.low)
@@ -75,7 +86,9 @@ class Segment(Base):
         segments = sorted(set(segments)) if segments else None
         pos = " ".join(pos) if pos else None
 
-        return cls.from_ent(ent, segments=segments, segment_position=pos)
+        return cls.from_ent(
+            ent, segments=segments, segment_position=pos, segment_subpart=subpart
+        )
 
 
 @registry.misc("segment_match")

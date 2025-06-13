@@ -114,3 +114,18 @@ class TestSetaCount(unittest.TestCase):
                 ),
             ],
         )
+
+    def test_setae_count_09(self):
+        self.assertEqual(
+            parse("""1 DMHS inserted anteriorly and close to dorsal head suture"""),
+            [
+                SetaCount(
+                    seta="dorsal marginal head setae",
+                    seta_count_low=1,
+                    seta_count_position="anteriorly",
+                    seta_count_subpart="dorsal head suture",
+                    start=0,
+                    end=58,
+                ),
+            ],
+        )

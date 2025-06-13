@@ -22,3 +22,16 @@ class TestSegment(unittest.TestCase):
                 )
             ],
         )
+
+    def test_segment_03(self):
+        self.assertEqual(
+            parse("first antennal segment with small posterior spur."),
+            [
+                Segment(
+                    start=0,
+                    end=48,
+                    segment_position="first antennal",
+                    segment_subpart="small posterior spur",
+                )
+            ],
+        )

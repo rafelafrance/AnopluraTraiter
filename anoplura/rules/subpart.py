@@ -44,29 +44,31 @@ class Subpart(Base):
                 label="subpart",
                 on_match="subpart_match",
                 decoder={
+                    "adj": {"POS": "ADJ"},
                     "group": {"ENT_TYPE": "group"},
                     "part": {"ENT_TYPE": "part"},
                     "subpart": {"ENT_TYPE": "bug_subpart"},
                     "pos": {"ENT_TYPE": "position"},
                 },
                 patterns=[
-                    " part* pos* subpart+ group* pos* ",
-                    " pos* part* subpart+ group* pos* ",
+                    " adj* part* pos* subpart+ group* pos* ",
+                    " adj* pos* part* subpart+ group* pos* ",
                 ],
             ),
         ]
 
     @classmethod
     def subpart_match(cls, ent):
-        group = None
+        group = []
         subpart = []
-        for e in ent.ents:
-            if e.label_ == "group":
-                group = e.text.lower()
+        for token in ent:
+            if token.ent_type_ == "group":
+                group.append(token.lower_)
             else:
-                subpart.append(e.text.lower())
+                subpart.append(token.lower_)
 
         subpart = " ".join(subpart)
+        group = " ".join(group) if group else None
         return cls.from_ent(ent, subpart=subpart, subpart_group=group)
 
 

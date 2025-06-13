@@ -29,6 +29,7 @@ class SetaCount(Base):
     seta_count_group: str | None = None
     seta_count_position: str | None = None
     seta_count_group_count: int | None = None
+    seta_count_subpart: str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
@@ -38,12 +39,13 @@ class SetaCount(Base):
             nlp,
             name="seta_count_patterns",
             compiler=cls.seta_count_patterns(),
-            overwrite=["number", "range", "seta"],
+            overwrite=["number", "range", "seta", "subpart"],
         )
         add.cleanup_pipe(nlp, name="seta_count_cleanup")
 
     @classmethod
     def seta_count_patterns(cls):
+        filler = ["ADP", "ADJ", "ADV", "PRON", "VERB", "PART", "CCONJ"]
         return [
             Compiler(
                 label="seta_count",
@@ -53,10 +55,11 @@ class SetaCount(Base):
                     "seta": {"ENT_TYPE": "seta"},
                     "99": {"ENT_TYPE": "number"},
                     "99-99": {"ENT_TYPE": "range"},
-                    "filler": {"POS": {"IN": ["ADP", "ADJ", "ADV", "PRON"]}},
+                    "filler": {"POS": {"IN": filler}},
                     "group": {"ENT_TYPE": "group"},
                     "missing": {"ENT_TYPE": "missing"},
                     "pos": {"ENT_TYPE": "position"},
+                    "subpart": {"ENT_TYPE": "subpart"},
                 },
                 patterns=[
                     " group* 99+    filler* seta+ group* pos* ",
@@ -67,6 +70,10 @@ class SetaCount(Base):
                     "                       seta+ missing+ ",
                     " 99+ group* seta+ ",
                     " 99+ group* chaeta+ ",
+                    " 99+ group* seta+   filler* pos+ ",
+                    " 99+ group* chaeta+ filler* pos+ ",
+                    " 99+ group* seta+   filler* pos* filler* subpart+ ",
+                    " 99+ group* chaeta+ filler* pos* filler* subpart+ ",
                 ],
             ),
         ]
@@ -74,10 +81,13 @@ class SetaCount(Base):
     @classmethod
     def seta_count_match(cls, ent):
         low, high, seta, group, g_count, pos = None, None, None, None, None, None
+        subpart = None
 
         for e in ent.ents:
             if e.label_ == "seta":
                 seta = e._.trait.seta
+            elif e.label_ == "subpart":
+                subpart = e._.trait.subpart
             elif e.label_ == "chaeta":
                 seta = e.text.lower()
             elif e.label_ == "number":
@@ -102,6 +112,7 @@ class SetaCount(Base):
             seta_count_group=group,
             seta_count_position=pos,
             seta_count_group_count=g_count,
+            seta_count_subpart=subpart,
         )
 
 

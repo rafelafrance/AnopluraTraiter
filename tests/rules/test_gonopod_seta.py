@@ -14,6 +14,7 @@ class TestGonopodSeta(unittest.TestCase):
                     seta_count_low=1,
                     seta_count_group="on each side",
                     seta="seta",
+                    seta_count_position="lateral",
                     start=0,
                     end=63,
                 )
@@ -28,6 +29,7 @@ class TestGonopodSeta(unittest.TestCase):
                     gonopods=[9],
                     seta_count_low=3,
                     seta_count_group="on each side",
+                    seta_count_position="anterior",
                     seta="setae",
                     start=0,
                     end=64,

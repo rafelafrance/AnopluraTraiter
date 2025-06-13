@@ -5,10 +5,10 @@ from itertools import cycle
 
 from jinja2 import Environment, FileSystemLoader
 
+from anoplura.rules.base import as_dict
+
 COLOR_COUNT = 14
 BACKGROUNDS = cycle([f"cc{i}" for i in range(COLOR_COUNT)])
-
-SKIPS = {"start", "end", "trait"}
 
 
 def writer(traits, text, html_file):
@@ -49,9 +49,7 @@ def format_text(text, traits, classes):
 
         start = trait.start
         end = trait.end
-        title = ", ".join(
-            f"{k} = {v}" for k, v in trait.to_dict().items() if k not in SKIPS
-        )
+        title = ", ".join(f"{k} = {v}" for k, v in as_dict(trait).items())
         title = f"{trait._trait}: {title}" if title else trait._trait
         if prev < start:
             frags.append(escape(text[prev:start]))
@@ -88,8 +86,7 @@ def format_traits(text, traits, classes):
             text_ = text[trait.start : trait.end]
             trait = ", ".join(
                 f'<span title="{text_}">{k}:&nbsp;{v}</span>'
-                for k, v in trait.to_dict().items()
-                if k not in SKIPS
+                for k, v in as_dict(trait).items()
             )
             new_traits.append(trait)
 
