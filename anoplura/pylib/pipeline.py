@@ -4,6 +4,7 @@ from traiter.rules.elevation import Elevation
 from traiter.rules.lat_long import LatLong
 from traiter.rules.number import Number
 
+from anoplura.rules import sex_assignment
 from anoplura.rules.gonopod import Gonopod
 from anoplura.rules.gonopod_seta import GonopodSeta
 from anoplura.rules.part import Part
@@ -109,6 +110,8 @@ def build():
     SetaPosition.pipe(nlp)  # Do this last or near last
 
     delete.pipe(nlp, traits=["number", "range", "shape"])
+
+    sex_assignment.pipe(nlp)
 
     # for name in nlp.pipe_names:
     #     print(name)
