@@ -1,60 +1,60 @@
-label,pattern,replace
-chaeta,chaeta,
-chaeta,cheta,
-chaeta,seta,
-chaeta,setaceous,
-chaeta,setae,
-chaeta,setose,
-chaeta,setula,
-seta_abbrev,anmhs,anterior marginal head setae
-seta_abbrev,aphs,apical head setae
-seta_abbrev,dachs,dorsal accessory head setae
-seta_abbrev,dahs,dorsal accessory head setae
-seta_abbrev,danchs,dorsal anterior central head setae
-seta_abbrev,danhs,dorsal anterior head setae
-seta_abbrev,dcas,dorsal central abdominal setae
-seta_abbrev,dlas,dorsal lateral abdominal setae
-seta_abbrev,dmas,dorsal marginal abdominal setae
-seta_abbrev,dmhs,dorsal marginal head setae
-seta_abbrev,dmss,dorsal mesothoracic setae
-seta_abbrev,dmts,mesothoracic setae
-seta_abbrev,dpahs,dorsal preantennal head setae
-seta_abbrev,dpchs,posterior central setae
-seta_abbrev,dphs,dorsal principal head setae
-seta_abbrev,dpochs,dorsal posterior central head setae
-seta_abbrev,dpohs,dorsal posterior head setae
-seta_abbrev,dprs,dorsal paratergal setae
-seta_abbrev,dpts,dorsal principal thoracic setae
-seta_abbrev,lrs,labral setae
-seta_abbrev,mas1,first marginal setae
-seta_abbrev,mas2,second marginal setae
-seta_abbrev,mhs,marginal setae
-seta_abbrev,oms,oral marginal setae
-seta_abbrev,ors,oral setae
-seta_abbrev,os,oral setae
-seta_abbrev,pas,preantennal setae
-seta_abbrev,prs,paratergal setae
-seta_abbrev,shs,sutural head setae
-seta_abbrev,spahs,supra-antennal head setae
-seta_abbrev,spaths,supra-antennal head setae
-seta_abbrev,stas,sternal abdominal setae
-seta_abbrev,suhs,sutural head setae
-seta_abbrev,teas,tergal abdominal setae
-seta_abbrev,vcas,ventral central abdominal setae
-seta_abbrev,vlas,ventral lateral abdominal setae
-seta_abbrev,vmas,ventral marginal abdominal setae
-seta_abbrev,vpahs,ventral preantennal head setae
-seta_abbrev,vphs,ventral principal head setae
-seta_abbrev,vpomhs,ventral posterior marginal head setae
-seta_abbrev,vprs,ventral paratergal setae
-seta_word,accessory,
-seta_word,contiguous,
-seta_word,fairly,
-seta_word,intermediate-sized,
-seta_word,large,
-seta_word,long,
-seta_word,principal,
-seta_word,short,
-seta_word,small,
-seta_word,sutural,
-seta_word,tiny,
+label,pattern,replace,part
+chaeta,chaeta,,
+chaeta,cheta,,
+chaeta,seta,,
+chaeta,setaceous,,
+chaeta,setae,,
+chaeta,setose,,
+chaeta,setula,,
+seta_abbrev,anmhs,anterior marginal head setae,head
+seta_abbrev,aphs,apical head setae,head
+seta_abbrev,dachs,dorsal accessory head setae,head
+seta_abbrev,dahs,dorsal accessory head setae,head
+seta_abbrev,danchs,dorsal anterior central head setae,head
+seta_abbrev,danhs,dorsal anterior head setae,head
+seta_abbrev,dcas,dorsal central abdominal setae,abdomen
+seta_abbrev,dlas,dorsal lateral abdominal setae,abdomen
+seta_abbrev,dmas,dorsal marginal abdominal setae,abdomen
+seta_abbrev,dmhs,dorsal marginal head setae,head
+seta_abbrev,dmss,dorsal mesothoracic setae,thorax
+seta_abbrev,dmts,mesothoracic setae,thorax
+seta_abbrev,dpahs,dorsal preantennal head setae,head
+seta_abbrev,dpchs,posterior central setae,
+seta_abbrev,dphs,dorsal principal head setae,head
+seta_abbrev,dpochs,dorsal posterior central head setae,head
+seta_abbrev,dpohs,dorsal posterior head setae,head
+seta_abbrev,dprs,dorsal paratergal setae,abdomen
+seta_abbrev,dpts,dorsal principal thoracic setae,thorax
+seta_abbrev,lrs,labral setae,
+seta_abbrev,mas1,first marginal setae,
+seta_abbrev,mas2,second marginal setae,
+seta_abbrev,mhs,marginal setae,
+seta_abbrev,oms,oral marginal setae,head
+seta_abbrev,ors,oral setae,head
+seta_abbrev,os,oral setae,head
+seta_abbrev,pas,preantennal setae,head
+seta_abbrev,prs,paratergal setae,abdomen
+seta_abbrev,shs,sutural head setae,head
+seta_abbrev,spahs,supra-antennal head setae,head
+seta_abbrev,spaths,supra-antennal head setae,head
+seta_abbrev,stas,sternal abdominal setae,head
+seta_abbrev,suhs,sutural head setae,head
+seta_abbrev,teas,tergal abdominal setae,abdomen
+seta_abbrev,vcas,ventral central abdominal setae,abdomen
+seta_abbrev,vlas,ventral lateral abdominal setae,abdomen
+seta_abbrev,vmas,ventral marginal abdominal setae,abdomen
+seta_abbrev,vpahs,ventral preantennal head setae,head
+seta_abbrev,vphs,ventral principal head setae,head
+seta_abbrev,vpomhs,ventral posterior marginal head setae,head
+seta_abbrev,vprs,ventral paratergal setae,abdomen
+seta_word,accessory,,
+seta_word,contiguous,,
+seta_word,fairly,,
+seta_word,intermediate-sized,,
+seta_word,large,,
+seta_word,long,,
+seta_word,principal,,
+seta_word,short,,
+seta_word,small,,
+seta_word,sutural,,
+seta_word,tiny,,
