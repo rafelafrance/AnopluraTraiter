@@ -12,7 +12,6 @@ from anoplura.rules.part_sample import PartSample
 from anoplura.rules.plate import Plate
 from anoplura.rules.range import Range
 from anoplura.rules.roman import Roman
-from anoplura.rules.save.part_size import PartSize
 from anoplura.rules.segment import Segment
 from anoplura.rules.seta import Seta
 from anoplura.rules.sex import Sex
@@ -59,7 +58,6 @@ def build():
     SpecimenType.pipe(nlp)
 
     Size.pipe(nlp)
-    PartSize.pipe(nlp)
     PartMean.pipe(nlp)
     PartRange.pipe(nlp)
     PartSample.pipe(nlp)
