@@ -5,28 +5,23 @@ from typing import ClassVar
 from spacy.language import Language
 from spacy.util import registry
 from traiter.pipes import add
-from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
 
 from anoplura.rules.base import Base
 
 
 @dataclass(eq=False)
-class PartSclerotization(Base):
+class Sclerotization(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "part_terms.csv",
     ]
-    replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
-    sep: ClassVar[list[str]] = [",", "and"]
     # ----------------------
 
-    part: list[str] | None = None
     amount_sclerotized: str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
-        add.term_pipe(nlp, name="sclerotized_terms", path=cls.terms)
         # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
@@ -44,14 +39,10 @@ class PartSclerotization(Base):
                 on_match="sclerotized_match",
                 decoder={
                     "adv": {"POS": "ADV"},
-                    "part": {"ENT_TYPE": "part"},
                     "sclerotized": {"ENT_TYPE": "sclerotization"},
-                    ",": {"LOWER": {"IN": cls.sep}},
                 },
                 patterns=[
-                    "part+                   adv sclerotized",
-                    "part+ ,* part+          adv sclerotized",
-                    "part+ ,* part+ ,* part+ adv sclerotized",
+                    "adv sclerotized",
                 ],
             ),
         ]
@@ -71,4 +62,4 @@ class PartSclerotization(Base):
 
 @registry.misc("sclerotized_match")
 def sclerotized_match(ent):
-    return PartSclerotization.sclerotized_match(ent)
+    return Sclerotization.sclerotized_match(ent)

@@ -8,7 +8,6 @@ from anoplura.rules.base import Base
 
 @dataclass(eq=False)
 class LatLong(Base, T_LatLong):
-    _paragraph: str | None = None
     sex: str | None = None
 
     @classmethod

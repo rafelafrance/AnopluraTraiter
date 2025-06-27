@@ -16,14 +16,12 @@ class Sternite(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "group_terms.csv",
-        Path(__file__).parent / "terms" / "position_terms.csv",
         Path(__file__).parent / "terms" / "part_terms.csv",
     ]
     sep: ClassVar[list[str]] = [",", "and"]
     # ----------------------
 
     sternites: list[int] | None = None
-    sternite_position: str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
@@ -68,14 +66,10 @@ class Sternite(Base):
     @classmethod
     def sternite_match(cls, ent):
         sternites = []
-        pos = []
 
         for sub_ent in ent.ents:
             if sub_ent.label_ == "number":
                 sternites.append(int(sub_ent._.trait.number))
-
-            elif sub_ent.label_ == "position":
-                pos.append(sub_ent.text.lower())
 
             elif sub_ent.label_ == "range":
                 low = int(sub_ent._.trait.low)
@@ -83,9 +77,8 @@ class Sternite(Base):
                 sternites += list(range(low, high + 1))
 
         sternites = sorted(set(sternites)) if sternites else None
-        pos = " ".join(pos) if pos else None
 
-        return cls.from_ent(ent, sternites=sternites, sternite_position=pos)
+        return cls.from_ent(ent, sternites=sternites)
 
 
 @registry.misc("sternite_match")

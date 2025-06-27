@@ -23,7 +23,6 @@ class Subpart(Base):
     # ----------------------
 
     subpart: str | None = None
-    subpart_group: str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
@@ -45,31 +44,20 @@ class Subpart(Base):
                 on_match="subpart_match",
                 decoder={
                     "adj": {"POS": "ADJ"},
-                    "group": {"ENT_TYPE": "group"},
                     "part": {"ENT_TYPE": "part"},
                     "subpart": {"ENT_TYPE": "bug_subpart"},
                     "pos": {"ENT_TYPE": "position"},
                 },
                 patterns=[
-                    " adj* part* pos* subpart+ group* pos* ",
-                    " adj* pos* part* subpart+ group* pos* ",
+                    " subpart+ ",
                 ],
             ),
         ]
 
     @classmethod
     def subpart_match(cls, ent):
-        group = []
-        subpart = []
-        for token in ent:
-            if token.ent_type_ == "group":
-                group.append(token.lower_)
-            else:
-                subpart.append(token.lower_)
-
-        subpart = " ".join(subpart)
-        group = " ".join(group) if group else None
-        return cls.from_ent(ent, subpart=subpart, subpart_group=group)
+        subpart = ent.text.lower()
+        return cls.from_ent(ent, subpart=subpart)
 
 
 @registry.misc("subpart_match")

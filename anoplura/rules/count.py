@@ -12,7 +12,7 @@ from anoplura.rules.base import Base
 
 
 @dataclass(eq=False)
-class SetaCount(Base):
+class Count(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "position_terms.csv",
@@ -23,99 +23,62 @@ class SetaCount(Base):
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
     # ----------------------
 
-    seta: str | None = None
-    seta_count_low: int | None = None
-    seta_count_high: int | None = None
-    seta_count_group: str | None = None
-    seta_count_position: str | None = None
-    seta_count_group_count: int | None = None
-    seta_count_subpart: str | None = None
+    count_low: int | None = None
+    count_high: int | None = None
+    count_group: str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
-        add.term_pipe(nlp, name="seta_count_terms", path=cls.terms)
+        add.term_pipe(nlp, name="count_terms", path=cls.terms)
         # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
-            name="seta_count_patterns",
-            compiler=cls.seta_count_patterns(),
+            name="count_patterns",
+            compiler=cls.count_patterns(),
             overwrite=["number", "range", "seta", "subpart"],
         )
-        add.cleanup_pipe(nlp, name="seta_count_cleanup")
+        add.cleanup_pipe(nlp, name="count_cleanup")
 
     @classmethod
-    def seta_count_patterns(cls):
-        filler = ["ADP", "ADJ", "ADV", "PRON", "VERB", "PART", "CCONJ"]
+    def count_patterns(cls):
         return [
             Compiler(
-                label="seta_count",
-                on_match="seta_count_match",
+                label="count",
+                on_match="count_match",
                 decoder={
-                    "chaeta": {"ENT_TYPE": "chaeta"},
-                    "seta": {"ENT_TYPE": "seta"},
                     "99": {"ENT_TYPE": "number"},
                     "99-99": {"ENT_TYPE": "range"},
-                    "filler": {"POS": {"IN": filler}},
                     "group": {"ENT_TYPE": "group"},
                     "missing": {"ENT_TYPE": "missing"},
-                    "pos": {"ENT_TYPE": "position"},
-                    "subpart": {"ENT_TYPE": "subpart"},
                 },
                 patterns=[
-                    " group* 99+    filler* seta+ group* pos* ",
-                    " group* 99-99+ filler* seta+ group* pos* ",
-                    " group+        filler* seta+ ",
-                    "                       seta+ group+ pos* ",
-                    " missing+      filler* seta+ ",
-                    "                       seta+ missing+ ",
-                    " 99+ group* seta+ ",
-                    " 99+ group* chaeta+ ",
-                    " 99+ group* seta+   filler* pos+ ",
-                    " 99+ group* chaeta+ filler* pos+ ",
-                    " 99+ group* seta+   filler* pos* filler* subpart+ ",
-                    " 99+ group* chaeta+ filler* pos* filler* subpart+ ",
+                    " group* 99+ ",
+                    " group* 99-99+ ",
+                    " missing+ ",
+                    " 99+    group* ",
+                    " 99-99+ group* ",
                 ],
             ),
         ]
 
     @classmethod
-    def seta_count_match(cls, ent):
-        low, high, seta, group, g_count, pos = None, None, None, None, None, None
-        subpart = None
+    def count_match(cls, ent):
+        low, high, group = None, None, None
 
         for e in ent.ents:
-            if e.label_ == "seta":
-                seta = e._.trait.seta
-            elif e.label_ == "subpart":
-                subpart = e._.trait.subpart
-            elif e.label_ == "chaeta":
-                seta = e.text.lower()
-            elif e.label_ == "number":
+            if e.label_ == "number":
                 low = int(e._.trait.number)
             elif e.label_ == "range":
                 low = int(e._.trait.low)
                 high = int(e._.trait.high)
             elif e.label_ == "missing":
                 low = 0
-            elif e.label_ == "position":
-                pos = e.text.lower()
             elif e.label_ == "group":
                 group = e.text.lower()
-                g_count = cls.replace.get(group)
-                g_count = int(g_count) if g_count else None
 
-        return cls.from_ent(
-            ent,
-            seta=seta,
-            seta_count_low=low,
-            seta_count_high=high,
-            seta_count_group=group,
-            seta_count_position=pos,
-            seta_count_group_count=g_count,
-            seta_count_subpart=subpart,
-        )
+        return cls.from_ent(ent, count_low=low, count_high=high, count_group=group)
 
 
-@registry.misc("seta_count_match")
-def seta_count_match(ent):
-    return SetaCount.seta_count_match(ent)
+@registry.misc("count_match")
+def count_match(ent):
+    return Count.count_match(ent)

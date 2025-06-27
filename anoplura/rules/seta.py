@@ -16,7 +16,6 @@ class Seta(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "position_terms.csv",
-        Path(__file__).parent / "terms" / "part_terms.csv",
         Path(__file__).parent / "terms" / "seta_terms.csv",
     ]
     words: ClassVar[list[str]] = ["seta_word", "position", "bug_part", "shape"]

@@ -16,14 +16,12 @@ class Tergite(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "group_terms.csv",
-        Path(__file__).parent / "terms" / "position_terms.csv",
         Path(__file__).parent / "terms" / "part_terms.csv",
     ]
     sep: ClassVar[list[str]] = [",", "and"]
     # ----------------------
 
     tergites: list[int] | None = None
-    tergite_position: str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
@@ -51,21 +49,18 @@ class Tergite(Base):
                     "9-9": {"ENT_TYPE": "range"},
                     "adj": {"POS": {"IN": ["ADP", "ADJ"]}},
                     "label": {"ENT_TYPE": "labels"},
-                    "pos": {"ENT_TYPE": "position"},
                     "tergite": {"ENT_TYPE": "tergites"},
                 },
                 patterns=[
-                    " pos* tergite ",
-                    " pos* tergite 9+ ",
-                    " pos* tergite 9+   ,* 9+ ",
-                    " pos* tergite 9+   ,* 9+ ,* 9+ ",
-                    " pos* tergite 9-9+ ",
-                    " pos+ tergite 9* ",
-                    " pos+ tergite 9-9* ",
-                    " pos* tergite 9-9+ ,* 9+ ",
-                    " pos* tergite ",
-                    " pos* tergite (* label* 9      )* ",
-                    " pos* tergite (* label* 9 ,* 9 )* ",
+                    " tergite ",
+                    " tergite (* label* 9      )* ",
+                    " tergite (* label* 9 ,* 9 )* ",
+                    " tergite 9* ",
+                    " tergite 9+ ,* 9+ ",
+                    " tergite 9+ ,* 9+ ,* 9+ ",
+                    " tergite 9+ ",
+                    " tergite 9-9* ",
+                    " tergite 9-9+ ,* 9+ ",
                 ],
             ),
         ]
@@ -73,14 +68,10 @@ class Tergite(Base):
     @classmethod
     def tergite_match(cls, ent):
         tergites = []
-        pos = []
 
         for sub_ent in ent.ents:
             if sub_ent.label_ == "number":
                 tergites.append(int(sub_ent._.trait.number))
-
-            elif sub_ent.label_ == "position":
-                pos.append(sub_ent.text.lower())
 
             elif sub_ent.label_ == "range":
                 low = int(sub_ent._.trait.low)
@@ -88,9 +79,8 @@ class Tergite(Base):
                 tergites += list(range(low, high + 1))
 
         tergites = sorted(set(tergites)) if tergites else None
-        pos = " ".join(pos) if pos else None
 
-        return cls.from_ent(ent, tergites=tergites, tergite_position=pos)
+        return cls.from_ent(ent, tergites=tergites)
 
 
 @registry.misc("tergite_match")

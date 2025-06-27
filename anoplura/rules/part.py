@@ -16,7 +16,6 @@ class Part(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "part_terms.csv",
-        Path(__file__).parent / "terms" / "position_terms.csv",
     ]
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
     # ----------------------
@@ -37,10 +36,9 @@ class Part(Base):
                 on_match="part_match",
                 decoder={
                     "part": {"ENT_TYPE": "bug_part"},
-                    "pos": {"ENT_TYPE": "position"},
                 },
                 patterns=[
-                    " pos* part+ ",
+                    " part+ ",
                 ],
             ),
         ]
