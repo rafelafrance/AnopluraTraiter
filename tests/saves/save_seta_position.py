@@ -1,6 +1,6 @@
 import unittest
 
-from anoplura.rules.seta_position import SetaPosition
+from anoplura.rules.save.seta_position import SetaPosition
 from tests.setup import parse
 
 

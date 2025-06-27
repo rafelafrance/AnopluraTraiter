@@ -1,6 +1,6 @@
 import unittest
 
-from anoplura.rules.seta_count import SetaCount
+from anoplura.rules.save.seta_count import SetaCount
 from tests.setup import parse
 
 

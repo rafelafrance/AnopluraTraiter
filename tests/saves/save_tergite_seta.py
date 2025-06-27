@@ -1,6 +1,6 @@
 import unittest
 
-from anoplura.rules.tergite_seta import TergiteSeta
+from anoplura.rules.save.tergite_seta import TergiteSeta
 from tests.setup import parse
 
 

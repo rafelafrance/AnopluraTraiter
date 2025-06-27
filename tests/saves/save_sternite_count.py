@@ -1,6 +1,6 @@
 import unittest
 
-from anoplura.rules.sternite_count import SterniteCount
+from anoplura.rules.save.sternite_count import SterniteCount
 from tests.setup import parse
 
 

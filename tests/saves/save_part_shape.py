@@ -1,6 +1,6 @@
 import unittest
 
-from anoplura.rules.part_shape import PartShape
+from anoplura.rules.save.part_shape import PartShape
 from tests.setup import parse
 
 

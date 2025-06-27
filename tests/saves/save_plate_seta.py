@@ -1,6 +1,6 @@
 import unittest
 
-from anoplura.rules.plate_seta import PlateSeta
+from anoplura.rules.save.plate_seta import PlateSeta
 from tests.setup import parse
 
 

@@ -1,6 +1,6 @@
 import unittest
 
-from anoplura.rules.tergite_count import TergiteCount
+from anoplura.rules.save.tergite_count import TergiteCount
 from tests.setup import parse
 
 

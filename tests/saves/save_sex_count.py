@@ -1,6 +1,6 @@
 import unittest
 
-from anoplura.rules.sex_count import SexCount
+from anoplura.rules.save.sex_count import SexCount
 from tests.setup import parse
 
 

@@ -1,7 +1,7 @@
 import unittest
 
 from anoplura.pylib.dimension import Dimension
-from anoplura.rules.part_size import PartSize
+from anoplura.rules.save.part_size import PartSize
 from tests.setup import parse
 
 

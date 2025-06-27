@@ -1,6 +1,6 @@
 import unittest
 
-from anoplura.rules.gonopod_seta import GonopodSeta
+from anoplura.rules.save.gonopod_seta import GonopodSeta
 from tests.setup import parse
 
 

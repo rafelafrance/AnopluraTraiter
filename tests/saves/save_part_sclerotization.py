@@ -1,6 +1,6 @@
 import unittest
 
-from anoplura.rules.part_sclerotization import PartSclerotization
+from anoplura.rules.save.part_sclerotization import PartSclerotization
 from tests.setup import parse
 
 

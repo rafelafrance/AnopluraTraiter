@@ -1,6 +1,6 @@
 import unittest
 
-from anoplura.rules.sexual_dimorphism import SexualDimorphism
+from anoplura.rules.save.sexual_dimorphism import SexualDimorphism
 from tests.setup import parse
 
 

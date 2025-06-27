@@ -1,6 +1,6 @@
 import unittest
 
-from anoplura.rules.segment_tergite_count import SegmentTergiteCount
+from anoplura.rules.save.segment_tergite_count import SegmentTergiteCount
 from tests.setup import parse
 
 

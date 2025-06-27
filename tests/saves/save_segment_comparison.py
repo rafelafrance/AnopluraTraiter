@@ -1,6 +1,6 @@
 import unittest
 
-from anoplura.rules.segment_comparison import SegmentComparison
+from anoplura.rules.save.segment_comparison import SegmentComparison
 from tests.setup import parse
 
 

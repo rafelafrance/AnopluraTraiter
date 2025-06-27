@@ -1,6 +1,6 @@
 import unittest
 
-from anoplura.rules.seta_size import SetaSize
+from anoplura.rules.save.seta_size import SetaSize
 from anoplura.rules.size import Dimension
 from tests.setup import parse
 

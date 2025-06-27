@@ -1,6 +1,6 @@
 import unittest
 
-from anoplura.rules.segment_sternite_count import SegmentSterniteCount
+from anoplura.rules.save.segment_sternite_count import SegmentSterniteCount
 from tests.setup import parse
 
 

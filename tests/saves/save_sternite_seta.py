@@ -1,6 +1,6 @@
 import unittest
 
-from anoplura.rules.sternite_seta import SterniteSeta
+from anoplura.rules.save.sternite_seta import SterniteSeta
 from tests.setup import parse
 
 

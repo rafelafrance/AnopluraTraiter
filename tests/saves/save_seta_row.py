@@ -1,6 +1,6 @@
 import unittest
 
-from anoplura.rules.seta_row import SetaRow
+from anoplura.rules.save.seta_row import SetaRow
 from tests.setup import parse
 
 

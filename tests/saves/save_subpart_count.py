@@ -1,6 +1,6 @@
 import unittest
 
-from anoplura.rules.subpart_count import SubpartCount
+from anoplura.rules.save.subpart_count import SubpartCount
 from tests.setup import parse
 
 
