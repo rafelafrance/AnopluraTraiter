@@ -6,12 +6,27 @@ from traiter.rules.base import Base as TraiterBase
 SKIPS = {"start", "end", "trait"}
 MORE_SKIPS = SKIPS | {"dim"}
 
+PARTS: list[str] = [
+    "part",
+    "gonopod",
+    "plate",
+    "segment",
+    "sternite",
+    "tergite",
+]
+
+
+@dataclass
+class BodyPart:
+    body_part: str | None = None
+    which: str | list[int] | None = None
+
 
 @dataclass(eq=False)
 class Base(TraiterBase):
     sex: str | None = None
-    part: str | None = None
-    subpart: str | None = None
+    body_part: str | None = None
+    which: str | list[int] | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
@@ -35,3 +50,27 @@ def as_dict(trait) -> dict:
             }
         del dct[key]
     return dct
+
+
+def get_body_part(sub_ent) -> BodyPart:
+    trait = sub_ent._.trait
+
+    body_part = BodyPart(body_part=trait._trait)
+
+    match trait._trait:
+        case "part":
+            body_part.which = trait.part
+        case "gonopod":
+            body_part.which = trait.gonopods
+        case "plate":
+            body_part.which = trait.plates
+        case "segment":
+            body_part.which = trait.segment if trait.segment else trait.segments
+        case "subpart":
+            body_part.which = trait.subpart
+        case "sternite":
+            body_part.which = trait.sternites
+        case "tergite":
+            body_part.which = trait.tergites
+
+    return body_part

@@ -10,6 +10,7 @@ from anoplura.rules.part_mean import PartMean
 from anoplura.rules.part_range import PartRange
 from anoplura.rules.part_sample import PartSample
 from anoplura.rules.plate import Plate
+from anoplura.rules.position import Position
 from anoplura.rules.range import Range
 from anoplura.rules.roman import Roman
 from anoplura.rules.segment import Segment
@@ -61,6 +62,8 @@ def build():
     PartMean.pipe(nlp)
     PartRange.pipe(nlp)
     PartSample.pipe(nlp)
+
+    Position.pipe(nlp)
 
     delete.pipe(nlp, traits=["number", "range", "shape"])
 
