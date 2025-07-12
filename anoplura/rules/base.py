@@ -18,7 +18,7 @@ PARTS: list[str] = [
 
 @dataclass
 class BodyPart:
-    body_part: str | None = None
+    body_part: str | list[str] | None = None
     which: str | list[int] | None = None
 
 
