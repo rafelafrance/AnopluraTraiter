@@ -16,6 +16,7 @@ class Row(Base):
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "group_terms.csv",
     ]
+    sep: ClassVar[list[str]] = [",", "and"]
     # ----------------------
 
     rows: list[int] | None = None
@@ -38,6 +39,7 @@ class Row(Base):
                 label="row",
                 on_match="row_match",
                 decoder={
+                    ",": {"LOWER": {"IN": cls.sep}},
                     "99": {"ENT_TYPE": "number"},
                     "99-99": {"ENT_TYPE": "range"},
                     "row": {"ENT_TYPE": "row"},

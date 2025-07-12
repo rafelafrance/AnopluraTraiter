@@ -16,7 +16,8 @@ class TestSclerotized(unittest.TestCase):
                 PartSclerotization(
                     start=37,
                     end=48,
-                    body_part=["head", "thorax", "abdomen"],
+                    body_part=["part", "part", "part"],
+                    which=["head", "thorax", "abdomen"],
                     amount_sclerotized="moderately",
                 ),
             ],

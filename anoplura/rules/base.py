@@ -19,7 +19,7 @@ PARTS: list[str] = [
 @dataclass
 class BodyPart:
     body_part: str | list[str] | None = None
-    which: str | list[int] | None = None
+    which: str | list[str] | list[int] | None = None
 
 
 @dataclass(eq=False)
@@ -74,3 +74,12 @@ def get_body_part(sub_ent) -> BodyPart:
             body_part.which = trait.tergites
 
     return body_part
+
+
+def get_all_body_parts(sub_ents):
+    body_parts = [get_body_part(e) for e in sub_ents]
+    parts = [p.body_part for p in body_parts]
+    parts = parts[0] if len(parts) == 1 else parts
+    which = [p.which for p in body_parts]
+    which = which[0] if len(which) == 1 else which
+    return parts, which

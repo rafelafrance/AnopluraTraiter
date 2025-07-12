@@ -5,9 +5,9 @@ from typing import ClassVar
 from spacy.language import Language
 from spacy.util import registry
 from traiter.pipes import add
-from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
 
+from anoplura.rules import base
 from anoplura.rules.base import Base
 
 
@@ -17,7 +17,6 @@ class PartSclerotization(Base):
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "part_terms.csv",
     ]
-    replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
     sep: ClassVar[list[str]] = [",", "and"]
     # ----------------------
 
@@ -57,15 +56,14 @@ class PartSclerotization(Base):
 
     @classmethod
     def sclerotized_match(cls, ent):
-        part = []
-        for sub_ent in ent.ents:
-            if sub_ent.label_ == "part":
-                text = sub_ent.text.lower()
-                part.append(cls.replace.get(text, text))
-
+        part = [e for e in ent.ents if e.label_ == "part"]
         amount = next((t.lower_ for t in ent if t.pos_ == "ADV"), None)
 
-        return cls.from_ent(ent, body_part=part, amount_sclerotized=amount)
+        body_part, which = base.get_all_body_parts(part)
+
+        return cls.from_ent(
+            ent, body_part=body_part, which=which, amount_sclerotized=amount
+        )
 
 
 @registry.misc("sclerotized_match")
