@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
 from typing import ClassVar
 
@@ -7,7 +7,6 @@ from spacy.util import registry
 from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.pylib.dimension import Dimension
 from anoplura.rules.base import Base
 
 
@@ -15,9 +14,11 @@ from anoplura.rules.base import Base
 class PartMean(Base):
     # Class vars ----------
     terms: ClassVar[Path] = Path(__file__).parent / "terms" / "dimension_terms.csv"
+    sep: ClassVar[list[str]] = [",", "=", "is"]
     # ---------------------
 
-    part_mean: list[Dimension] = field(default_factory=list)
+    mean: float | None = None
+    units: str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
@@ -38,24 +39,21 @@ class PartMean(Base):
                 label="part_mean",
                 on_match="part_mean_match",
                 decoder={
+                    ",": {"LOWER": {"IN": cls.sep}},
                     "label": {"ENT_TYPE": "mean_term"},
                     "size": {"ENT_TYPE": "size"},
                 },
                 patterns=[
-                    " label+ size+ ",
+                    " label+ ,* size+ ",
                 ],
             ),
         ]
 
     @classmethod
     def part_mean_match(cls, ent):
-        mean = None
-
-        for e in ent.ents:
-            if e.label_ == "size":
-                mean = e._.trait.dims
-
-        return cls.from_ent(ent, part_mean=mean)
+        size = next(e for e in ent.ents if e.label_ == "size")
+        dim = size._.trait.dims[0]
+        return cls.from_ent(ent, mean=dim.low, units=dim.units)
 
 
 @registry.misc("part_mean_match")

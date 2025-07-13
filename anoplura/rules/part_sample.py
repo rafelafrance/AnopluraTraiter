@@ -14,10 +14,10 @@ from anoplura.rules.base import Base
 class PartSample(Base):
     # Class vars ----------
     terms: ClassVar[Path] = Path(__file__).parent / "terms" / "dimension_terms.csv"
-    eq: ClassVar[list[str]] = ["="]
+    eq: ClassVar[list[str]] = ["=", "⫽"]
     # ---------------------
 
-    part_sample_size: int | None = None
+    sample_size: int | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
@@ -43,7 +43,7 @@ class PartSample(Base):
                     "99": {"ENT_TYPE": "number"},
                 },
                 patterns=[
-                    " label+ = 99 ",
+                    " label+ =* 99 ",
                 ],
             ),
         ]
@@ -56,7 +56,7 @@ class PartSample(Base):
             if e.label_ == "number":
                 sample = int(e._.trait.number)
 
-        return cls.from_ent(ent, part_sample_size=sample)
+        return cls.from_ent(ent, sample_size=sample)
 
 
 @registry.misc("part_sample_match")

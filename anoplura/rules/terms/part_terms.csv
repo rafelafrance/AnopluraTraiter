@@ -35,7 +35,6 @@ bug_part,spiracles,spiracle
 bug_part,sterna,sternum
 bug_part,sternum,sternum
 bug_part,thorax,thorax
-bug_part,total body,body
 bug_subpart,apex,apex
 bug_subpart,apexes,apex
 bug_subpart,apices,apex

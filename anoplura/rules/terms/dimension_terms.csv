@@ -34,7 +34,8 @@ mean_term,average,mean
 mean_term,avg,mean
 mean_term,mean of series,mean
 mean_term,mean,mean
-range_term,range,range
+measure,total,
+measure,maximum,
 sample_term,n,sample
 sample_term,sample,sample
 separator,",",

@@ -8,9 +8,9 @@ from anoplura.rules.gonopod import Gonopod
 from anoplura.rules.lat_long import LatLong
 from anoplura.rules.part import Part
 from anoplura.rules.part_mean import PartMean
-from anoplura.rules.part_range import PartRange
 from anoplura.rules.part_sample import PartSample
 from anoplura.rules.part_sclerotization import PartSclerotization
+from anoplura.rules.part_stats import PartStats
 from anoplura.rules.plate import Plate
 from anoplura.rules.position import Position
 from anoplura.rules.range import Range
@@ -65,8 +65,9 @@ def build():
 
     Size.pipe(nlp)
     PartMean.pipe(nlp)
-    PartRange.pipe(nlp)
     PartSample.pipe(nlp)
+    PartStats.pipe(nlp)
+
     PartSclerotization.pipe(nlp)
 
     Count.pipe(nlp)
