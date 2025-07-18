@@ -15,6 +15,7 @@ class SetaCount(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "group_terms.csv",
+        Path(__file__).parent / "terms" / "seta_terms.csv",
     ]
     # ----------------------
 
@@ -25,12 +26,13 @@ class SetaCount(Base):
 
     @classmethod
     def pipe(cls, nlp: Language):
+        add.term_pipe(nlp, name="seta_count_terms", path=cls.terms)
         # add.debug_tokens(nlp)  # ##########################################
         add.context_pipe(
             nlp,
             name="seta_count_patterns",
             compiler=cls.seta_count_patterns(),
-            overwrite=["count"],
+            overwrite=["count", "chaeta", "group"],
         )
         add.cleanup_pipe(nlp, name="seta_count_cleanup")
 
@@ -42,11 +44,15 @@ class SetaCount(Base):
                 on_match="seta_count_match",
                 decoder={
                     "99": {"ENT_TYPE": "count"},
+                    "chaeta": {"ENT_TYPE": "chaeta"},
+                    "group": {"ENT_TYPE": "group"},
                     "seta": {"ENT_TYPE": "seta"},
                 },
                 patterns=[
-                    " seta+ 99+   ",
-                    " 99+   seta+ ",
+                    " seta+   99+     group* ",
+                    " 99+     group*  seta+ ",
+                    " chaeta+ 99+     group* ",
+                    " 99+     chaeta+ group* ",
                 ],
             ),
         ]
@@ -63,6 +69,10 @@ class SetaCount(Base):
                 group = e._.trait.count_group
             elif e.label_ == "seta":
                 seta = e._.trait.seta
+            elif e.label_ == "chaeta":
+                seta = "seta"
+            elif e.label_ == "group":
+                group = e._.trait.group
 
         return cls.from_ent(
             ent, count_low=low, count_high=high, count_group=group, seta=seta

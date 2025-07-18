@@ -8,7 +8,7 @@ class TestSternite(unittest.TestCase):
     def test_sternite_01(self):
         self.assertEqual(
             parse("sternite 2"),
-            [Sternite(sternites=[2], start=0, end=10)],
+            [Sternite(part="sternite", which=[2], start=0, end=10)],
         )
 
     def test_sternite_02(self):
@@ -16,7 +16,8 @@ class TestSternite(unittest.TestCase):
             parse("sternites 4-16"),
             [
                 Sternite(
-                    sternites=[4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+                    part="sternite",
+                    which=[4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
                     start=0,
                     end=14,
                 )
@@ -28,7 +29,8 @@ class TestSternite(unittest.TestCase):
             parse("sternites (nos. 2 and 3)"),
             [
                 Sternite(
-                    sternites=[2, 3],
+                    part="sternite",
+                    which=[2, 3],
                     start=0,
                     end=24,
                 )
@@ -40,7 +42,8 @@ class TestSternite(unittest.TestCase):
             parse("sternite (no. 4)"),
             [
                 Sternite(
-                    sternites=[4],
+                    part="sternite",
+                    which=[4],
                     start=0,
                     end=16,
                 )

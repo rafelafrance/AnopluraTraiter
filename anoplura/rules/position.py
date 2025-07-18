@@ -8,7 +8,7 @@ from traiter.pipes import add
 from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.base import PARTS, Base, get_body_part
+from anoplura.rules.base import Base
 
 
 @dataclass(eq=False)
@@ -26,7 +26,7 @@ class Position(Base):
     def pipe(cls, nlp: Language):
         add.term_pipe(nlp, name="position_terms", path=cls.terms)
         # add.debug_tokens(nlp)  # ##########################################
-        add.context_pipe(
+        add.trait_pipe(
             nlp,
             name="position_patterns",
             compiler=cls.position_patterns(),
@@ -41,43 +41,17 @@ class Position(Base):
                 label="position",
                 on_match="position_match",
                 decoder={
-                    "part": {"ENT_TYPE": {"IN": PARTS}},
-                    "subpart": {"ENT_TYPE": "subpart"},
                     "pos": {"ENT_TYPE": "position"},
                 },
                 patterns=[
-                    " part+    pos+ ",
-                    " pos+     part+ ",
-                    " subpart+ pos+ ",
-                    " pos+     subpart+ ",
+                    " pos+ ",
                 ],
             ),
         ]
 
     @classmethod
     def position_match(cls, ent):
-        body_part, sub_ent = None, None
-        pos = []
-
-        for e in ent.ents:
-            if e.label_ in PARTS:
-                body_part = get_body_part(e)
-            elif e.label_ == "subpart":
-                body_part = get_body_part(e)
-            elif e.label_ == "position":
-                sub_ent = e
-                text = e.text.lower()
-                text = cls.replace.get(text, text)
-                pos.append(text)
-
-        new_ent = cls.from_ent(
-            sub_ent,
-            position=" ".join(pos),
-            body_part=body_part.body_part if body_part else "",
-            which=body_part.which if body_part else "",
-        )
-
-        return new_ent
+        return cls.from_ent(ent, position=ent.text.lower())
 
 
 @registry.misc("position_match")

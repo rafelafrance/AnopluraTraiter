@@ -14,12 +14,12 @@ from anoplura.rules.base import Base
 class Gonopod(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
-        Path(__file__).parent / "terms" / "position_terms.csv",
         Path(__file__).parent / "terms" / "part_terms.csv",
     ]
     # ----------------------
 
-    gonopods: list[int] | None = None
+    part: str = "gonopod"
+    which: list[int] | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
@@ -54,12 +54,12 @@ class Gonopod(Base):
 
     @classmethod
     def gonopod_match(cls, ent):
-        gonopods = [
+        which = [
             int(e._.trait.number) for e in ent.ents if e.label_ in ("number", "roman")
         ]
-        gonopods = sorted(set(gonopods)) if gonopods else None
+        which = sorted(set(which)) if which else None
 
-        return cls.from_ent(ent, gonopods=gonopods)
+        return cls.from_ent(ent, which=which)
 
 
 @registry.misc("gonopod_match")

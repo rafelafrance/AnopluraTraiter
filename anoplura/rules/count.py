@@ -15,9 +15,7 @@ from anoplura.rules.base import Base
 class Count(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
-        Path(__file__).parent / "terms" / "position_terms.csv",
         Path(__file__).parent / "terms" / "missing_terms.csv",
-        Path(__file__).parent / "terms" / "group_terms.csv",
         Path(__file__).parent / "terms" / "seta_terms.csv",
     ]
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
@@ -35,7 +33,7 @@ class Count(Base):
             nlp,
             name="count_patterns",
             compiler=cls.count_patterns(),
-            overwrite=["number", "range", "seta", "subpart"],
+            overwrite=["number", "range", "group"],
         )
         add.cleanup_pipe(nlp, name="count_cleanup")
 

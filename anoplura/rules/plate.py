@@ -19,7 +19,8 @@ class Plate(Base):
     sep: ClassVar[list[str]] = [",", "and"]
     # ----------------------
 
-    plates: list[int] | None = None
+    part: str = "plate"
+    which: list[int] | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
@@ -73,7 +74,7 @@ class Plate(Base):
 
         plates = sorted(set(plates)) if plates else None
 
-        return cls.from_ent(ent, plates=plates)
+        return cls.from_ent(ent, which=plates)
 
 
 @registry.misc("plate_match")

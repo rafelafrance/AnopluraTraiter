@@ -18,15 +18,13 @@ PARTS: list[str] = [
 
 @dataclass
 class BodyPart:
-    body_part: str | list[str] | None = None
+    part: str | list[str] | None = None
     which: str | list[str] | list[int] | None = None
 
 
 @dataclass(eq=False)
 class Base(TraiterBase):
     sex: str | None = None
-    body_part: str | None = None
-    which: str | list[int] | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
@@ -54,32 +52,15 @@ def as_dict(trait) -> dict:
 
 def get_body_part(sub_ent) -> BodyPart:
     trait = sub_ent._.trait
-
-    body_part = BodyPart(body_part=trait._trait)
-
-    match trait._trait:
-        case "part":
-            body_part.which = trait.part
-        case "gonopod":
-            body_part.which = trait.gonopods
-        case "plate":
-            body_part.which = trait.plates
-        case "segment":
-            body_part.which = trait.segment if trait.segment else trait.segments
-        case "subpart":
-            body_part.which = trait.subpart
-        case "sternite":
-            body_part.which = trait.sternites
-        case "tergite":
-            body_part.which = trait.tergites
-
-    return body_part
+    part = BodyPart(part=trait.part, which=trait.which)
+    return part
 
 
 def get_all_body_parts(sub_ents):
     body_parts = [get_body_part(e) for e in sub_ents]
-    parts = [p.body_part for p in body_parts]
+    parts = [p.part for p in body_parts]
     parts = parts[0] if len(parts) == 1 else parts
-    which = [p.which for p in body_parts]
+    which = [p.which for p in body_parts if p.which]
     which = which[0] if len(which) == 1 else which
+    which = which if which else None
     return parts, which

@@ -20,6 +20,8 @@ class PartSclerotization(Base):
     sep: ClassVar[list[str]] = [",", "and"]
     # ----------------------
 
+    part: str | list[str] = None
+    which: str | list[str] | list[int] | None = None
     amount_sclerotized: str | None = None
 
     @classmethod
@@ -61,9 +63,7 @@ class PartSclerotization(Base):
 
         body_part, which = base.get_all_body_parts(part)
 
-        return cls.from_ent(
-            ent, body_part=body_part, which=which, amount_sclerotized=amount
-        )
+        return cls.from_ent(ent, part=body_part, which=which, amount_sclerotized=amount)
 
 
 @registry.misc("sclerotized_match")

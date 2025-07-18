@@ -6,7 +6,7 @@ from tests.setup import parse
 
 
 class TestSetaCount(unittest.TestCase):
-    def test_seta_row_01(self):
+    def test_seta_count_01(self):
         self.assertEqual(
             parse("4 DCAS,"),
             [
@@ -20,7 +20,7 @@ class TestSetaCount(unittest.TestCase):
             ],
         )
 
-    def test_seta_row_02(self):
+    def test_seta_count_02(self):
         self.assertEqual(
             parse("5 pairs of DCAS,"),
             [
@@ -35,7 +35,7 @@ class TestSetaCount(unittest.TestCase):
             ],
         )
 
-    def test_seta_row_03(self):
+    def test_seta_count_03(self):
         self.assertEqual(
             parse("6-7 DCAS,"),
             [
@@ -47,5 +47,18 @@ class TestSetaCount(unittest.TestCase):
                     end=3,
                 ),
                 Seta(start=4, end=8, seta="dorsal central abdominal setae"),
+            ],
+        )
+
+    def test_seta_count_04(self):
+        self.assertEqual(
+            parse("1 seta"),
+            [
+                SetaCount(
+                    seta="seta",
+                    count_low=1,
+                    start=0,
+                    end=6,
+                ),
             ],
         )

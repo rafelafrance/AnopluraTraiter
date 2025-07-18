@@ -5,11 +5,13 @@ from traiter.rules.number import Number
 from anoplura.rules.count import Count
 from anoplura.rules.elevation import Elevation
 from anoplura.rules.gonopod import Gonopod
+from anoplura.rules.group import Group
 from anoplura.rules.lat_long import LatLong
 from anoplura.rules.part import Part
 from anoplura.rules.part_mean import PartMean
 from anoplura.rules.part_sample import PartSample
 from anoplura.rules.part_sclerotization import PartSclerotization
+from anoplura.rules.part_seta import PartSeta
 from anoplura.rules.part_stats import PartStats
 from anoplura.rules.plate import Plate
 from anoplura.rules.position import Position
@@ -28,7 +30,7 @@ from anoplura.rules.subpart import Subpart
 from anoplura.rules.taxon import Taxon
 from anoplura.rules.tergite import Tergite
 
-# from traiter.pipes.debug import tokens
+# from traiter.pipes.debug import ents
 
 
 def build():
@@ -43,8 +45,6 @@ def build():
     Shape.pipe(nlp)
     Seta.pipe(nlp)
     Part.pipe(nlp)
-    Subpart.pipe(nlp)
-    Row.pipe(nlp)
 
     LatLong.pipe(nlp)
     Elevation.pipe(nlp)
@@ -53,11 +53,16 @@ def build():
     Number.pipe(nlp)
     Range.pipe(nlp)
 
+    Group.pipe(nlp)
+    Position.pipe(nlp)
+
     Segment.pipe(nlp)
     Plate.pipe(nlp)
     Gonopod.pipe(nlp)
     Sternite.pipe(nlp)
     Tergite.pipe(nlp)
+
+    Subpart.pipe(nlp)
 
     delete.pipe(nlp, traits=["roman"])
 
@@ -71,9 +76,10 @@ def build():
     PartSclerotization.pipe(nlp)
 
     Count.pipe(nlp)
+    Row.pipe(nlp)
     SetaCount.pipe(nlp)
 
-    Position.pipe(nlp)
+    PartSeta.pipe(nlp)
 
     delete.pipe(nlp, traits=["number", "range", "shape"])
 

@@ -8,5 +8,5 @@ class TestGonopod(unittest.TestCase):
     def test_gonopod_01(self):
         self.assertEqual(
             parse("gonopods IX"),
-            [Gonopod(gonopods=[9], start=0, end=11)],
+            [Gonopod(part="gonopod", which=[9], start=0, end=11)],
         )

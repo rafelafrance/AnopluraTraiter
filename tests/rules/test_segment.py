@@ -8,7 +8,7 @@ class TestSegment(unittest.TestCase):
     def test_segment_01(self):
         self.assertEqual(
             parse("segment 2"),
-            [Segment(segments=[2], start=0, end=9)],
+            [Segment(which=[2], start=0, end=9)],
         )
 
     def test_segment_02(self):
@@ -16,7 +16,7 @@ class TestSegment(unittest.TestCase):
             parse("segments 4-16"),
             [
                 Segment(
-                    segments=[4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+                    which=[4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
                     start=0,
                     end=13,
                 )
@@ -27,6 +27,6 @@ class TestSegment(unittest.TestCase):
         self.assertEqual(
             parse("first antennal segment"),
             [
-                Segment(start=0, end=22, segment="first antennal"),
+                Segment(start=0, end=22, which="first antennal"),
             ],
         )

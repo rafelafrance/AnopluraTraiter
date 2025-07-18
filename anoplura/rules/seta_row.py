@@ -14,7 +14,7 @@ from anoplura.rules.base import Base
 class SetaRow(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
-        Path(__file__).parent / "terms" / "group_terms.csv",
+        # Path(__file__).parent / "terms" / "group_terms.csv",
     ]
     sep: ClassVar[list[str]] = [",", "and"]
     # ----------------------

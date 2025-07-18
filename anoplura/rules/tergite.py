@@ -15,13 +15,13 @@ from anoplura.rules.base import Base
 class Tergite(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
-        Path(__file__).parent / "terms" / "group_terms.csv",
         Path(__file__).parent / "terms" / "part_terms.csv",
     ]
     sep: ClassVar[list[str]] = [",", "and"]
     # ----------------------
 
-    tergites: list[int] | None = None
+    part: str = "tergite"
+    which: list[int] | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
@@ -80,7 +80,7 @@ class Tergite(Base):
 
         tergites = sorted(set(tergites)) if tergites else None
 
-        return cls.from_ent(ent, tergites=tergites)
+        return cls.from_ent(ent, which=tergites)
 
 
 @registry.misc("tergite_match")

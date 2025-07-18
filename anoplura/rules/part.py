@@ -20,7 +20,8 @@ class Part(Base):
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
     # ----------------------
 
-    part: str | None = None
+    part: str = None
+    which: str | list[str] | list[int] | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):

@@ -1,10 +1,10 @@
 label,pattern,replace
-group,each side,2
+group,each side,
 group,each with,
 group,on each of,
-group,on each side,2
-group,pair of,2
-group,pairs of,2
+group,on each side,
+group,pair of,
+group,pairs of,
 group,rows of,
 labels,no,
 labels,no.,

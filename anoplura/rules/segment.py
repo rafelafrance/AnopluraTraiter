@@ -14,13 +14,12 @@ from anoplura.rules.base import Base
 class Segment(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
-        Path(__file__).parent / "terms" / "position_terms.csv",
         Path(__file__).parent / "terms" / "part_terms.csv",
     ]
     # ----------------------
 
-    segment: str | None = None
-    segments: list[int] | None = None
+    part: str = "segment"
+    which: list[int] | str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
@@ -30,7 +29,7 @@ class Segment(Base):
             nlp,
             name="segment_patterns",
             compiler=cls.segment_patterns(),
-            overwrite=["number", "range", "subpart"],
+            overwrite=["number", "range", "position"],
         )
         add.cleanup_pipe(nlp, name="segment_cleanup")
 
@@ -58,14 +57,14 @@ class Segment(Base):
     @classmethod
     def segment_match(cls, ent):
         segments = []
-        pos = []
+        pos = None
 
         for sub_ent in ent.ents:
             if sub_ent.label_ == "number":
                 segments.append(int(sub_ent._.trait.number))
 
             elif sub_ent.label_ == "position":
-                pos.append(sub_ent.text.lower())
+                pos = sub_ent._.trait.position
 
             elif sub_ent.label_ == "range":
                 low = int(sub_ent._.trait.low)
@@ -73,9 +72,9 @@ class Segment(Base):
                 segments += list(range(low, high + 1))
 
         segments = sorted(set(segments)) if segments else None
-        pos = " ".join(pos) if pos else None
+        segments = segments if segments else pos
 
-        return cls.from_ent(ent, segments=segments, segment=pos)
+        return cls.from_ent(ent, which=segments)
 
 
 @registry.misc("segment_match")

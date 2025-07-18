@@ -21,7 +21,8 @@ class Sternite(Base):
     sep: ClassVar[list[str]] = [",", "and"]
     # ----------------------
 
-    sternites: list[int] | None = None
+    part: str = "sternite"
+    which: list[int] | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
@@ -31,7 +32,7 @@ class Sternite(Base):
             nlp,
             name="sternite_patterns",
             compiler=cls.sternite_patterns(),
-            overwrite=["number", "range"],
+            overwrite=["number", "range", "position"],
         )
         add.cleanup_pipe(nlp, name="sternite_cleanup")
 
@@ -47,7 +48,6 @@ class Sternite(Base):
                     ",": {"LOWER": {"IN": cls.sep}},
                     "9": {"ENT_TYPE": "number"},
                     "9-9": {"ENT_TYPE": "range"},
-                    "adj": {"POS": {"IN": ["ADP", "ADJ"]}},
                     "label": {"ENT_TYPE": "labels"},
                     "pos": {"ENT_TYPE": "position"},
                     "sternite": {"ENT_TYPE": "sternites"},
@@ -65,20 +65,20 @@ class Sternite(Base):
 
     @classmethod
     def sternite_match(cls, ent):
-        sternites = []
+        which = []
 
         for sub_ent in ent.ents:
             if sub_ent.label_ == "number":
-                sternites.append(int(sub_ent._.trait.number))
+                which.append(int(sub_ent._.trait.number))
 
             elif sub_ent.label_ == "range":
                 low = int(sub_ent._.trait.low)
                 high = int(sub_ent._.trait.high)
-                sternites += list(range(low, high + 1))
+                which += list(range(low, high + 1))
 
-        sternites = sorted(set(sternites)) if sternites else None
+        which = sorted(set(which)) if which else None
 
-        return cls.from_ent(ent, sternites=sternites)
+        return cls.from_ent(ent, which=which)
 
 
 @registry.misc("sternite_match")
