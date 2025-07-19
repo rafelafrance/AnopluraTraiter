@@ -8,6 +8,7 @@ from anoplura.rules.gonopod import Gonopod
 from anoplura.rules.group import Group
 from anoplura.rules.lat_long import LatLong
 from anoplura.rules.part import Part
+from anoplura.rules.part_count import PartCount
 from anoplura.rules.part_mean import PartMean
 from anoplura.rules.part_sample import PartSample
 from anoplura.rules.part_sclerotization import PartSclerotization
@@ -76,6 +77,7 @@ def build():
     PartSclerotization.pipe(nlp)
 
     Count.pipe(nlp)
+    PartCount.pipe(nlp)
     Row.pipe(nlp)
     SetaCount.pipe(nlp)
 

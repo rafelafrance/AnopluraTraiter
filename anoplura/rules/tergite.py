@@ -15,6 +15,7 @@ from anoplura.rules.base import Base
 class Tergite(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
+        Path(__file__).parent / "terms" / "group_terms.csv",
         Path(__file__).parent / "terms" / "part_terms.csv",
     ]
     sep: ClassVar[list[str]] = [",", "and"]
@@ -47,7 +48,6 @@ class Tergite(Base):
                     ",": {"LOWER": {"IN": cls.sep}},
                     "9": {"ENT_TYPE": "number"},
                     "9-9": {"ENT_TYPE": "range"},
-                    "adj": {"POS": {"IN": ["ADP", "ADJ"]}},
                     "label": {"ENT_TYPE": "labels"},
                     "tergite": {"ENT_TYPE": "tergites"},
                 },
@@ -58,8 +58,7 @@ class Tergite(Base):
                     " tergite 9* ",
                     " tergite 9+ ,* 9+ ",
                     " tergite 9+ ,* 9+ ,* 9+ ",
-                    " tergite 9+ ",
-                    " tergite 9-9* ",
+                    " tergite 9-9+ ",
                     " tergite 9-9+ ,* 9+ ",
                 ],
             ),
@@ -67,20 +66,20 @@ class Tergite(Base):
 
     @classmethod
     def tergite_match(cls, ent):
-        tergites = []
+        which = []
 
         for sub_ent in ent.ents:
             if sub_ent.label_ == "number":
-                tergites.append(int(sub_ent._.trait.number))
+                which.append(int(sub_ent._.trait.number))
 
             elif sub_ent.label_ == "range":
                 low = int(sub_ent._.trait.low)
                 high = int(sub_ent._.trait.high)
-                tergites += list(range(low, high + 1))
+                which += list(range(low, high + 1))
 
-        tergites = sorted(set(tergites)) if tergites else None
+        which = sorted(set(which)) if which else None
 
-        return cls.from_ent(ent, which=tergites)
+        return cls.from_ent(ent, which=which)
 
 
 @registry.misc("tergite_match")

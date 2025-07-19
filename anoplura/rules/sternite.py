@@ -32,7 +32,7 @@ class Sternite(Base):
             nlp,
             name="sternite_patterns",
             compiler=cls.sternite_patterns(),
-            overwrite=["number", "range", "position"],
+            overwrite=["number", "range"],
         )
         add.cleanup_pipe(nlp, name="sternite_cleanup")
 
@@ -49,16 +49,17 @@ class Sternite(Base):
                     "9": {"ENT_TYPE": "number"},
                     "9-9": {"ENT_TYPE": "range"},
                     "label": {"ENT_TYPE": "labels"},
-                    "pos": {"ENT_TYPE": "position"},
                     "sternite": {"ENT_TYPE": "sternites"},
                 },
                 patterns=[
+                    " sternite ",
+                    " sternite (* label* 9      )* ",
+                    " sternite (* label* 9 ,* 9 )* ",
                     " sternite 9* ",
+                    " sternite 9+ ,* 9+ ",
+                    " sternite 9+ ,* 9+ ,* 9+ ",
                     " sternite 9-9+ ",
-                    " pos+ sternite 9* ",
-                    " pos+ sternite 9-9* ",
-                    " pos* sternite (* label* 9      )* ",
-                    " pos* sternite (* label* 9 ,* 9 )* ",
+                    " sternite 9-9+ ,* 9+ ",
                 ],
             ),
         ]
