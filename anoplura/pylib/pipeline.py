@@ -2,6 +2,7 @@ import spacy
 from traiter.pipes import delete, extensions, tokenizer
 from traiter.rules.number import Number
 
+from anoplura.rules import sex_assignment
 from anoplura.rules.count import Count
 from anoplura.rules.elevation import Elevation
 from anoplura.rules.gonopod import Gonopod
@@ -18,7 +19,6 @@ from anoplura.rules.plate import Plate
 from anoplura.rules.position import Position
 from anoplura.rules.range import Range
 from anoplura.rules.roman import Roman
-from anoplura.rules.row import Row
 from anoplura.rules.segment import Segment
 from anoplura.rules.seta import Seta
 from anoplura.rules.seta_count import SetaCount
@@ -78,12 +78,14 @@ def build():
 
     Count.pipe(nlp)
     PartCount.pipe(nlp)
-    Row.pipe(nlp)
+    # Row.pipe(nlp)
     SetaCount.pipe(nlp)
 
     PartSeta.pipe(nlp)
 
-    delete.pipe(nlp, traits=["number", "range", "shape"])
+    delete.pipe(nlp, traits=["number", "range", "count", "shape"])
+
+    sex_assignment.pipe(nlp)
 
     # for name in nlp.pipe_names:
     #     print(name)
