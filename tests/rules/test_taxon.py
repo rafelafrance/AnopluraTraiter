@@ -1,5 +1,6 @@
 import unittest
 
+from anoplura.rules.count import Count
 from anoplura.rules.sex import Sex
 from anoplura.rules.taxon import Taxon
 from tests.setup import parse
@@ -25,6 +26,7 @@ class TestTaxon(unittest.TestCase):
         self.assertEqual(
             parse("four known species of Abrocomaphthirus"),
             [
+                Count(start=0, end=4, count_low=4),
                 Taxon(
                     taxon="Abrocomaphthirus",
                     rank="genus",

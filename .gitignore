@@ -35,6 +35,7 @@ dist/
 # data
 output/
 data/
+docs/
 
 # Temp files
 temp/

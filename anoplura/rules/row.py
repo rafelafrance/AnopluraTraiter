@@ -14,21 +14,22 @@ from anoplura.rules.base import Base
 class Row(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
-        # Path(__file__).parent / "terms" / "group_terms.csv",
+        Path(__file__).parent / "terms" / "group_terms.csv",
     ]
-    sep: ClassVar[list[str]] = [",", "and"]
     # ----------------------
 
     rows: list[int] | None = None
+    position: str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
+        add.term_pipe(nlp, name="row_terms", path=cls.terms)
         # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
             name="row_patterns",
             compiler=cls.row_patterns(),
-            overwrite=["number", "range"],
+            overwrite=["position", "row"],
         )
         add.cleanup_pipe(nlp, name="row_cleanup")
 
@@ -39,34 +40,24 @@ class Row(Base):
                 label="row",
                 on_match="row_match",
                 decoder={
-                    ",": {"LOWER": {"IN": cls.sep}},
-                    "99": {"ENT_TYPE": "number"},
-                    "99-99": {"ENT_TYPE": "range"},
+                    "pos": {"ENT_TYPE": "position"},
                     "row": {"ENT_TYPE": "row"},
                 },
                 patterns=[
-                    " row+ 99+        ",
-                    " row+ 99+ ,* 99+ ",
-                    " row+ 99-99+     ",
+                    " pos+ row+ ",
                 ],
             ),
         ]
 
     @classmethod
     def row_match(cls, ent):
-        rows = []
+        pos = None
 
         for e in ent.ents:
-            if e.label_ == "number":
-                rows.append(int(e._.trait.number))
-            elif e.label_ == "range":
-                low = int(e._.trait.low)
-                high = int(e._.trait.high)
-                rows += list(range(low, high + 1))
+            if e.label_ == "position":
+                pos = e._.trait.position
 
-        rows = sorted(set(rows)) if rows else None
-
-        return cls.from_ent(ent, rows=rows)
+        return cls.from_ent(ent, position=pos)
 
 
 @registry.misc("row_match")

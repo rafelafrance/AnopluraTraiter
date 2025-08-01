@@ -1,6 +1,7 @@
 import unittest
 
 from anoplura.rules.part_count import PartCount
+from anoplura.rules.shape import Shape
 from anoplura.rules.sternite import Sternite
 from anoplura.rules.tergite import Tergite
 from tests.setup import parse
@@ -35,6 +36,11 @@ class TestPartCount(unittest.TestCase):
                     part="sternite",
                     which=[2, 3],
                     count_low=2,
+                ),
+                Shape(
+                    start=2,
+                    end=10,
+                    shape="elongate",
                 ),
                 Sternite(
                     start=11,

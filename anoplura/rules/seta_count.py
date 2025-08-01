@@ -32,7 +32,7 @@ class SetaCount(Base):
             nlp,
             name="seta_count_patterns",
             compiler=cls.seta_count_patterns(),
-            overwrite=["count", "chaeta", "group"],
+            overwrite=["count", "group"],
         )
         add.cleanup_pipe(nlp, name="seta_count_cleanup")
 
@@ -44,15 +44,12 @@ class SetaCount(Base):
                 on_match="seta_count_match",
                 decoder={
                     "99": {"ENT_TYPE": "count"},
-                    "chaeta": {"ENT_TYPE": "chaeta"},
                     "group": {"ENT_TYPE": "group"},
                     "seta": {"ENT_TYPE": "seta"},
                 },
                 patterns=[
                     " seta+   99+     group* ",
                     " 99+     group*  seta+ ",
-                    " chaeta+ 99+     group* ",
-                    " 99+     chaeta+ group* ",
                 ],
             ),
         ]

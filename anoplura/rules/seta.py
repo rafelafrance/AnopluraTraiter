@@ -47,6 +47,7 @@ class Seta(Base):
                 },
                 patterns=[
                     "abbrev",
+                    "setae",
                     "word+ filler* setae+ word*",
                 ],
             ),

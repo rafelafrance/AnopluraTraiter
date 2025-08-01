@@ -36,7 +36,7 @@ class PartSeta(Base):
             nlp,
             name="part_seta_patterns",
             compiler=cls.part_seta_patterns(),
-            overwrite=["seta", "seta_count", "chaeta"],
+            overwrite=["seta", "seta_count"],
         )
         add.cleanup_pipe(nlp, name="part_seta_cleanup")
 
@@ -53,17 +53,14 @@ class PartSeta(Base):
                     "fill": {"POS": {"IN": ["ADP", "NOUN", "PART", "PRON", "VERB"]}},
                     "part": {"ENT_TYPE": {"IN": PARTS}},
                     "group": {"ENT_TYPE": "group"},
-                    "chaeta": {"ENT_TYPE": "chaeta"},
                     "seta": {"ENT_TYPE": "seta"},
                     "missing": {"ENT_TYPE": "missing"},
                     "pos": {"ENT_TYPE": "position"},
                 },
                 patterns=[
                     " part+ fill*  count+ ",
-                    " part+ missing+ chaeta+  ",
                     " (? seta+ )? fill* part+ group* ",
                     " count+ fill* pos* fill* part+ group* pos* ",
-                    " count+ group* chaeta+ pos* fill* part+ group* ",
                 ],
             ),
         ]

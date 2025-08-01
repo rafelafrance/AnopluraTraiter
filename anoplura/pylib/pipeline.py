@@ -19,10 +19,13 @@ from anoplura.rules.plate import Plate
 from anoplura.rules.position import Position
 from anoplura.rules.range import Range
 from anoplura.rules.roman import Roman
+from anoplura.rules.row import Row
 from anoplura.rules.segment import Segment
 from anoplura.rules.seta import Seta
 from anoplura.rules.seta_count import SetaCount
 from anoplura.rules.sex import Sex
+from anoplura.rules.sex_count import SexCount
+from anoplura.rules.sexual_dimorphism import SexualDimorphism
 from anoplura.rules.shape import Shape
 from anoplura.rules.size import Size
 from anoplura.rules.specimen_type import SpecimenType
@@ -72,18 +75,24 @@ def build():
     Size.pipe(nlp)
     PartMean.pipe(nlp)
     PartSample.pipe(nlp)
+
     PartStats.pipe(nlp)
 
     PartSclerotization.pipe(nlp)
 
     Count.pipe(nlp)
+
+    Row.pipe(nlp)
+
+    SexCount.pipe(nlp)
     PartCount.pipe(nlp)
-    # Row.pipe(nlp)
     SetaCount.pipe(nlp)
 
     PartSeta.pipe(nlp)
 
-    delete.pipe(nlp, traits=["number", "range", "count", "shape"])
+    SexualDimorphism.pipe(nlp)
+
+    delete.pipe(nlp, traits=["number", "range", "roman"])
 
     sex_assignment.pipe(nlp)
 
