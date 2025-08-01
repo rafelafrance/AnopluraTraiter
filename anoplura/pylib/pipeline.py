@@ -75,7 +75,6 @@ def build():
     Size.pipe(nlp)
     PartMean.pipe(nlp)
     PartSample.pipe(nlp)
-
     PartStats.pipe(nlp)
 
     PartSclerotization.pipe(nlp)
@@ -92,7 +91,7 @@ def build():
 
     SexualDimorphism.pipe(nlp)
 
-    delete.pipe(nlp, traits=["number", "range", "roman"])
+    delete.pipe(nlp, traits=["number", "range", "roman", "count"])
 
     sex_assignment.pipe(nlp)
 

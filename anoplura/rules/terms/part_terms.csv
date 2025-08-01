@@ -39,8 +39,8 @@ bug_subpart,apex,apex
 bug_subpart,apexes,apex
 bug_subpart,apices,apex
 bug_subpart,apodemas,apodeme
+bug_subpart,apodemas,apodeme
 bug_subpart,apodemata,apodeme
-bug_subpart,apodeme,apodema
 bug_subpart,apodeme,apodeme
 bug_subpart,apodemes,apodeme
 bug_subpart,arm,arm
@@ -57,6 +57,7 @@ bug_subpart,margin,margin
 bug_subpart,margins,margin
 bug_subpart,ridge,ridge
 bug_subpart,ridges,ridge
+bug_subpart,suboval,suboval
 bug_subpart,spur,spur
 bug_subpart,spur,spur
 bug_subpart,spurs,spur

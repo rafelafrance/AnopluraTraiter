@@ -1,8 +1,6 @@
 import unittest
 
-from anoplura.rules.group import Group
 from anoplura.rules.part import Part
-from anoplura.rules.position import Position
 from anoplura.rules.subpart import Subpart
 from tests.setup import parse
 
@@ -12,13 +10,11 @@ class TestSubpart(unittest.TestCase):
         self.assertEqual(
             parse("dorsal head suture"),
             [
-                Position(start=0, end=6, position="dorsal"),
-                Part(start=7, end=11, part="head"),
                 Subpart(
                     subpart="suture",
                     part="head",
                     position="dorsal",
-                    start=12,
+                    start=0,
                     end=18,
                 ),
             ],
@@ -33,22 +29,12 @@ class TestSubpart(unittest.TestCase):
                     end=4,
                     part="head",
                 ),
-                Position(
-                    start=10,
-                    end=23,
-                    position="anterolateral",
-                ),
                 Subpart(
-                    start=24,
-                    end=28,
+                    start=10,
+                    end=41,
                     subpart="lobe",
                     part="head",
                     position="anterolateral",
-                    group="on each side",
-                ),
-                Group(
-                    start=29,
-                    end=41,
                     group="on each side",
                 ),
             ],
@@ -58,7 +44,32 @@ class TestSubpart(unittest.TestCase):
         self.assertEqual(
             parse("small posterior spur"),
             [
-                Position(start=6, end=15, position="posterior"),
-                Subpart(subpart="spur", start=16, end=20),
+                Subpart(subpart="spur", position="posterior", start=6, end=20),
+            ],
+        )
+
+    def test_subpart_04(self):
+        self.assertEqual(
+            parse("basal apodeme"),
+            [
+                Subpart(subpart="apodeme", position="basal", start=0, end=13),
+            ],
+        )
+
+    def test_subpart_05(self):
+        self.assertEqual(
+            parse("Antennae 5-segmented"),
+            [
+                Part(
+                    start=0,
+                    end=8,
+                    part="antenna",
+                ),
+                Subpart(
+                    start=9,
+                    end=20,
+                    subpart="5-segmented",
+                    part="antenna",
+                ),
             ],
         )

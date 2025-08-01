@@ -1,6 +1,4 @@
 from dataclasses import dataclass
-from pathlib import Path
-from typing import ClassVar
 
 from spacy.language import Language
 from spacy.util import registry
@@ -13,10 +11,6 @@ from anoplura.rules.base import Base
 @dataclass(eq=False)
 class SetaCount(Base):
     # Class vars ----------
-    terms: ClassVar[list[Path]] = [
-        Path(__file__).parent / "terms" / "group_terms.csv",
-        Path(__file__).parent / "terms" / "seta_terms.csv",
-    ]
     # ----------------------
 
     seta: str | None = None
@@ -26,7 +20,6 @@ class SetaCount(Base):
 
     @classmethod
     def pipe(cls, nlp: Language):
-        add.term_pipe(nlp, name="seta_count_terms", path=cls.terms)
         # add.debug_tokens(nlp)  # ##########################################
         add.context_pipe(
             nlp,
@@ -48,16 +41,15 @@ class SetaCount(Base):
                     "seta": {"ENT_TYPE": "seta"},
                 },
                 patterns=[
-                    " seta+   99+     group* ",
-                    " 99+     group*  seta+ ",
+                    " 99+   group* seta+ ",
+                    " seta+ 99+    group* ",
                 ],
             ),
         ]
 
     @classmethod
     def seta_count_match(cls, ent):
-        low, high, group = None, None, None
-        seta = None
+        seta, low, high, group = None, None, None, None
 
         for e in ent.ents:
             if e.label_ == "count":
@@ -66,8 +58,6 @@ class SetaCount(Base):
                 group = e._.trait.count_group
             elif e.label_ == "seta":
                 seta = e._.trait.seta
-            elif e.label_ == "chaeta":
-                seta = "seta"
             elif e.label_ == "group":
                 group = e._.trait.group
 

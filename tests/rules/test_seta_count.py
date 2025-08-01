@@ -66,14 +66,30 @@ class TestSetaCount(unittest.TestCase):
 
     def test_seta_count_05(self):
         self.assertEqual(
-            parse("1 dorsal preantennal head seta"),
+            parse(
+                """
+                3 or 4 apical head setae, 1 dorsal preantennal head seta
+                """
+            ),
             [
+                SetaCount(
+                    start=0,
+                    end=6,
+                    seta="apical head setae",
+                    count_low=3,
+                    count_high=4,
+                ),
+                Seta(
+                    start=7,
+                    end=24,
+                    seta="apical head setae",
+                ),
                 SetaCount(
                     seta="dorsal preantennal head seta",
                     count_low=1,
-                    start=0,
-                    end=1,
+                    start=26,
+                    end=27,
                 ),
-                Seta(start=2, end=30, seta="dorsal preantennal head seta"),
+                Seta(start=28, end=56, seta="dorsal preantennal head seta"),
             ],
         )
