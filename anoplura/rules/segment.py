@@ -14,6 +14,7 @@ from anoplura.rules.base import Base
 class Segment(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
+        Path(__file__).parent / "terms" / "position_terms.csv",
         Path(__file__).parent / "terms" / "part_terms.csv",
     ]
     # ----------------------
@@ -57,19 +58,21 @@ class Segment(Base):
     @classmethod
     def segment_match(cls, ent):
         segments = []
-        pos = None
+        pos = []
 
         for sub_ent in ent.ents:
             if sub_ent.label_ == "number":
                 segments.append(int(sub_ent._.trait.number))
 
             elif sub_ent.label_ == "position":
-                pos = sub_ent._.trait.position
+                pos.append(sub_ent.text.lower())
 
             elif sub_ent.label_ == "range":
                 low = int(sub_ent._.trait.low)
                 high = int(sub_ent._.trait.high)
                 segments += list(range(low, high + 1))
+
+        pos = " ".join(pos)
 
         segments = sorted(set(segments)) if segments else None
         segments = segments if segments else pos

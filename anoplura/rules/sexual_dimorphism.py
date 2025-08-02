@@ -26,6 +26,7 @@ class SexualDimorphism(Base):
             nlp,
             name="dimorphism_patterns",
             compiler=cls.dimorphism_patterns(),
+            overwrite=["shape"],
         )
         add.context_pipe(
             nlp,

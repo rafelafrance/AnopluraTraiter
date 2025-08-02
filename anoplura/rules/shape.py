@@ -18,14 +18,15 @@ class Shape(Base):
     shape: str | None = None
 
     @classmethod
-    def pipe(cls, nlp: Language):
-        add.term_pipe(nlp, name="shape_terms", path=cls.terms)
+    def named_pipe(cls, nlp: Language, suffix: str):
+        add.term_pipe(nlp, name=f"shape_terms_{suffix}", path=cls.terms)
+        # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
-            name="shape_patterns",
+            name=f"shape_patterns_{suffix}",
             compiler=cls.shape_patterns(),
         )
-        add.cleanup_pipe(nlp, name="shape_cleanup")
+        add.cleanup_pipe(nlp, name=f"shape_cleanup_{suffix}")
 
     @classmethod
     def shape_patterns(cls):
@@ -34,7 +35,7 @@ class Shape(Base):
                 label="shape",
                 on_match="shape_match",
                 decoder={
-                    "shape": {"ENT_TYPE": "shape_term"},
+                    "shape": {"ENT_TYPE": {"IN": ["shape_term", "relative_term"]}},
                 },
                 patterns=[
                     " shape+ ",

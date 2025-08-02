@@ -1,3 +1,4 @@
+import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import ClassVar
@@ -15,10 +16,8 @@ from anoplura.rules.base import Base
 class Seta(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
-        Path(__file__).parent / "terms" / "position_terms.csv",
         Path(__file__).parent / "terms" / "seta_terms.csv",
     ]
-    words: ClassVar[list[str]] = ["seta_word", "position", "bug_part", "shape"]
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
     parts: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "part")
     # ----------------------
@@ -61,6 +60,7 @@ class Seta(Base):
     def seta_match(cls, ent):
         text = ent.text.lower()
         seta = cls.replace.get(text, text)
+        seta = re.sub(r"seta$", "setae", seta)
         part = cls.parts.get(text)
         return cls.from_ent(ent, seta=seta, part=part)
 

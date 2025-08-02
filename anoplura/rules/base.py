@@ -28,7 +28,7 @@ class Base(TraiterBase):
 
     @classmethod
     def pipe(cls, nlp: Language):
-        raise NotImplementedError
+        ...
 
 
 def as_dict(trait) -> dict:

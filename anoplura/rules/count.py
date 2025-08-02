@@ -16,6 +16,7 @@ class Count(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "missing_terms.csv",
+        Path(__file__).parent / "terms" / "group_terms.csv",
         Path(__file__).parent / "terms" / "seta_terms.csv",
     ]
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")

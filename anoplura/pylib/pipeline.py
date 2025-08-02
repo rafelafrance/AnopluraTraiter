@@ -6,7 +6,6 @@ from anoplura.rules import sex_assignment
 from anoplura.rules.count import Count
 from anoplura.rules.elevation import Elevation
 from anoplura.rules.gonopod import Gonopod
-from anoplura.rules.group import Group
 from anoplura.rules.lat_long import LatLong
 from anoplura.rules.part import Part
 from anoplura.rules.part_count import PartCount
@@ -15,17 +14,14 @@ from anoplura.rules.part_sample import PartSample
 from anoplura.rules.part_sclerotization import PartSclerotization
 from anoplura.rules.part_stats import PartStats
 from anoplura.rules.plate import Plate
-from anoplura.rules.position import Position
 from anoplura.rules.range import Range
 from anoplura.rules.roman import Roman
-from anoplura.rules.row import Row
 from anoplura.rules.segment import Segment
 from anoplura.rules.seta import Seta
 from anoplura.rules.seta_count import SetaCount
 from anoplura.rules.sex import Sex
 from anoplura.rules.sex_count import SexCount
 from anoplura.rules.sexual_dimorphism import SexualDimorphism
-from anoplura.rules.shape import Shape
 from anoplura.rules.size import Size
 from anoplura.rules.specimen_type import SpecimenType
 from anoplura.rules.sternite import Sternite
@@ -49,17 +45,12 @@ def build():
     Seta.pipe(nlp)
     Part.pipe(nlp)
 
-    Shape.pipe(nlp)
-
     LatLong.pipe(nlp)
     Elevation.pipe(nlp)
 
     Roman.pipe(nlp)
     Number.pipe(nlp)
     Range.pipe(nlp)
-
-    Group.pipe(nlp)
-    Position.pipe(nlp)
 
     Segment.pipe(nlp)
     Plate.pipe(nlp)
@@ -81,8 +72,6 @@ def build():
     PartSclerotization.pipe(nlp)
 
     Count.pipe(nlp)
-
-    Row.pipe(nlp)
 
     SexCount.pipe(nlp)
     PartCount.pipe(nlp)

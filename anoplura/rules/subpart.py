@@ -15,7 +15,10 @@ from anoplura.rules.base import PARTS, Base
 class Subpart(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
+        Path(__file__).parent / "terms" / "group_terms.csv",
         Path(__file__).parent / "terms" / "part_terms.csv",
+        Path(__file__).parent / "terms" / "position_terms.csv",
+        Path(__file__).parent / "terms" / "relative_terms.csv",
     ]
     dash: ClassVar[list[str]] = ["-", "–", "—"]
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
@@ -42,7 +45,13 @@ class Subpart(Base):
             nlp,
             name="subpart_patterns",
             compiler=cls.subpart_patterns(),
-            overwrite=["bug_subpart", "position", "group", "subpart_suffix"],
+            overwrite=[
+                "bug_subpart",
+                "position",
+                "group",
+                "subpart_suffix",
+                "relative_term",
+            ],
         )
         add.cleanup_pipe(nlp, name="subpart_cleanup")
 
@@ -76,12 +85,12 @@ class Subpart(Base):
                     "group": {"ENT_TYPE": "group"},
                     "9": {"ENT_TYPE": "number"},
                     "part": {"ENT_TYPE": {"IN": PARTS}},
-                    "pos": {"ENT_TYPE": "position"},
+                    "pos": {"ENT_TYPE": {"IN": ["position", "relative_term"]}},
                     "subpart": {"ENT_TYPE": "bug_subpart"},
                     "suffix": {"ENT_TYPE": "subpart_suffix"},
                 },
                 patterns=[
-                    " pos* subpart+ ",
+                    " pos* subpart+ group* ",
                     " pos* part+ subpart+ group* ",
                     " part+ fill* pos* subpart+ group* ",
                     " part+ suffix+ ",
@@ -105,9 +114,9 @@ class Subpart(Base):
                 part = e._.trait.part
                 which = e._.trait.which
             elif e.label_ == "position":
-                pos = e._.trait.position
+                pos = e.text.lower()
             elif e.label_ == "group":
-                group = e._.trait.group
+                group = e.text.lower()
             elif e.label_ == "subpart_suffix":
                 sub = e.text.lower()
 

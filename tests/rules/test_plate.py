@@ -1,7 +1,6 @@
 import unittest
 
 from anoplura.rules.plate import Plate
-from anoplura.rules.position import Position
 from tests.setup import parse
 
 
@@ -22,7 +21,6 @@ class TestPlate(unittest.TestCase):
         self.assertEqual(
             parse("Thoracic sternal plate"),
             [
-                Position(start=0, end=16, position="thoracic sternal"),
                 Plate(part="plate", start=17, end=22),
             ],
         )
@@ -37,7 +35,6 @@ class TestPlate(unittest.TestCase):
         self.assertEqual(
             parse("paratergal plate I"),
             [
-                Position(start=0, end=10, position="paratergal"),
                 Plate(part="plate", which=[1], start=11, end=18),
             ],
         )
