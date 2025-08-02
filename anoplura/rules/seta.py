@@ -20,16 +20,21 @@ class Seta(Base):
     ]
     words: ClassVar[list[str]] = ["seta_word", "position", "bug_part", "shape"]
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
+    parts: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "part")
     # ----------------------
 
     seta: str | None = None
+    part: str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
         add.term_pipe(nlp, name="seta_terms", path=cls.terms)
         # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
-            nlp, name="seta_patterns", compiler=cls.seta_patterns(), overwrite=["shape"]
+            nlp,
+            name="seta_patterns",
+            compiler=cls.seta_patterns(),
+            overwrite=["chaeta", "seta_abbrev", "setae"],
         )
         add.cleanup_pipe(nlp, name="seta_cleanup")
 
@@ -41,14 +46,13 @@ class Seta(Base):
                 on_match="seta_match",
                 decoder={
                     "abbrev": {"ENT_TYPE": "seta_abbrev"},
-                    "setae": {"ENT_TYPE": "chaeta"},
-                    "filler": {"POS": {"IN": ["ADP", "ADJ", "ADV", "PRON", "NOUN"]}},
-                    "word": {"ENT_TYPE": {"IN": cls.words}},
+                    "chaeta": {"ENT_TYPE": "chaeta"},
+                    "seta": {"ENT_TYPE": "setae"},
                 },
                 patterns=[
-                    "abbrev",
-                    "setae",
-                    "word+ filler* setae+ word*",
+                    "abbrev+",
+                    "chaeta+",
+                    "seta+",
                 ],
             ),
         ]
@@ -57,7 +61,8 @@ class Seta(Base):
     def seta_match(cls, ent):
         text = ent.text.lower()
         seta = cls.replace.get(text, text)
-        return cls.from_ent(ent, seta=seta)
+        part = cls.parts.get(text)
+        return cls.from_ent(ent, seta=seta, part=part)
 
 
 @registry.misc("seta_match")

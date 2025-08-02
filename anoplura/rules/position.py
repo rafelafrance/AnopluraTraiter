@@ -21,6 +21,7 @@ class Position(Base):
     # ---------------------
 
     position: str | None = None
+    position_group: str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
@@ -30,7 +31,7 @@ class Position(Base):
             nlp,
             name="position_patterns",
             compiler=cls.position_patterns(),
-            overwrite=["position"],
+            overwrite=["position", "group"],
         )
         add.cleanup_pipe(nlp, name="position_cleanup")
 
@@ -41,17 +42,30 @@ class Position(Base):
                 label="position",
                 on_match="position_match",
                 decoder={
+                    "group": {"ENT_TYPE": "group"},
                     "pos": {"ENT_TYPE": "position"},
                 },
                 patterns=[
-                    " pos+ ",
+                    " pos+ group* ",
+                    " group* pos+ ",
                 ],
             ),
         ]
 
     @classmethod
     def position_match(cls, ent):
-        return cls.from_ent(ent, position=ent.text.lower())
+        pos = []
+        group = None
+
+        for e in ent.ents:
+            if e.label_ == "position":
+                text = e.text.lower()
+                pos.append(cls.replace.get(text, text))
+            elif e.label_ == "group":
+                group = e._.trait.group
+
+        pos = " ".join(pos)
+        return cls.from_ent(ent, position=pos, position_group=group)
 
 
 @registry.misc("position_match")

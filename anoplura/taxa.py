@@ -30,7 +30,7 @@ def main(args):
         pattern = row["pattern"].lower()
         replace = row["replace"] if row["replace"] else row["pattern"]
         words = pattern.split()
-        abbrev = " ".join([f"{words[0][0]}."] + words[1:])
+        abbrev = " ".join([f"{words[0][0]}.", *words[1:]])
 
         # Regular species name, Canis lupus
         taxa[pattern] = Taxon(
@@ -64,7 +64,7 @@ def main(args):
         # From replace
         pattern = row["replace"].lower()
         words = pattern.split()
-        abbrev = " ".join([f"{words[0][0]}."] + words[1:])
+        abbrev = " ".join([f"{words[0][0]}.", *words[1:]])
 
         # Regular species name from the replace column, Canis lupus
         taxa[pattern] = Taxon(

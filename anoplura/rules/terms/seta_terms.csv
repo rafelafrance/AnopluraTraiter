@@ -47,14 +47,46 @@ seta_abbrev,vpahs,ventral preantennal head setae,head,"Durden and Musser, 1991"
 seta_abbrev,vphs,ventral principal head setae,head,"Durden and Musser, 1991"
 seta_abbrev,vpomhs,ventral posterior marginal head setae,head,"Durden and Rausch, 2007"
 seta_abbrev,vprs,ventral paratergal setae,abdomen,"Durden and Musser, 1991"
-seta_word,accessory,,,
-seta_word,contiguous,,,
-seta_word,fairly,,,
-seta_word,intermediate-sized,,,
-seta_word,large,,,
-seta_word,long,,,
-seta_word,principal,,,
-seta_word,short,,,
-seta_word,small,,,
-seta_word,sutural,,,
-seta_word,tiny,,,
+setae,anterior marginal head setae,,head,"Durden and Musser, 1991"
+setae,apical head setae,,head,"Durden and Musser, 1991"
+setae,dorsal accessory head setae,,head,"Durden and Musser, 1991"
+setae,dorsal accessory head setae,,head,"Kim, 1977"
+setae,dorsal anterior central head setae,,head,"Durden et al., 2019"
+setae,dorsal anterior head setae,,head,"Durden and Musser, 1991"
+setae,dorsal central abdominal setae,,abdomen,"Durden and Musser, 1991"
+setae,dorsal lateral abdominal setae,,abdomen,"Durden and Musser, 1991"
+setae,dorsal marginal abdominal setae,,abdomen,"Durden et al., 2019"
+setae,dorsal marginal head setae,,head,"Durden and Musser, 1991"
+setae,dorsal mesothoracic setae,,thorax,
+setae,dorsal preantennal head seta,,head,
+setae,dorsal principal head seta,,head,
+setae,mesothoracic setae,,thorax,"Kim, 1977"
+setae,dorsal preantennal head setae,,head,"Kim, 1977"
+setae,posterior central setae,,head,"Kim, 1977"
+setae,dorsal principal head setae,,head,"Durden and Musser, 1991"
+setae,dorsal posterior central head setae,,head,"Durden and Musser, 1991"
+setae,dorsal posterior head setae,,head,"Durden et al., 2019"
+setae,dorsal paratergal setae,,abdomen,"Durden and Musser, 1991"
+setae,dorsal principal thoracic setae,,thorax,"Kim, 1977"
+setae,labral setae,,head,"Kim, 1977"
+setae,first marginal setae,,abdomen,"Kim, 1977"
+setae,second marginal setae,,abdomen,"Kim, 1977"
+setae,marginal setae,,head,"Kim, 1977"
+setae,oral marginal setae,,head,"Kim, 1977"
+setae,oral setae,,head,"Durden and Musser, 1991"
+setae,oral setae,,head,"Kim, 1977"
+setae,preantennal setae,,head,"Kim, 1977"
+setae,paratergal setae,,abdomen,"Durden and Rausch, 2007"
+setae,sutural head setae,,head,"Kim, 1977"
+setae,supra-antennal head setae,,head,"Durden and Timm, 2001"
+setae,supra-antennal head setae,,head,"Durden and Musser, 1991"
+setae,sternal abdominal setae,,abdomen,"Durden and Musser, 1991"
+setae,sutural head setae,,head,"Durden and Musser, 1991"
+setae,tergal abdominal setae,,abdomen,"Durden and Musser, 1991"
+setae,ventral central abdominal setae,,abdomen,"Durden and Rausch, 2007"
+setae,ventral lateral abdominal setae,,abdomen,"Durden and Eckerlin, 2001"
+setae,ventral marginal abdominal setae,,abdomen,"Durden, 2019"
+setae,ventral preantennal head setae,,head,"Durden and Musser, 1991"
+setae,ventral principal head setae,,head,"Durden and Musser, 1991"
+setae,ventral posterior marginal head setae,,head,"Durden and Rausch, 2007"
+setae,ventral paratergal setae,,abdomen,"Durden and Musser, 1991"

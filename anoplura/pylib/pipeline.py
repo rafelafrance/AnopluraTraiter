@@ -13,7 +13,6 @@ from anoplura.rules.part_count import PartCount
 from anoplura.rules.part_mean import PartMean
 from anoplura.rules.part_sample import PartSample
 from anoplura.rules.part_sclerotization import PartSclerotization
-from anoplura.rules.part_seta import PartSeta
 from anoplura.rules.part_stats import PartStats
 from anoplura.rules.plate import Plate
 from anoplura.rules.position import Position
@@ -46,9 +45,11 @@ def build():
 
     Taxon.pipe(nlp)
     Sex.pipe(nlp)
-    Shape.pipe(nlp)
+
     Seta.pipe(nlp)
     Part.pipe(nlp)
+
+    Shape.pipe(nlp)
 
     LatLong.pipe(nlp)
     Elevation.pipe(nlp)
@@ -86,8 +87,6 @@ def build():
     SexCount.pipe(nlp)
     PartCount.pipe(nlp)
     SetaCount.pipe(nlp)
-
-    PartSeta.pipe(nlp)
 
     SexualDimorphism.pipe(nlp)
 

@@ -8,13 +8,13 @@ class TestSeta(unittest.TestCase):
     def test_seta_01(self):
         self.assertEqual(
             parse("dachs"),
-            [Seta(seta="dorsal accessory head setae", start=0, end=5)],
+            [Seta(seta="dorsal accessory head setae", part="head", start=0, end=5)],
         )
 
     def test_seta_02(self):
         self.assertEqual(
             parse("dorsal accessory head setae"),
-            [Seta(seta="dorsal accessory head setae", start=0, end=27)],
+            [Seta(seta="dorsal accessory head setae", part="head", start=0, end=27)],
         )
 
     def test_setae_03(self):
@@ -23,6 +23,7 @@ class TestSeta(unittest.TestCase):
             [
                 Seta(
                     seta="dorsal mesothoracic setae",
+                    part="thorax",
                     start=0,
                     end=25,
                 ),
@@ -34,8 +35,8 @@ class TestSeta(unittest.TestCase):
             parse("Long curved Setae;"),
             [
                 Seta(
-                    seta="long curved setae",
-                    start=0,
+                    seta="setae",
+                    start=12,
                     end=17,
                 ),
             ],
