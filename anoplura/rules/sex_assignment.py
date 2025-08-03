@@ -22,7 +22,7 @@ class SexAssignment:
         self.name = name
 
         skip = set(skip) if skip else set()  # Don't assign a sex to these traits
-        skip |= {"sex", "sex_count", "sexual_dimorphism"}
+        skip |= {"sex", "sex_count"}
         skip |= {"taxon"}
         skip |= {"number", "range", "roman"}
         skip |= {"lat_long", "elevation"}

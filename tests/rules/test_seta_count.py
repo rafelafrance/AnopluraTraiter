@@ -132,3 +132,20 @@ class TestSetaCount(unittest.TestCase):
                 Seta(start=8, end=34, seta="dorsal accessory head setae", part="head"),
             ],
         )
+
+    def test_seta_count_07(self):
+        self.assertEqual(
+            parse("2 lateral StAS on each side"),
+            [
+                SetaCount(
+                    seta="sternal abdominal setae",
+                    part="abdomen",
+                    description="lateral",
+                    count_low=2,
+                    count_group="on each side",
+                    start=0,
+                    end=9,
+                ),
+                Seta(start=10, end=14, seta="sternal abdominal setae", part="abdomen"),
+            ],
+        )

@@ -5,7 +5,7 @@ import textwrap
 from pathlib import Path
 
 from pylib import pipeline
-from traiter.pylib.util import clean_text
+from traiter.pylib import util
 from writers import html_writer
 
 
@@ -14,7 +14,8 @@ def main(args):
 
     with args.text.open() as in_file:
         text = " ".join(in_file.readlines())
-        text = clean_text(text)
+        text = util.clean_text(text)
+        text = util.remove_figures(text)
         doc = nlp(text)
         traits = [e._.trait for e in doc.ents]
         html_writer.writer(traits, text, args.html_file)

@@ -14,10 +14,10 @@ class TestSclerotized(unittest.TestCase):
                 Part(start=6, end=12, part="thorax"),
                 Part(start=18, end=25, part="abdomen"),
                 PartSclerotization(
-                    start=37,
+                    start=26,
                     end=48,
                     part=["head", "thorax", "abdomen"],
-                    amount_sclerotized="moderately",
+                    description="moderately sclerotized",
                 ),
             ],
         )

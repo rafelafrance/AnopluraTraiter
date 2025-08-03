@@ -22,19 +22,43 @@ class PartSclerotization(Base):
 
     part: str | list[str] = None
     which: str | list[str] | list[int] | None = None
-    amount_sclerotized: str | None = None
+    description: str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
         add.term_pipe(nlp, name="sclerotized_terms", path=cls.terms)
         # add.debug_tokens(nlp)  # ##########################################
+        add.trait_pipe(
+            nlp,
+            name="sclerotized_description_patterns",
+            compiler=cls.sclerotized_description_patterns(),
+            overwrite=["sclerotization"],
+        )
+        # add.debug_tokens(nlp)  # ##########################################
         add.context_pipe(
             nlp,
             name="sclerotized_patterns",
             compiler=cls.sclerotized_patterns(),
-            overwrite=["sclerotization"],
+            overwrite=["sclerotized_description"],
         )
         add.cleanup_pipe(nlp, name="sclerotized_cleanup")
+
+    @classmethod
+    def sclerotized_description_patterns(cls):
+        return [
+            Compiler(
+                label="sclerotized_description",
+                is_temp=True,
+                on_match="sclerotized_description_match",
+                decoder={
+                    "adv": {"POS": "ADV"},
+                    "sclerotized": {"ENT_TYPE": "sclerotization"},
+                },
+                patterns=[
+                    " adv sclerotized ",
+                ],
+            ),
+        ]
 
     @classmethod
     def sclerotized_patterns(cls):
@@ -43,27 +67,38 @@ class PartSclerotization(Base):
                 label="sclerotized",
                 on_match="sclerotized_match",
                 decoder={
-                    "adv": {"POS": "ADV"},
                     "part": {"ENT_TYPE": "part"},
-                    "sclerotized": {"ENT_TYPE": "sclerotization"},
+                    "sclerotized": {"ENT_TYPE": "sclerotized_description"},
                     ",": {"LOWER": {"IN": cls.sep}},
                 },
                 patterns=[
-                    "part+                   adv sclerotized",
-                    "part+ ,* part+          adv sclerotized",
-                    "part+ ,* part+ ,* part+ adv sclerotized",
+                    "part+                   sclerotized+",
+                    "part+ ,* part+          sclerotized+",
+                    "part+ ,* part+ ,* part+ sclerotized+",
                 ],
             ),
         ]
 
     @classmethod
+    def sclerotized_description_match(cls, ent):
+        return cls.from_ent(ent)
+
+    @classmethod
     def sclerotized_match(cls, ent):
         part = [e for e in ent.ents if e.label_ == "part"]
-        amount = next((t.lower_ for t in ent if t.pos_ == "ADV"), None)
+        descr = next(
+            (e.text.lower() for e in ent.ents if e.label_ == "sclerotized_description"),
+            None,
+        )
 
-        body_part, which = base.get_all_body_parts(part)
+        part, which = base.get_all_body_parts(part)
 
-        return cls.from_ent(ent, part=body_part, which=which, amount_sclerotized=amount)
+        return cls.from_ent(ent, part=part, which=which, description=descr)
+
+
+@registry.misc("sclerotized_description_match")
+def sclerotized_description_match(ent):
+    return PartSclerotization.sclerotized_description_match(ent)
 
 
 @registry.misc("sclerotized_match")

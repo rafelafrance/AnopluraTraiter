@@ -16,6 +16,7 @@ class SetaCount(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "part_terms.csv",
+        Path(__file__).parent / "terms" / "position_terms.csv",
         Path(__file__).parent / "terms" / "relative_terms.csv",
         Path(__file__).parent / "terms" / "shape_terms.csv",
     ]
@@ -37,7 +38,7 @@ class SetaCount(Base):
             nlp,
             name="seta_count_description",
             compiler=cls.seta_count_description_patterns(),
-            overwrite=["shape_term", "relative_term", "group"],
+            overwrite=["shape_term", "relative_term", "group", "position"],
         )
         add.context_pipe(
             nlp,
@@ -49,6 +50,7 @@ class SetaCount(Base):
 
     @classmethod
     def seta_count_description_patterns(cls):
+        shapes = ["shape_term", "relative_term", "position"]
         return [
             Compiler(
                 label="seta_count_description",
@@ -56,7 +58,7 @@ class SetaCount(Base):
                 on_match="seta_count_description_match",
                 decoder={
                     "group": {"ENT_TYPE": "group"},
-                    "shape": {"ENT_TYPE": {"IN": ["shape_term", "relative_term"]}},
+                    "shape": {"ENT_TYPE": {"IN": shapes}},
                 },
                 patterns=[
                     " shape+ group* ",
@@ -77,7 +79,7 @@ class SetaCount(Base):
                     "seta": {"ENT_TYPE": "seta"},
                 },
                 patterns=[
-                    " 99+   descr* seta+ ",
+                    " 99+   descr* seta+ descr* ",
                     " seta+ 99+    descr* ",
                 ],
             ),
