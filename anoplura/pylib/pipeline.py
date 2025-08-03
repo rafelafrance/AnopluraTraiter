@@ -60,7 +60,7 @@ def build():
 
     Subpart.pipe(nlp)
 
-    delete.pipe(nlp, traits=["roman"])
+    delete.pipe(nlp, delete=["roman"])
 
     SpecimenType.pipe(nlp)
 
@@ -79,7 +79,7 @@ def build():
 
     SexualDimorphism.pipe(nlp)
 
-    delete.pipe(nlp, traits=["number", "range", "roman", "count"])
+    delete.pipe(nlp, delete=["number", "range", "roman", "count"])
 
     sex_assignment.pipe(nlp)
 

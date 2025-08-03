@@ -32,6 +32,7 @@ class PartCount(Base):
             compiler=cls.part_count_description_patterns(),
             overwrite=["shape"],
         )
+        # add.debug_tokens(nlp)  # ##########################################
         add.context_pipe(
             nlp,
             name="part_count_patterns",
