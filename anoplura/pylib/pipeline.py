@@ -12,6 +12,7 @@ from anoplura.rules.part_count import PartCount
 from anoplura.rules.part_mean import PartMean
 from anoplura.rules.part_sample import PartSample
 from anoplura.rules.part_sclerotization import PartSclerotization
+from anoplura.rules.part_shape import PartShape
 from anoplura.rules.part_stats import PartStats
 from anoplura.rules.plate import Plate
 from anoplura.rules.range import Range
@@ -76,6 +77,8 @@ def build():
     SexCount.pipe(nlp)
     PartCount.pipe(nlp)
     SetaCount.pipe(nlp)
+
+    PartShape.pipe(nlp)
 
     SexualDimorphism.pipe(nlp)
 

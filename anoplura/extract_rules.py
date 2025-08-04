@@ -24,7 +24,7 @@ def main(args):
 
 def remove_figures(text: str) -> str:
     return re.sub(
-        r" \s* \( [^)]+ fig [^)]+ \) ", "", text, flags=re.IGNORECASE | re.VERBOSE
+        r" \s* \( [^)]* fig [^)]+ \) ", "", text, flags=re.IGNORECASE | re.VERBOSE
     )
 
 
