@@ -19,6 +19,7 @@ class SetaCount(Base):
         Path(__file__).parent / "terms" / "position_terms.csv",
         Path(__file__).parent / "terms" / "relative_terms.csv",
         Path(__file__).parent / "terms" / "shape_terms.csv",
+        Path(__file__).parent / "terms" / "group_terms.csv",
     ]
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
     # ----------------------
@@ -40,6 +41,7 @@ class SetaCount(Base):
             compiler=cls.seta_count_description_patterns(),
             overwrite=["shape_term", "relative_term", "group", "position"],
         )
+        # add.debug_tokens(nlp)  # ##########################################
         add.context_pipe(
             nlp,
             name="seta_count_patterns",
@@ -114,6 +116,46 @@ class SetaCount(Base):
             seta=seta,
             part=part,
         )
+
+    @classmethod
+    def seta_count_match_new(cls, ent):
+        seta, low, high, group, part = None, None, None, None, None
+        spans, curr_span, descr = [], [], []
+
+        for e in ent.ents:
+            if e.label_ == "count":
+                low = e._.trait.count_low
+                high = e._.trait.count_high
+                group = e._.trait.count_group
+                curr_span.append(e)
+            elif e.label_ == "seta":
+                seta = e._.trait.seta
+                part = e._.trait.part
+                if curr_span:
+                    spans.append(ent.doc[curr_span[0].start : curr_span[-1].end])
+                    curr_span = []
+            elif e.label_ == "seta_count_description":
+                descr.append(e.text.lower())
+                curr_span.append(e)
+
+        if curr_span:
+            spans.append(ent.doc[curr_span[0].start : curr_span[-1].end])
+
+        descr = " ".join(descr)
+
+        new = [
+            cls.from_ent(
+                e,
+                count_low=low,
+                count_high=high,
+                count_group=group,
+                description=descr,
+                seta=seta,
+                part=part,
+            )
+            for e in spans
+        ]
+        return new
 
 
 @registry.misc("seta_count_description_match")

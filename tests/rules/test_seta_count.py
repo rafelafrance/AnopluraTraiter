@@ -83,6 +83,7 @@ class TestSetaCount(unittest.TestCase):
         )
 
     def test_seta_count_05(self):
+        self.maxDiff = None
         self.assertEqual(
             parse(
                 """
