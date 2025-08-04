@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import re
 import textwrap
 from pathlib import Path
 
@@ -15,10 +16,16 @@ def main(args):
     with args.text.open() as in_file:
         text = " ".join(in_file.readlines())
         text = util.clean_text(text)
-        text = util.remove_figures(text)
+        text = remove_figures(text)
         doc = nlp(text)
         traits = [e._.trait for e in doc.ents]
         html_writer.writer(traits, text, args.html_file)
+
+
+def remove_figures(text: str) -> str:
+    return re.sub(
+        r" \s* \( [^)]+ fig [^)]+ \) ", "", text, flags=re.IGNORECASE | re.VERBOSE
+    )
 
 
 def parse_args():

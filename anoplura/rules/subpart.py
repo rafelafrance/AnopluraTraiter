@@ -29,6 +29,7 @@ class Subpart(Base):
     which: str | list[str] | list[int] | None = None
     position: str | None = None
     group: str | None = None
+    description: str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
@@ -104,21 +105,24 @@ class Subpart(Base):
 
     @classmethod
     def subpart_match(cls, ent):
-        sub, part, which, pos, group = None, None, None, None, None
+        sub, part, which, group = None, None, None, None
+        pos = []
 
         for e in ent.ents:
             if e.label_ == "bug_subpart":
                 text = e.text.lower()
                 sub = cls.replace.get(text, text)
-            if e.label_ in PARTS:
+            elif e.label_ in PARTS:
                 part = e._.trait.part
                 which = e._.trait.which
-            elif e.label_ == "position":
-                pos = e.text.lower()
+            elif e.label_ in ("position", "relative_term"):
+                pos.append(e.text.lower())
             elif e.label_ == "group":
                 group = e.text.lower()
             elif e.label_ == "subpart_suffix":
                 sub = e.text.lower()
+
+        pos = " ".join(pos) if pos else None
 
         return cls.from_ent(
             ent, subpart=sub, part=part, which=which, position=pos, group=group

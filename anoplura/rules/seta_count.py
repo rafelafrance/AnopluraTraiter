@@ -3,6 +3,7 @@ from pathlib import Path
 from typing import ClassVar
 
 from spacy.language import Language
+from spacy.tokens import Span
 from spacy.util import registry
 from traiter.pipes import add
 from traiter.pylib import term_util
@@ -92,7 +93,7 @@ class SetaCount(Base):
         return cls.from_ent(ent)
 
     @classmethod
-    def seta_count_match(cls, ent):
+    def seta_count_match_old(cls, ent):
         seta, low, high, group, part = None, None, None, None, None
         descr = None
 
@@ -118,7 +119,7 @@ class SetaCount(Base):
         )
 
     @classmethod
-    def seta_count_match_new(cls, ent):
+    def seta_count_match(cls, ent):
         seta, low, high, group, part = None, None, None, None, None
         spans, curr_span, descr = [], [], []
 
@@ -132,8 +133,15 @@ class SetaCount(Base):
                 seta = e._.trait.seta
                 part = e._.trait.part
                 if curr_span:
-                    spans.append(ent.doc[curr_span[0].start : curr_span[-1].end])
-                    curr_span = []
+                    spans.append(
+                        Span(
+                            ent.doc,
+                            curr_span[0].start,
+                            curr_span[-1].end,
+                            label="seta_count",
+                        )
+                    )
+                curr_span = []
             elif e.label_ == "seta_count_description":
                 descr.append(e.text.lower())
                 curr_span.append(e)
@@ -141,7 +149,7 @@ class SetaCount(Base):
         if curr_span:
             spans.append(ent.doc[curr_span[0].start : curr_span[-1].end])
 
-        descr = " ".join(descr)
+        descr = " ".join(descr) if descr else None
 
         new = [
             cls.from_ent(

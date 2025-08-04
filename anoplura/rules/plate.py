@@ -14,6 +14,7 @@ from anoplura.rules.base import Base
 class Plate(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
+        Path(__file__).parent / "terms" / "position_terms.csv",
         Path(__file__).parent / "terms" / "part_terms.csv",
     ]
     sep: ClassVar[list[str]] = [",", "and"]
@@ -21,6 +22,7 @@ class Plate(Base):
 
     part: str = "plate"
     which: list[int] | None = None
+    position: str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
@@ -46,15 +48,16 @@ class Plate(Base):
                     "9-9": {"ENT_TYPE": "range"},
                     "iv": {"ENT_TYPE": "roman"},
                     "plate": {"ENT_TYPE": "plates"},
+                    "pos": {"ENT_TYPE": {"IN": ["position"]}},
                 },
                 patterns=[
-                    " plate 9* ",
-                    " plate 9+ ,* 9+ ",
-                    " plate 9+ ,* 9+ ,* 9+ ",
-                    " plate 9-9+ ",
-                    " plate 9-9+ ,* 9+ ",
-                    " plate iv ",
-                    " plate iv , iv ",
+                    " pos* plate 9* ",
+                    " pos* plate 9+ ,* 9+ ",
+                    " pos* plate 9+ ,* 9+ ,* 9+ ",
+                    " pos* plate 9-9+ ",
+                    " pos* plate 9-9+ ,* 9+ ",
+                    " pos* plate iv ",
+                    " pos* plate iv , iv ",
                 ],
             ),
         ]
@@ -62,19 +65,24 @@ class Plate(Base):
     @classmethod
     def plate_match(cls, ent):
         plates = []
+        pos = []
 
-        for sub_ent in ent.ents:
-            if sub_ent.label_ in ("number", "roman"):
-                plates.append(int(sub_ent._.trait.number))
+        for e in ent.ents:
+            if e.label_ in ("number", "roman"):
+                plates.append(int(e._.trait.number))
 
-            elif sub_ent.label_ == "range":
-                low = int(sub_ent._.trait.low)
-                high = int(sub_ent._.trait.high)
+            elif e.label_ == "range":
+                low = int(e._.trait.low)
+                high = int(e._.trait.high)
                 plates += list(range(low, high + 1))
 
-        plates = sorted(set(plates)) if plates else None
+            elif e.label_ == "position":
+                pos.append(e.text.lower())
 
-        return cls.from_ent(ent, which=plates)
+        plates = sorted(set(plates)) if plates else None
+        pos = " ".join(pos) if pos else None
+
+        return cls.from_ent(ent, which=plates, position=pos)
 
 
 @registry.misc("plate_match")

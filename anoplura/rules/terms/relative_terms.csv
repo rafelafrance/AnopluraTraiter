@@ -1,4 +1,5 @@
 label,pattern
+relative_term,large,
 relative_term,larger,
 relative_term,larger than
 relative_term,long
@@ -9,7 +10,7 @@ relative_term,relative
 relative_term,relatively
 relative_term,short
 relative_term,shorter
-relative_term,slightly
+relative_term,small
 relative_term,smaller
 relative_term,smaller than
 relative_term,wide

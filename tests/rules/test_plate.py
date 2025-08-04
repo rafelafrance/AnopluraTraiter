@@ -21,7 +21,7 @@ class TestPlate(unittest.TestCase):
         self.assertEqual(
             parse("Thoracic sternal plate"),
             [
-                Plate(part="plate", start=17, end=22),
+                Plate(part="plate", position="thoracic sternal", start=0, end=22),
             ],
         )
 
@@ -35,6 +35,6 @@ class TestPlate(unittest.TestCase):
         self.assertEqual(
             parse("paratergal plate I"),
             [
-                Plate(part="plate", which=[1], start=11, end=18),
+                Plate(part="plate", position="paratergal", which=[1], start=0, end=18),
             ],
         )
