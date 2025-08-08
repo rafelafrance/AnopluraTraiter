@@ -13,8 +13,10 @@ from anoplura.rules.base import Base
 @dataclass(eq=False)
 class PartMean(Base):
     # Class vars ----------
-    terms: ClassVar[Path] = Path(__file__).parent / "terms" / "dimension_terms.csv"
-    sep: ClassVar[list[str]] = [",", "=", "is"]
+    terms: ClassVar[list[Path]] = [
+        Path(__file__).parent / "terms" / "dimension_terms.csv",
+        Path(__file__).parent / "terms" / "separator_terms.csv",
+    ]
     # ---------------------
 
     mean: float | None = None
@@ -39,7 +41,7 @@ class PartMean(Base):
                 label="part_mean",
                 on_match="part_mean_match",
                 decoder={
-                    ",": {"LOWER": {"IN": cls.sep}},
+                    ",": {"ENT_TYPE": "separator"},
                     "label": {"ENT_TYPE": "mean_term"},
                     "size": {"ENT_TYPE": "size"},
                 },

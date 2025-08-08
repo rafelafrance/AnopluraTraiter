@@ -18,7 +18,7 @@ class Subpart(Base):
         Path(__file__).parent / "terms" / "group_terms.csv",
         Path(__file__).parent / "terms" / "part_terms.csv",
         Path(__file__).parent / "terms" / "position_terms.csv",
-        Path(__file__).parent / "terms" / "relative_terms.csv",
+        Path(__file__).parent / "terms" / "size_terms.csv",
     ]
     dash: ClassVar[list[str]] = ["-", "–", "—"]
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
@@ -51,7 +51,7 @@ class Subpart(Base):
                 "position",
                 "group",
                 "subpart_suffix",
-                "relative_term",
+                "size_term",
             ],
         )
         add.cleanup_pipe(nlp, name="subpart_cleanup")
@@ -86,7 +86,7 @@ class Subpart(Base):
                     "group": {"ENT_TYPE": "group"},
                     "9": {"ENT_TYPE": "number"},
                     "part": {"ENT_TYPE": {"IN": PARTS}},
-                    "pos": {"ENT_TYPE": {"IN": ["position", "relative_term"]}},
+                    "pos": {"ENT_TYPE": {"IN": ["position", "size_term"]}},
                     "subpart": {"ENT_TYPE": "bug_subpart"},
                     "suffix": {"ENT_TYPE": "subpart_suffix"},
                 },
@@ -115,7 +115,7 @@ class Subpart(Base):
             elif e.label_ in PARTS:
                 part = e._.trait.part
                 which = e._.trait.which
-            elif e.label_ in ("position", "relative_term"):
+            elif e.label_ in ("position", "size_term"):
                 pos.append(e.text.lower())
             elif e.label_ == "group":
                 group = e.text.lower()

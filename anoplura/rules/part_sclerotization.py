@@ -16,8 +16,8 @@ class PartSclerotization(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "part_terms.csv",
+        Path(__file__).parent / "terms" / "separator_terms.csv",
     ]
-    sep: ClassVar[list[str]] = [",", "and"]
     # ----------------------
 
     part: str | list[str] = None
@@ -67,9 +67,9 @@ class PartSclerotization(Base):
                 label="sclerotized",
                 on_match="sclerotized_match",
                 decoder={
+                    ",": {"ENT_TYPE": "separator"},
                     "part": {"ENT_TYPE": "part"},
                     "sclerotized": {"ENT_TYPE": "sclerotized_description"},
-                    ",": {"LOWER": {"IN": cls.sep}},
                 },
                 patterns=[
                     "part+                   sclerotized+",

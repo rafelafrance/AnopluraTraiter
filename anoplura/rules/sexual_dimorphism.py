@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from pathlib import Path
 from typing import ClassVar
 
 from spacy.language import Language
@@ -12,7 +13,9 @@ from anoplura.rules.base import Base
 @dataclass(eq=False)
 class SexualDimorphism(Base):
     # Class vars ----------
-    sep: ClassVar[list[str]] = [",", "and"]
+    terms: ClassVar[list[Path]] = [
+        Path(__file__).parent / "terms" / "separator_terms.csv",
+    ]
     # ---------------------
 
     reference_sex: str | None = None
@@ -21,6 +24,7 @@ class SexualDimorphism(Base):
 
     @classmethod
     def pipe(cls, nlp: Language):
+        add.term_pipe(nlp, name="dimorphism_terms", path=cls.terms)
         # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
@@ -28,6 +32,7 @@ class SexualDimorphism(Base):
             compiler=cls.dimorphism_patterns(),
             overwrite=["shape"],
         )
+        # add.debug_tokens(nlp)  # ##########################################
         add.context_pipe(
             nlp,
             name="sexual_dimorphism_patterns",
@@ -59,17 +64,16 @@ class SexualDimorphism(Base):
                 label="sexual_dimorphism",
                 on_match="sexual_dimorphism_match",
                 decoder={
-                    ",": {"LOWER": {"IN": cls.sep}},
+                    ",": {"ENT_TYPE": "separator"},
                     "morph": {"ENT_TYPE": "dimorphism"},
                     "part": {"ENT_TYPE": "part"},
                     "sex": {"ENT_TYPE": "sex"},
                 },
                 patterns=[
-                    "       morph+ sex+ ",
-                    " part+ morph+ sex+ ",
-                    " part+ ,* sex+ ",
-                    " part+ ,* part+ ,* sex+ ",
-                    " part+ ,* part+ ,* part+ ,* morph* sex+ ",
+                    "                         morph+ sex+ ",
+                    " part+ ,*                morph* sex+ ",
+                    " part+ ,* part+ ,*       morph* sex+ ",
+                    " part+ ,* part+ ,* part+ morph* sex+ ",
                 ],
             ),
         ]
@@ -82,13 +86,13 @@ class SexualDimorphism(Base):
     def sexual_dimorphism_match(cls, ent):
         sex, morph = None, None
         parts = []
-        for sub_ent in ent.ents:
-            if sub_ent.label_ == "sex":
-                sex = sub_ent._.trait.sex
-            elif sub_ent.label_ == "part":
-                parts.append(sub_ent._.trait.part)
-            elif sub_ent.label_ == "dimorphism":
-                morph = sub_ent.text.lower()
+        for e in ent.ents:
+            if e.label_ == "sex":
+                sex = e._.trait.sex
+            elif e.label_ == "part":
+                parts.append(e._.trait.part)
+            elif e.label_ == "dimorphism":
+                morph = e.text.lower()
 
         return cls.from_ent(ent, reference_sex=sex, parts=parts, description=morph)
 

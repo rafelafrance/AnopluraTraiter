@@ -16,8 +16,8 @@ class Plate(Base):
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "position_terms.csv",
         Path(__file__).parent / "terms" / "part_terms.csv",
+        Path(__file__).parent / "terms" / "separator_terms.csv",
     ]
-    sep: ClassVar[list[str]] = [",", "and"]
     # ----------------------
 
     part: str = "plate"
@@ -43,7 +43,7 @@ class Plate(Base):
                 label="plate",
                 on_match="plate_match",
                 decoder={
-                    ",": {"LOWER": {"IN": cls.sep}},
+                    ",": {"ENT_TYPE": "separator"},
                     "9": {"ENT_TYPE": "number"},
                     "9-9": {"ENT_TYPE": "range"},
                     "iv": {"ENT_TYPE": "roman"},

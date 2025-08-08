@@ -17,8 +17,8 @@ class Tergite(Base):
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "group_terms.csv",
         Path(__file__).parent / "terms" / "part_terms.csv",
+        Path(__file__).parent / "terms" / "separator_terms.csv",
     ]
-    sep: ClassVar[list[str]] = [",", "and"]
     # ----------------------
 
     part: str = "tergite"
@@ -45,7 +45,7 @@ class Tergite(Base):
                 decoder={
                     "(": {"LOWER": {"IN": t_const.OPEN}},
                     ")": {"LOWER": {"IN": t_const.CLOSE}},
-                    ",": {"LOWER": {"IN": cls.sep}},
+                    ",": {"ENT_TYPE": "separator"},
                     "9": {"ENT_TYPE": "number"},
                     "9-9": {"ENT_TYPE": "range"},
                     "label": {"ENT_TYPE": "labels"},

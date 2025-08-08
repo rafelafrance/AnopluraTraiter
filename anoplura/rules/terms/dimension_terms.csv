@@ -38,6 +38,3 @@ measure,total,
 measure,maximum,
 sample_term,n,sample
 sample_term,sample,sample
-separator,",",
-separator,=,
-separator,is,

@@ -15,6 +15,7 @@ from anoplura.pylib.dimension import Dimension
 
 ALL_CSVS = [
     Path(__file__).parent / "terms" / "dimension_terms.csv",
+    Path(__file__).parent / "terms" / "separator_terms.csv",
     Path(t_terms.__file__).parent / "unit_length_terms.csv",
 ]
 
