@@ -28,6 +28,7 @@ from anoplura.rules.size import Size
 from anoplura.rules.specimen_type import SpecimenType
 from anoplura.rules.sternite import Sternite
 from anoplura.rules.subpart import Subpart
+from anoplura.rules.subpart_description import SubpartDescription
 from anoplura.rules.taxon import Taxon
 from anoplura.rules.tergite import Tergite
 
@@ -81,6 +82,7 @@ def build():
 
     SexualDimorphism.pipe(nlp)
     PartDescription.pipe(nlp)
+    SubpartDescription.pipe(nlp)
 
     SetaPosition.pipe(nlp)
 

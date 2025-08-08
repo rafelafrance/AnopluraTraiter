@@ -14,7 +14,7 @@ class TestPartDescription(unittest.TestCase):
                     start=0,
                     end=13,
                     part="coxa",
-                    shape=["subtriangular"],
+                    description=["subtriangular"],
                 ),
                 Part(
                     start=14,
@@ -37,7 +37,7 @@ class TestPartDescription(unittest.TestCase):
                     start=5,
                     end=49,
                     part="head",
-                    shape=["longer than wide", "broadly rounded anteriorly"],
+                    description=["longer than wide", "broadly rounded anteriorly"],
                 ),
             ],
         )
@@ -61,7 +61,55 @@ class TestPartDescription(unittest.TestCase):
                     end=70,
                     part="segment",
                     which="basal",
-                    shape=["larger than other segments", "slightly longer than wide"],
+                    description=[
+                        "larger than other segments",
+                        "slightly longer than wide",
+                    ],
+                ),
+            ],
+        )
+
+    def test_part_description_04(self):
+        self.assertEqual(
+            parse(
+                """
+                basal segment larger than other segments and slightly longer than wide;
+                """
+            ),
+            [
+                Part(
+                    start=0,
+                    end=13,
+                    part="segment",
+                    which="basal",
+                ),
+                PartDescription(
+                    start=14,
+                    end=70,
+                    part="segment",
+                    which="basal",
+                    description=[
+                        "larger than other segments",
+                        "slightly longer than wide",
+                    ],
+                ),
+            ],
+        )
+
+    def test_part_description_05(self):
+        self.assertEqual(
+            parse("Mesothoracic spiracle"),
+            [
+                PartDescription(
+                    start=0,
+                    end=12,
+                    part="spiracle",
+                    description=["mesothoracic"],
+                ),
+                Part(
+                    start=13,
+                    end=21,
+                    part="spiracle",
                 ),
             ],
         )

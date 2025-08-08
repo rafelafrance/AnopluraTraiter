@@ -7,11 +7,11 @@ from spacy.util import registry
 from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.base import PARTS, Base
+from anoplura.rules.base import Base
 
 
 @dataclass(eq=False)
-class PartDescription(Base):
+class SubpartDescription(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "part_terms.csv",
@@ -30,36 +30,39 @@ class PartDescription(Base):
     ]
     # ----------------------
 
-    part: str | None = None
+    subpart: str | None = None
+    part: str | list[str] = None
     which: str | list[str] | list[int] | None = None
+    position: str | None = None
+    group: str | None = None
     description: list[str] | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
-        add.term_pipe(nlp, name="part_description_terms", path=cls.terms)
+        add.term_pipe(nlp, name="subpart_description_terms", path=cls.terms)
         # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
-            name="part_descr_patterns",
-            compiler=cls.part_descr_patterns(),
+            name="subpart_descr_patterns",
+            compiler=cls.subpart_descr_patterns(),
             overwrite=["shape_term", "size_term", "position", *cls.other_parts],
         )
         # add.debug_tokens(nlp)  # ##########################################
         add.context_pipe(
             nlp,
-            name="part_description_patterns",
-            compiler=cls.part_description_patterns(),
-            overwrite=["part_descr"],
+            name="subpart_description_patterns",
+            compiler=cls.subpart_description_patterns(),
+            overwrite=["subpart_descr"],
         )
-        add.cleanup_pipe(nlp, name="part_description_cleanup")
+        add.cleanup_pipe(nlp, name="subpart_description_cleanup")
 
     @classmethod
-    def part_descr_patterns(cls):
+    def subpart_descr_patterns(cls):
         return [
             Compiler(
-                label="part_descr",
+                label="subpart_descr",
                 is_temp=True,
-                on_match="part_descr_match",
+                on_match="subpart_descr_match",
                 decoder={
                     "adj": {"POS": {"IN": ["ADJ", "ADV"]}},
                     "pos": {"ENT_TYPE": "position"},
@@ -75,50 +78,59 @@ class PartDescription(Base):
         ]
 
     @classmethod
-    def part_description_patterns(cls):
+    def subpart_description_patterns(cls):
         return [
             Compiler(
-                label="part_description",
-                on_match="part_description_match",
+                label="subpart_description",
+                on_match="subpart_description_match",
                 decoder={
                     ",": {"ENT_TYPE": "separator"},
-                    "part": {"ENT_TYPE": {"IN": PARTS}},
-                    "shape": {"ENT_TYPE": "part_descr"},
+                    "subpart": {"ENT_TYPE": "subpart"},
+                    "shape": {"ENT_TYPE": "subpart_descr"},
                 },
                 patterns=[
-                    " shape+ part+ ",
-                    " part+  shape+ ",
-                    " part+  shape+ ,* shape+ ",
+                    " shape+   subpart+ ",
+                    " subpart+ shape+ ",
+                    " subpart+ shape+ ,* shape+ ",
                 ],
             ),
         ]
 
     @classmethod
-    def part_descr_match(cls, ent):
+    def subpart_descr_match(cls, ent):
         return cls.from_ent(ent)
 
     @classmethod
-    def part_description_match(cls, ent):
-        part, which = None, None
+    def subpart_description_match(cls, ent):
+        subpart, part, which, pos, group = None, None, None, None, None
         descr = []
 
         for e in ent.ents:
-            if e.label_ in PARTS:
+            if e.label_ == "subpart":
+                subpart = e._.trait.subpart
                 part = e._.trait.part
                 which = e._.trait.which
-            elif e.label_ == "subpart":
-                part = e._.trait.subpart
-            elif e.label_ == "part_descr":
+                pos = e._.trait.position
+                group = e._.trait.group
+            elif e.label_ == "subpart_descr":
                 descr.append(e.text.lower())
 
-        return cls.from_ent(ent, part=part, which=which, description=descr)
+        return cls.from_ent(
+            ent,
+            subpart=subpart,
+            part=part,
+            which=which,
+            position=pos,
+            group=group,
+            description=descr,
+        )
 
 
-@registry.misc("part_description_match")
-def part_description_match(ent):
-    return PartDescription.part_description_match(ent)
+@registry.misc("subpart_description_match")
+def subpart_description_match(ent):
+    return SubpartDescription.subpart_description_match(ent)
 
 
-@registry.misc("part_descr_match")
-def part_descr_match(ent):
-    return PartDescription.part_descr_match(ent)
+@registry.misc("subpart_descr_match")
+def subpart_descr_match(ent):
+    return SubpartDescription.subpart_descr_match(ent)

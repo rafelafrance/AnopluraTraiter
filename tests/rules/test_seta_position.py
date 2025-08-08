@@ -56,3 +56,23 @@ class TestSetaPosition(unittest.TestCase):
                 ),
             ],
         )
+
+    def test_seta_position_03(self):
+        self.assertEqual(
+            parse("(VPHS) ventrally on each side"),
+            [
+                Seta(
+                    start=1,
+                    end=5,
+                    seta="ventral principal head setae",
+                    part="head",
+                ),
+                SetaPosition(
+                    start=7,
+                    end=29,
+                    seta="ventral principal head setae",
+                    part="head",
+                    position="ventrally on each side",
+                ),
+            ],
+        )

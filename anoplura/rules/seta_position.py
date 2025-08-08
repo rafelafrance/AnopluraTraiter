@@ -5,6 +5,7 @@ from typing import ClassVar
 from spacy.language import Language
 from spacy.util import registry
 from traiter.pipes import add
+from traiter.pylib import const as t_const
 from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
 
@@ -15,6 +16,7 @@ from anoplura.rules.base import PARTS, Base
 class SetaPosition(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
+        Path(__file__).parent / "terms" / "group_terms.csv",
         Path(__file__).parent / "terms" / "position_terms.csv",
     ]
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
@@ -33,7 +35,7 @@ class SetaPosition(Base):
             nlp,
             name="seta_pos_description",
             compiler=cls.seta_pos_description_patterns(),
-            overwrite=["position"],
+            overwrite=["position", "group"],
         )
         # add.debug_tokens(nlp)  # ##########################################
         add.context_pipe(
@@ -52,12 +54,13 @@ class SetaPosition(Base):
                 is_temp=True,
                 on_match="seta_pos_description_match",
                 decoder={
+                    "pos": {"ENT_TYPE": "position"},
+                    "group": {"ENT_TYPE": "group"},
                     "verb": {"POS": "VERB"},
                     "words": {"POS": {"IN": ["ADV", "CCONJ", "ADJ", "PART", "ADP"]}},
-                    "pos": {"ENT_TYPE": "position"},
                 },
                 patterns=[
-                    " verb* words* pos+ words* ",
+                    " verb* words* pos+ words* group* ",
                 ],
             ),
         ]
@@ -69,14 +72,17 @@ class SetaPosition(Base):
                 label="seta_position",
                 on_match="seta_position_match",
                 decoder={
+                    "(": {"TEXT": {"IN": t_const.OPEN}},
+                    ")": {"TEXT": {"IN": t_const.CLOSE}},
                     "descr": {"ENT_TYPE": "seta_pos_description"},
                     "seta": {"ENT_TYPE": "seta"},
                     "subpart": {"ENT_TYPE": "subpart"},
                     "part": {"ENT_TYPE": {"IN": PARTS}},
                 },
                 patterns=[
-                    " seta+ descr+ subpart+ ",
-                    " seta+ descr+ seta+ ",
+                    " (? seta+ )? descr+ subpart+ ",
+                    " (? seta+ )? descr+ ",
+                    " (? seta+ )? descr+ seta+ ",
                 ],
             ),
         ]

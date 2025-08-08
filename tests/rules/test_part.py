@@ -12,7 +12,7 @@ class TestPart(unittest.TestCase):
             [
                 Part(part="leg", start=0, end=4),
                 PartDescription(
-                    start=5, end=25, part="leg", shape=["progressively larger"]
+                    start=5, end=25, part="leg", description=["progressively larger"]
                 ),
             ],
         )

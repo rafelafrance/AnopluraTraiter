@@ -16,6 +16,7 @@ class Subpart(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "group_terms.csv",
+        Path(__file__).parent / "terms" / "shape_terms.csv",
         Path(__file__).parent / "terms" / "part_terms.csv",
         Path(__file__).parent / "terms" / "position_terms.csv",
         Path(__file__).parent / "terms" / "size_terms.csv",
