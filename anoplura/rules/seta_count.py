@@ -16,7 +16,6 @@ from anoplura.rules.base import Base
 class SetaCount(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
-        Path(__file__).parent / "terms" / "part_terms.csv",
         Path(__file__).parent / "terms" / "position_terms.csv",
         Path(__file__).parent / "terms" / "size_terms.csv",
         Path(__file__).parent / "terms" / "shape_terms.csv",
@@ -36,7 +35,7 @@ class SetaCount(Base):
     def pipe(cls, nlp: Language):
         add.term_pipe(nlp, name="seta_count_terms", path=cls.terms)
         # add.debug_tokens(nlp)  # ##########################################
-        add.context_pipe(
+        add.trait_pipe(
             nlp,
             name="seta_count_description",
             compiler=cls.seta_count_description_patterns(),
@@ -60,12 +59,13 @@ class SetaCount(Base):
                 is_temp=True,
                 on_match="seta_count_description_match",
                 decoder={
+                    "adv": {"POS": {"IN": ["ADV", "ADJ"]}},
                     "group": {"ENT_TYPE": "group"},
                     "shape": {"ENT_TYPE": {"IN": shapes}},
                 },
                 patterns=[
-                    " shape+ group* ",
-                    " shape* group+ ",
+                    " adv* shape+ group* ",
+                    " adv* shape* group+ ",
                 ],
             ),
         ]
@@ -91,32 +91,6 @@ class SetaCount(Base):
     @classmethod
     def seta_count_description_match(cls, ent):
         return cls.from_ent(ent)
-
-    @classmethod
-    def seta_count_match_old(cls, ent):
-        seta, low, high, group, part = None, None, None, None, None
-        descr = None
-
-        for e in ent.ents:
-            if e.label_ == "count":
-                low = e._.trait.count_low
-                high = e._.trait.count_high
-                group = e._.trait.count_group
-            elif e.label_ == "seta":
-                seta = e._.trait.seta
-                part = e._.trait.part
-            elif e.label_ == "seta_count_description":
-                descr = e.text.lower()
-
-        return cls.from_ent(
-            ent,
-            count_low=low,
-            count_high=high,
-            count_group=group,
-            description=descr,
-            seta=seta,
-            part=part,
-        )
 
     @classmethod
     def seta_count_match(cls, ent):

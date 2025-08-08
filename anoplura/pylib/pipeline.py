@@ -20,6 +20,7 @@ from anoplura.rules.roman import Roman
 from anoplura.rules.segment import Segment
 from anoplura.rules.seta import Seta
 from anoplura.rules.seta_count import SetaCount
+from anoplura.rules.seta_position import SetaPosition
 from anoplura.rules.sex import Sex
 from anoplura.rules.sex_count import SexCount
 from anoplura.rules.sexual_dimorphism import SexualDimorphism
@@ -80,6 +81,8 @@ def build():
 
     SexualDimorphism.pipe(nlp)
     PartDescription.pipe(nlp)
+
+    SetaPosition.pipe(nlp)
 
     delete.pipe(nlp, delete=["number", "range", "roman", "count"])
 

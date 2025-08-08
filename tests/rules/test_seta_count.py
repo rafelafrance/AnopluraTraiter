@@ -158,3 +158,22 @@ class TestSetaCount(unittest.TestCase):
                 ),
             ],
         )
+
+    def test_seta_count_08(self):
+        self.maxDiff = None
+        self.assertEqual(
+            parse("1 fairly long ventral principal head seta"),
+            [
+                SetaCount(
+                    seta="ventral principal head setae",
+                    part="head",
+                    description="fairly long",
+                    count_low=1,
+                    start=0,
+                    end=13,
+                ),
+                Seta(
+                    start=14, end=41, seta="ventral principal head setae", part="head"
+                ),
+            ],
+        )
