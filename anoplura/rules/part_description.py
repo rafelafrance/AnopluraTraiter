@@ -83,12 +83,12 @@ class PartDescription(Base):
                 decoder={
                     ",": {"ENT_TYPE": "separator"},
                     "part": {"ENT_TYPE": {"IN": PARTS}},
-                    "shape": {"ENT_TYPE": "part_descr"},
+                    "descr": {"ENT_TYPE": "part_descr"},
                 },
                 patterns=[
-                    " shape+ part+ ",
-                    " part+  shape+ ",
-                    " part+  shape+ ,* shape+ ",
+                    " descr+ part+ ",
+                    " part+  descr+ ",
+                    " part+  descr+ ,+ descr+ ",
                 ],
             ),
         ]
@@ -106,8 +106,6 @@ class PartDescription(Base):
             if e.label_ in PARTS:
                 part = e._.trait.part
                 which = e._.trait.which
-            elif e.label_ == "subpart":
-                part = e._.trait.subpart
             elif e.label_ == "part_descr":
                 descr.append(e.text.lower())
 

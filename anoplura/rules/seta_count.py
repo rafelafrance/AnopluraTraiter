@@ -3,7 +3,6 @@ from pathlib import Path
 from typing import ClassVar
 
 from spacy.language import Language
-from spacy.tokens import Span
 from spacy.util import registry
 from traiter.pipes import add
 from traiter.pylib import term_util
@@ -48,6 +47,13 @@ class SetaCount(Base):
             compiler=cls.seta_count_patterns(),
             overwrite=["count", "seta_count_description"],
         )
+        # add.debug_tokens(nlp)  # ##########################################
+        add.context_pipe(
+            nlp,
+            name="seta_count_patterns2",
+            compiler=cls.seta_count_patterns2(),
+            overwrite=["seta_count_description"],
+        )
         add.cleanup_pipe(nlp, name="seta_count_cleanup")
 
     @classmethod
@@ -64,8 +70,8 @@ class SetaCount(Base):
                     "shape": {"ENT_TYPE": {"IN": shapes}},
                 },
                 patterns=[
-                    " adv* shape+ group* ",
-                    " adv* shape* group+ ",
+                    " adv? shape+ group* ",
+                    " adv? shape* group+ ",
                 ],
             ),
         ]
@@ -82,8 +88,27 @@ class SetaCount(Base):
                     "seta": {"ENT_TYPE": "seta"},
                 },
                 patterns=[
-                    " 99+   descr* seta+ descr* ",
+                    " 99+   seta+  descr* ",
+                    " 99+   descr* seta+ ",
                     " seta+ 99+    descr* ",
+                ],
+            ),
+        ]
+
+    @classmethod
+    def seta_count_patterns2(cls):
+        return [
+            Compiler(
+                label="seta_count",
+                on_match="seta_count_match2",
+                decoder={
+                    "99": {"ENT_TYPE": "seta_count"},
+                    "descr": {"ENT_TYPE": "seta_count_description"},
+                    "seta": {"ENT_TYPE": "seta"},
+                },
+                patterns=[
+                    " 99+   seta+ descr+ ",
+                    " seta+ 99+   descr+ ",
                 ],
             ),
         ]
@@ -95,49 +120,58 @@ class SetaCount(Base):
     @classmethod
     def seta_count_match(cls, ent):
         seta, low, high, group, part = None, None, None, None, None
-        spans, curr_span, descr = [], [], []
+        descr = []
 
         for e in ent.ents:
             if e.label_ == "count":
                 low = e._.trait.count_low
                 high = e._.trait.count_high
                 group = e._.trait.count_group
-                curr_span.append(e)
             elif e.label_ == "seta":
                 seta = e._.trait.seta
                 part = e._.trait.part
-                if curr_span:
-                    spans.append(
-                        Span(
-                            ent.doc,
-                            curr_span[0].start,
-                            curr_span[-1].end,
-                            label="seta_count",
-                        )
-                    )
-                curr_span = []
             elif e.label_ == "seta_count_description":
                 descr.append(e.text.lower())
-                curr_span.append(e)
-
-        if curr_span:
-            spans.append(ent.doc[curr_span[0].start : curr_span[-1].end])
 
         descr = " ".join(descr) if descr else None
 
-        new = [
-            cls.from_ent(
-                e,
-                count_low=low,
-                count_high=high,
-                count_group=group,
-                description=descr,
-                seta=seta,
-                part=part,
-            )
-            for e in spans
-        ]
-        return new
+        return cls.from_ent(
+            ent,
+            count_low=low,
+            count_high=high,
+            count_group=group,
+            description=descr,
+            seta=seta,
+            part=part,
+        )
+
+    @classmethod
+    def seta_count_match2(cls, ent):
+        seta, low, high, group, part = None, None, None, None, None
+        descr = []
+
+        for e in ent.ents:
+            if e.label_ == "seta_count":
+                low = e._.trait.count_low
+                high = e._.trait.count_high
+                group = e._.trait.count_group
+            elif e.label_ == "seta":
+                seta = e._.trait.seta
+                part = e._.trait.part
+            elif e.label_ == "seta_count_description":
+                descr.append(e.text.lower())
+
+        descr = " ".join(descr) if descr else None
+
+        return cls.from_ent(
+            ent,
+            count_low=low,
+            count_high=high,
+            count_group=group,
+            description=descr,
+            seta=seta,
+            part=part,
+        )
 
 
 @registry.misc("seta_count_description_match")
@@ -148,3 +182,8 @@ def seta_count_description_match(ent):
 @registry.misc("seta_count_match")
 def seta_count_match(ent):
     return SetaCount.seta_count_match(ent)
+
+
+@registry.misc("seta_count_match2")
+def seta_count_match2(ent):
+    return SetaCount.seta_count_match2(ent)

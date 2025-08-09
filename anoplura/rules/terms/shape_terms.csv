@@ -38,6 +38,8 @@ shape_term,bowl-shaped
 shape_term,bowlshaped
 shape_term,branched
 shape_term,broad-based
+shape_term,broad
+shape_term,broadly
 shape_term,bullate
 shape_term,c-curved
 shape_term,calcarate
@@ -225,6 +227,7 @@ shape_term,plumpy
 shape_term,pluripinnate
 shape_term,polygonal
 shape_term,polygonal-angulate
+shape_term,progressively
 shape_term,pseudoracemose
 shape_term,pulvinate
 shape_term,pyriform
@@ -279,6 +282,8 @@ shape_term,sextagonal
 shape_term,sextagonate
 shape_term,short-stipitate
 shape_term,slender
+shape_term,slight
+shape_term,slightly
 shape_term,spathulate
 shape_term,spatulate
 shape_term,spear-shaped

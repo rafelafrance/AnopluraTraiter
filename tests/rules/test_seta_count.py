@@ -140,21 +140,26 @@ class TestSetaCount(unittest.TestCase):
             parse("2 lateral StAS on each side"),
             [
                 SetaCount(
-                    seta="sternal abdominal setae",
-                    part="abdomen",
-                    description="lateral on each side",
-                    count_low=2,
                     start=0,
                     end=9,
+                    seta="sternal abdominal setae",
+                    part="abdomen",
+                    count_low=2,
+                    description="lateral",
                 ),
-                Seta(start=10, end=14, seta="sternal abdominal setae", part="abdomen"),
+                Seta(
+                    start=10,
+                    end=14,
+                    seta="sternal abdominal setae",
+                    part="abdomen",
+                ),
                 SetaCount(
                     start=15,
                     end=27,
                     seta="sternal abdominal setae",
                     part="abdomen",
                     count_low=2,
-                    description="lateral on each side",
+                    description="on each side",
                 ),
             ],
         )
