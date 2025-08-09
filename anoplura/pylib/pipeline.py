@@ -13,6 +13,7 @@ from anoplura.rules.part_description import PartDescription
 from anoplura.rules.part_mean import PartMean
 from anoplura.rules.part_sample import PartSample
 from anoplura.rules.part_sclerotization import PartSclerotization
+from anoplura.rules.part_size import PartSize
 from anoplura.rules.part_stats import PartStats
 from anoplura.rules.plate import Plate
 from anoplura.rules.range import Range
@@ -21,6 +22,7 @@ from anoplura.rules.segment import Segment
 from anoplura.rules.seta import Seta
 from anoplura.rules.seta_count import SetaCount
 from anoplura.rules.seta_position import SetaPosition
+from anoplura.rules.seta_size import SetaSize
 from anoplura.rules.sex import Sex
 from anoplura.rules.sex_count import SexCount
 from anoplura.rules.sexual_dimorphism import SexualDimorphism
@@ -29,6 +31,7 @@ from anoplura.rules.specimen_type import SpecimenType
 from anoplura.rules.sternite import Sternite
 from anoplura.rules.subpart import Subpart
 from anoplura.rules.subpart_description import SubpartDescription
+from anoplura.rules.subpart_size import SubpartSize
 from anoplura.rules.taxon import Taxon
 from anoplura.rules.tergite import Tergite
 
@@ -85,6 +88,9 @@ def build():
     SubpartDescription.pipe(nlp)
 
     SetaPosition.pipe(nlp)
+    PartSize.pipe(nlp)
+    SetaSize.pipe(nlp)
+    SubpartSize.pipe(nlp)
 
     delete.pipe(nlp, delete=["number", "range", "roman", "count"])
 

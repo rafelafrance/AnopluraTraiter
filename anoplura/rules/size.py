@@ -13,30 +13,29 @@ from traiter.rules.base import Base
 
 from anoplura.pylib.dimension import Dimension
 
-ALL_CSVS = [
-    Path(__file__).parent / "terms" / "dimension_terms.csv",
-    Path(__file__).parent / "terms" / "separator_terms.csv",
-    Path(t_terms.__file__).parent / "unit_length_terms.csv",
-]
-
 
 @dataclass(eq=False)
 class Size(Base):
     # Class vars ----------
+    terms: ClassVar[list[Path]] = [
+        Path(__file__).parent / "terms" / "dimension_terms.csv",
+        Path(__file__).parent / "terms" / "separator_terms.csv",
+        Path(t_terms.__file__).parent / "unit_length_terms.csv",
+    ]
     cross: ClassVar[list[str]] = t_const.CROSS + t_const.COMMA
     factors_cm: ClassVar[dict[str, float]] = term_util.look_up_table(
-        ALL_CSVS, "factor_cm", float
+        terms, "factor_cm", float
     )
     factors_cm["in"] = 2.54
     units: ClassVar[list[str]] = ["metric_length", "imperial_length"]
-    replace: ClassVar[dict[str, str]] = term_util.look_up_table(ALL_CSVS, "replace")
+    replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
     # ---------------------
 
     dims: list[Dimension] = field(default_factory=list)
 
     @classmethod
     def pipe(cls, nlp: Language):
-        add.term_pipe(nlp, name="size_terms", path=ALL_CSVS)
+        add.term_pipe(nlp, name="size_terms", path=cls.terms)
         # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
@@ -90,27 +89,27 @@ class Size(Base):
     def scan_parts(cls, ent):
         dims = [Dimension()]
 
-        for sub_ent in ent.ents:
-            if sub_ent.label_ == "range":
-                dims[-1].low = sub_ent._.trait.low
-                dims[-1].high = sub_ent._.trait.high
-                cls.update_indices(sub_ent, dims)
+        for e in ent.ents:
+            if e.label_ == "range":
+                dims[-1].low = e._.trait.low
+                dims[-1].high = e._.trait.high
+                cls.update_indices(e, dims)
 
-            elif sub_ent.label_ == "number":
-                dims[-1].low = sub_ent._.trait.number
-                cls.update_indices(sub_ent, dims)
+            elif e.label_ == "number":
+                dims[-1].low = e._.trait.number
+                cls.update_indices(e, dims)
 
-            elif sub_ent.label_ == "dimension":
-                text = sub_ent.text.lower()
+            elif e.label_ == "dimension":
+                text = e.text.lower()
                 dims[-1].dim = cls.replace.get(text, text)
-                cls.update_indices(sub_ent, dims)
+                cls.update_indices(e, dims)
 
-            elif sub_ent.label_ in cls.units:
-                text = sub_ent.text.lower()
+            elif e.label_ in cls.units:
+                text = e.text.lower()
                 dims[-1].units = cls.replace.get(text, text)
-                cls.update_indices(sub_ent, dims)
+                cls.update_indices(e, dims)
 
-            elif sub_ent.label_ == "cross":
+            elif e.label_ == "cross":
                 dims.append(Dimension())
 
         return dims
