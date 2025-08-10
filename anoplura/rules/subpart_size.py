@@ -20,7 +20,7 @@ class SubpartSize(Base):
     which: str | list[str] | list[int] | None = None
     position: str | None = None
     group: str | None = None
-    description: str | None = None
+    morphology: str | None = None
     dims: list[Dimension] = field(default_factory=list)
 
     @classmethod
@@ -53,8 +53,7 @@ class SubpartSize(Base):
 
     @classmethod
     def subpart_size_match(cls, ent):
-        dims, pos, descr = None, None, None
-        sub, part, which, group = None, None, None, None
+        sub, part, which, group, dims, pos = None, None, None, None, None, None
 
         for e in ent.ents:
             if e.label_ == "size":
@@ -66,7 +65,6 @@ class SubpartSize(Base):
                 which = e._.trait.which
                 pos = e._.trait.position
                 group = e._.trait.group
-                descr = e._.trait.description
 
         return cls.from_ent(
             ent,
@@ -75,7 +73,6 @@ class SubpartSize(Base):
             which=which,
             position=pos,
             group=group,
-            description=descr,
             dims=dims,
         )
 

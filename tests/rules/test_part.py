@@ -1,7 +1,7 @@
 import unittest
 
 from anoplura.rules.part import Part
-from anoplura.rules.part_description import PartDescription
+from anoplura.rules.part_morphology import PartMorphology
 from tests.setup import parse
 
 
@@ -11,8 +11,8 @@ class TestPart(unittest.TestCase):
             parse("Legs progressively larger"),
             [
                 Part(part="leg", start=0, end=4),
-                PartDescription(
-                    start=5, end=25, part="leg", description=["progressively larger"]
+                PartMorphology(
+                    start=5, end=25, part="leg", morphology=["progressively larger"]
                 ),
             ],
         )

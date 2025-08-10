@@ -11,7 +11,7 @@ from anoplura.rules.base import PARTS, Base
 
 
 @dataclass(eq=False)
-class PartDescription(Base):
+class PartMorphology(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "part_terms.csv",
@@ -32,44 +32,45 @@ class PartDescription(Base):
 
     part: str | None = None
     which: str | list[str] | list[int] | None = None
-    description: list[str] | None = None
+    morphology: list[str] | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
-        add.term_pipe(nlp, name="part_description_terms", path=cls.terms)
+        add.term_pipe(nlp, name="part_morphology_terms", path=cls.terms)
         # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
-            name="part_descr_patterns",
-            compiler=cls.part_descr_patterns(),
+            name="part_morph_patterns",
+            compiler=cls.part_morph_patterns(),
             overwrite=["shape_term", "size_term", "position", *cls.other_parts],
         )
         # add.debug_tokens(nlp)  # ##########################################
         add.context_pipe(
             nlp,
-            name="part_description_patterns",
-            compiler=cls.part_description_patterns(),
-            overwrite=["part_descr"],
+            name="part_morphology_patterns",
+            compiler=cls.part_morphology_patterns(),
+            overwrite=["part_morph"],
         )
         # add.debug_tokens(nlp)  # ##########################################
         add.context_pipe(
             nlp,
-            name="part_description_patterns2",
-            compiler=cls.part_description_patterns2(),
-            overwrite=["part_descr"],
+            name="part_morphology_patterns2",
+            compiler=cls.part_morphology_patterns2(),
+            overwrite=["part_morph"],
         )
-        add.cleanup_pipe(nlp, name="part_description_cleanup")
+        add.cleanup_pipe(nlp, name="part_morphology_cleanup")
 
     @classmethod
-    def part_descr_patterns(cls):
+    def part_morph_patterns(cls):
         return [
             Compiler(
-                label="part_descr",
+                label="part_morph",
                 is_temp=True,
-                on_match="part_descr_match",
+                on_match="part_morph_match",
                 decoder={
                     "and": {"ENT_TYPE": "separator"},
                     "adj": {"POS": {"IN": ["ADJ", "ADV"]}},
+                    "adp": {"POS": {"IN": ["ADP"]}},
                     "pos": {"ENT_TYPE": "position"},
                     "other_parts": {"ENT_TYPE": {"IN": cls.other_parts}},
                     "shape": {"ENT_TYPE": {"IN": ["shape_term", "size_term"]}},
@@ -79,90 +80,91 @@ class PartDescription(Base):
                     " adj* shape+ pos* ",
                     " adj* shape+ other_parts* ",
                     " adj* pos+ and+ shape+ ",
+                    " adp* pos+ adp* pos+ ",
                 ],
             ),
         ]
 
     @classmethod
-    def part_description_patterns(cls):
+    def part_morphology_patterns(cls):
         return [
             Compiler(
-                label="part_description",
-                on_match="part_description_match",
+                label="part_morphology",
+                on_match="part_morphology_match",
                 decoder={
                     "and": {"ENT_TYPE": "separator"},
                     "part": {"ENT_TYPE": {"IN": PARTS}},
-                    "descr": {"ENT_TYPE": "part_descr"},
+                    "morph": {"ENT_TYPE": "part_morph"},
                 },
                 patterns=[
-                    " part+  descr+ and* descr+ ",
-                    " descr+ and* descr+ part+ ",
-                    " descr+ part+ ",
-                    " part+  descr+ ",
+                    " part+  morph+ and* morph+ ",
+                    " morph+ and* morph+ part+ ",
+                    " morph+ part+ ",
+                    " part+  morph+ ",
                 ],
             ),
         ]
 
     @classmethod
-    def part_description_patterns2(cls):
+    def part_morphology_patterns2(cls):
         return [
             Compiler(
-                label="part_description",
-                on_match="part_description_match2",
+                label="part_morphology",
+                on_match="part_morphology_match2",
                 decoder={
-                    "other_description": {"ENT_TYPE": "part_description"},
+                    "other_morph": {"ENT_TYPE": "part_morphology"},
                     "part": {"ENT_TYPE": {"IN": PARTS}},
-                    "descr": {"ENT_TYPE": "part_descr"},
+                    "morph": {"ENT_TYPE": "part_morph"},
                 },
                 patterns=[
-                    " other_description+ part+ descr+ ",
+                    " other_morph+ part+ morph+ ",
                 ],
             ),
         ]
 
     @classmethod
-    def part_descr_match(cls, ent):
+    def part_morph_match(cls, ent):
         return cls.from_ent(ent)
 
     @classmethod
-    def part_description_match(cls, ent):
+    def part_morphology_match(cls, ent):
         part, which = None, None
-        descr = []
+        morph = []
 
         for e in ent.ents:
             if e.label_ in PARTS:
                 part = e._.trait.part
                 which = e._.trait.which
-            elif e.label_ == "part_descr":
-                descr.append(e.text.lower())
+            elif e.label_ == "part_morph":
+                morph.append(e.text.lower())
 
-        return cls.from_ent(ent, part=part, which=which, description=descr)
+        return cls.from_ent(ent, part=part, which=which, morphology=morph)
 
     @classmethod
-    def part_description_match2(cls, ent):
+    def part_morphology_match2(cls, ent):
         part, which = None, None
-        descr = []
+        morph = []
 
         for e in ent.ents:
             if e.label_ in PARTS:
                 part = e._.trait.part
                 which = e._.trait.which
-            elif e.label_ == "part_descr":
-                descr.append(e.text.lower())
+            elif e.label_ == "part_morph":
+                morph.append(e.text.lower())
 
-        return cls.from_ent(ent, part=part, which=which, description=descr)
-
-
-@registry.misc("part_description_match")
-def part_description_match(ent):
-    return PartDescription.part_description_match(ent)
+        return cls.from_ent(ent, part=part, which=which, morphology=morph)
 
 
-@registry.misc("part_descr_match")
-def part_descr_match(ent):
-    return PartDescription.part_descr_match(ent)
+@registry.misc("part_morphology_match")
+def part_morphology_match(ent):
+    return PartMorphology.part_morphology_match(ent)
 
 
-@registry.misc("part_description_match2")
-def part_description_match2(ent):
-    return PartDescription.part_description_match2(ent)
+@registry.misc("part_morph_match")
+def part_morph_match(ent):
+    return PartMorphology.part_morph_match(ent)
+
+
+@registry.misc("part_morphology_match2")
+def part_morphology_match2(ent):
+    return PartMorphology.part_morphology_match2(ent)

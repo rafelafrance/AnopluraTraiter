@@ -9,8 +9,8 @@ from anoplura.rules.gonopod import Gonopod
 from anoplura.rules.lat_long import LatLong
 from anoplura.rules.part import Part
 from anoplura.rules.part_count import PartCount
-from anoplura.rules.part_description import PartDescription
 from anoplura.rules.part_mean import PartMean
+from anoplura.rules.part_morphology import PartMorphology
 from anoplura.rules.part_sample import PartSample
 from anoplura.rules.part_sclerotization import PartSclerotization
 from anoplura.rules.part_size import PartSize
@@ -30,7 +30,7 @@ from anoplura.rules.size import Size
 from anoplura.rules.specimen_type import SpecimenType
 from anoplura.rules.sternite import Sternite
 from anoplura.rules.subpart import Subpart
-from anoplura.rules.subpart_description import SubpartDescription
+from anoplura.rules.subpart_morphology import SubpartMorphology
 from anoplura.rules.subpart_size import SubpartSize
 from anoplura.rules.taxon import Taxon
 from anoplura.rules.tergite import Tergite
@@ -85,8 +85,8 @@ def build():
 
     SexualDimorphism.pipe(nlp)
 
-    PartDescription.pipe(nlp)
-    SubpartDescription.pipe(nlp)
+    PartMorphology.pipe(nlp)
+    SubpartMorphology.pipe(nlp)
 
     SetaPosition.pipe(nlp)
     PartSize.pipe(nlp)

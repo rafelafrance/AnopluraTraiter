@@ -30,7 +30,6 @@ class Subpart(Base):
     which: str | list[str] | list[int] | None = None
     position: str | None = None
     group: str | None = None
-    description: str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):

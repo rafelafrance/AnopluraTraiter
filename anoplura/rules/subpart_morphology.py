@@ -11,7 +11,7 @@ from anoplura.rules.base import Base
 
 
 @dataclass(eq=False)
-class SubpartDescription(Base):
+class SubpartMorphology(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "part_terms.csv",
@@ -35,34 +35,41 @@ class SubpartDescription(Base):
     which: str | list[str] | list[int] | None = None
     position: str | None = None
     group: str | None = None
-    description: list[str] | None = None
+    morphology: list[str] | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
-        add.term_pipe(nlp, name="subpart_description_terms", path=cls.terms)
+        add.term_pipe(nlp, name="subpart_morphology_terms", path=cls.terms)
         # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
-            name="subpart_descr_patterns",
-            compiler=cls.subpart_descr_patterns(),
+            name="subpart_morph_patterns",
+            compiler=cls.subpart_morph_patterns(),
             overwrite=["shape_term", "size_term", "position", *cls.other_parts],
         )
         # add.debug_tokens(nlp)  # ##########################################
         add.context_pipe(
             nlp,
-            name="subpart_description_patterns",
-            compiler=cls.subpart_description_patterns(),
-            overwrite=["subpart_descr"],
+            name="subpart_morphology_patterns",
+            compiler=cls.subpart_morphology_patterns(),
+            overwrite=["subpart_morph"],
         )
-        add.cleanup_pipe(nlp, name="subpart_description_cleanup")
+        # add.debug_tokens(nlp)  # ##########################################
+        add.context_pipe(
+            nlp,
+            name="subpart_morphology_patterns2",
+            compiler=cls.subpart_morphology_patterns2(),
+            overwrite=["subpart_morph"],
+        )
+        add.cleanup_pipe(nlp, name="subpart_morphology_cleanup")
 
     @classmethod
-    def subpart_descr_patterns(cls):
+    def subpart_morph_patterns(cls):
         return [
             Compiler(
-                label="subpart_descr",
+                label="subpart_morph",
                 is_temp=True,
-                on_match="subpart_descr_match",
+                on_match="subpart_morph_match",
                 decoder={
                     "adj": {"POS": {"IN": ["ADJ", "ADV"]}},
                     "pos": {"ENT_TYPE": "position"},
@@ -78,15 +85,15 @@ class SubpartDescription(Base):
         ]
 
     @classmethod
-    def subpart_description_patterns(cls):
+    def subpart_morphology_patterns(cls):
         return [
             Compiler(
-                label="subpart_description",
-                on_match="subpart_description_match",
+                label="subpart_morphology",
+                on_match="subpart_morphology_match",
                 decoder={
                     ",": {"ENT_TYPE": "separator"},
                     "subpart": {"ENT_TYPE": "subpart"},
-                    "shape": {"ENT_TYPE": "subpart_descr"},
+                    "shape": {"ENT_TYPE": "subpart_morph"},
                 },
                 patterns=[
                     " shape+   subpart+ ",
@@ -97,13 +104,30 @@ class SubpartDescription(Base):
         ]
 
     @classmethod
-    def subpart_descr_match(cls, ent):
+    def subpart_morphology_patterns2(cls):
+        return [
+            Compiler(
+                label="subpart_morphology",
+                on_match="subpart_morphology_match2",
+                decoder={
+                    "other_morph": {"ENT_TYPE": "subpart_morphology"},
+                    "morph": {"ENT_TYPE": "subpart_morph"},
+                    "subpart": {"ENT_TYPE": "subpart"},
+                },
+                patterns=[
+                    " other_morph+ subpart+ morph+ ",
+                ],
+            ),
+        ]
+
+    @classmethod
+    def subpart_morph_match(cls, ent):
         return cls.from_ent(ent)
 
     @classmethod
-    def subpart_description_match(cls, ent):
+    def subpart_morphology_match(cls, ent):
         subpart, part, which, pos, group = None, None, None, None, None
-        descr = []
+        morph = []
 
         for e in ent.ents:
             if e.label_ == "subpart":
@@ -112,8 +136,8 @@ class SubpartDescription(Base):
                 which = e._.trait.which
                 pos = e._.trait.position
                 group = e._.trait.group
-            elif e.label_ == "subpart_descr":
-                descr.append(e.text.lower())
+            elif e.label_ == "subpart_morph":
+                morph.append(e.text.lower())
 
         return cls.from_ent(
             ent,
@@ -122,15 +146,45 @@ class SubpartDescription(Base):
             which=which,
             position=pos,
             group=group,
-            description=descr,
+            morphology=morph,
+        )
+
+    @classmethod
+    def subpart_morphology_match2(cls, ent):
+        subpart, part, which, pos, group = None, None, None, None, None
+        morph = []
+
+        for e in ent.ents:
+            if e.label_ == "subpart":
+                subpart = e._.trait.subpart
+                part = e._.trait.part
+                which = e._.trait.which
+                pos = e._.trait.position
+                group = e._.trait.group
+            elif e.label_ == "subpart_morph":
+                morph.append(e.text.lower())
+
+        return cls.from_ent(
+            ent,
+            subpart=subpart,
+            part=part,
+            which=which,
+            position=pos,
+            group=group,
+            morphology=morph,
         )
 
 
-@registry.misc("subpart_description_match")
-def subpart_description_match(ent):
-    return SubpartDescription.subpart_description_match(ent)
+@registry.misc("subpart_morphology_match")
+def subpart_morphology_match(ent):
+    return SubpartMorphology.subpart_morphology_match(ent)
 
 
-@registry.misc("subpart_descr_match")
-def subpart_descr_match(ent):
-    return SubpartDescription.subpart_descr_match(ent)
+@registry.misc("subpart_morphology_match2")
+def subpart_morphology_match2(ent):
+    return SubpartMorphology.subpart_morphology_match2(ent)
+
+
+@registry.misc("subpart_morph_match")
+def subpart_morph_match(ent):
+    return SubpartMorphology.subpart_morph_match(ent)

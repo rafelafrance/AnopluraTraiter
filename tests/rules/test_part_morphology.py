@@ -1,7 +1,7 @@
 import unittest
 
 from anoplura.rules.part import Part
-from anoplura.rules.part_description import PartDescription
+from anoplura.rules.part_morphology import PartMorphology
 from tests.setup import parse
 
 
@@ -10,11 +10,11 @@ class TestPartDescription(unittest.TestCase):
         self.assertEqual(
             parse("subtriangular coxae"),
             [
-                PartDescription(
+                PartMorphology(
                     start=0,
                     end=13,
                     part="coxa",
-                    description=["subtriangular"],
+                    morphology=["subtriangular"],
                 ),
                 Part(
                     start=14,
@@ -33,11 +33,11 @@ class TestPartDescription(unittest.TestCase):
                     end=4,
                     part="head",
                 ),
-                PartDescription(
+                PartMorphology(
                     start=5,
                     end=49,
                     part="head",
-                    description=["longer than wide", "broadly rounded anteriorly"],
+                    morphology=["longer than wide", "broadly rounded anteriorly"],
                 ),
             ],
         )
@@ -56,12 +56,12 @@ class TestPartDescription(unittest.TestCase):
                     part="segment",
                     which="basal",
                 ),
-                PartDescription(
+                PartMorphology(
                     start=14,
                     end=70,
                     part="segment",
                     which="basal",
-                    description=[
+                    morphology=[
                         "larger than other segments",
                         "slightly longer than wide",
                     ],
@@ -83,12 +83,12 @@ class TestPartDescription(unittest.TestCase):
                     part="segment",
                     which="basal",
                 ),
-                PartDescription(
+                PartMorphology(
                     start=14,
                     end=70,
                     part="segment",
                     which="basal",
-                    description=[
+                    morphology=[
                         "larger than other segments",
                         "slightly longer than wide",
                     ],
@@ -100,11 +100,11 @@ class TestPartDescription(unittest.TestCase):
         self.assertEqual(
             parse("Mesothoracic spiracle"),
             [
-                PartDescription(
+                PartMorphology(
                     start=0,
                     end=12,
                     part="spiracle",
-                    description=["mesothoracic"],
+                    morphology=["mesothoracic"],
                 ),
                 Part(
                     start=13,
@@ -118,33 +118,51 @@ class TestPartDescription(unittest.TestCase):
         self.assertEqual(
             parse("""subtriangular coxae proximally and acuminate claws terminally"""),
             [
-                PartDescription(
+                PartMorphology(
                     start=0,
                     end=13,
                     part="coxa",
-                    description=["subtriangular"],
+                    morphology=["subtriangular"],
                 ),
                 Part(
                     start=14,
                     end=19,
                     part="coxa",
                 ),
-                PartDescription(
+                PartMorphology(
                     start=20,
                     end=44,
                     part="claw",
-                    description=["proximally and acuminate"],
+                    morphology=["proximally and acuminate"],
                 ),
                 Part(
                     start=45,
                     end=50,
                     part="claw",
                 ),
-                PartDescription(
+                PartMorphology(
                     start=51,
                     end=61,
                     part="claw",
-                    description=["terminally"],
+                    morphology=["terminally"],
+                ),
+            ],
+        )
+
+    def test_part_description_07(self):
+        self.assertEqual(
+            parse("Legs progressively larger from anterior to posterior,"),
+            [
+                Part(
+                    start=0,
+                    end=4,
+                    part="leg",
+                ),
+                PartMorphology(
+                    start=5,
+                    end=52,
+                    part="leg",
+                    morphology=["progressively larger", "from anterior to posterior"],
                 ),
             ],
         )
