@@ -51,6 +51,13 @@ class PartDescription(Base):
             compiler=cls.part_description_patterns(),
             overwrite=["part_descr"],
         )
+        # add.debug_tokens(nlp)  # ##########################################
+        add.context_pipe(
+            nlp,
+            name="part_description_patterns2",
+            compiler=cls.part_description_patterns2(),
+            overwrite=["part_descr"],
+        )
         add.cleanup_pipe(nlp, name="part_description_cleanup")
 
     @classmethod
@@ -61,6 +68,7 @@ class PartDescription(Base):
                 is_temp=True,
                 on_match="part_descr_match",
                 decoder={
+                    "and": {"ENT_TYPE": "separator"},
                     "adj": {"POS": {"IN": ["ADJ", "ADV"]}},
                     "pos": {"ENT_TYPE": "position"},
                     "other_parts": {"ENT_TYPE": {"IN": cls.other_parts}},
@@ -70,6 +78,7 @@ class PartDescription(Base):
                     " adj* pos+ ",
                     " adj* shape+ pos* ",
                     " adj* shape+ other_parts* ",
+                    " adj* pos+ and+ shape+ ",
                 ],
             ),
         ]
@@ -81,14 +90,32 @@ class PartDescription(Base):
                 label="part_description",
                 on_match="part_description_match",
                 decoder={
-                    ",": {"ENT_TYPE": "separator"},
+                    "and": {"ENT_TYPE": "separator"},
                     "part": {"ENT_TYPE": {"IN": PARTS}},
                     "descr": {"ENT_TYPE": "part_descr"},
                 },
                 patterns=[
+                    " part+  descr+ and* descr+ ",
+                    " descr+ and* descr+ part+ ",
                     " descr+ part+ ",
                     " part+  descr+ ",
-                    " part+  descr+ ,+ descr+ ",
+                ],
+            ),
+        ]
+
+    @classmethod
+    def part_description_patterns2(cls):
+        return [
+            Compiler(
+                label="part_description",
+                on_match="part_description_match2",
+                decoder={
+                    "other_description": {"ENT_TYPE": "part_description"},
+                    "part": {"ENT_TYPE": {"IN": PARTS}},
+                    "descr": {"ENT_TYPE": "part_descr"},
+                },
+                patterns=[
+                    " other_description+ part+ descr+ ",
                 ],
             ),
         ]
@@ -111,6 +138,20 @@ class PartDescription(Base):
 
         return cls.from_ent(ent, part=part, which=which, description=descr)
 
+    @classmethod
+    def part_description_match2(cls, ent):
+        part, which = None, None
+        descr = []
+
+        for e in ent.ents:
+            if e.label_ in PARTS:
+                part = e._.trait.part
+                which = e._.trait.which
+            elif e.label_ == "part_descr":
+                descr.append(e.text.lower())
+
+        return cls.from_ent(ent, part=part, which=which, description=descr)
+
 
 @registry.misc("part_description_match")
 def part_description_match(ent):
@@ -120,3 +161,8 @@ def part_description_match(ent):
 @registry.misc("part_descr_match")
 def part_descr_match(ent):
     return PartDescription.part_descr_match(ent)
+
+
+@registry.misc("part_description_match2")
+def part_description_match2(ent):
+    return PartDescription.part_description_match2(ent)

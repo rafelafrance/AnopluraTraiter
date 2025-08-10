@@ -113,3 +113,38 @@ class TestPartDescription(unittest.TestCase):
                 ),
             ],
         )
+
+    def test_part_description_06(self):
+        self.assertEqual(
+            parse("""subtriangular coxae proximally and acuminate claws terminally"""),
+            [
+                PartDescription(
+                    start=0,
+                    end=13,
+                    part="coxa",
+                    description=["subtriangular"],
+                ),
+                Part(
+                    start=14,
+                    end=19,
+                    part="coxa",
+                ),
+                PartDescription(
+                    start=20,
+                    end=44,
+                    part="claw",
+                    description=["proximally and acuminate"],
+                ),
+                Part(
+                    start=45,
+                    end=50,
+                    part="claw",
+                ),
+                PartDescription(
+                    start=51,
+                    end=61,
+                    part="claw",
+                    description=["terminally"],
+                ),
+            ],
+        )
