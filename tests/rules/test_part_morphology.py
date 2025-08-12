@@ -166,3 +166,27 @@ class TestPartDescription(unittest.TestCase):
                 ),
             ],
         )
+
+    def test_part_description_08(self):
+        self.assertEqual(
+            parse("Abdomen wider than thorax."),
+            [
+                Part(
+                    start=0,
+                    end=7,
+                    part="abdomen",
+                ),
+                PartMorphology(
+                    start=8,
+                    end=18,
+                    part="abdomen",
+                    morphology=["wider than"],
+                    reference_part="thorax",
+                ),
+                Part(
+                    start=19,
+                    end=25,
+                    part="thorax",
+                ),
+            ],
+        )

@@ -33,6 +33,8 @@ class PartMorphology(Base):
     part: str | None = None
     which: str | list[str] | list[int] | None = None
     morphology: list[str] | None = None
+    reference_part: str | None = None
+    reference_which: str | list[str] | list[int] | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
@@ -101,6 +103,7 @@ class PartMorphology(Base):
                     " morph+ and* morph+ part+ ",
                     " morph+ part+ ",
                     " part+  morph+ ",
+                    " part+ morph+ part+ ",
                 ],
             ),
         ]
@@ -112,12 +115,12 @@ class PartMorphology(Base):
                 label="part_morphology",
                 on_match="part_morphology_match2",
                 decoder={
-                    "other_morph": {"ENT_TYPE": "part_morphology"},
+                    "prev_morph": {"ENT_TYPE": "part_morphology"},
                     "part": {"ENT_TYPE": {"IN": PARTS}},
                     "morph": {"ENT_TYPE": "part_morph"},
                 },
                 patterns=[
-                    " other_morph+ part+ morph+ ",
+                    " prev_morph+ part+ morph+ ",
                 ],
             ),
         ]
@@ -128,31 +131,55 @@ class PartMorphology(Base):
 
     @classmethod
     def part_morphology_match(cls, ent):
-        part, which = None, None
+        part, which, ref_part, ref_which = None, None, None, None
         morph = []
 
         for e in ent.ents:
             if e.label_ in PARTS:
-                part = e._.trait.part
-                which = e._.trait.which
+                if not part:
+                    part = e._.trait.part
+                    which = e._.trait.which
+                else:
+                    ref_part = e._.trait.part
+                    ref_which = e._.trait.which
+
             elif e.label_ == "part_morph":
                 morph.append(e.text.lower())
 
-        return cls.from_ent(ent, part=part, which=which, morphology=morph)
+        return cls.from_ent(
+            ent,
+            part=part,
+            which=which,
+            morphology=morph,
+            reference_part=ref_part,
+            reference_which=ref_which,
+        )
 
     @classmethod
     def part_morphology_match2(cls, ent):
-        part, which = None, None
+        part, which, ref_part, ref_which = None, None, None, None
         morph = []
 
         for e in ent.ents:
             if e.label_ in PARTS:
-                part = e._.trait.part
-                which = e._.trait.which
+                if not part:
+                    part = e._.trait.part
+                    which = e._.trait.which
+                else:
+                    ref_part = e._.trait.part
+                    ref_which = e._.trait.which
+
             elif e.label_ == "part_morph":
                 morph.append(e.text.lower())
 
-        return cls.from_ent(ent, part=part, which=which, morphology=morph)
+        return cls.from_ent(
+            ent,
+            part=part,
+            which=which,
+            morphology=morph,
+            reference_part=ref_part,
+            reference_which=ref_which,
+        )
 
 
 @registry.misc("part_morphology_match")
