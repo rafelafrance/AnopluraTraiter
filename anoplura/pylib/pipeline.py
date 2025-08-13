@@ -21,7 +21,7 @@ from anoplura.rules.roman import Roman
 from anoplura.rules.segment import Segment
 from anoplura.rules.seta import Seta
 from anoplura.rules.seta_count import SetaCount
-from anoplura.rules.seta_position import SetaPosition
+from anoplura.rules.seta_morphology import SetaMorphology
 from anoplura.rules.seta_size import SetaSize
 from anoplura.rules.sex import Sex
 from anoplura.rules.sex_count import SexCount
@@ -88,7 +88,7 @@ def build():
     PartMorphology.pipe(nlp)
     SubpartMorphology.pipe(nlp)
 
-    SetaPosition.pipe(nlp)
+    SetaMorphology.pipe(nlp)
     PartSize.pipe(nlp)
     SetaSize.pipe(nlp)
     SubpartSize.pipe(nlp)

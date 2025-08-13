@@ -152,11 +152,13 @@ shape_term,liguliform
 shape_term,linear
 shape_term,linear-attenuate
 shape_term,linear-oblong
+shape_term,long
 shape_term,longitudinal
 shape_term,lobulated
 shape_term,lorate
 shape_term,low-bullate
 shape_term,lyrate
+shape_term,moderate length
 shape_term,monosymmetric
 shape_term,monosymmetrical
 shape_term,moriform
@@ -166,6 +168,7 @@ shape_term,mucronulate
 shape_term,multicostate
 shape_term,multifid
 shape_term,multifoliolate
+shape_term,narrow
 shape_term,navicular
 shape_term,no lobes
 shape_term,obconic
@@ -228,6 +231,7 @@ shape_term,pluripinnate
 shape_term,polygonal
 shape_term,polygonal-angulate
 shape_term,progressively
+shape_term,pointed
 shape_term,pseudoracemose
 shape_term,pulvinate
 shape_term,pyriform
@@ -281,6 +285,7 @@ shape_term,setose-cilliate
 shape_term,sextagonal
 shape_term,sextagonate
 shape_term,short-stipitate
+shape_term,shorter
 shape_term,slender
 shape_term,slight
 shape_term,slightly
@@ -336,7 +341,8 @@ shape_term,symmetric
 shape_term,tapering
 shape_term,terete
 shape_term,ternate
-shape_term,thikened
+shape_term,thickened
+shape_term,thickness
 shape_term,tragacanthoid
 shape_term,trapezoid
 shape_term,triagonal

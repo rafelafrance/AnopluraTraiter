@@ -13,11 +13,12 @@ from anoplura.rules.base import PARTS, Base
 
 
 @dataclass(eq=False)
-class SetaPosition(Base):
+class SetaMorphology(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "group_terms.csv",
         Path(__file__).parent / "terms" / "position_terms.csv",
+        Path(__file__).parent / "terms" / "shape_terms.csv",
     ]
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
     # ----------------------
@@ -25,76 +26,77 @@ class SetaPosition(Base):
     seta: str | None = None
     part: str | None = None
     position: str | None = None
-    other: str | None = None
+    subpart: str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
-        add.term_pipe(nlp, name="seta_position_terms", path=cls.terms)
+        add.term_pipe(nlp, name="seta_morphology_terms", path=cls.terms)
         # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
-            name="seta_pos_description",
-            compiler=cls.seta_pos_description_patterns(),
+            name="seta_descr",
+            compiler=cls.seta_descr_patterns(),
             overwrite=["position", "group"],
         )
         # add.debug_tokens(nlp)  # ##########################################
         add.context_pipe(
             nlp,
-            name="seta_position_patterns",
-            compiler=cls.seta_position_patterns(),
-            overwrite=["seta_pos_description"],
+            name="seta_morphology_patterns",
+            compiler=cls.seta_morphology_patterns(),
+            overwrite=["seta_descr"],
         )
-        add.cleanup_pipe(nlp, name="seta_position_cleanup")
+        add.cleanup_pipe(nlp, name="seta_morphology_cleanup")
 
     @classmethod
-    def seta_pos_description_patterns(cls):
+    def seta_descr_patterns(cls):
         return [
             Compiler(
-                label="seta_pos_description",
+                label="seta_descr",
                 is_temp=True,
-                on_match="seta_pos_description_match",
+                on_match="seta_descr_match",
                 decoder={
-                    "pos": {"ENT_TYPE": "position"},
+                    "pos": {"ENT_TYPE": {"IN": ["position", "shape_term"]}},
                     "group": {"ENT_TYPE": "group"},
                     "verb": {"POS": "VERB"},
                     "words": {"POS": {"IN": ["ADV", "CCONJ", "ADJ", "PART", "ADP"]}},
                 },
                 patterns=[
-                    " verb* words* pos+ words* group* ",
+                    "              pos+ words* group* ",
+                    " verb+ words* pos+ words* group* ",
                 ],
             ),
         ]
 
     @classmethod
-    def seta_position_patterns(cls):
+    def seta_morphology_patterns(cls):
         return [
             Compiler(
-                label="seta_position",
-                on_match="seta_position_match",
+                label="seta_morphology",
+                on_match="seta_morphology_match",
                 decoder={
                     "(": {"TEXT": {"IN": t_const.OPEN}},
                     ")": {"TEXT": {"IN": t_const.CLOSE}},
-                    "descr": {"ENT_TYPE": "seta_pos_description"},
+                    "descr": {"ENT_TYPE": "seta_descr"},
                     "seta": {"ENT_TYPE": "seta"},
                     "subpart": {"ENT_TYPE": "subpart"},
                     "part": {"ENT_TYPE": {"IN": PARTS}},
                 },
                 patterns=[
-                    " (? seta+ )? descr+ subpart+ ",
-                    " (? seta+ )? descr+ ",
-                    " (? seta+ )? descr+ seta+ ",
+                    " (? seta* )? descr+ subpart+ ",
+                    " (? seta* )? descr+ ",
+                    " (? seta* )? descr+ seta+ ",
                 ],
             ),
         ]
 
     @classmethod
-    def seta_pos_description_match(cls, ent):
+    def seta_descr_match(cls, ent):
         return cls.from_ent(ent)
 
     @classmethod
-    def seta_position_match(cls, ent):
+    def seta_morphology_match(cls, ent):
         seta, part = None, None
-        pos, other = None, None
+        pos, subpart = None, None
 
         for e in ent.ents:
             if e.label_ == "seta":
@@ -102,26 +104,26 @@ class SetaPosition(Base):
                     seta = e._.trait.seta
                     part = e._.trait.part
                 else:
-                    other = e._.trait.seta
-            elif e.label_ == "seta_pos_description":
+                    subpart = e._.trait.seta
+            elif e.label_ == "seta_descr":
                 pos = e.text.lower()
             elif e.label_ == "subpart":
-                other = e._.trait.subpart
+                subpart = e._.trait.subpart
 
         return cls.from_ent(
             ent,
             seta=seta,
             part=part,
             position=pos,
-            other=other,
+            subpart=subpart,
         )
 
 
-@registry.misc("seta_pos_description_match")
-def seta_pos_description_match(ent):
-    return SetaPosition.seta_pos_description_match(ent)
+@registry.misc("seta_descr_match")
+def seta_descr_match(ent):
+    return SetaMorphology.seta_descr_match(ent)
 
 
-@registry.misc("seta_position_match")
-def seta_position_match(ent):
-    return SetaPosition.seta_position_match(ent)
+@registry.misc("seta_morphology_match")
+def seta_morphology_match(ent):
+    return SetaMorphology.seta_morphology_match(ent)
