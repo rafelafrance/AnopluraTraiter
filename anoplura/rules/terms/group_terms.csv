@@ -5,6 +5,8 @@ group,on each of
 group,on each side
 group,pair of
 group,pairs of
+group,row
+group,rows
 group,rows of
 labels,no
 labels,no.
@@ -12,5 +14,3 @@ labels,nos
 labels,nos.
 labels,number
 labels,numbers
-row,row
-row,rows

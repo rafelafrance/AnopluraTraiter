@@ -5,6 +5,7 @@ from typing import ClassVar
 from spacy.language import Language
 from spacy.util import registry
 from traiter.pipes import add
+from traiter.pylib import const as t_const
 from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
 
@@ -65,13 +66,15 @@ class SetaCount(Base):
                 is_temp=True,
                 on_match="seta_count_description_match",
                 decoder={
+                    "(": {"TEXT": {"IN": t_const.OPEN}},
+                    ")": {"TEXT": {"IN": t_const.CLOSE}},
                     "adv": {"POS": {"IN": ["ADV", "ADJ"]}},
                     "group": {"ENT_TYPE": "group"},
                     "shape": {"ENT_TYPE": {"IN": shapes}},
                 },
                 patterns=[
-                    " adv? shape+ group* ",
-                    " adv? shape* group+ ",
+                    " (? adv? shape+ group* )? ",
+                    " (? adv? shape* group+ )? ",
                 ],
             ),
         ]
@@ -134,6 +137,8 @@ class SetaCount(Base):
                 descr.append(e.text.lower())
 
         descr = " ".join(descr) if descr else None
+        if descr:
+            descr = descr.replace("(", "").replace(")", "")
 
         return cls.from_ent(
             ent,

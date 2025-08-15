@@ -31,7 +31,7 @@ class SubpartMorphology(Base):
     # ----------------------
 
     subpart: str | None = None
-    part: str | list[str] = None
+    part: str | list[str] | None = None
     which: str | list[str] | list[int] | None = None
     position: str | None = None
     group: str | None = None

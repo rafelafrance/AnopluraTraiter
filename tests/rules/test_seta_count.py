@@ -83,7 +83,6 @@ class TestSetaCount(unittest.TestCase):
         )
 
     def test_seta_count_05(self):
-        self.maxDiff = None
         self.assertEqual(
             parse(
                 """
@@ -143,7 +142,6 @@ class TestSetaCount(unittest.TestCase):
         )
 
     def test_seta_count_07(self):
-        self.maxDiff = None
         self.assertEqual(
             parse("2 lateral StAS on each side"),
             [
@@ -173,7 +171,6 @@ class TestSetaCount(unittest.TestCase):
         )
 
     def test_seta_count_08(self):
-        self.maxDiff = None
         self.assertEqual(
             parse("1 fairly long ventral principal head seta"),
             [
@@ -190,6 +187,25 @@ class TestSetaCount(unittest.TestCase):
                     end=41,
                     seta="ventral principal head setae",
                     seta_part="head",
+                ),
+            ],
+        )
+
+    def test_seta_count_09(self):
+        self.assertEqual(
+            parse("1 (posterior row) setae"),
+            [
+                SetaCount(
+                    start=0,
+                    end=17,
+                    seta="setae",
+                    count_low=1,
+                    description="posterior row",
+                ),
+                Seta(
+                    start=18,
+                    end=23,
+                    seta="setae",
                 ),
             ],
         )

@@ -7,7 +7,7 @@ from anoplura.rules.count import Count
 from anoplura.rules.elevation import Elevation
 from anoplura.rules.gonopod import Gonopod
 from anoplura.rules.lat_long import LatLong
-from anoplura.rules.link_part_seta import LinkPartSeta
+from anoplura.rules.link_part import LinkPart
 from anoplura.rules.part import Part
 from anoplura.rules.part_count import PartCount
 from anoplura.rules.part_mean import PartMean
@@ -94,7 +94,7 @@ def build():
     SetaSize.pipe(nlp)
     SubpartSize.pipe(nlp)
 
-    LinkPartSeta.pipe(nlp)
+    LinkPart.pipe(nlp)
 
     delete.pipe(nlp, delete=["number", "range", "roman", "count"])
 
