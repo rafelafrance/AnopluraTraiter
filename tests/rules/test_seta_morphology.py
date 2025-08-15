@@ -11,12 +11,14 @@ class TestSetaPosition(unittest.TestCase):
         self.assertEqual(
             parse("DMHS inserted anteriorly and close to dorsal head suture"),
             [
-                Seta(start=0, end=4, seta="dorsal marginal head setae", part="head"),
+                Seta(
+                    start=0, end=4, seta="dorsal marginal head setae", seta_part="head"
+                ),
                 SetaMorphology(
                     start=5,
                     end=37,
                     seta="dorsal marginal head setae",
-                    part="head",
+                    seta_part="head",
                     position="inserted anteriorly and close to",
                     subpart="suture",
                 ),
@@ -38,13 +40,13 @@ class TestSetaPosition(unittest.TestCase):
                     start=0,
                     end=4,
                     seta="dorsal marginal head setae",
-                    part="head",
+                    seta_part="head",
                 ),
                 SetaMorphology(
                     start=5,
                     end=40,
                     seta="dorsal marginal head setae",
-                    part="head",
+                    seta_part="head",
                     position="inserted posteriorly and lateral to",
                     subpart="dorsal principal head setae",
                 ),
@@ -52,7 +54,7 @@ class TestSetaPosition(unittest.TestCase):
                     start=41,
                     end=45,
                     seta="dorsal principal head setae",
-                    part="head",
+                    seta_part="head",
                 ),
             ],
         )
@@ -65,13 +67,13 @@ class TestSetaPosition(unittest.TestCase):
                     start=1,
                     end=5,
                     seta="ventral principal head setae",
-                    part="head",
+                    seta_part="head",
                 ),
                 SetaMorphology(
                     start=7,
                     end=29,
                     seta="ventral principal head setae",
-                    part="head",
+                    seta_part="head",
                     position="ventrally on each side",
                 ),
             ],

@@ -16,7 +16,7 @@ class SetaSize(Base):
     # ---------------------
 
     seta: str | None = None
-    part: str | None = None
+    seta_part: str | None = None
     dims: list[Dimension] = field(default_factory=list)
 
     @classmethod
@@ -49,17 +49,17 @@ class SetaSize(Base):
 
     @classmethod
     def seta_size_match(cls, ent):
-        dims, part, seta = None, None, None
+        dims, seta_part, seta = None, None, None
 
         for e in ent.ents:
             if e.label_ == "size":
                 dims = e._.trait.dims
 
             elif e.label_ == "seta":
-                part = e._.trait.part
+                seta_part = e._.trait.seta_part
                 seta = e._.trait.seta
 
-        return cls.from_ent(ent, part=part, seta=seta, dims=dims)
+        return cls.from_ent(ent, seta_part=seta_part, seta=seta, dims=dims)
 
 
 @registry.misc("seta_size_match")

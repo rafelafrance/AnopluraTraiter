@@ -15,13 +15,13 @@ class TestSetaSize(unittest.TestCase):
                     start=1,
                     end=5,
                     seta="dorsal principal thoracic setae",
-                    part="thorax",
+                    seta_part="thorax",
                 ),
                 SetaSize(
                     start=7,
                     end=23,
                     seta="dorsal principal thoracic setae",
-                    part="thorax",
+                    seta_part="thorax",
                     dims=[
                         Dimension(dim="length", units="mm", low=0.123, start=7, end=23)
                     ],

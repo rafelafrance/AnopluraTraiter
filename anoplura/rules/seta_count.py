@@ -24,7 +24,7 @@ class SetaCount(Base):
     # ----------------------
 
     seta: str | None = None
-    part: str | None = None
+    seta_part: str | None = None
     count_low: int | None = None
     count_high: int | None = None
     count_group: str | None = None
@@ -119,7 +119,7 @@ class SetaCount(Base):
 
     @classmethod
     def seta_count_match(cls, ent):
-        seta, low, high, group, part = None, None, None, None, None
+        seta, low, high, group, seta_part = None, None, None, None, None
         descr = []
 
         for e in ent.ents:
@@ -129,7 +129,7 @@ class SetaCount(Base):
                 group = e._.trait.count_group
             elif e.label_ == "seta":
                 seta = e._.trait.seta
-                part = e._.trait.part
+                seta_part = e._.trait.seta_part
             elif e.label_ == "seta_count_description":
                 descr.append(e.text.lower())
 
@@ -142,12 +142,12 @@ class SetaCount(Base):
             count_group=group,
             description=descr,
             seta=seta,
-            part=part,
+            seta_part=seta_part,
         )
 
     @classmethod
     def seta_count_match2(cls, ent):
-        seta, low, high, group, part = None, None, None, None, None
+        seta, low, high, group, seta_part = None, None, None, None, None
         descr = []
 
         for e in ent.ents:
@@ -157,7 +157,7 @@ class SetaCount(Base):
                 group = e._.trait.count_group
             elif e.label_ == "seta":
                 seta = e._.trait.seta
-                part = e._.trait.part
+                seta_part = e._.trait.seta_part
             elif e.label_ == "seta_count_description":
                 descr.append(e.text.lower())
 
@@ -170,7 +170,7 @@ class SetaCount(Base):
             count_group=group,
             description=descr,
             seta=seta,
-            part=part,
+            seta_part=seta_part,
         )
 
 

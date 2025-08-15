@@ -23,7 +23,7 @@ class Seta(Base):
     # ----------------------
 
     seta: str | None = None
-    part: str | None = None
+    seta_part: str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language):
@@ -61,8 +61,7 @@ class Seta(Base):
         text = ent.text.lower()
         seta = cls.replace.get(text, text)
         seta = re.sub(r"seta$", "setae", seta)
-        part = cls.parts.get(text)
-        return cls.from_ent(ent, seta=seta, part=part)
+        return cls.from_ent(ent, seta=seta, seta_part=cls.parts.get(text))
 
 
 @registry.misc("seta_match")

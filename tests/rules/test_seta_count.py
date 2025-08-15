@@ -12,7 +12,7 @@ class TestSetaCount(unittest.TestCase):
             [
                 SetaCount(
                     seta="dorsal central abdominal setae",
-                    part="abdomen",
+                    seta_part="abdomen",
                     count_low=4,
                     start=0,
                     end=1,
@@ -20,7 +20,7 @@ class TestSetaCount(unittest.TestCase):
                 Seta(
                     start=2,
                     end=6,
-                    part="abdomen",
+                    seta_part="abdomen",
                     seta="dorsal central abdominal setae",
                 ),
             ],
@@ -32,7 +32,7 @@ class TestSetaCount(unittest.TestCase):
             [
                 SetaCount(
                     seta="dorsal central abdominal setae",
-                    part="abdomen",
+                    seta_part="abdomen",
                     count_low=5,
                     count_group="pairs of",
                     start=0,
@@ -42,7 +42,7 @@ class TestSetaCount(unittest.TestCase):
                     start=11,
                     end=15,
                     seta="dorsal central abdominal setae",
-                    part="abdomen",
+                    seta_part="abdomen",
                 ),
             ],
         )
@@ -53,7 +53,7 @@ class TestSetaCount(unittest.TestCase):
             [
                 SetaCount(
                     seta="dorsal central abdominal setae",
-                    part="abdomen",
+                    seta_part="abdomen",
                     count_low=6,
                     count_high=7,
                     start=0,
@@ -63,7 +63,7 @@ class TestSetaCount(unittest.TestCase):
                     start=4,
                     end=8,
                     seta="dorsal central abdominal setae",
-                    part="abdomen",
+                    seta_part="abdomen",
                 ),
             ],
         )
@@ -95,7 +95,7 @@ class TestSetaCount(unittest.TestCase):
                     start=0,
                     end=6,
                     seta="apical head setae",
-                    part="head",
+                    seta_part="head",
                     count_low=3,
                     count_high=4,
                 ),
@@ -103,17 +103,20 @@ class TestSetaCount(unittest.TestCase):
                     start=7,
                     end=24,
                     seta="apical head setae",
-                    part="head",
+                    seta_part="head",
                 ),
                 SetaCount(
                     seta="dorsal preantennal head setae",
-                    part="head",
+                    seta_part="head",
                     count_low=1,
                     start=26,
                     end=27,
                 ),
                 Seta(
-                    start=28, end=56, part="head", seta="dorsal preantennal head setae"
+                    start=28,
+                    end=56,
+                    seta_part="head",
+                    seta="dorsal preantennal head setae",
                 ),
             ],
         )
@@ -124,13 +127,18 @@ class TestSetaCount(unittest.TestCase):
             [
                 SetaCount(
                     seta="dorsal accessory head setae",
-                    part="head",
+                    seta_part="head",
                     description="short",
                     count_low=1,
                     start=0,
                     end=7,
                 ),
-                Seta(start=8, end=34, seta="dorsal accessory head setae", part="head"),
+                Seta(
+                    start=8,
+                    end=34,
+                    seta="dorsal accessory head setae",
+                    seta_part="head",
+                ),
             ],
         )
 
@@ -143,7 +151,7 @@ class TestSetaCount(unittest.TestCase):
                     start=0,
                     end=9,
                     seta="sternal abdominal setae",
-                    part="abdomen",
+                    seta_part="abdomen",
                     count_low=2,
                     description="lateral",
                 ),
@@ -151,13 +159,13 @@ class TestSetaCount(unittest.TestCase):
                     start=10,
                     end=14,
                     seta="sternal abdominal setae",
-                    part="abdomen",
+                    seta_part="abdomen",
                 ),
                 SetaCount(
                     start=15,
                     end=27,
                     seta="sternal abdominal setae",
-                    part="abdomen",
+                    seta_part="abdomen",
                     count_low=2,
                     description="on each side",
                 ),
@@ -171,14 +179,17 @@ class TestSetaCount(unittest.TestCase):
             [
                 SetaCount(
                     seta="ventral principal head setae",
-                    part="head",
+                    seta_part="head",
                     description="fairly long",
                     count_low=1,
                     start=0,
                     end=13,
                 ),
                 Seta(
-                    start=14, end=41, seta="ventral principal head setae", part="head"
+                    start=14,
+                    end=41,
+                    seta="ventral principal head setae",
+                    seta_part="head",
                 ),
             ],
         )

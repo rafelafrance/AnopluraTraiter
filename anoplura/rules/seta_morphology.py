@@ -24,7 +24,7 @@ class SetaMorphology(Base):
     # ----------------------
 
     seta: str | None = None
-    part: str | None = None
+    seta_part: str | None = None
     position: str | None = None
     subpart: str | None = None
 
@@ -95,14 +95,14 @@ class SetaMorphology(Base):
 
     @classmethod
     def seta_morphology_match(cls, ent):
-        seta, part = None, None
+        seta, seta_part = None, None
         pos, subpart = None, None
 
         for e in ent.ents:
             if e.label_ == "seta":
                 if not seta:
                     seta = e._.trait.seta
-                    part = e._.trait.part
+                    seta_part = e._.trait.seta_part
                 else:
                     subpart = e._.trait.seta
             elif e.label_ == "seta_descr":
@@ -113,7 +113,7 @@ class SetaMorphology(Base):
         return cls.from_ent(
             ent,
             seta=seta,
-            part=part,
+            seta_part=seta_part,
             position=pos,
             subpart=subpart,
         )
