@@ -1,28 +1,19 @@
-.PHONY: test install dev venv
+.PHONY: test install dev clean
 .ONESHELL:
 
 test:
-	. .venv/bin/activate
-	python3.12 -m unittest discover
+	uv run -m unittest discover
 
 install:
-	test -d .venv || python3.12 -m venv .venv
-	. .venv/bin/activate
-	python3.12 -m pip install -U pip setuptools wheel
-	python3.12 -m pip install git+https://github.com/rafelafrance/traiter.git@master#egg=traiter
-	python3.12 -m pip install .
-	python3.12 -m spacy download en_core_web_md
+	uv sync
+	uv pip install "git+https://github.com/rafelafrance/traiter.git@master#egg=traiter"
+	uv run -- spacy download en_core_web_md
+
 
 dev:
-	test -d .venv || python3.12 -m venv .venv
-	. .venv/bin/activate
-	python3.12 -m pip install -U pip setuptools wheel
-	python3.12 -m pip install -e ../../traiter/traiter
-	python3.12 -m pip install -e .[dev]
-	python3.12 -m spacy download en_core_web_md
-	pre-commit install
-	cd ./anoplura  # This is so stupid
-	ln -s ../../traiter/traiter traiter  # The stupid payload
+	uv sync
+	uv pip install -e ../../traiter/traiter
+	uv run -- spacy download en_core_web_md
 
 clean:
 	rm -rf .venv

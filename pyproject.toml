@@ -1,47 +1,33 @@
 [build-system]
-requires = ["setuptools", "setuptools-scm"]
-build-backend = "setuptools.build_meta"
+requires = ["uv_build>=0.8.12"]
+build-backend = "uv_build"
 
 [project]
 name = "AnopluraTraiter"
-version = "0.0.1"
+version = "0.1.0"
 readme = "README.md"
-description = ""
+description = "Rule-based parsers for mining scientific liturature about biting lice"
 license = { file = "LICENSE" }
 authors = [{ name = "Raphael LaFrance", email = "raphael.lafrance@gmail.com" }]
-requires-python = ">=3.12"
+requires-python = ">=3.13"
 dependencies = [
-    "Jinja2",
-    "dspy",
-    "dspy-ai",
-    "ftfy",
-    "jupyter",
-    "pandas",
-    "regex",
-    "spacy",
-    "tqdm",
-]
-optional-dependencies.dev = [
-    "build",
-    "neovim",
-    "pre-commit",
-    "pre-commit-hooks",
-    "ruff",
-    "ruff-lsp",
+    "ftfy>=6.3.1",
+    "jinja2>=3.1.6",
+    "pandas>=2.3.1",
+    "pip>=25.2",
+    "regex>=2025.7.34",
+    "spacy>=3.8.7",
+    "tqdm>=4.67.1",
 ]
 
-[tool.setuptools.packages.find]
-where = ["."]
-include = ["anoplura"]
-namespaces = false
+[tool.uv.build-backend]
+module-root = "."
+module-name = "anoplura"
 
-[project.scripts]
-
-[tool.setuptools]
-py-modules = []
+[tool.uv]
 
 [tool.ruff]
-target-version = "py312"
+target-version = "py313"
 
 show-fixes = true
 exclude = [
