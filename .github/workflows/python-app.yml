@@ -21,6 +21,8 @@ jobs:
       uses: astral-sh/setup-uv@v6
     - name: Install dependencies
       run: uv sync
+    - name: Install traiter
+      run: uv pip install "git+https://github.com/rafelafrance/traiter.git@master#egg=traiter"
     - name: Install spacy model
       run: uv run -- spacy download en_core_web_md
     - name: Test with unittest
