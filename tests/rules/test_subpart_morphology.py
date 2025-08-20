@@ -6,7 +6,7 @@ from tests.setup import parse
 
 
 class TestSubpartDescription(unittest.TestCase):
-    def test_subpart_description_01(self):
+    def test_subpart_description_01(self) -> None:
         self.assertEqual(
             parse("""rounded anterolateral margins"""),
             [
@@ -26,7 +26,7 @@ class TestSubpartDescription(unittest.TestCase):
             ],
         )
 
-    def test_subpart_description_02(self):
+    def test_subpart_description_02(self) -> None:
         self.assertEqual(
             parse("""broad spur-like ridge posteriorly"""),
             [

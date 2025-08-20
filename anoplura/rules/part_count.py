@@ -2,8 +2,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import ClassVar
 
-from spacy.language import Language
-from spacy.util import registry
+from spacy import Language, registry
+from spacy.tokens import Span
 from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
 
@@ -24,15 +24,13 @@ class PartCount(Base):
     description: str | None = None
 
     @classmethod
-    def pipe(cls, nlp: Language):
-        # add.debug_tokens(nlp)  # ##########################################
+    def pipe(cls, nlp: Language) -> None:
         add.trait_pipe(
             nlp,
             name="part_count_description",
             compiler=cls.part_count_description_patterns(),
             overwrite=["shape"],
         )
-        # add.debug_tokens(nlp)  # ##########################################
         add.context_pipe(
             nlp,
             name="part_count_patterns",
@@ -42,7 +40,7 @@ class PartCount(Base):
         add.cleanup_pipe(nlp, name="part_count_cleanup")
 
     @classmethod
-    def part_count_description_patterns(cls):
+    def part_count_description_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="part_count_description",
@@ -57,7 +55,7 @@ class PartCount(Base):
         ]
 
     @classmethod
-    def part_count_patterns(cls):
+    def part_count_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="part_count",
@@ -74,11 +72,11 @@ class PartCount(Base):
         ]
 
     @classmethod
-    def part_count_description_match(cls, ent):
+    def part_count_description_match(cls, ent: Span) -> "PartCount":
         return cls.from_ent(ent)
 
     @classmethod
-    def part_count_match(cls, ent):
+    def part_count_match(cls, ent: Span) -> "PartCount":
         low, high, part, which = None, None, None, None
         descr = []
 
@@ -107,10 +105,10 @@ class PartCount(Base):
 
 
 @registry.misc("part_count_description_match")
-def part_count_description_match(ent):
+def part_count_description_match(ent: Span) -> PartCount:
     return PartCount.part_count_description_match(ent)
 
 
 @registry.misc("part_count_match")
-def part_count_match(ent):
+def part_count_match(ent: Span) -> PartCount:
     return PartCount.part_count_match(ent)

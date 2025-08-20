@@ -2,8 +2,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import ClassVar
 
-from spacy.language import Language
-from spacy.util import registry
+from spacy import Language, registry
+from spacy.tokens import Span
 from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
 
@@ -25,7 +25,7 @@ class Plate(Base):
     position: str | None = None
 
     @classmethod
-    def pipe(cls, nlp: Language):
+    def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="plate_terms", path=cls.terms)
         add.trait_pipe(
             nlp,
@@ -33,11 +33,10 @@ class Plate(Base):
             compiler=cls.plate_patterns(),
             overwrite=["number", "range", "roman"],
         )
-        # add.debug_tokens(nlp)  # ##########################################
         add.cleanup_pipe(nlp, name="plate_cleanup")
 
     @classmethod
-    def plate_patterns(cls):
+    def plate_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="plate",
@@ -63,7 +62,7 @@ class Plate(Base):
         ]
 
     @classmethod
-    def plate_match(cls, ent):
+    def plate_match(cls, ent: Span) -> "Plate":
         plates = []
         pos = []
 
@@ -86,5 +85,5 @@ class Plate(Base):
 
 
 @registry.misc("plate_match")
-def plate_match(ent):
+def plate_match(ent: Span) -> Plate:
     return Plate.plate_match(ent)

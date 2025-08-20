@@ -7,7 +7,7 @@ from tests.setup import parse
 
 
 class TestElevation(unittest.TestCase):
-    def test_elevation_01(self):
+    def test_elevation_01(self) -> None:
         traits = parse("elevation 1,500 m")
         self.assertEqual(
             traits,

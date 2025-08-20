@@ -10,7 +10,7 @@ from traiter.pylib import util
 from writers import html_writer
 
 
-def main(args):
+def main(args: argparse.Namespace) -> None:
     nlp = pipeline.build()
 
     with args.text.open() as in_file:
@@ -28,7 +28,7 @@ def remove_figures(text: str) -> str:
     )
 
 
-def parse_args():
+def parse_args() -> argparse.Namespace:
     arg_parser = argparse.ArgumentParser(
         allow_abbrev=True,
         description=textwrap.dedent("""Parse data from lice papers."""),

@@ -2,8 +2,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import ClassVar
 
-from spacy.language import Language
-from spacy.util import registry
+from spacy import Language, registry
+from spacy.tokens import Span
 from traiter.pipes import add
 from traiter.pylib import const as t_const
 from traiter.pylib import term_util
@@ -29,16 +29,14 @@ class SetaMorphology(Base):
     subpart: str | None = None
 
     @classmethod
-    def pipe(cls, nlp: Language):
+    def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="seta_morphology_terms", path=cls.terms)
-        # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
             name="seta_descr",
             compiler=cls.seta_descr_patterns(),
             overwrite=["position", "group"],
         )
-        # add.debug_tokens(nlp)  # ##########################################
         add.context_pipe(
             nlp,
             name="seta_morphology_patterns",
@@ -48,7 +46,7 @@ class SetaMorphology(Base):
         add.cleanup_pipe(nlp, name="seta_morphology_cleanup")
 
     @classmethod
-    def seta_descr_patterns(cls):
+    def seta_descr_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="seta_descr",
@@ -68,7 +66,7 @@ class SetaMorphology(Base):
         ]
 
     @classmethod
-    def seta_morphology_patterns(cls):
+    def seta_morphology_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="seta_morphology",
@@ -90,11 +88,11 @@ class SetaMorphology(Base):
         ]
 
     @classmethod
-    def seta_descr_match(cls, ent):
+    def seta_descr_match(cls, ent: Span) -> "SetaMorphology":
         return cls.from_ent(ent)
 
     @classmethod
-    def seta_morphology_match(cls, ent):
+    def seta_morphology_match(cls, ent: Span) -> "SetaMorphology":
         seta, seta_part = None, None
         pos, subpart = None, None
 
@@ -120,10 +118,10 @@ class SetaMorphology(Base):
 
 
 @registry.misc("seta_descr_match")
-def seta_descr_match(ent):
+def seta_descr_match(ent: Span) -> SetaMorphology:
     return SetaMorphology.seta_descr_match(ent)
 
 
 @registry.misc("seta_morphology_match")
-def seta_morphology_match(ent):
+def seta_morphology_match(ent: Span) -> SetaMorphology:
     return SetaMorphology.seta_morphology_match(ent)

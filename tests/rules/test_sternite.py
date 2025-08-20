@@ -5,13 +5,13 @@ from tests.setup import parse
 
 
 class TestSternite(unittest.TestCase):
-    def test_sternite_01(self):
+    def test_sternite_01(self) -> None:
         self.assertEqual(
             parse("sternite 2"),
             [Sternite(part="sternite", which=[2], start=0, end=10)],
         )
 
-    def test_sternite_02(self):
+    def test_sternite_02(self) -> None:
         self.assertEqual(
             parse("sternites 4-16"),
             [
@@ -24,7 +24,7 @@ class TestSternite(unittest.TestCase):
             ],
         )
 
-    def test_sternite_03(self):
+    def test_sternite_03(self) -> None:
         self.assertEqual(
             parse("sternites (nos. 2 and 3)"),
             [
@@ -37,7 +37,7 @@ class TestSternite(unittest.TestCase):
             ],
         )
 
-    def test_sternite_04(self):
+    def test_sternite_04(self) -> None:
         self.assertEqual(
             parse("sternite (no. 4)"),
             [

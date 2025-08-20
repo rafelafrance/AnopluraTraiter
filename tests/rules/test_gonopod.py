@@ -5,7 +5,7 @@ from tests.setup import parse
 
 
 class TestGonopod(unittest.TestCase):
-    def test_gonopod_01(self):
+    def test_gonopod_01(self) -> None:
         self.assertEqual(
             parse("gonopods IX"),
             [Gonopod(part="gonopod", which=[9], start=0, end=11)],

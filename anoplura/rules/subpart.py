@@ -2,8 +2,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import ClassVar
 
-from spacy.language import Language
-from spacy.util import registry
+from spacy import Language, registry
+from spacy.tokens import Span
 from traiter.pipes import add
 from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
@@ -32,16 +32,14 @@ class Subpart(Base):
     group: str | None = None
 
     @classmethod
-    def pipe(cls, nlp: Language):
+    def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="subpart_terms", path=cls.terms)
-        # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
             name="subpart_subpart_suffix_patterns",
             compiler=cls.subpart_subpart_suffix_patterns(),
             overwrite=["number", "subpart_suffix"],
         )
-        # add.debug_tokens(nlp)  # ##########################################
         add.context_pipe(
             nlp,
             name="subpart_patterns",
@@ -57,7 +55,7 @@ class Subpart(Base):
         add.cleanup_pipe(nlp, name="subpart_cleanup")
 
     @classmethod
-    def subpart_subpart_suffix_patterns(cls):
+    def subpart_subpart_suffix_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="subpart_suffix",
@@ -75,7 +73,7 @@ class Subpart(Base):
         ]
 
     @classmethod
-    def subpart_patterns(cls):
+    def subpart_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="subpart",
@@ -100,11 +98,11 @@ class Subpart(Base):
         ]
 
     @classmethod
-    def subpart_suffix_match(cls, ent):
+    def subpart_suffix_match(cls, ent: Span) -> "Subpart":
         return cls.from_ent(ent)
 
     @classmethod
-    def subpart_match(cls, ent):
+    def subpart_match(cls, ent: Span) -> "Subpart":
         sub, part, which, group = None, None, None, None
         pos = []
 
@@ -130,10 +128,10 @@ class Subpart(Base):
 
 
 @registry.misc("subpart_suffix_match")
-def subpart_suffix_match(ent):
+def subpart_suffix_match(ent: Span) -> Subpart:
     return Subpart.subpart_suffix_match(ent)
 
 
 @registry.misc("subpart_match")
-def subpart_match(ent):
+def subpart_match(ent: Span) -> Subpart:
     return Subpart.subpart_match(ent)

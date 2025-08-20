@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
-from spacy.language import Language
+from spacy import Language
+from spacy.tokens import Span
 from traiter.rules.base import Base as TraiterBase
 
 SKIPS = {"start", "end", "trait"}
@@ -27,11 +28,10 @@ class Base(TraiterBase):
     sex: str | None = None
 
     @classmethod
-    def pipe(cls, nlp: Language):
-        ...
+    def pipe(cls, nlp: Language) -> None: ...
 
 
-def as_dict(trait) -> dict:
+def as_dict(trait: Base) -> dict:
     dct = {
         k: v
         for k, v in trait.to_dict().items()
@@ -50,13 +50,15 @@ def as_dict(trait) -> dict:
     return dct
 
 
-def get_body_part(sub_ent) -> BodyPart:
+def get_body_part(sub_ent: Span) -> BodyPart:
     trait = sub_ent._.trait
     part = BodyPart(part=trait.part, which=trait.which)
     return part
 
 
-def get_all_body_parts(sub_ents):
+def get_all_body_parts(
+    sub_ents: list[Span],
+) -> tuple[list[str], str | list[str] | list[int]]:
     body_parts = [get_body_part(e) for e in sub_ents]
     parts = [p.part for p in body_parts]
     parts = parts[0] if len(parts) == 1 else parts

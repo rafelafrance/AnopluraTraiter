@@ -5,7 +5,7 @@ from tests.setup import parse
 
 
 class TestSpecimenType(unittest.TestCase):
-    def test_specimen_type_01(self):
+    def test_specimen_type_01(self) -> None:
         self.assertEqual(
             parse("Holotype (female)"),
             [
@@ -18,7 +18,7 @@ class TestSpecimenType(unittest.TestCase):
             ],
         )
 
-    def test_specimen_type_02(self):
+    def test_specimen_type_02(self) -> None:
         self.assertEqual(
             parse("Other paratypes are in the collections"),
             [

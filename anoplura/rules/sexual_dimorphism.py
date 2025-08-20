@@ -2,8 +2,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import ClassVar
 
-from spacy.language import Language
-from spacy.util import registry
+from spacy import Language, registry
+from spacy.tokens import Span
 from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
 
@@ -23,16 +23,14 @@ class SexualDimorphism(Base):
     description: str | None = None
 
     @classmethod
-    def pipe(cls, nlp: Language):
+    def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="dimorphism_terms", path=cls.terms)
-        # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
             name="dimorphism_patterns",
             compiler=cls.dimorphism_patterns(),
             overwrite=["shape"],
         )
-        # add.debug_tokens(nlp)  # ##########################################
         add.context_pipe(
             nlp,
             name="sexual_dimorphism_patterns",
@@ -42,7 +40,7 @@ class SexualDimorphism(Base):
         add.cleanup_pipe(nlp, name="sexual_dimorphism_cleanup")
 
     @classmethod
-    def dimorphism_patterns(cls):
+    def dimorphism_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="dimorphism",
@@ -58,7 +56,7 @@ class SexualDimorphism(Base):
         ]
 
     @classmethod
-    def sexual_dimorphism_patterns(cls):
+    def sexual_dimorphism_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="sexual_dimorphism",
@@ -79,11 +77,11 @@ class SexualDimorphism(Base):
         ]
 
     @classmethod
-    def dimorphism_match(cls, ent):
+    def dimorphism_match(cls, ent: Span) -> "SexualDimorphism":
         return cls.from_ent(ent)
 
     @classmethod
-    def sexual_dimorphism_match(cls, ent):
+    def sexual_dimorphism_match(cls, ent: Span) -> "SexualDimorphism":
         sex, morph = None, None
         parts = []
         for e in ent.ents:
@@ -98,10 +96,10 @@ class SexualDimorphism(Base):
 
 
 @registry.misc("dimorphism_match")
-def dimorphism_match(ent):
+def dimorphism_match(ent: Span) -> SexualDimorphism:
     return SexualDimorphism.dimorphism_match(ent)
 
 
 @registry.misc("sexual_dimorphism_match")
-def sexual_dimorphism_match(ent):
+def sexual_dimorphism_match(ent: Span) -> SexualDimorphism:
     return SexualDimorphism.sexual_dimorphism_match(ent)

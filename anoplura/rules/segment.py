@@ -2,8 +2,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import ClassVar
 
-from spacy.language import Language
-from spacy.util import registry
+from spacy import Language, registry
+from spacy.tokens import Span
 from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
 
@@ -23,9 +23,8 @@ class Segment(Base):
     which: list[int] | str | None = None
 
     @classmethod
-    def pipe(cls, nlp: Language):
+    def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="segment_terms", path=cls.terms)
-        # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
             name="segment_patterns",
@@ -35,7 +34,7 @@ class Segment(Base):
         add.cleanup_pipe(nlp, name="segment_cleanup")
 
     @classmethod
-    def segment_patterns(cls):
+    def segment_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="segment",
@@ -56,7 +55,7 @@ class Segment(Base):
         ]
 
     @classmethod
-    def segment_match(cls, ent):
+    def segment_match(cls, ent: Span) -> "Segment":
         segments = []
         pos = []
 
@@ -81,5 +80,5 @@ class Segment(Base):
 
 
 @registry.misc("segment_match")
-def segment_match(ent):
+def segment_match(ent: Span) -> Segment:
     return Segment.segment_match(ent)

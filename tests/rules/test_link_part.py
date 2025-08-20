@@ -11,7 +11,7 @@ from tests.setup import parse
 
 
 class TestLinkPart(unittest.TestCase):
-    def test_link_part_01(self):
+    def test_link_part_01(self) -> None:
         self.assertEqual(
             parse(
                 """
@@ -96,7 +96,7 @@ class TestLinkPart(unittest.TestCase):
             ],
         )
 
-    def test_link_part_02(self):
+    def test_link_part_02(self) -> None:
         self.assertEqual(
             parse("sternite 2 with 6 sternal abdominal setae"),
             [
@@ -124,7 +124,7 @@ class TestLinkPart(unittest.TestCase):
             ],
         )
 
-    def test_link_part_03(self):
+    def test_link_part_03(self) -> None:
         self.assertEqual(
             parse("Sternite 1 with 4 DLAS; Sternite 2 with 9 StAS"),
             [

@@ -3,6 +3,7 @@ from pathlib import Path
 from typing import ClassVar
 
 from spacy import Language, registry
+from spacy.tokens import Span
 from traiter.pipes import add
 from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
@@ -20,7 +21,7 @@ class Sex(Base):
     sex: str | None = None
 
     @classmethod
-    def pipe(cls, nlp: Language):
+    def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="sex_terms", path=cls.sex_csv)
         add.trait_pipe(
             nlp,
@@ -30,7 +31,7 @@ class Sex(Base):
         add.cleanup_pipe(nlp, name="sex_cleanup")
 
     @classmethod
-    def sex_patterns(cls):
+    def sex_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="sex",
@@ -45,12 +46,12 @@ class Sex(Base):
         ]
 
     @classmethod
-    def sex_match(cls, ent):
+    def sex_match(cls, ent: Span) -> "Sex":
         sex = ent.text.lower()
         sex = cls.replace.get(sex, sex)
         return cls.from_ent(ent, sex=sex)
 
 
 @registry.misc("sex_match")
-def sex_match(ent):
+def sex_match(ent: Span) -> Sex:
     return Sex.sex_match(ent)

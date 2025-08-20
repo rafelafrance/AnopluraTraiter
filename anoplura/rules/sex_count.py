@@ -2,8 +2,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import ClassVar
 
-from spacy.language import Language
-from spacy.util import registry
+from spacy import Language, registry
+from spacy.tokens import Span
 from traiter.pipes import add
 from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
@@ -24,8 +24,7 @@ class SexCount(Base):
     count_group: str | None = None
 
     @classmethod
-    def pipe(cls, nlp: Language):
-        # add.debug_tokens(nlp)  # ##########################################
+    def pipe(cls, nlp: Language) -> None:
         add.trait_pipe(
             nlp,
             name="sex_count_patterns",
@@ -35,7 +34,7 @@ class SexCount(Base):
         add.cleanup_pipe(nlp, name="sex_count_cleanup")
 
     @classmethod
-    def sex_count_patterns(cls):
+    def sex_count_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="sex_count",
@@ -51,7 +50,7 @@ class SexCount(Base):
         ]
 
     @classmethod
-    def sex_count_match(cls, ent):
+    def sex_count_match(cls, ent: Span) -> "SexCount":
         sex, low, high, group = None, None, None, None
 
         for e in ent.ents:
@@ -68,5 +67,5 @@ class SexCount(Base):
 
 
 @registry.misc("sex_count_match")
-def sex_count_match(ent):
+def sex_count_match(ent: Span) -> SexCount:
     return SexCount.sex_count_match(ent)

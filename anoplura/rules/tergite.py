@@ -3,8 +3,8 @@ from pathlib import Path
 from typing import ClassVar
 
 import traiter.pylib.const as t_const
-from spacy.language import Language
-from spacy.util import registry
+from spacy import Language, registry
+from spacy.tokens import Span
 from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
 
@@ -25,9 +25,8 @@ class Tergite(Base):
     which: list[int] | None = None
 
     @classmethod
-    def pipe(cls, nlp: Language):
+    def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="tergite_terms", path=cls.terms)
-        # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
             name="tergite_patterns",
@@ -37,7 +36,7 @@ class Tergite(Base):
         add.cleanup_pipe(nlp, name="tergite_cleanup")
 
     @classmethod
-    def tergite_patterns(cls):
+    def tergite_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="tergite",
@@ -65,7 +64,7 @@ class Tergite(Base):
         ]
 
     @classmethod
-    def tergite_match(cls, ent):
+    def tergite_match(cls, ent: Span) -> "Tergite":
         which = []
 
         for sub_ent in ent.ents:
@@ -83,5 +82,5 @@ class Tergite(Base):
 
 
 @registry.misc("tergite_match")
-def tergite_match(ent):
+def tergite_match(ent: Span) -> Tergite:
     return Tergite.tergite_match(ent)

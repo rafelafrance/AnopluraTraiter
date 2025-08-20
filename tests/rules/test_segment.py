@@ -5,13 +5,13 @@ from tests.setup import parse
 
 
 class TestSegment(unittest.TestCase):
-    def test_segment_01(self):
+    def test_segment_01(self) -> None:
         self.assertEqual(
             parse("segment 2"),
             [Segment(which=[2], start=0, end=9)],
         )
 
-    def test_segment_02(self):
+    def test_segment_02(self) -> None:
         self.assertEqual(
             parse("segments 4-16"),
             [
@@ -23,7 +23,7 @@ class TestSegment(unittest.TestCase):
             ],
         )
 
-    def test_segment_03(self):
+    def test_segment_03(self) -> None:
         self.assertEqual(
             parse("first antennal segment"),
             [

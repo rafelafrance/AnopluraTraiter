@@ -3,8 +3,8 @@ from pathlib import Path
 from typing import ClassVar
 
 import traiter.pylib.const as t_const
-from spacy.language import Language
-from spacy.util import registry
+from spacy import Language, registry
+from spacy.tokens import Span
 from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
 
@@ -24,9 +24,8 @@ class SpecimenType(Base):
     specimen_type_other: str | None = None
 
     @classmethod
-    def pipe(cls, nlp: Language):
+    def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="specimen_type_terms", path=cls.terms)
-        # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
             name="specimen_type_patterns",
@@ -36,7 +35,7 @@ class SpecimenType(Base):
         add.cleanup_pipe(nlp, name="specimen_type_cleanup")
 
     @classmethod
-    def specimen_type_patterns(cls):
+    def specimen_type_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="specimen_type",
@@ -57,7 +56,7 @@ class SpecimenType(Base):
         ]
 
     @classmethod
-    def specimen_type_match(cls, ent):
+    def specimen_type_match(cls, ent: Span) -> "SpecimenType":
         type_, sex, other = None, None, None
         for sub_ent in ent.ents:
             if sub_ent.label_ == "specimen_type":
@@ -73,5 +72,5 @@ class SpecimenType(Base):
 
 
 @registry.misc("specimen_type_match")
-def specimen_type_match(ent):
+def specimen_type_match(ent: Span) -> SpecimenType:
     return SpecimenType.specimen_type_match(ent)

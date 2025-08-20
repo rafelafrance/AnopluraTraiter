@@ -6,7 +6,7 @@ from tests.setup import parse
 
 
 class TestPart(unittest.TestCase):
-    def test_part_01(self):
+    def test_part_01(self) -> None:
         self.assertEqual(
             parse("Legs progressively larger"),
             [

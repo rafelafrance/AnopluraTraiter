@@ -5,19 +5,19 @@ from tests.setup import parse
 
 
 class TestPlate(unittest.TestCase):
-    def test_plate_01(self):
+    def test_plate_01(self) -> None:
         self.assertEqual(
             parse("plate VII"),
             [Plate(part="plate", which=[7], start=0, end=9)],
         )
 
-    def test_plate_02(self):
+    def test_plate_02(self) -> None:
         self.assertEqual(
             parse("plates II-VI"),
             [Plate(part="plate", which=[2, 3, 4, 5, 6], start=0, end=12)],
         )
 
-    def test_plate_03(self):
+    def test_plate_03(self) -> None:
         self.assertEqual(
             parse("Thoracic sternal plate"),
             [
@@ -25,13 +25,13 @@ class TestPlate(unittest.TestCase):
             ],
         )
 
-    def test_plate_04(self):
+    def test_plate_04(self) -> None:
         self.assertEqual(
             parse("plates VI and VII"),
             [Plate(part="plate", which=[6, 7], start=0, end=17)],
         )
 
-    def test_plate_05(self):
+    def test_plate_05(self) -> None:
         self.assertEqual(
             parse("paratergal plate I"),
             [

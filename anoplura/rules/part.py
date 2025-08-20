@@ -2,8 +2,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import ClassVar
 
-from spacy.language import Language
-from spacy.util import registry
+from spacy import Language, registry
+from spacy.tokens import Span
 from traiter.pipes import add
 from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
@@ -24,13 +24,13 @@ class Part(Base):
     which: str | list[str] | list[int] | None = None
 
     @classmethod
-    def pipe(cls, nlp: Language):
+    def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="part_terms", path=cls.terms)
         add.trait_pipe(nlp, name="part_patterns", compiler=cls.part_patterns())
         add.cleanup_pipe(nlp, name="part_cleanup")
 
     @classmethod
-    def part_patterns(cls):
+    def part_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="part",
@@ -45,12 +45,12 @@ class Part(Base):
         ]
 
     @classmethod
-    def part_match(cls, ent):
+    def part_match(cls, ent: Span) -> "Part":
         text = ent.text.lower()
         part = cls.replace.get(text, text)
         return cls.from_ent(ent, part=part)
 
 
 @registry.misc("part_match")
-def part_match(ent):
+def part_match(ent: Span) -> Part:
     return Part.part_match(ent)

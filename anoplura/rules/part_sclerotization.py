@@ -2,8 +2,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import ClassVar
 
-from spacy.language import Language
-from spacy.util import registry
+from spacy import Language, registry
+from spacy.tokens import Span
 from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
 
@@ -25,16 +25,14 @@ class PartSclerotization(Base):
     description: str | None = None
 
     @classmethod
-    def pipe(cls, nlp: Language):
+    def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="sclerotized_terms", path=cls.terms)
-        # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
             name="sclerotized_description_patterns",
             compiler=cls.sclerotized_description_patterns(),
             overwrite=["sclerotization"],
         )
-        # add.debug_tokens(nlp)  # ##########################################
         add.context_pipe(
             nlp,
             name="sclerotized_patterns",
@@ -44,7 +42,7 @@ class PartSclerotization(Base):
         add.cleanup_pipe(nlp, name="sclerotized_cleanup")
 
     @classmethod
-    def sclerotized_description_patterns(cls):
+    def sclerotized_description_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="sclerotized_description",
@@ -61,7 +59,7 @@ class PartSclerotization(Base):
         ]
 
     @classmethod
-    def sclerotized_patterns(cls):
+    def sclerotized_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="sclerotized",
@@ -80,11 +78,11 @@ class PartSclerotization(Base):
         ]
 
     @classmethod
-    def sclerotized_description_match(cls, ent):
+    def sclerotized_description_match(cls, ent: Span) -> "PartSclerotization":
         return cls.from_ent(ent)
 
     @classmethod
-    def sclerotized_match(cls, ent):
+    def sclerotized_match(cls, ent: Span) -> "PartSclerotization":
         part = [e for e in ent.ents if e.label_ == "part"]
         descr = next(
             (e.text.lower() for e in ent.ents if e.label_ == "sclerotized_description"),
@@ -97,10 +95,10 @@ class PartSclerotization(Base):
 
 
 @registry.misc("sclerotized_description_match")
-def sclerotized_description_match(ent):
+def sclerotized_description_match(ent: Span) -> PartSclerotization:
     return PartSclerotization.sclerotized_description_match(ent)
 
 
 @registry.misc("sclerotized_match")
-def sclerotized_match(ent):
+def sclerotized_match(ent: Span) -> PartSclerotization:
     return PartSclerotization.sclerotized_match(ent)

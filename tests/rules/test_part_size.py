@@ -7,7 +7,7 @@ from tests.setup import parse
 
 
 class TestPartSize(unittest.TestCase):
-    def test_part_size_01(self):
+    def test_part_size_01(self) -> None:
         self.assertEqual(
             parse("""spiracle diameter, 0.023 mm."""),
             [

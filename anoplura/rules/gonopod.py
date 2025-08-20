@@ -2,8 +2,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import ClassVar
 
-from spacy.language import Language
-from spacy.util import registry
+from spacy import Language, registry
+from spacy.tokens import Span
 from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
 
@@ -22,7 +22,7 @@ class Gonopod(Base):
     which: list[int] | None = None
 
     @classmethod
-    def pipe(cls, nlp: Language):
+    def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="gonopod_terms", path=cls.terms)
         add.trait_pipe(
             nlp,
@@ -30,11 +30,10 @@ class Gonopod(Base):
             compiler=cls.gonopod_patterns(),
             overwrite=["number", "roman"],
         )
-        # add.debug_tokens(nlp)  # ##########################################
         add.cleanup_pipe(nlp, name="gonopod_cleanup")
 
     @classmethod
-    def gonopod_patterns(cls):
+    def gonopod_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="gonopod",
@@ -53,7 +52,7 @@ class Gonopod(Base):
         ]
 
     @classmethod
-    def gonopod_match(cls, ent):
+    def gonopod_match(cls, ent: Span) -> "Gonopod":
         which = [
             int(e._.trait.number) for e in ent.ents if e.label_ in ("number", "roman")
         ]
@@ -63,5 +62,5 @@ class Gonopod(Base):
 
 
 @registry.misc("gonopod_match")
-def gonopod_match(ent):
+def gonopod_match(ent: Span) -> Gonopod:
     return Gonopod.gonopod_match(ent)

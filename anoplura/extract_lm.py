@@ -10,24 +10,14 @@ from traiter.pylib.util import clean_text
 
 
 class ExtractTraits(dspy.Signature):
-    """Extract traits from species descriptitons."""
+    """Extract traits from species descriptions."""
 
     targets: str = dspy.InputField(descr="list of traits to extract")
     description: str = dspy.InputField(descr="may contain trait information")
     traits: list[dict[str, str]] = dspy.OutputField(descr="list of extracted traits")
 
 
-# class Extractor(dspy.Module):
-#     def __init__(self, hops=1):
-#         self.hops = hops
-#         self.generate_traits = dspy.ChainOfThought("text, question -> query")
-#
-#     def forward(self, targets, description):
-#         pred = self.generate_traits(targets=targets, descriptiton=description)
-#         return dspy.Prediction(traits=pred.traits)
-
-
-def main(args):
+def main(args: argparse.Namespace) -> None:
     lm = dspy.LM(args.model, api_base=args.api_base, api_key=args.api_key)
 
     dspy.configure(lm=lm)
@@ -45,7 +35,7 @@ def main(args):
     pp(reply.traits)
 
 
-def parse_args():
+def parse_args() -> argparse.Namespace:
     arg_parser = argparse.ArgumentParser(
         allow_abbrev=True,
         description=textwrap.dedent("""Parse data from lice papers."""),

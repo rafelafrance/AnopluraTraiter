@@ -6,7 +6,7 @@ from tests.setup import parse
 
 
 class TestSeta(unittest.TestCase):
-    def test_seta_01(self):
+    def test_seta_01(self) -> None:
         self.assertEqual(
             parse("dachs"),
             [
@@ -19,7 +19,7 @@ class TestSeta(unittest.TestCase):
             ],
         )
 
-    def test_seta_02(self):
+    def test_seta_02(self) -> None:
         self.assertEqual(
             parse("dorsal accessory head setae"),
             [
@@ -32,7 +32,7 @@ class TestSeta(unittest.TestCase):
             ],
         )
 
-    def test_setae_03(self):
+    def test_setae_03(self) -> None:
         self.assertEqual(
             parse("Dorsal Mesothoracic Setae;"),
             [
@@ -45,7 +45,7 @@ class TestSeta(unittest.TestCase):
             ],
         )
 
-    def test_setae_04(self):
+    def test_setae_04(self) -> None:
         self.assertEqual(
             parse("Long curved Setae;"),
             [

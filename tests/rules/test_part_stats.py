@@ -6,7 +6,7 @@ from tests.setup import parse
 
 
 class TestPartStats(unittest.TestCase):
-    def test_part_stats_01(self):
+    def test_part_stats_01(self) -> None:
         self.assertEqual(
             parse("""Maximum head width, 0.185–0.200 mm (mean, 0.194 mm, n = 3)."""),
             [
@@ -24,7 +24,7 @@ class TestPartStats(unittest.TestCase):
             ],
         )
 
-    def test_part_stats_02(self):
+    def test_part_stats_02(self) -> None:
         self.assertEqual(
             parse("""Thorax: Maximum width, 0.285–0.295 mm (n = 2)."""),
             [
@@ -40,7 +40,7 @@ class TestPartStats(unittest.TestCase):
             ],
         )
 
-    def test_part_stats_03(self):
+    def test_part_stats_03(self) -> None:
         self.assertEqual(
             parse("""maximum width of head, 0.190 mm."""),
             [
@@ -55,7 +55,7 @@ class TestPartStats(unittest.TestCase):
             ],
         )
 
-    def test_part_stats_04(self):
+    def test_part_stats_04(self) -> None:
         self.assertEqual(
             parse("""Total body length: 0.99–1.16 mm; mean, 1.09 mm (n = 4)."""),
             [

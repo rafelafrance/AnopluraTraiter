@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 
-from spacy.language import Language
-from spacy.util import registry
+from spacy import Language, registry
+from spacy.tokens import Span
 from traiter.pipes import add
 from traiter.pylib import const as t_const
 from traiter.pylib.pattern_compiler import Compiler
@@ -12,9 +12,6 @@ from anoplura.rules.base import Base
 
 @dataclass(eq=False)
 class SubpartSize(Base):
-    # Class vars ----------
-    # ---------------------
-
     subpart: str | None = None
     part: str | list[str] = None
     which: str | list[str] | list[int] | None = None
@@ -24,8 +21,7 @@ class SubpartSize(Base):
     dims: list[Dimension] = field(default_factory=list)
 
     @classmethod
-    def pipe(cls, nlp: Language):
-        # add.debug_tokens(nlp)  # ##########################################
+    def pipe(cls, nlp: Language) -> None:
         add.context_pipe(
             nlp,
             name="subpart_size_patterns",
@@ -34,7 +30,7 @@ class SubpartSize(Base):
         )
 
     @classmethod
-    def subpart_size_patterns(cls):
+    def subpart_size_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="subpart_size",
@@ -52,7 +48,7 @@ class SubpartSize(Base):
         ]
 
     @classmethod
-    def subpart_size_match(cls, ent):
+    def subpart_size_match(cls, ent: Span) -> "SubpartSize":
         sub, part, which, group, dims, pos = None, None, None, None, None, None
 
         for e in ent.ents:
@@ -78,5 +74,5 @@ class SubpartSize(Base):
 
 
 @registry.misc("subpart_size_match")
-def subpart_size_match(ent):
+def subpart_size_match(ent: Span) -> SubpartSize:
     return SubpartSize.subpart_size_match(ent)

@@ -6,7 +6,7 @@ from tests.setup import parse
 
 
 class TestPartDescription(unittest.TestCase):
-    def test_part_description_01(self):
+    def test_part_description_01(self) -> None:
         self.assertEqual(
             parse("subtriangular coxae"),
             [
@@ -24,7 +24,7 @@ class TestPartDescription(unittest.TestCase):
             ],
         )
 
-    def test_part_description_02(self):
+    def test_part_description_02(self) -> None:
         self.assertEqual(
             parse("Head longer than wide, broadly rounded anteriorly;"),
             [
@@ -42,7 +42,7 @@ class TestPartDescription(unittest.TestCase):
             ],
         )
 
-    def test_part_description_03(self):
+    def test_part_description_03(self) -> None:
         self.assertEqual(
             parse(
                 """
@@ -69,7 +69,7 @@ class TestPartDescription(unittest.TestCase):
             ],
         )
 
-    def test_part_description_04(self):
+    def test_part_description_04(self) -> None:
         self.assertEqual(
             parse(
                 """
@@ -96,7 +96,7 @@ class TestPartDescription(unittest.TestCase):
             ],
         )
 
-    def test_part_description_05(self):
+    def test_part_description_05(self) -> None:
         self.assertEqual(
             parse("Mesothoracic spiracle"),
             [
@@ -114,7 +114,7 @@ class TestPartDescription(unittest.TestCase):
             ],
         )
 
-    def test_part_description_06(self):
+    def test_part_description_06(self) -> None:
         self.assertEqual(
             parse("""subtriangular coxae proximally and acuminate claws terminally"""),
             [
@@ -149,7 +149,7 @@ class TestPartDescription(unittest.TestCase):
             ],
         )
 
-    def test_part_description_07(self):
+    def test_part_description_07(self) -> None:
         self.assertEqual(
             parse("Legs progressively larger from anterior to posterior,"),
             [
@@ -167,7 +167,7 @@ class TestPartDescription(unittest.TestCase):
             ],
         )
 
-    def test_part_description_08(self):
+    def test_part_description_08(self) -> None:
         self.assertEqual(
             parse("Abdomen wider than thorax."),
             [

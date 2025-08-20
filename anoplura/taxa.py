@@ -15,7 +15,7 @@ class Taxon:
     rank: str
 
 
-def main(args):
+def main(args: argparse.Namespace) -> None:
     with args.in_csv.open() as inf:
         reader = csv.DictReader(inf)
         rows = list(reader)
@@ -24,8 +24,8 @@ def main(args):
 
     # The rows look like any of the below:
     # header row: label,pattern,replace,rank
-    # Whis a replacment name: anoplura,scipio longiceps,Scipio aulacodi,species
-    # Without a replacment name: anoplura,scipio tripedatus,,species
+    # With a replacement name: anoplura,scipio longiceps,Scipio aulacodi,species
+    # Without a replacement name: anoplura,scipio tripedatus,species
     for row in rows:
         pattern = row["pattern"].lower()
         replace = row["replace"] if row["replace"] else row["pattern"]
@@ -100,7 +100,7 @@ def main(args):
             writer.writerow([taxon.label, taxon.pattern, taxon.replace, taxon.rank])
 
 
-def parse_args():
+def parse_args() -> argparse.Namespace:
     arg_parser = argparse.ArgumentParser(
         allow_abbrev=True,
         description=textwrap.dedent("""Create taxon terms from a species dump."""),

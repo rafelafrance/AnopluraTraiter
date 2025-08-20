@@ -5,7 +5,7 @@ from tests.setup import parse
 
 
 class TestSexCount(unittest.TestCase):
-    def test_sex_count_01(self):
+    def test_sex_count_01(self) -> None:
         self.assertEqual(
             parse("(23♂, 28♀)"),
             [

@@ -6,7 +6,7 @@ from tests.setup import parse
 
 
 class TestTaxon(unittest.TestCase):
-    def test_taxon_01(self):
+    def test_taxon_01(self) -> None:
         self.assertEqual(
             parse("females of L. CLAYTONI sp. nov., ."),
             [
@@ -21,7 +21,7 @@ class TestTaxon(unittest.TestCase):
             ],
         )
 
-    def test_taxon_02(self):
+    def test_taxon_02(self) -> None:
         self.assertEqual(
             parse("four known species of Abrocomaphthirus"),
             [

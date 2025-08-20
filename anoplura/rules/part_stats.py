@@ -3,8 +3,8 @@ from pathlib import Path
 from typing import ClassVar
 
 import traiter.pylib.const as t_const
-from spacy.language import Language
-from spacy.util import registry
+from spacy import Language, registry
+from spacy.tokens import Span
 from traiter.pipes import add
 from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
@@ -31,9 +31,8 @@ class PartStats(Base):
     range: Dimension | None = None
 
     @classmethod
-    def pipe(cls, nlp: Language):
+    def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="part_stats_terms", path=cls.terms)
-        # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
             name="part_stats_patterns",
@@ -42,7 +41,7 @@ class PartStats(Base):
         )
 
     @classmethod
-    def part_stats_patterns(cls):
+    def part_stats_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="part_stats",
@@ -70,7 +69,7 @@ class PartStats(Base):
         ]
 
     @classmethod
-    def part_stats_match(cls, ent):
+    def part_stats_match(cls, ent: Span) -> "PartStats":
         part, measure, mean, units, sample, range_ = None, None, None, None, None, None
         dim = None
 
@@ -106,5 +105,5 @@ class PartStats(Base):
 
 
 @registry.misc("part_stats_match")
-def part_stats_match(ent):
+def part_stats_match(ent: Span) -> PartStats:
     return PartStats.part_stats_match(ent)

@@ -2,8 +2,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import ClassVar
 
-from spacy.language import Language
-from spacy.util import registry
+from spacy import Language, registry
+from spacy.tokens import Span
 from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
 
@@ -23,9 +23,8 @@ class PartMean(Base):
     units: str | None = None
 
     @classmethod
-    def pipe(cls, nlp: Language):
+    def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="part_mean_terms", path=cls.terms)
-        # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
             name="part_mean_patterns",
@@ -35,7 +34,7 @@ class PartMean(Base):
         add.cleanup_pipe(nlp, name="part_mean_cleanup")
 
     @classmethod
-    def part_mean_patterns(cls):
+    def part_mean_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="part_mean",
@@ -52,12 +51,12 @@ class PartMean(Base):
         ]
 
     @classmethod
-    def part_mean_match(cls, ent):
+    def part_mean_match(cls, ent: Span) -> "PartMean":
         size = next(e for e in ent.ents if e.label_ == "size")
         dim = size._.trait.dims[0]
         return cls.from_ent(ent, mean=dim.low, units=dim.units)
 
 
 @registry.misc("part_mean_match")
-def part_mean_match(ent):
+def part_mean_match(ent: Span) -> PartMean:
     return PartMean.part_mean_match(ent)

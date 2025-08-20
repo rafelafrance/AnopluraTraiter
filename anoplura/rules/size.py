@@ -2,8 +2,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import ClassVar
 
-from spacy import registry
-from spacy.language import Language
+from spacy import Language, registry
+from spacy.tokens import Span
 from traiter.pipes import add
 from traiter.pylib import const as t_const
 from traiter.pylib import term_util
@@ -34,9 +34,8 @@ class Size(Base):
     dims: list[Dimension] = field(default_factory=list)
 
     @classmethod
-    def pipe(cls, nlp: Language):
+    def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="size_terms", path=cls.terms)
-        # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
             name="size_patterns",
@@ -47,11 +46,11 @@ class Size(Base):
         add.cleanup_pipe(nlp, name="size_cleanup")
 
     @property
-    def dimensions(self):
+    def dimensions(self) -> tuple[str, ...]:
         return tuple(d.dim for d in self.dims)
 
     @classmethod
-    def size_patterns(cls):
+    def size_patterns(cls) -> list[Compiler]:
         decoder = {
             "(": {"TEXT": {"IN": t_const.OPEN}},
             ")": {"TEXT": {"IN": t_const.CLOSE}},
@@ -78,7 +77,7 @@ class Size(Base):
         ]
 
     @classmethod
-    def update_indices(cls, sub_ent, dims):
+    def update_indices(cls, sub_ent: Span, dims: list[Dimension]) -> None:
         if dims[-1].start is None:
             dims[-1].start = sub_ent[0].idx
 
@@ -86,7 +85,7 @@ class Size(Base):
         dims[-1].end = last.idx + len(last)
 
     @classmethod
-    def scan_parts(cls, ent):
+    def scan_parts(cls, ent: Span) -> list[Dimension]:
         dims = [Dimension()]
 
         for e in ent.ents:
@@ -115,14 +114,14 @@ class Size(Base):
         return dims
 
     @staticmethod
-    def fill_units(dims):
+    def fill_units(dims: list[Dimension]) -> None:
         default_units = next((d.units for d in dims if d.units), "cm")
 
         for dim in dims:
             dim.units = dim.units if dim.units else default_units
 
     @staticmethod
-    def fill_dimensions(dims):
+    def fill_dimensions(dims: list[Dimension]) -> None:
         used = [d.dim for d in dims if d.dim]
 
         defaults = ["length", "width", "thickness"]
@@ -132,7 +131,7 @@ class Size(Base):
             dim.dim = dim.dim if dim.dim else defaults.pop(0)
 
     @classmethod
-    def fill_trait_data(cls, dims, ent):
+    def fill_trait_data(cls, dims: list[Dimension], ent: Span) -> "Size":
         # Build the key and value for the range's: low, high
         for dim in dims:
             for key in ("low", "high"):
@@ -146,7 +145,7 @@ class Size(Base):
         return trait
 
     @classmethod
-    def size_match(cls, ent):
+    def size_match(cls, ent: Span) -> "Size":
         dims = cls.scan_parts(ent)
         cls.fill_units(dims)
         cls.fill_dimensions(dims)
@@ -154,7 +153,7 @@ class Size(Base):
         return trait
 
     @classmethod
-    def convert_units_to_cm(cls, size_trait):
+    def convert_units_to_cm(cls, size_trait: "Size") -> "Size":
         for dim in size_trait.dims:
             for key in ("low", "high"):
                 value = getattr(dim, key)
@@ -170,5 +169,5 @@ class Size(Base):
 
 
 @registry.misc("size_match")
-def size_match(ent):
+def size_match(ent: Span) -> Size:
     return Size.size_match(ent)

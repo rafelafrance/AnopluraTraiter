@@ -2,8 +2,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import ClassVar
 
-from spacy.language import Language
-from spacy.util import registry
+from spacy import Language, registry
+from spacy.tokens import Span
 from traiter.pipes import add
 from traiter.pylib import const as t_const
 from traiter.pylib import term_util
@@ -32,23 +32,20 @@ class SetaCount(Base):
     description: str | None = None
 
     @classmethod
-    def pipe(cls, nlp: Language):
+    def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="seta_count_terms", path=cls.terms)
-        # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
             name="seta_count_description",
             compiler=cls.seta_count_description_patterns(),
             overwrite=["shape_term", "size_term", "group", "position"],
         )
-        # add.debug_tokens(nlp)  # ##########################################
         add.context_pipe(
             nlp,
             name="seta_count_patterns",
             compiler=cls.seta_count_patterns(),
             overwrite=["count", "seta_count_description"],
         )
-        # add.debug_tokens(nlp)  # ##########################################
         add.context_pipe(
             nlp,
             name="seta_count_patterns2",
@@ -58,7 +55,7 @@ class SetaCount(Base):
         add.cleanup_pipe(nlp, name="seta_count_cleanup")
 
     @classmethod
-    def seta_count_description_patterns(cls):
+    def seta_count_description_patterns(cls) -> list[Compiler]:
         shapes = ["shape_term", "size_term", "position"]
         return [
             Compiler(
@@ -80,7 +77,7 @@ class SetaCount(Base):
         ]
 
     @classmethod
-    def seta_count_patterns(cls):
+    def seta_count_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="seta_count",
@@ -99,7 +96,7 @@ class SetaCount(Base):
         ]
 
     @classmethod
-    def seta_count_patterns2(cls):
+    def seta_count_patterns2(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="seta_count",
@@ -117,11 +114,11 @@ class SetaCount(Base):
         ]
 
     @classmethod
-    def seta_count_description_match(cls, ent):
+    def seta_count_description_match(cls, ent: Span) -> "SetaCount":
         return cls.from_ent(ent)
 
     @classmethod
-    def seta_count_match(cls, ent):
+    def seta_count_match(cls, ent: Span) -> "SetaCount":
         seta, low, high, group, seta_part = None, None, None, None, None
         descr = []
 
@@ -151,7 +148,7 @@ class SetaCount(Base):
         )
 
     @classmethod
-    def seta_count_match2(cls, ent):
+    def seta_count_match2(cls, ent: Span) -> "SetaCount":
         seta, low, high, group, seta_part = None, None, None, None, None
         descr = []
 
@@ -180,15 +177,15 @@ class SetaCount(Base):
 
 
 @registry.misc("seta_count_description_match")
-def seta_count_description_match(ent):
+def seta_count_description_match(ent: Span) -> SetaCount:
     return SetaCount.seta_count_description_match(ent)
 
 
 @registry.misc("seta_count_match")
-def seta_count_match(ent):
+def seta_count_match(ent: Span) -> SetaCount:
     return SetaCount.seta_count_match(ent)
 
 
 @registry.misc("seta_count_match2")
-def seta_count_match2(ent):
+def seta_count_match2(ent: Span) -> SetaCount:
     return SetaCount.seta_count_match2(ent)

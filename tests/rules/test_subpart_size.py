@@ -7,7 +7,7 @@ from tests.setup import parse
 
 
 class TestSubpartSize(unittest.TestCase):
-    def test_subpart_size_01(self):
+    def test_subpart_size_01(self) -> None:
         self.assertEqual(
             parse("""posterior apex length, 0.123 mm;"""),
             [

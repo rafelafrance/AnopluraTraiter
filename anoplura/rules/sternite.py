@@ -3,8 +3,8 @@ from pathlib import Path
 from typing import ClassVar
 
 import traiter.pylib.const as t_const
-from spacy.language import Language
-from spacy.util import registry
+from spacy import Language, registry
+from spacy.tokens import Span
 from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
 
@@ -25,9 +25,8 @@ class Sternite(Base):
     which: list[int] | None = None
 
     @classmethod
-    def pipe(cls, nlp: Language):
+    def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="sternite_terms", path=cls.terms)
-        # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
             name="sternite_patterns",
@@ -37,7 +36,7 @@ class Sternite(Base):
         add.cleanup_pipe(nlp, name="sternite_cleanup")
 
     @classmethod
-    def sternite_patterns(cls):
+    def sternite_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="sternite",
@@ -65,7 +64,7 @@ class Sternite(Base):
         ]
 
     @classmethod
-    def sternite_match(cls, ent):
+    def sternite_match(cls, ent: Span) -> "Sternite":
         which = []
 
         for sub_ent in ent.ents:
@@ -83,5 +82,5 @@ class Sternite(Base):
 
 
 @registry.misc("sternite_match")
-def sternite_match(ent):
+def sternite_match(ent: Span) -> Sternite:
     return Sternite.sternite_match(ent)

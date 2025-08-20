@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 
-from spacy.language import Language
-from spacy.util import registry
+from spacy import Language, registry
+from spacy.tokens import Span
 from traiter.pipes import add
 from traiter.pylib import const as t_const
 from traiter.pylib.pattern_compiler import Compiler
@@ -12,16 +12,12 @@ from anoplura.rules.base import Base
 
 @dataclass(eq=False)
 class SetaSize(Base):
-    # Class vars ----------
-    # ---------------------
-
     seta: str | None = None
     seta_part: str | None = None
     dims: list[Dimension] = field(default_factory=list)
 
     @classmethod
-    def pipe(cls, nlp: Language):
-        # add.debug_tokens(nlp)  # ##########################################
+    def pipe(cls, nlp: Language) -> None:
         add.context_pipe(
             nlp,
             name="seta_size_patterns",
@@ -30,7 +26,7 @@ class SetaSize(Base):
         )
 
     @classmethod
-    def seta_size_patterns(cls):
+    def seta_size_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="seta_size",
@@ -48,7 +44,7 @@ class SetaSize(Base):
         ]
 
     @classmethod
-    def seta_size_match(cls, ent):
+    def seta_size_match(cls, ent: Span) -> "SetaSize":
         dims, seta_part, seta = None, None, None
 
         for e in ent.ents:
@@ -63,5 +59,5 @@ class SetaSize(Base):
 
 
 @registry.misc("seta_size_match")
-def seta_size_match(ent):
+def seta_size_match(ent: Span) -> SetaSize:
     return SetaSize.seta_size_match(ent)

@@ -2,8 +2,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import ClassVar
 
-from spacy.language import Language
-from spacy.util import registry
+from spacy import Language, registry
+from spacy.tokens import Span
 from traiter.pipes import add
 from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
@@ -27,9 +27,8 @@ class Count(Base):
     count_group: str | None = None
 
     @classmethod
-    def pipe(cls, nlp: Language):
+    def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="count_terms", path=cls.terms)
-        # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
             name="count_patterns",
@@ -39,7 +38,7 @@ class Count(Base):
         add.cleanup_pipe(nlp, name="count_cleanup")
 
     @classmethod
-    def count_patterns(cls):
+    def count_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="count",
@@ -61,7 +60,7 @@ class Count(Base):
         ]
 
     @classmethod
-    def count_match(cls, ent):
+    def count_match(cls, ent: Span) -> "Count":
         low, high, group = None, None, None
 
         for e in ent.ents:
@@ -79,5 +78,5 @@ class Count(Base):
 
 
 @registry.misc("count_match")
-def count_match(ent):
+def count_match(ent: Span) -> Count:
     return Count.count_match(ent)

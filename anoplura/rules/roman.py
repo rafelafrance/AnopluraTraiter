@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
-from spacy import registry
-from spacy.language import Language
+from spacy import Language, registry
+from spacy.tokens import Span
 from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
 
@@ -11,14 +11,11 @@ from anoplura.rules.base import Base
 
 @dataclass(eq=False)
 class Roman(Base):
-    # Class vars ----------
-    # ---------------------
-
     number: int = None
     is_roman: bool = True
 
     @classmethod
-    def pipe(cls, nlp: Language):
+    def pipe(cls, nlp: Language) -> None:
         add.trait_pipe(
             nlp,
             name="roman_patterns",
@@ -26,7 +23,7 @@ class Roman(Base):
         )
 
     @classmethod
-    def roman_patterns(cls):
+    def roman_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="roman",
@@ -41,11 +38,11 @@ class Roman(Base):
         ]
 
     @classmethod
-    def roman_match(cls, ent):
+    def roman_match(cls, ent: Span) -> "Roman":
         number = roman.from_roman(ent.text)
         return cls.from_ent(ent, number=number)
 
 
 @registry.misc("roman_match")
-def roman_match(ent):
+def roman_match(ent: Span) -> Roman:
     return Roman.roman_match(ent)

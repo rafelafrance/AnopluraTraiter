@@ -2,16 +2,18 @@ from collections import defaultdict
 from datetime import datetime
 from html import escape
 from itertools import cycle
+from pathlib import Path
+from typing import Any
 
 from jinja2 import Environment, FileSystemLoader
 
-from anoplura.rules.base import as_dict
+from anoplura.rules.base import Base, as_dict
 
 COLOR_COUNT = 14
 BACKGROUNDS = cycle([f"cc{i}" for i in range(COLOR_COUNT)])
 
 
-def writer(traits, text, html_file):
+def writer(traits: list[Base], text: str, html_file: Path) -> None:
     env = Environment(
         loader=FileSystemLoader("./anoplura/writers/templates"), autoescape=True
     )
@@ -29,7 +31,7 @@ def writer(traits, text, html_file):
         out_file.write(template)
 
 
-def build_classes(traits):
+def build_classes(traits: list[Base]) -> dict[str, int]:
     """Make tags for HTML text color highlighting."""
     classes = {}
     for trait in traits:
@@ -39,7 +41,7 @@ def build_classes(traits):
     return classes
 
 
-def format_text(text, traits, classes):
+def format_text(text: str, traits: list[Base], classes: dict[str, int]) -> str:
     """Colorize and format the text for HTML."""
     frags = []
 
@@ -64,7 +66,9 @@ def format_text(text, traits, classes):
     return "".join(frags)
 
 
-def format_traits(text, traits, classes):
+def format_traits(
+    text: str, traits: list[Base], classes: dict[str, int]
+) -> dict[Any, Any]:
     """Format the traits for HTML."""
     formatted = {}
 

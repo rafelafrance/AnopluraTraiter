@@ -11,5 +11,5 @@ class LatLong(Base, T_LatLong):
     sex: str | None = None
 
     @classmethod
-    def pipe(cls, nlp: Language):
+    def pipe(cls, nlp: Language) -> None:
         T_LatLong.pipe(nlp)

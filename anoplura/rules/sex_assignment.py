@@ -4,7 +4,7 @@ from spacy.tokens import Doc
 SEX_ASSIGNMENT = "sex_assignment"
 
 
-def pipe(nlp: Language, *, name=None, skip=None):
+def pipe(nlp: Language, *, name: str | None = None, skip: bool | None = None) -> None:
     name = name if name else SEX_ASSIGNMENT
 
     if skip:
@@ -16,7 +16,7 @@ def pipe(nlp: Language, *, name=None, skip=None):
 
 @Language.factory(SEX_ASSIGNMENT)
 class SexAssignment:
-    def __init__(self, nlp: Language, name: str, skip: list[str] | None):
+    def __init__(self, nlp: Language, name: str, skip: list[str] | None) -> None:
         super().__init__()
         self.nlp = nlp
         self.name = name

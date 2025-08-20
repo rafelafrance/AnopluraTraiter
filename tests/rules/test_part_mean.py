@@ -5,7 +5,7 @@ from tests.setup import parse
 
 
 class TestPartMean(unittest.TestCase):
-    def test_part_mean_01(self):
+    def test_part_mean_01(self) -> None:
         self.assertEqual(
             parse("""mean, 0.194 mm"""),
             [PartMean(start=0, end=14, mean=0.194, units="mm")],

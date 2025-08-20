@@ -6,7 +6,7 @@ from tests.setup import parse
 
 
 class TestSubpart(unittest.TestCase):
-    def test_subpart_01(self):
+    def test_subpart_01(self) -> None:
         self.assertEqual(
             parse("dorsal head suture"),
             [
@@ -20,7 +20,7 @@ class TestSubpart(unittest.TestCase):
             ],
         )
 
-    def test_subpart_02(self):
+    def test_subpart_02(self) -> None:
         self.assertEqual(
             parse("head with anterolateral lobe on each side"),
             [
@@ -40,7 +40,7 @@ class TestSubpart(unittest.TestCase):
             ],
         )
 
-    def test_subpart_03(self):
+    def test_subpart_03(self) -> None:
         self.assertEqual(
             parse("small posterior spur"),
             [
@@ -48,7 +48,7 @@ class TestSubpart(unittest.TestCase):
             ],
         )
 
-    def test_subpart_04(self):
+    def test_subpart_04(self) -> None:
         self.assertEqual(
             parse("basal apodeme"),
             [
@@ -56,7 +56,7 @@ class TestSubpart(unittest.TestCase):
             ],
         )
 
-    def test_subpart_05(self):
+    def test_subpart_05(self) -> None:
         self.assertEqual(
             parse("Antennae 5-segmented"),
             [

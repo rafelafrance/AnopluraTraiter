@@ -3,8 +3,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import ClassVar
 
-from spacy.language import Language
-from spacy.util import registry
+from spacy import Language, registry
+from spacy.tokens import Span
 from traiter.pipes import add
 from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
@@ -28,9 +28,8 @@ class Seta(Base):
     which: str | list[str] | list[int] | None = None
 
     @classmethod
-    def pipe(cls, nlp: Language):
+    def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="seta_terms", path=cls.terms)
-        # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
             name="seta_patterns",
@@ -40,7 +39,7 @@ class Seta(Base):
         add.cleanup_pipe(nlp, name="seta_cleanup")
 
     @classmethod
-    def seta_patterns(cls):
+    def seta_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="seta",
@@ -59,7 +58,7 @@ class Seta(Base):
         ]
 
     @classmethod
-    def seta_match(cls, ent):
+    def seta_match(cls, ent: Span) -> "Seta":
         text = ent.text.lower()
         seta = cls.replace.get(text, text)
         seta = re.sub(r"seta$", "setae", seta)
@@ -67,5 +66,5 @@ class Seta(Base):
 
 
 @registry.misc("seta_match")
-def seta_match(ent):
+def seta_match(ent: Span) -> Seta:
     return Seta.seta_match(ent)

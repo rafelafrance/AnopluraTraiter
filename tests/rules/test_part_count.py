@@ -7,7 +7,7 @@ from tests.setup import parse
 
 
 class TestPartCount(unittest.TestCase):
-    def test_part_count_01(self):
+    def test_part_count_01(self) -> None:
         self.assertEqual(
             parse("3 long, narrow sternites"),
             [
@@ -26,7 +26,7 @@ class TestPartCount(unittest.TestCase):
             ],
         )
 
-    def test_part_count_02(self):
+    def test_part_count_02(self) -> None:
         self.assertEqual(
             parse("2 elongate sternites (nos. 2 and 3)"),
             [
@@ -47,7 +47,7 @@ class TestPartCount(unittest.TestCase):
             ],
         )
 
-    def test_part_count_03(self):
+    def test_part_count_03(self) -> None:
         self.assertEqual(
             parse("2 relatively broad tergites (nos. 1 and 2)"),
             [

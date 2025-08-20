@@ -2,8 +2,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import ClassVar
 
-from spacy.language import Language
-from spacy.util import registry
+from spacy import Language, registry
+from spacy.tokens import Span
 from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
 
@@ -20,9 +20,8 @@ class PartSample(Base):
     sample_size: int | None = None
 
     @classmethod
-    def pipe(cls, nlp: Language):
+    def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="part_sample_terms", path=cls.terms)
-        # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
             name="part_sample_patterns",
@@ -32,7 +31,7 @@ class PartSample(Base):
         add.cleanup_pipe(nlp, name="part_sample_cleanup")
 
     @classmethod
-    def part_sample_patterns(cls):
+    def part_sample_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="part_sample",
@@ -49,7 +48,7 @@ class PartSample(Base):
         ]
 
     @classmethod
-    def part_sample_match(cls, ent):
+    def part_sample_match(cls, ent: Span) -> "PartSample":
         sample = None
 
         for e in ent.ents:
@@ -60,5 +59,5 @@ class PartSample(Base):
 
 
 @registry.misc("part_sample_match")
-def part_sample_match(ent):
+def part_sample_match(ent: Span) -> PartSample:
     return PartSample.part_sample_match(ent)

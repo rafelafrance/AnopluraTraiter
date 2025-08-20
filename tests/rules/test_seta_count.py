@@ -6,7 +6,7 @@ from tests.setup import parse
 
 
 class TestSetaCount(unittest.TestCase):
-    def test_seta_count_01(self):
+    def test_seta_count_01(self) -> None:
         self.assertEqual(
             parse("4 DCAS,"),
             [
@@ -26,7 +26,7 @@ class TestSetaCount(unittest.TestCase):
             ],
         )
 
-    def test_seta_count_02(self):
+    def test_seta_count_02(self) -> None:
         self.assertEqual(
             parse("5 pairs of DCAS,"),
             [
@@ -47,7 +47,7 @@ class TestSetaCount(unittest.TestCase):
             ],
         )
 
-    def test_seta_count_03(self):
+    def test_seta_count_03(self) -> None:
         self.assertEqual(
             parse("6-7 DCAS,"),
             [
@@ -68,7 +68,7 @@ class TestSetaCount(unittest.TestCase):
             ],
         )
 
-    def test_seta_count_04(self):
+    def test_seta_count_04(self) -> None:
         self.assertEqual(
             parse("1 seta"),
             [
@@ -82,7 +82,7 @@ class TestSetaCount(unittest.TestCase):
             ],
         )
 
-    def test_seta_count_05(self):
+    def test_seta_count_05(self) -> None:
         self.assertEqual(
             parse(
                 """
@@ -120,7 +120,7 @@ class TestSetaCount(unittest.TestCase):
             ],
         )
 
-    def test_seta_count_06(self):
+    def test_seta_count_06(self) -> None:
         self.assertEqual(
             parse("1 short dorsal accessory head seta"),
             [
@@ -141,7 +141,7 @@ class TestSetaCount(unittest.TestCase):
             ],
         )
 
-    def test_seta_count_07(self):
+    def test_seta_count_07(self) -> None:
         self.assertEqual(
             parse("2 lateral StAS on each side"),
             [
@@ -170,7 +170,7 @@ class TestSetaCount(unittest.TestCase):
             ],
         )
 
-    def test_seta_count_08(self):
+    def test_seta_count_08(self) -> None:
         self.assertEqual(
             parse("1 fairly long ventral principal head seta"),
             [
@@ -191,7 +191,7 @@ class TestSetaCount(unittest.TestCase):
             ],
         )
 
-    def test_seta_count_09(self):
+    def test_seta_count_09(self) -> None:
         self.assertEqual(
             parse("1 (posterior row) setae"),
             [

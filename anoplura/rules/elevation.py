@@ -9,5 +9,5 @@ class Elevation(T_Elevation):
     sex: str | None = None
 
     @classmethod
-    def pipe(cls, nlp: Language):
+    def pipe(cls, nlp: Language) -> None:
         T_Elevation.pipe(nlp)

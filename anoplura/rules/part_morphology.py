@@ -2,8 +2,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import ClassVar
 
-from spacy.language import Language
-from spacy.util import registry
+from spacy import Language, registry
+from spacy.tokens import Span
 from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
 
@@ -37,23 +37,20 @@ class PartMorphology(Base):
     reference_which: str | list[str] | list[int] | None = None
 
     @classmethod
-    def pipe(cls, nlp: Language):
+    def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="part_morphology_terms", path=cls.terms)
-        # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
             name="part_morph_patterns",
             compiler=cls.part_morph_patterns(),
             overwrite=["shape_term", "size_term", "position", *cls.other_parts],
         )
-        # add.debug_tokens(nlp)  # ##########################################
         add.context_pipe(
             nlp,
             name="part_morphology_patterns",
             compiler=cls.part_morphology_patterns(),
             overwrite=["part_morph"],
         )
-        # add.debug_tokens(nlp)  # ##########################################
         add.context_pipe(
             nlp,
             name="part_morphology_patterns2",
@@ -63,7 +60,7 @@ class PartMorphology(Base):
         add.cleanup_pipe(nlp, name="part_morphology_cleanup")
 
     @classmethod
-    def part_morph_patterns(cls):
+    def part_morph_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="part_morph",
@@ -88,7 +85,7 @@ class PartMorphology(Base):
         ]
 
     @classmethod
-    def part_morphology_patterns(cls):
+    def part_morphology_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="part_morphology",
@@ -109,7 +106,7 @@ class PartMorphology(Base):
         ]
 
     @classmethod
-    def part_morphology_patterns2(cls):
+    def part_morphology_patterns2(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="part_morphology",
@@ -126,11 +123,11 @@ class PartMorphology(Base):
         ]
 
     @classmethod
-    def part_morph_match(cls, ent):
+    def part_morph_match(cls, ent: Span) -> "PartMorphology":
         return cls.from_ent(ent)
 
     @classmethod
-    def part_morphology_match(cls, ent):
+    def part_morphology_match(cls, ent: Span) -> "PartMorphology":
         part, which, ref_part, ref_which = None, None, None, None
         morph = []
 
@@ -156,7 +153,7 @@ class PartMorphology(Base):
         )
 
     @classmethod
-    def part_morphology_match2(cls, ent):
+    def part_morphology_match2(cls, ent: Span) -> "PartMorphology":
         part, which, ref_part, ref_which = None, None, None, None
         morph = []
 
@@ -183,15 +180,15 @@ class PartMorphology(Base):
 
 
 @registry.misc("part_morphology_match")
-def part_morphology_match(ent):
+def part_morphology_match(ent: Span) -> PartMorphology:
     return PartMorphology.part_morphology_match(ent)
 
 
 @registry.misc("part_morph_match")
-def part_morph_match(ent):
+def part_morph_match(ent: Span) -> PartMorphology:
     return PartMorphology.part_morph_match(ent)
 
 
 @registry.misc("part_morphology_match2")
-def part_morphology_match2(ent):
+def part_morphology_match2(ent: Span) -> PartMorphology:
     return PartMorphology.part_morphology_match2(ent)

@@ -7,7 +7,7 @@ from tests.setup import parse
 
 
 class TestSetaPosition(unittest.TestCase):
-    def test_seta_position_01(self):
+    def test_seta_position_01(self) -> None:
         self.assertEqual(
             parse("DMHS inserted anteriorly and close to dorsal head suture"),
             [
@@ -32,7 +32,7 @@ class TestSetaPosition(unittest.TestCase):
             ],
         )
 
-    def test_seta_position_02(self):
+    def test_seta_position_02(self) -> None:
         self.assertEqual(
             parse("DMHS inserted posteriorly and lateral to DPHS;"),
             [
@@ -59,7 +59,7 @@ class TestSetaPosition(unittest.TestCase):
             ],
         )
 
-    def test_seta_position_03(self):
+    def test_seta_position_03(self) -> None:
         self.assertEqual(
             parse("(VPHS) ventrally on each side"),
             [
@@ -79,7 +79,7 @@ class TestSetaPosition(unittest.TestCase):
             ],
         )
 
-    def test_seta_position_04(self):
+    def test_seta_position_04(self) -> None:
         self.assertEqual(
             parse("stout lateral setae"),
             [

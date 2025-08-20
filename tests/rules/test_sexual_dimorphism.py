@@ -6,7 +6,7 @@ from tests.setup import parse
 
 
 class TestSexualDimorphism(unittest.TestCase):
-    def test_sexual_dimorphism_01(self):
+    def test_sexual_dimorphism_01(self) -> None:
         self.assertEqual(
             parse("Head, thorax, and abdomen as in male"),
             [
@@ -35,7 +35,7 @@ class TestSexualDimorphism(unittest.TestCase):
             ],
         )
 
-    def test_sexual_dimorphism_02(self):
+    def test_sexual_dimorphism_02(self) -> None:
         self.assertEqual(
             parse("femora longer than in male"),
             [
@@ -54,7 +54,7 @@ class TestSexualDimorphism(unittest.TestCase):
             ],
         )
 
-    def test_sexual_dimorphism_03(self):
+    def test_sexual_dimorphism_03(self) -> None:
         self.assertEqual(
             parse("similar to those of male"),
             [

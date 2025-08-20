@@ -7,7 +7,7 @@ from tests.setup import parse
 
 
 class TestSetaSize(unittest.TestCase):
-    def test_seta_size_01(self):
+    def test_seta_size_01(self) -> None:
         self.assertEqual(
             parse("""(DPTS) length, 0.123 mm;"""),
             [

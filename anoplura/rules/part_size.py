@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 
-from spacy.language import Language
-from spacy.util import registry
+from spacy import Language, registry
+from spacy.tokens import Span
 from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
 
@@ -11,16 +11,12 @@ from anoplura.rules.base import Base
 
 @dataclass(eq=False)
 class PartSize(Base):
-    # Class vars ----------
-    # ---------------------
-
     part: str = None
     which: str | list[str] | list[int] | None = None
     dims: list[Dimension] = field(default_factory=list)
 
     @classmethod
-    def pipe(cls, nlp: Language):
-        # add.debug_tokens(nlp)  # ##########################################
+    def pipe(cls, nlp: Language) -> None:
         add.context_pipe(
             nlp,
             name="part_size_patterns",
@@ -29,7 +25,7 @@ class PartSize(Base):
         )
 
     @classmethod
-    def part_size_patterns(cls):
+    def part_size_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="part_size",
@@ -45,7 +41,7 @@ class PartSize(Base):
         ]
 
     @classmethod
-    def part_size_match(cls, ent):
+    def part_size_match(cls, ent: Span) -> "PartSize":
         dims, part, which = None, None, None
 
         for e in ent.ents:
@@ -60,5 +56,5 @@ class PartSize(Base):
 
 
 @registry.misc("part_size_match")
-def part_size_match(ent):
+def part_size_match(ent: Span) -> PartSize:
     return PartSize.part_size_match(ent)

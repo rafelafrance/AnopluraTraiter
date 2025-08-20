@@ -2,8 +2,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import ClassVar
 
-from spacy.language import Language
-from spacy.util import registry
+from spacy import Language, registry
+from spacy.tokens import Span
 from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
 
@@ -38,23 +38,20 @@ class SubpartMorphology(Base):
     morphology: list[str] | None = None
 
     @classmethod
-    def pipe(cls, nlp: Language):
+    def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="subpart_morphology_terms", path=cls.terms)
-        # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
             name="subpart_morph_patterns",
             compiler=cls.subpart_morph_patterns(),
             overwrite=["shape_term", "size_term", "position", *cls.other_parts],
         )
-        # add.debug_tokens(nlp)  # ##########################################
         add.context_pipe(
             nlp,
             name="subpart_morphology_patterns",
             compiler=cls.subpart_morphology_patterns(),
             overwrite=["subpart_morph"],
         )
-        # add.debug_tokens(nlp)  # ##########################################
         add.context_pipe(
             nlp,
             name="subpart_morphology_patterns2",
@@ -64,7 +61,7 @@ class SubpartMorphology(Base):
         add.cleanup_pipe(nlp, name="subpart_morphology_cleanup")
 
     @classmethod
-    def subpart_morph_patterns(cls):
+    def subpart_morph_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="subpart_morph",
@@ -85,7 +82,7 @@ class SubpartMorphology(Base):
         ]
 
     @classmethod
-    def subpart_morphology_patterns(cls):
+    def subpart_morphology_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="subpart_morphology",
@@ -104,7 +101,7 @@ class SubpartMorphology(Base):
         ]
 
     @classmethod
-    def subpart_morphology_patterns2(cls):
+    def subpart_morphology_patterns2(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="subpart_morphology",
@@ -121,11 +118,11 @@ class SubpartMorphology(Base):
         ]
 
     @classmethod
-    def subpart_morph_match(cls, ent):
+    def subpart_morph_match(cls, ent: Span) -> "SubpartMorphology":
         return cls.from_ent(ent)
 
     @classmethod
-    def subpart_morphology_match(cls, ent):
+    def subpart_morphology_match(cls, ent: Span) -> "SubpartMorphology":
         subpart, part, which, pos, group = None, None, None, None, None
         morph = []
 
@@ -150,7 +147,7 @@ class SubpartMorphology(Base):
         )
 
     @classmethod
-    def subpart_morphology_match2(cls, ent):
+    def subpart_morphology_match2(cls, ent: Span) -> "SubpartMorphology":
         subpart, part, which, pos, group = None, None, None, None, None
         morph = []
 
@@ -176,15 +173,15 @@ class SubpartMorphology(Base):
 
 
 @registry.misc("subpart_morphology_match")
-def subpart_morphology_match(ent):
+def subpart_morphology_match(ent: Span) -> SubpartMorphology:
     return SubpartMorphology.subpart_morphology_match(ent)
 
 
 @registry.misc("subpart_morphology_match2")
-def subpart_morphology_match2(ent):
+def subpart_morphology_match2(ent: Span) -> SubpartMorphology:
     return SubpartMorphology.subpart_morphology_match2(ent)
 
 
 @registry.misc("subpart_morph_match")
-def subpart_morph_match(ent):
+def subpart_morph_match(ent: Span) -> SubpartMorphology:
     return SubpartMorphology.subpart_morph_match(ent)

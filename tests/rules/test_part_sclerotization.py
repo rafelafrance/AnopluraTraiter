@@ -6,7 +6,7 @@ from tests.setup import parse
 
 
 class TestSclerotized(unittest.TestCase):
-    def test_sclerotized_01(self):
+    def test_sclerotized_01(self) -> None:
         self.assertEqual(
             parse("Head, thorax, and abdomen moderately sclerotized"),
             [
