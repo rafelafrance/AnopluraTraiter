@@ -39,7 +39,7 @@ from anoplura.rules.tergite import Tergite
 # from traiter.pipes.debug import ents
 
 
-def build():
+def build() -> spacy.Language:
     extensions.add_extensions()
 
     nlp = spacy.load("en_core_web_md", exclude=["ner"])

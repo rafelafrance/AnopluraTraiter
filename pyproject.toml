@@ -40,7 +40,6 @@ exclude = [
 select = ["ALL"]
 
 ignore = [
-    "A003",    # Class attribute is shadowing a Python builtin
     "COM812",  # Trailing comma missing
     "D100",    # Missing docstring in public module
     "D101",    # Missing docstring in public class
@@ -53,13 +52,9 @@ ignore = [
     "D212",    # Multi-line docstring summary should start at the first line
     "DTZ005",  # Pass a `datetime.timezone` object to the `tz` parameter
     "ERA001",  # Remove commented-out code
-    "ISC001",  # Implicitly concatenated string literals on one line
     "LOG015",  # Use own logger instead
-    "N818",    # Exception name {name} should be named with an Error suffix
     "PD901",   # Avoid using the generic variable name df for DataFrames
-    "PLR0913", # Too many arguments in function definition ({c_args} > {max_args})
     "PLW2901", # Outer {outer_kind} variable {name} overwritten by inner {inner_kind} target
-    "PLW0603", # Using the global statement to update {name} is discouraged
     "PT009",   # Use a regular "assert" instead of unittest-style {assertion}
     "RET504",  # Unnecessary assignment to {name} before return statement
     "RUF001",  # String contains ambiguous {}. Did you mean {}?
