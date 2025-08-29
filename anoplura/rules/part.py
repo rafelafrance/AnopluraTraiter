@@ -16,6 +16,7 @@ class Part(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "part_terms.csv",
+        Path(__file__).parent / "terms" / "position_terms.csv",
     ]
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
     # ----------------------
@@ -37,18 +38,29 @@ class Part(Base):
                 on_match="part_match",
                 decoder={
                     "part": {"ENT_TYPE": "bug_part"},
+                    "pos": {"ENT_TYPE": "position"},
                 },
                 patterns=[
-                    " part+ ",
+                    " pos* part+ ",
                 ],
             ),
         ]
 
     @classmethod
     def part_match(cls, ent: Span) -> "Part":
-        text = ent.text.lower()
-        part = cls.replace.get(text, text)
-        return cls.from_ent(ent, part=part)
+        part, pos = [], []
+
+        for e in ent.ents:
+            if e.label_ == "bug_part":
+                text = e.text.lower()
+                part.append(cls.replace.get(text, text))
+            elif e.label_ == "position":
+                pos.append(e.text.lower())
+
+        part = " ".join(part)
+        pos = " ".join(pos) if pos else None
+
+        return cls.from_ent(ent, part=part, which=pos)
 
 
 @registry.misc("part_match")

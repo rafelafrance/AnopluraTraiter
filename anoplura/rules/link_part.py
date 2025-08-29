@@ -20,7 +20,7 @@ class LinkPart(Base):
         "linker",
         "separator",
         "subpart",
-        "part_morphology",
+        "part_shape",
         "subpart_morphology",
         "seta",
         "seta_count",

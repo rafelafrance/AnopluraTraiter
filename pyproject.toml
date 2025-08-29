@@ -1,5 +1,5 @@
 [build-system]
-requires = ["uv_build>=0.8.12"]
+requires = ["uv_build>=0.8.13"]
 build-backend = "uv_build"
 
 [project]
@@ -19,6 +19,7 @@ dependencies = [
     "regex>=2025.7.34",
     "spacy>=3.8.7",
     "tqdm>=4.67.1",
+    "uv-build>=0.8.13",
 ]
 
 [tool.uv.build-backend]
@@ -52,7 +53,7 @@ ignore = [
     "D212",    # Multi-line docstring summary should start at the first line
     "DTZ005",  # Pass a `datetime.timezone` object to the `tz` parameter
     "ERA001",  # Remove commented-out code
-    "LOG015",  # Use own logger instead
+    "LOG015",  # Use own logger instead TODO
     "PD901",   # Avoid using the generic variable name df for DataFrames
     "PLW2901", # Outer {outer_kind} variable {name} overwritten by inner {inner_kind} target
     "PT009",   # Use a regular "assert" instead of unittest-style {assertion}

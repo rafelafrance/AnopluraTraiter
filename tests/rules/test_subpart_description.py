@@ -1,7 +1,7 @@
 import unittest
 
 from anoplura.rules.subpart import Subpart
-from anoplura.rules.subpart_morphology import SubpartMorphology
+from anoplura.rules.subpart_description import SubpartDescription
 from tests.setup import parse
 
 
@@ -10,11 +10,11 @@ class TestSubpartDescription(unittest.TestCase):
         self.assertEqual(
             parse("""rounded anterolateral margins"""),
             [
-                SubpartMorphology(
+                SubpartDescription(
                     start=0,
                     end=7,
                     subpart="margin",
-                    morphology=["rounded"],
+                    shape=["rounded"],
                     position="anterolateral",
                 ),
                 Subpart(
@@ -30,22 +30,22 @@ class TestSubpartDescription(unittest.TestCase):
         self.assertEqual(
             parse("""broad spur-like ridge posteriorly"""),
             [
-                SubpartMorphology(
+                SubpartDescription(
                     start=0,
                     end=15,
                     subpart="ridge",
-                    morphology=["broad spur-like"],
+                    shape=["broad spur-like"],
                 ),
                 Subpart(
                     start=16,
                     end=21,
                     subpart="ridge",
                 ),
-                SubpartMorphology(
+                SubpartDescription(
                     start=22,
                     end=33,
                     subpart="ridge",
-                    morphology=["posteriorly"],
+                    shape=["posteriorly"],
                 ),
             ],
         )

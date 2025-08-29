@@ -1,7 +1,7 @@
 import unittest
 
 from anoplura.rules.seta import Seta
-from anoplura.rules.seta_morphology import SetaMorphology
+from anoplura.rules.seta_position import SetaPosition
 from anoplura.rules.subpart import Subpart
 from tests.setup import parse
 
@@ -14,7 +14,7 @@ class TestSetaPosition(unittest.TestCase):
                 Seta(
                     start=0, end=4, seta="dorsal marginal head setae", seta_part="head"
                 ),
-                SetaMorphology(
+                SetaPosition(
                     start=5,
                     end=37,
                     seta="dorsal marginal head setae",
@@ -27,7 +27,7 @@ class TestSetaPosition(unittest.TestCase):
                     end=56,
                     subpart="suture",
                     part="head",
-                    position="dorsal",
+                    which="dorsal",
                 ),
             ],
         )
@@ -42,7 +42,7 @@ class TestSetaPosition(unittest.TestCase):
                     seta="dorsal marginal head setae",
                     seta_part="head",
                 ),
-                SetaMorphology(
+                SetaPosition(
                     start=5,
                     end=40,
                     seta="dorsal marginal head setae",
@@ -69,7 +69,7 @@ class TestSetaPosition(unittest.TestCase):
                     seta="ventral principal head setae",
                     seta_part="head",
                 ),
-                SetaMorphology(
+                SetaPosition(
                     start=7,
                     end=29,
                     seta="ventral principal head setae",
@@ -81,17 +81,28 @@ class TestSetaPosition(unittest.TestCase):
 
     def test_seta_position_04(self) -> None:
         self.assertEqual(
-            parse("stout lateral setae"),
+            parse("narrow central setae and stout lateral setae"),
             [
-                SetaMorphology(
+                SetaPosition(
                     start=0,
-                    end=13,
+                    end=14,
+                    seta="setae",
+                    position="narrow central",
+                ),
+                Seta(
+                    start=15,
+                    end=20,
+                    seta="setae",
+                ),
+                SetaPosition(
+                    start=25,
+                    end=38,
                     seta="setae",
                     position="stout lateral",
                 ),
                 Seta(
-                    start=14,
-                    end=19,
+                    start=39,
+                    end=44,
                     seta="setae",
                 ),
             ],
