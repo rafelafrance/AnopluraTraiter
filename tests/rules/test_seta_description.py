@@ -1,7 +1,7 @@
 import unittest
 
 from anoplura.rules.seta import Seta
-from anoplura.rules.seta_position import SetaPosition
+from anoplura.rules.seta_description import SetaDescription
 from anoplura.rules.subpart import Subpart
 from tests.setup import parse
 
@@ -14,7 +14,7 @@ class TestSetaPosition(unittest.TestCase):
                 Seta(
                     start=0, end=4, seta="dorsal marginal head setae", seta_part="head"
                 ),
-                SetaPosition(
+                SetaDescription(
                     start=5,
                     end=37,
                     seta="dorsal marginal head setae",
@@ -42,7 +42,7 @@ class TestSetaPosition(unittest.TestCase):
                     seta="dorsal marginal head setae",
                     seta_part="head",
                 ),
-                SetaPosition(
+                SetaDescription(
                     start=5,
                     end=40,
                     seta="dorsal marginal head setae",
@@ -69,7 +69,7 @@ class TestSetaPosition(unittest.TestCase):
                     seta="ventral principal head setae",
                     seta_part="head",
                 ),
-                SetaPosition(
+                SetaDescription(
                     start=7,
                     end=29,
                     seta="ventral principal head setae",
@@ -83,7 +83,7 @@ class TestSetaPosition(unittest.TestCase):
         self.assertEqual(
             parse("narrow central setae and stout lateral setae"),
             [
-                SetaPosition(
+                SetaDescription(
                     start=0,
                     end=14,
                     seta="setae",
@@ -94,7 +94,7 @@ class TestSetaPosition(unittest.TestCase):
                     end=20,
                     seta="setae",
                 ),
-                SetaPosition(
+                SetaDescription(
                     start=25,
                     end=38,
                     seta="setae",

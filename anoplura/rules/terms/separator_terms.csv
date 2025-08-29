@@ -1,9 +1,11 @@
 label,pattern
+linker,all with
+linker,from
+linker,of
+linker,on
+linker,to
+linker,with
 separator,","
 separator,=
 separator,and
 separator,is
-linker,all with
-linker,with
-linker,from
-linker,to

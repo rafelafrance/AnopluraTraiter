@@ -1,7 +1,7 @@
 import unittest
 
 from anoplura.rules.seta import Seta
-from anoplura.rules.seta_position import SetaPosition
+from anoplura.rules.seta_description import SetaDescription
 from tests.setup import parse
 
 
@@ -49,7 +49,7 @@ class TestSeta(unittest.TestCase):
         self.assertEqual(
             parse("Long curved Setae;"),
             [
-                SetaPosition(
+                SetaDescription(
                     start=0,
                     end=11,
                     seta="setae",

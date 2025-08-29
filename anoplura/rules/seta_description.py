@@ -13,7 +13,7 @@ from anoplura.rules.base import PARTS, Base
 
 
 @dataclass(eq=False)
-class SetaPosition(Base):
+class SetaDescription(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "group_terms.csv",
@@ -30,7 +30,7 @@ class SetaPosition(Base):
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:
-        add.term_pipe(nlp, name="seta_position_terms", path=cls.terms)
+        add.term_pipe(nlp, name="seta_description_terms", path=cls.terms)
         # add.debug_tokens(nlp)  # ##############################################
         add.trait_pipe(
             nlp,
@@ -41,11 +41,11 @@ class SetaPosition(Base):
         # add.debug_tokens(nlp)  # ##############################################
         add.context_pipe(
             nlp,
-            name="seta_position_patterns",
-            compiler=cls.seta_position_patterns(),
+            name="seta_description_patterns",
+            compiler=cls.seta_description_patterns(),
             overwrite=["seta_pos"],
         )
-        add.cleanup_pipe(nlp, name="seta_position_cleanup")
+        add.cleanup_pipe(nlp, name="seta_description_cleanup")
 
     @classmethod
     def seta_pos_patterns(cls) -> list[Compiler]:
@@ -68,11 +68,11 @@ class SetaPosition(Base):
         ]
 
     @classmethod
-    def seta_position_patterns(cls) -> list[Compiler]:
+    def seta_description_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
-                label="seta_position",
-                on_match="seta_position_match",
+                label="seta_description",
+                on_match="seta_description_match",
                 decoder={
                     "(": {"TEXT": {"IN": t_const.OPEN}},
                     ")": {"TEXT": {"IN": t_const.CLOSE}},
@@ -90,11 +90,11 @@ class SetaPosition(Base):
         ]
 
     @classmethod
-    def seta_pos_match(cls, ent: Span) -> "SetaPosition":
+    def seta_pos_match(cls, ent: Span) -> "SetaDescription":
         return cls.from_ent(ent)
 
     @classmethod
-    def seta_position_match(cls, ent: Span) -> "SetaPosition":
+    def seta_description_match(cls, ent: Span) -> "SetaDescription":
         seta, seta_part = None, None
         pos, subpart = None, None
 
@@ -120,10 +120,10 @@ class SetaPosition(Base):
 
 
 @registry.misc("seta_pos_match")
-def seta_pos_match(ent: Span) -> SetaPosition:
-    return SetaPosition.seta_pos_match(ent)
+def seta_pos_match(ent: Span) -> SetaDescription:
+    return SetaDescription.seta_pos_match(ent)
 
 
-@registry.misc("seta_position_match")
-def seta_position_match(ent: Span) -> SetaPosition:
-    return SetaPosition.seta_position_match(ent)
+@registry.misc("seta_description_match")
+def seta_description_match(ent: Span) -> SetaDescription:
+    return SetaDescription.seta_description_match(ent)

@@ -23,6 +23,8 @@ class Sternite(Base):
 
     part: str = "sternite"
     which: list[int] | None = None
+    reference_part: str | None = None
+    reference_which: str | list[str] | list[int] | None = None
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:
