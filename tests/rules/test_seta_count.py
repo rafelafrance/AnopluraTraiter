@@ -165,7 +165,6 @@ class TestSetaCount(unittest.TestCase):
                     seta="sternal abdominal setae",
                     seta_part="abdomen",
                     count_low=2,
-                    description="on each side",
                 ),
             ],
         )
@@ -206,6 +205,32 @@ class TestSetaCount(unittest.TestCase):
                     start=18,
                     end=23,
                     seta="setae",
+                ),
+            ],
+        )
+
+    def test_seta_position_10(self) -> None:
+        self.assertEqual(
+            parse("setae (2 on 1 side, 3 on the other)"),
+            [
+                Seta(
+                    start=0,
+                    end=5,
+                    seta="setae",
+                ),
+                SetaCount(
+                    start=7,
+                    end=18,
+                    seta="setae",
+                    count_low=2,
+                    count_group="on 1 side",
+                ),
+                SetaCount(
+                    start=20,
+                    end=34,
+                    seta="setae",
+                    count_low=3,
+                    count_group="on the other",
                 ),
             ],
         )

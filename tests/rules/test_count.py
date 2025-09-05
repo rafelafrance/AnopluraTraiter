@@ -5,7 +5,7 @@
 #
 #
 # class TestCount(unittest.TestCase):
-#     def test_count_01(self):
+#     def test_count_01(self) -> None:
 #         self.assertEqual(
 #             parse("6"),
 #             [
@@ -13,7 +13,7 @@
 #             ],
 #         )
 #
-#     def test_count_02(self):
+#     def test_count_02(self) -> None:
 #         self.assertEqual(
 #             parse("2 pairs of"),
 #             [
@@ -21,12 +21,20 @@
 #             ],
 #         )
 #
-#     def test_count_03(self):
+#     def test_count_03(self) -> None:
 #         self.assertEqual(
 #             parse("2-3 pairs of"),
 #             [
 #                 Count(
 #                     start=0, end=12, count_low=2, count_high=3, count_group="pairs of"
 #                 ),
+#             ],
+#         )
+#
+#     def test_count_04(self) -> None:
+#         self.assertEqual(
+#             parse("2 on 1 side"),
+#             [
+#                 Count(start=0, end=11, count_low=2, count_group="on 1 side"),
 #             ],
 #         )

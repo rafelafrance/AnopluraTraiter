@@ -29,13 +29,40 @@ class Count(Base):
     @classmethod
     def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="count_terms", path=cls.terms)
+        # add.debug_tokens(nlp)  # #########################################
+        add.trait_pipe(
+            nlp,
+            name="count_group_patterns",
+            compiler=cls.count_group_patterns(),
+            overwrite=["number", "range", "group"],
+        )
+        # add.debug_tokens(nlp)  # #########################################
         add.trait_pipe(
             nlp,
             name="count_patterns",
             compiler=cls.count_patterns(),
-            overwrite=["number", "range", "group"],
+            overwrite=["number", "range", "group", "count_group"],
         )
         add.cleanup_pipe(nlp, name="count_cleanup")
+
+    @classmethod
+    def count_group_patterns(cls) -> list[Compiler]:
+        return [
+            Compiler(
+                label="count_group",
+                is_temp=True,
+                on_match="count_group_match",
+                decoder={
+                    "1": {"ENT_TYPE": "number"},
+                    "one": {"LOWER": "one"},
+                    "on": {"LOWER": "on"},
+                    "side": {"LOWER": "side"},
+                },
+                patterns=[
+                    " on 1 side ",
+                ],
+            ),
+        ]
 
     @classmethod
     def count_patterns(cls) -> list[Compiler]:
@@ -48,6 +75,7 @@ class Count(Base):
                     "99-99": {"ENT_TYPE": "range"},
                     "group": {"ENT_TYPE": "group"},
                     "missing": {"ENT_TYPE": "missing"},
+                    "cgroup": {"ENT_TYPE": "count_group"},
                 },
                 patterns=[
                     " group* 99+ ",
@@ -55,9 +83,14 @@ class Count(Base):
                     " missing+ ",
                     " 99+    group* ",
                     " 99-99+ group* ",
+                    " 99+    cgroup+ ",
                 ],
             ),
         ]
+
+    @classmethod
+    def count_group_match(cls, ent: Span) -> "Count":
+        return cls.from_ent(ent)
 
     @classmethod
     def count_match(cls, ent: Span) -> "Count":
@@ -71,10 +104,15 @@ class Count(Base):
                 high = int(e._.trait.high)
             elif e.label_ == "missing":
                 low = 0
-            elif e.label_ == "group":
+            elif e.label_ in ("group", "count_group"):
                 group = e.text.lower()
 
         return cls.from_ent(ent, count_low=low, count_high=high, count_group=group)
+
+
+@registry.misc("count_group_match")
+def count_group_match(ent: Span) -> Count:
+    return Count.count_group_match(ent)
 
 
 @registry.misc("count_match")
