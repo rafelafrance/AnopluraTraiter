@@ -38,3 +38,11 @@
 #                 Count(start=0, end=11, count_low=2, count_group="on 1 side"),
 #             ],
 #         )
+#
+#     def test_count_05(self) -> None:
+#         self.assertEqual(
+#             parse("2 on one side"),
+#             [
+#                 Count(start=0, end=11, count_low=2, count_group="on 1 side"),
+#             ],
+#         )

@@ -209,7 +209,7 @@ class TestSetaCount(unittest.TestCase):
             ],
         )
 
-    def test_seta_position_10(self) -> None:
+    def test_seta_count_10(self) -> None:
         self.assertEqual(
             parse("setae (2 on 1 side, 3 on the other)"),
             [
