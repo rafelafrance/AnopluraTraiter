@@ -43,10 +43,11 @@ td; th {
 .cc12  {background: #FF00FF66; color: black; font-style: normal;}
 .cc13  {background: #80808066; color: black; font-style: normal;}
 .cc14  {background: #E6E6FA66; color: black; font-style: normal;}
+
 .cc15  {background: #A52A2A66; color: navy; font-style: italic;}
 .cc16  {background: #80800066; color: navy; font-style: italic;}
 .cc17  {background: #00808066; color: navy; font-style: italic;}
-.cc18  {background: #00008044; color: black; font-style: italic;}
+.cc18  {background: #00008044; color: navy; font-style: italic;}
 .cc19  {background: #FF000066; color: navy; font-style: italic;}
 .cc20  {background: #FFA50066; color: navy; font-style: italic;}
 .cc21  {background: #FFFF0066; color: navy; font-style: italic;}
