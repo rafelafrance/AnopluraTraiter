@@ -7,6 +7,6 @@ class TestText(unittest.TestCase):
     def test_text_00(self) -> None:
         parse(
             """
-            hind femora with relatively broad spur-like ridge posteriorly
+            3 rows of setae immediately anterior to gonopods IX on each side
             """
         )

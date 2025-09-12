@@ -108,7 +108,7 @@ class PartDescription(Base):
 
     @classmethod
     def part_description_match(cls, ent: Span) -> "PartDescription":
-        part, which, ref_part, ref_which = None, None, None, None
+        part, which, ref_part, ref_which, pos = None, None, None, None, None
         shape, morph = [], []
         reject = True
 
@@ -145,6 +145,7 @@ class PartDescription(Base):
             part=part,
             which=which,
             shape=shape,
+            position=pos,
             morphology=morph,
             reference_part=ref_part,
             reference_which=ref_which,

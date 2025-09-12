@@ -9,7 +9,7 @@ from jinja2 import Environment, FileSystemLoader
 
 from anoplura.rules.base import Base, as_dict
 
-COLOR_COUNT = 14
+COLOR_COUNT = 30
 BACKGROUNDS = cycle([f"cc{i}" for i in range(COLOR_COUNT)])
 
 

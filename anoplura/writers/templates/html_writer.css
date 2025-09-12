@@ -22,23 +22,39 @@ th {
     background-color: #f0f0f0;
 }
 
-td, th {
+td; th {
     border: 1px solid #0f0f0f;
     padding: 0.5rem;
     text-align: left;
 }
 
-.cc0 { background: #a6cee388; }
-.cc1 { background: #1f78b488; }
-.cc2 { background: #b2df8a88; }
-.cc3 { background: #33a02c88; }
-.cc4 { background: #fb9a9988; }
-.cc5 { background: #e31a1c88; }
-.cc6 { background: #fdbf6f88; }
-.cc7 { background: #ff7f0088; }
-.cc8 { background: #cab2d688; }
-.cc9 { background: #6a3d9a88; }
-.cc10 { background: #ffff9988; }
-.cc11 { background: #b1592888; }
-.cc12 { background: #cccccc88; }
-.cc13 { background: #b3b3b388; }
+.cc0 {background: #A52A2A66; color: black; font-style: normal;}
+.cc1  {background: #80800066; color: black; font-style: normal;}
+.cc2  {background: #00808066; color: black; font-style: normal;}
+.cc3  {background: #00008044; color: black; font-style: normal;}
+.cc4  {background: #FF000066; color: black; font-style: normal;}
+.cc5  {background: #FFA50066; color: black; font-style: normal;}
+.cc6  {background: #FFFF0066; color: black; font-style: normal;}
+.cc7  {background: #00FF0066; color: black; font-style: normal;}
+.cc8  {background: #00800066; color: black; font-style: normal;}
+.cc9  {background: #00FFFF66;fcolor: black; ont-style: normal;}
+.cc10  {background: #0000FF44; color: black; font-style: normal;}
+.cc11  {background: #80008066; color: black; font-style: normal;}
+.cc12  {background: #FF00FF66; color: black; font-style: normal;}
+.cc13  {background: #80808066; color: black; font-style: normal;}
+.cc14  {background: #E6E6FA66; color: black; font-style: normal;}
+.cc15  {background: #A52A2A66; color: navy; font-style: italic;}
+.cc16  {background: #80800066; color: navy; font-style: italic;}
+.cc17  {background: #00808066; color: navy; font-style: italic;}
+.cc18  {background: #00008044; color: black; font-style: italic;}
+.cc19  {background: #FF000066; color: navy; font-style: italic;}
+.cc20  {background: #FFA50066; color: navy; font-style: italic;}
+.cc21  {background: #FFFF0066; color: navy; font-style: italic;}
+.cc22  {background: #00FF0066; color: navy; font-style: italic;}
+.cc23  {background: #00800066; color: navy; font-style: italic;}
+.cc24  {background: #00FFFF66; color: navy; font-style: italic;}
+.cc25  {background: #0000FF44; color: navy; font-style: italic;}
+.cc26  {background: #80008066; color: navy; font-style: italic;}
+.cc27  {background: #FF00FF66; color: navy; font-style: italic;}
+.cc28  {background: #80808066; color: navy; font-style: italic;}
+.cc29  {background: #E6E6FA66; color: navy; font-style: italic;}

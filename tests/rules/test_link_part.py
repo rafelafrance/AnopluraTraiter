@@ -1,5 +1,6 @@
 import unittest
 
+from anoplura.rules.gonopod import Gonopod
 from anoplura.rules.seta import Seta
 from anoplura.rules.seta_count import SetaCount
 from anoplura.rules.sternite import Sternite
@@ -23,6 +24,8 @@ class TestLinkPart(unittest.TestCase):
                     seta="sternal abdominal setae",
                     seta_part="abdomen",
                     count_low=6,
+                    part="sternite",
+                    which=[2],
                 ),
                 Seta(
                     start=18,
@@ -51,6 +54,8 @@ class TestLinkPart(unittest.TestCase):
                     seta="dorsal lateral abdominal setae",
                     seta_part="abdomen",
                     count_low=4,
+                    part="sternite",
+                    which=[1],
                 ),
                 Seta(
                     start=18,
@@ -72,6 +77,8 @@ class TestLinkPart(unittest.TestCase):
                     seta="sternal abdominal setae",
                     seta_part="abdomen",
                     count_low=9,
+                    part="sternite",
+                    which=[2],
                 ),
                 Seta(
                     start=42,
@@ -81,5 +88,23 @@ class TestLinkPart(unittest.TestCase):
                     part="sternite",
                     which=[2],
                 ),
+            ],
+        )
+
+    def test_link_part_03(self) -> None:
+        self.assertEqual(
+            parse("3 rows of setae immediately anterior to gonopods IX on each side"),
+            [
+                SetaCount(
+                    start=0,
+                    end=36,
+                    seta="setae",
+                    count_low=3,
+                    count_group="rows of",
+                    description="immediately anterior",
+                    part="gonopod",
+                    which=[9],
+                ),
+                Gonopod(start=40, end=51, part="gonopod", which=[9]),
             ],
         )

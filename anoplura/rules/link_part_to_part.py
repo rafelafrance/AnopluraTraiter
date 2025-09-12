@@ -21,6 +21,7 @@ class LinkPartToPart(Base):
     ]
     linkee: ClassVar[list[str]] = [
         "sternite",
+        "tergite",
     ]
     # ----------------------
 

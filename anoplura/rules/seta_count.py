@@ -31,6 +31,8 @@ class SetaCount(Base):
     count_high: int | None = None
     count_group: str | None = None
     description: str | None = None
+    part: str = None
+    which: str | list[str] | list[int] | None = None
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

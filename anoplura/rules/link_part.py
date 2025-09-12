@@ -31,6 +31,7 @@ class LinkPart(Base):
     @classmethod
     def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="link_part_terms", path=cls.terms)
+        # add.debug_tokens(nlp)  # #########################################
         add.context_pipe(
             nlp,
             name="link_part_patterns",
@@ -50,7 +51,8 @@ class LinkPart(Base):
                     "other": {"ENT_TYPE": {"IN": cls.others}},
                 },
                 patterns=[
-                    " part+ other+ ",
+                    " part+  other+ ",
+                    " other+ part+ ",
                 ],
             ),
         ]
@@ -58,57 +60,27 @@ class LinkPart(Base):
     @classmethod
     def link_part_match(cls, ent: Span) -> Never:
         part, which = None, None
-        subparts, morphs, setae = [], [], []
+        others = []
 
         for e in ent.ents:
             if e.label_ in PARTS:
                 part = e._.trait.part
                 which = e._.trait.which
-            elif e.label_ == "subpart":
-                subparts.append(e._.trait)
-            elif e.label_ == "subpart_morphology":
-                morphs.append(e._.trait)
-            elif e.label_ == "seta":
-                setae.append(e._.trait)
+            elif e.label_ in ("subpart", "subpart_morphology", "seta", "seta_count"):
+                others.append(e._.trait)
 
-        cls.fill_subparts(subparts, part, which)
-        cls.fill_subpart_morphology(morphs, part, which)
-        cls.fill_setae(setae, part, which)
+        cls.fill_others(others, part, which)
 
         raise reject_match.SkipTraitCreation
 
     @classmethod
-    def fill_subparts(
-        cls, subparts: list[Base], part: str, which: str | list[str] | list[int]
+    def fill_others(
+        cls, others: list[Base], part: str, which: str | list[str] | list[int]
     ) -> None:
-        for subpart in subparts:
-            if not subpart.part:
-                subpart.part = part
-                subpart.which = which
-
-    @classmethod
-    def fill_subpart_morphology(
-        cls,
-        morphs: list[Base],
-        part: str | list[str],
-        which: str | list[str] | list[int],
-    ) -> None:
-        for morph in morphs:
-            if not morph.part:
-                morph.part = part
-                morph.which = which
-
-    @classmethod
-    def fill_setae(
-        cls,
-        setae: list[Base],
-        part: str | list[str],
-        which: str | list[str] | list[int],
-    ) -> None:
-        for seta in setae:
-            if not seta.part:
-                seta.part = part
-                seta.which = which
+        for other in others:
+            if not other.part:
+                other.part = part
+                other.which = which
 
 
 @registry.misc("link_part_match")

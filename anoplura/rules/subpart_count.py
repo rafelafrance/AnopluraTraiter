@@ -45,7 +45,7 @@ class SubpartCount(Base):
                 is_temp=True,
                 on_match="subpart_count_description_match",
                 decoder={
-                    "descr": {"POS": {"IN": ["ADP", "ADJ", "ADV", "PUNCT", "NOUN"]}},
+                    "descr": {"POS": {"IN": ["ADP", "ADJ", "ADV", "NOUN"]}},
                     "shape": {"ENT_TYPE": "shape"},
                 },
                 patterns=[" shape* descr+ shape* "],

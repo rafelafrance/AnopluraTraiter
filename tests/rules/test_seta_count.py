@@ -2,6 +2,7 @@ import unittest
 
 from anoplura.rules.seta import Seta
 from anoplura.rules.seta_count import SetaCount
+from anoplura.rules.sternite import Sternite
 from tests.setup import parse
 
 
@@ -211,7 +212,7 @@ class TestSetaCount(unittest.TestCase):
 
     def test_seta_count_10(self) -> None:
         self.assertEqual(
-            parse("setae (2 on 1 side, 3 on the other)"),
+            parse("setae (2 on 1 side, 3 on the other); sternites 4-10"),
             [
                 Seta(
                     start=0,
@@ -231,6 +232,12 @@ class TestSetaCount(unittest.TestCase):
                     seta="setae",
                     count_low=3,
                     count_group="on the other",
+                ),
+                Sternite(
+                    start=37,
+                    end=51,
+                    part="sternite",
+                    which=[4, 5, 6, 7, 8, 9, 10],
                 ),
             ],
         )

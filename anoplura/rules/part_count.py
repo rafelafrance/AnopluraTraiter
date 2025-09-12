@@ -13,7 +13,10 @@ from anoplura.rules.base import Base
 @dataclass(eq=False)
 class PartCount(Base):
     # Class vars ----------
-    terms: ClassVar[Path] = Path(__file__).parent / "terms" / "group_terms.csv"
+    terms: ClassVar[list[Path]] = [
+        Path(__file__).parent / "terms" / "separator_terms.csv",
+        Path(__file__).parent / "terms" / "group_terms.csv",
+    ]
     parts: ClassVar[list[str]] = ["sternite", "tergite"]
     # ----------------------
 
@@ -25,18 +28,22 @@ class PartCount(Base):
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:
+        add.term_pipe(nlp, name="part_count_terms", path=cls.terms)
+        # add.debug_tokens(nlp)  # #########################################
         add.trait_pipe(
             nlp,
             name="part_count_description",
             compiler=cls.part_count_description_patterns(),
             overwrite=["shape"],
         )
+        # add.debug_tokens(nlp)  # #########################################
         add.context_pipe(
             nlp,
             name="part_count_patterns",
             compiler=cls.part_count_patterns(),
             overwrite=["count", "part_count_description", "shape"],
         )
+        # add.debug_tokens(nlp)  # #########################################
         add.cleanup_pipe(nlp, name="part_count_cleanup")
 
     @classmethod
@@ -47,10 +54,15 @@ class PartCount(Base):
                 is_temp=True,
                 on_match="part_count_description_match",
                 decoder={
-                    "descr": {"POS": {"IN": ["ADP", "ADJ", "ADV", "PUNCT", "NOUN"]}},
+                    ",": {"ENT_TYPE": "separator"},
+                    "descr": {"POS": {"IN": ["ADP", "ADJ", "ADV", "NOUN"]}},
                     "shape": {"ENT_TYPE": "shape"},
                 },
-                patterns=[" shape* descr+ shape* "],
+                patterns=[
+                    " shape* descr+ shape* ",
+                    " shape* descr+ , descr+ shape* ",
+                    " shape* descr+ ,        shape+ ",
+                ],
             ),
         ]
 
