@@ -1,7 +1,7 @@
 import unittest
 
 from anoplura.rules.part import Part
-from anoplura.rules.part_description import PartDescription
+from anoplura.rules.subpart import Subpart
 from tests.setup import parse
 
 
@@ -11,9 +11,6 @@ class TestPart(unittest.TestCase):
             parse("Legs progressively larger"),
             [
                 Part(part="leg", start=0, end=4),
-                PartDescription(
-                    start=5, end=25, part="leg", shape="progressively larger"
-                ),
             ],
         )
 
@@ -24,12 +21,6 @@ class TestPart(unittest.TestCase):
                 Part(
                     start=0,
                     end=8,
-                    part="antenna",
-                ),
-                PartDescription(
-                    start=9,
-                    end=20,
-                    morphology="5-segmented",
                     part="antenna",
                 ),
             ],
@@ -44,11 +35,10 @@ class TestPart(unittest.TestCase):
                     end=4,
                     part="head",
                 ),
-                PartDescription(
-                    start=5,
-                    end=41,
-                    shape="with anterolateral lobe on each side",
-                    part="head",
+                Subpart(
+                    start=10,
+                    end=28,
+                    subpart="anterolateral lobe",
                 ),
             ],
         )

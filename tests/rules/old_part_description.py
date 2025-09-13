@@ -56,7 +56,7 @@ class TestPartDescription(unittest.TestCase):
                     start=0,
                     end=13,
                     part="segment",
-                    which="basal",
+                    number="basal",
                 ),
                 PartDescription(
                     start=14,
@@ -76,7 +76,7 @@ class TestPartDescription(unittest.TestCase):
                     start=0,
                     end=21,
                     part="spiracle",
-                    which="mesothoracic",
+                    number="mesothoracic",
                 ),
             ],
         )
@@ -172,7 +172,7 @@ class TestPartDescription(unittest.TestCase):
         self.assertEqual(
             parse("""hind femora with relatively broad spur-like ridge posteriorly"""),
             [
-                Part(start=0, end=11, part="femur", which="hind"),
+                Part(start=0, end=11, part="femur", number="hind"),
                 PartDescription(
                     start=12,
                     end=61,

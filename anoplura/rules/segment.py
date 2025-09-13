@@ -20,7 +20,7 @@ class Segment(Base):
     # ----------------------
 
     part: str = "segment"
-    which: list[int] | str | None = None
+    number: list[int] | str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:
@@ -56,12 +56,12 @@ class Segment(Base):
 
     @classmethod
     def segment_match(cls, ent: Span) -> "Segment":
-        segments = []
+        numbers = []
         pos = []
 
         for sub_ent in ent.ents:
             if sub_ent.label_ == "number":
-                segments.append(int(sub_ent._.trait.number))
+                numbers.append(int(sub_ent._.trait.number))
 
             elif sub_ent.label_ == "position":
                 pos.append(sub_ent.text.lower())
@@ -69,14 +69,14 @@ class Segment(Base):
             elif sub_ent.label_ == "range":
                 low = int(sub_ent._.trait.low)
                 high = int(sub_ent._.trait.high)
-                segments += list(range(low, high + 1))
+                numbers += list(range(low, high + 1))
 
         pos = " ".join(pos)
 
-        segments = sorted(set(segments)) if segments else None
-        segments = segments if segments else pos
+        numbers = sorted(set(numbers)) if numbers else None
+        numbers = numbers if numbers else pos
 
-        return cls.from_ent(ent, which=segments)
+        return cls.from_ent(ent, number=numbers)
 
 
 @registry.misc("segment_match")

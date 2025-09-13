@@ -2,39 +2,21 @@ import spacy
 from traiter.pipes import delete, extensions, tokenizer
 from traiter.rules.number import Number
 
-from anoplura.rules import sex_assignment
 from anoplura.rules.count import Count
 from anoplura.rules.elevation import Elevation
 from anoplura.rules.gonopod import Gonopod
 from anoplura.rules.lat_long import LatLong
-from anoplura.rules.link_part import LinkPart
-from anoplura.rules.link_part_to_part import LinkPartToPart
 from anoplura.rules.part import Part
-from anoplura.rules.part_count import PartCount
-from anoplura.rules.part_description import PartDescription
-from anoplura.rules.part_mean import PartMean
-from anoplura.rules.part_sample import PartSample
-from anoplura.rules.part_sclerotization import PartSclerotization
-from anoplura.rules.part_size import PartSize
-from anoplura.rules.part_stats import PartStats
 from anoplura.rules.plate import Plate
 from anoplura.rules.range import Range
 from anoplura.rules.roman import Roman
 from anoplura.rules.segment import Segment
 from anoplura.rules.seta import Seta
-from anoplura.rules.seta_count import SetaCount
-from anoplura.rules.seta_description import SetaDescription
-from anoplura.rules.seta_size import SetaSize
 from anoplura.rules.sex import Sex
-from anoplura.rules.sex_count import SexCount
-from anoplura.rules.sexual_dimorphism import SexualDimorphism
 from anoplura.rules.size import Size
 from anoplura.rules.specimen_type import SpecimenType
 from anoplura.rules.sternite import Sternite
 from anoplura.rules.subpart import Subpart
-from anoplura.rules.subpart_count import SubpartCount
-from anoplura.rules.subpart_description import SubpartDescription
-from anoplura.rules.subpart_size import SubpartSize
 from anoplura.rules.taxon import Taxon
 from anoplura.rules.tergite import Tergite
 
@@ -74,35 +56,9 @@ def build() -> spacy.Language:
     SpecimenType.pipe(nlp)
 
     Size.pipe(nlp)
-    PartMean.pipe(nlp)
-    PartSample.pipe(nlp)
-    PartStats.pipe(nlp)
-
-    PartSclerotization.pipe(nlp)
-
     Count.pipe(nlp)
 
-    SexCount.pipe(nlp)
-    PartCount.pipe(nlp)
-    SetaCount.pipe(nlp)
-    SubpartCount.pipe(nlp)
-
-    SexualDimorphism.pipe(nlp)
-
-    PartDescription.pipe(nlp)
-    SubpartDescription.pipe(nlp)
-
-    SetaDescription.pipe(nlp)
-    PartSize.pipe(nlp)
-    SetaSize.pipe(nlp)
-    SubpartSize.pipe(nlp)
-
-    LinkPart.pipe(nlp)
-    LinkPartToPart.pipe(nlp)
-
     delete.pipe(nlp, delete=["number", "range", "roman", "count"])
-
-    sex_assignment.pipe(nlp)
 
     # for name in nlp.pipe_names:
     #     print(name)

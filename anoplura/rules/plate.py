@@ -21,8 +21,7 @@ class Plate(Base):
     # ----------------------
 
     part: str = "plate"
-    which: list[int] | None = None
-    position: str | None = None
+    number: list[int] | None = None
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:
@@ -63,25 +62,27 @@ class Plate(Base):
 
     @classmethod
     def plate_match(cls, ent: Span) -> "Plate":
-        plates = []
-        pos = []
+        number = []
+        part = []
 
         for e in ent.ents:
             if e.label_ in ("number", "roman"):
-                plates.append(int(e._.trait.number))
+                number.append(int(e._.trait.number))
 
             elif e.label_ == "range":
                 low = int(e._.trait.low)
                 high = int(e._.trait.high)
-                plates += list(range(low, high + 1))
+                number += list(range(low, high + 1))
 
             elif e.label_ == "position":
-                pos.append(e.text.lower())
+                part.append(e.text.lower())
 
-        plates = sorted(set(plates)) if plates else None
-        pos = " ".join(pos) if pos else None
+        number = sorted(set(number)) if number else None
 
-        return cls.from_ent(ent, which=plates, position=pos)
+        part.append("plate")
+        part = " ".join(part)
+
+        return cls.from_ent(ent, part=part, number=number)
 
 
 @registry.misc("plate_match")

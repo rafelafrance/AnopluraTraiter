@@ -10,9 +10,7 @@ class TestSubpart(unittest.TestCase):
             parse("dorsal head suture"),
             [
                 Subpart(
-                    subpart="suture",
-                    part="head",
-                    which="dorsal",
+                    subpart="dorsal head suture",
                     start=0,
                     end=18,
                 ),
@@ -23,9 +21,7 @@ class TestSubpart(unittest.TestCase):
         self.assertEqual(
             parse("small posterior spur"),
             [
-                Subpart(
-                    subpart="spur", position="posterior", size="small", start=0, end=20
-                ),
+                Subpart(subpart="posterior spur", start=6, end=20),
             ],
         )
 
@@ -33,6 +29,6 @@ class TestSubpart(unittest.TestCase):
         self.assertEqual(
             parse("basal apodeme"),
             [
-                Subpart(subpart="apodeme", position="basal", start=0, end=13),
+                Subpart(subpart="basal apodeme", start=0, end=13),
             ],
         )

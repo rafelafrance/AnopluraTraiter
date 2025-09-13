@@ -25,11 +25,6 @@ class Subpart(Base):
     # ----------------------
 
     subpart: str | None = None
-    part: str | list[str] | None = None
-    which: str | list[str] | list[int] | None = None
-    position: str | None = None
-    size: str | None = None
-    group: str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:
@@ -43,9 +38,6 @@ class Subpart(Base):
                 "part",
                 "bug_subpart",
                 "position",
-                "group",
-                # "subpart_suffix",
-                "size_term",
             ],
         )
         add.cleanup_pipe(nlp, name="subpart_cleanup")
@@ -57,50 +49,37 @@ class Subpart(Base):
                 label="subpart",
                 on_match="subpart_match",
                 decoder={
-                    "group": {"ENT_TYPE": "group"},
                     "part": {"ENT_TYPE": {"IN": PARTS}},
-                    "pos": {"ENT_TYPE": {"IN": ["position", "size_term"]}},
+                    "pos": {"ENT_TYPE": "position"},
                     "subpart": {"ENT_TYPE": "bug_subpart"},
                 },
                 patterns=[
-                    " pos* subpart+ group* ",
-                    " pos+ part+ subpart+ group* ",
+                    " subpart+ ",
                     " part+ subpart+ ",
+                    " pos+ subpart+ ",
+                    " pos+ part+ subpart+ ",
                 ],
             ),
         ]
 
     @classmethod
     def subpart_match(cls, ent: Span) -> "Subpart":
-        sub, part, which, group = None, None, None, None
-        pos, size = [], []
+        sub = []
 
         for e in ent.ents:
             if e.label_ == "bug_subpart":
                 text = e.text.lower()
-                sub = cls.replace.get(text, text)
+                sub.append(cls.replace.get(text, text))
             elif e.label_ in PARTS:
-                part = e._.trait.part
-                which = e._.trait.which
+                if hasattr(e._.trait, "number"):
+                    sub.append(e._.trait.number)
+                sub.append(e._.trait.part)
             elif e.label_ == "position":
-                pos.append(e.text.lower())
-            elif e.label_ == "size_term":
-                size.append(e.text.lower())
-            elif e.label_ == "group":
-                group = e.text.lower()
+                sub.append(e.text.lower())
 
-        pos = " ".join(pos) if pos else None
-        size = " ".join(size) if size else None
+        sub = " ".join(sub)
 
-        return cls.from_ent(
-            ent,
-            subpart=sub,
-            part=part,
-            which=which,
-            position=pos,
-            group=group,
-            size=size,
-        )
+        return cls.from_ent(ent, subpart=sub)
 
 
 @registry.misc("subpart_match")

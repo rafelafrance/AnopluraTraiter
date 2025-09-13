@@ -42,7 +42,7 @@ class TestPartCount(unittest.TestCase):
                     start=11,
                     end=35,
                     part="sternite",
-                    which=[2, 3],
+                    number=[2, 3],
                 ),
             ],
         )
@@ -63,7 +63,7 @@ class TestPartCount(unittest.TestCase):
                     start=19,
                     end=42,
                     part="tergite",
-                    which=[1, 2],
+                    number=[1, 2],
                 ),
             ],
         )

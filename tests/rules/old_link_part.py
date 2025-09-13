@@ -16,7 +16,7 @@ class TestLinkPart(unittest.TestCase):
                     start=0,
                     end=10,
                     part="sternite",
-                    which=[2],
+                    number=[2],
                 ),
                 SetaCount(
                     start=16,
@@ -46,7 +46,7 @@ class TestLinkPart(unittest.TestCase):
                     start=0,
                     end=10,
                     part="sternite",
-                    which=[1],
+                    number=[1],
                 ),
                 SetaCount(
                     start=16,
@@ -69,7 +69,7 @@ class TestLinkPart(unittest.TestCase):
                     start=24,
                     end=34,
                     part="sternite",
-                    which=[2],
+                    number=[2],
                 ),
                 SetaCount(
                     start=40,
@@ -105,6 +105,6 @@ class TestLinkPart(unittest.TestCase):
                     part="gonopod",
                     which=[9],
                 ),
-                Gonopod(start=40, end=51, part="gonopod", which=[9]),
+                Gonopod(start=40, end=51, part="gonopod", number=[9]),
             ],
         )

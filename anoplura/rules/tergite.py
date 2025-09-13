@@ -22,9 +22,7 @@ class Tergite(Base):
     # ----------------------
 
     part: str = "tergite"
-    which: list[int] | None = None
-    reference_part: str | None = None
-    reference_which: str | list[str] | list[int] | None = None
+    number: list[int] | None = None
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:
@@ -67,20 +65,20 @@ class Tergite(Base):
 
     @classmethod
     def tergite_match(cls, ent: Span) -> "Tergite":
-        which = []
+        number = []
 
         for sub_ent in ent.ents:
             if sub_ent.label_ == "number":
-                which.append(int(sub_ent._.trait.number))
+                number.append(int(sub_ent._.trait.number))
 
             elif sub_ent.label_ == "range":
                 low = int(sub_ent._.trait.low)
                 high = int(sub_ent._.trait.high)
-                which += list(range(low, high + 1))
+                number += list(range(low, high + 1))
 
-        which = sorted(set(which)) if which else None
+        number = sorted(set(number)) if number else None
 
-        return cls.from_ent(ent, which=which)
+        return cls.from_ent(ent, number=number)
 
 
 @registry.misc("tergite_match")

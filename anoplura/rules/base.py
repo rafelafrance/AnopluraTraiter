@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 
 from spacy import Language
-from spacy.tokens import Span
 from traiter.rules.base import Base as TraiterBase
 
 SKIPS = {"start", "end", "trait"}
@@ -15,12 +14,6 @@ PARTS: list[str] = [
     "sternite",
     "tergite",
 ]
-
-
-@dataclass
-class BodyPart:
-    part: str | list[str] | None = None
-    which: str | list[str] | list[int] | None = None
 
 
 @dataclass(eq=False)
@@ -48,21 +41,3 @@ def as_dict(trait: Base) -> dict:
             }
         del dct[key]
     return dct
-
-
-def get_body_part(sub_ent: Span) -> BodyPart:
-    trait = sub_ent._.trait
-    part = BodyPart(part=trait.part, which=trait.which)
-    return part
-
-
-def get_all_body_parts(
-    sub_ents: list[Span],
-) -> tuple[list[str], str | list[str] | list[int]]:
-    body_parts = [get_body_part(e) for e in sub_ents]
-    parts = [p.part for p in body_parts]
-    parts = parts[0] if len(parts) == 1 else parts
-    which = [p.which for p in body_parts if p.which]
-    which = which[0] if len(which) == 1 else which
-    which = which if which else None
-    return parts, which

@@ -30,7 +30,7 @@ class TestLinkPart(unittest.TestCase):
                     start=20,
                     end=29,
                     part="segment",
-                    which=[1],
+                    number=[1],
                 ),
             ],
         )
@@ -43,7 +43,7 @@ class TestLinkPart(unittest.TestCase):
                     start=0,
                     end=23,
                     part="tergite",
-                    which=[1, 2],
+                    number=[1, 2],
                     reference_part="segment",
                     reference_which=[2],
                 ),
@@ -51,7 +51,7 @@ class TestLinkPart(unittest.TestCase):
                     start=27,
                     end=36,
                     part="segment",
-                    which=[2],
+                    number=[2],
                 ),
             ],
         )

@@ -237,7 +237,7 @@ class TestSetaCount(unittest.TestCase):
                     start=37,
                     end=51,
                     part="sternite",
-                    which=[4, 5, 6, 7, 8, 9, 10],
+                    number=[4, 5, 6, 7, 8, 9, 10],
                 ),
             ],
         )

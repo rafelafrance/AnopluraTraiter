@@ -22,7 +22,6 @@ class Part(Base):
     # ----------------------
 
     part: str = None
-    which: str | list[str] | list[int] | None = None
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:
@@ -48,19 +47,18 @@ class Part(Base):
 
     @classmethod
     def part_match(cls, ent: Span) -> "Part":
-        part, pos = [], []
+        part = []
 
         for e in ent.ents:
             if e.label_ == "bug_part":
                 text = e.text.lower()
                 part.append(cls.replace.get(text, text))
             elif e.label_ == "position":
-                pos.append(e.text.lower())
+                part.append(e.text.lower())
 
         part = " ".join(part)
-        pos = " ".join(pos) if pos else None
 
-        return cls.from_ent(ent, part=part, which=pos)
+        return cls.from_ent(ent, part=part)
 
 
 @registry.misc("part_match")
