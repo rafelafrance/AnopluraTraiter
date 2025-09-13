@@ -3,6 +3,7 @@ from traiter.pipes import delete, extensions, tokenizer
 from traiter.rules.number import Number
 
 from anoplura.rules.count import Count
+from anoplura.rules.date_ import Date
 from anoplura.rules.elevation import Elevation
 from anoplura.rules.gonopod import Gonopod
 from anoplura.rules.lat_long import LatLong
@@ -10,6 +11,7 @@ from anoplura.rules.part import Part
 from anoplura.rules.plate import Plate
 from anoplura.rules.range import Range
 from anoplura.rules.roman import Roman
+from anoplura.rules.sclerotization import Sclerotization
 from anoplura.rules.segment import Segment
 from anoplura.rules.seta import Seta
 from anoplura.rules.sex import Sex
@@ -38,6 +40,7 @@ def build() -> spacy.Language:
 
     LatLong.pipe(nlp)
     Elevation.pipe(nlp)
+    Date.pipe(nlp)
 
     Roman.pipe(nlp)
     Number.pipe(nlp)
@@ -57,6 +60,8 @@ def build() -> spacy.Language:
 
     Size.pipe(nlp)
     Count.pipe(nlp)
+
+    Sclerotization.pipe(nlp)
 
     delete.pipe(nlp, delete=["number", "range", "roman", "count"])
 

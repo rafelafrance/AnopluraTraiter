@@ -15,7 +15,7 @@ from anoplura.rules.base import Base
 class Sternite(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
-        Path(__file__).parent / "terms" / "group_terms.csv",
+        Path(__file__).parent / "terms" / "label_terms.csv",
         Path(__file__).parent / "terms" / "part_terms.csv",
         Path(__file__).parent / "terms" / "separator_terms.csv",
     ]

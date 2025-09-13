@@ -15,11 +15,8 @@ from anoplura.rules.base import PARTS, Base
 class Subpart(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
-        Path(__file__).parent / "terms" / "group_terms.csv",
-        Path(__file__).parent / "terms" / "shape_terms.csv",
         Path(__file__).parent / "terms" / "part_terms.csv",
         Path(__file__).parent / "terms" / "position_terms.csv",
-        Path(__file__).parent / "terms" / "size_terms.csv",
     ]
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
     # ----------------------

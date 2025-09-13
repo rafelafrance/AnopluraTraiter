@@ -71,8 +71,8 @@ gonopods,gonopods,gonopod
 number_suffix,segmented,segment
 plates,plate,plate
 plates,plates,plate
-sclerotization,sclerotization,sclerotized
-sclerotization,sclerotized,sclerotized
+sclerotized,sclerotization,sclerotized
+sclerotized,sclerotized,sclerotized
 segments,segment,segment
 segments,segments,segment
 segments,other segments,
