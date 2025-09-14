@@ -41,7 +41,8 @@ class TestDescription(unittest.TestCase):
             ),
             [
                 Segment(start=0, end=13, part="basal segment"),
-                Description(start=14, end=31, description="larger than other"),
+                Description(start=14, end=25, description="larger than"),
+                Segment(start=26, end=40, sex=None, part="segment"),
                 Description(start=45, end=70, description="slightly longer than wide"),
             ],
         )
@@ -118,7 +119,9 @@ class TestDescription(unittest.TestCase):
                 Seta(
                     start=0, end=4, seta="dorsal marginal head setae", seta_part="head"
                 ),
-                Description(start=14, end=24, description="anteriorly"),
+                Description(
+                    start=5, end=37, description="inserted anteriorly and close to"
+                ),
                 Subpart(start=38, end=56, subpart="dorsal head suture"),
             ],
         )
@@ -183,5 +186,69 @@ class TestDescription(unittest.TestCase):
                 Description(start=0, end=15, description="broad spur-like"),
                 Subpart(start=16, end=21, subpart="ridge"),
                 Description(start=22, end=33, description="posteriorly"),
+            ],
+        )
+
+    def test_description_15(self) -> None:
+        self.assertEqual(
+            parse("""curved and terminating in acuminate apex."""),
+            [
+                Description(
+                    start=0, end=35, description="curved and terminating in acuminate"
+                ),
+                Subpart(start=36, end=40, subpart="apex"),
+            ],
+        )
+
+    def test_description_16(self) -> None:
+        self.assertEqual(
+            parse("""fairly long"""),
+            [
+                Description(start=0, end=11, description="fairly long"),
+            ],
+        )
+
+    def test_description_17(self) -> None:
+        self.assertEqual(
+            parse("""twice as long as"""),
+            [
+                Description(start=0, end=13, description="twice as long"),
+            ],
+        )
+
+    def test_description_18(self) -> None:
+        self.assertEqual(
+            parse("""each articulating with corresponding"""),
+            [
+                Description(
+                    start=0, end=36, description="each articulating with corresponding"
+                ),
+            ],
+        )
+
+    def test_description_19(self) -> None:
+        self.assertEqual(
+            parse("""on each side"""),
+            [
+                Description(start=0, end=12, description="on each side"),
+            ],
+        )
+
+    def test_description_20(self) -> None:
+        self.assertEqual(
+            parse("""distinctly shorter than lateral"""),
+            [
+                Description(
+                    start=0, end=31, description="distinctly shorter than lateral"
+                ),
+            ],
+        )
+
+    def test_description_21(self) -> None:
+        self.assertEqual(
+            parse("""moderate length and about equal in size;"""),
+            [
+                Description(start=0, end=15, description="moderate length"),
+                Description(start=20, end=39, description="about equal in size"),
             ],
         )

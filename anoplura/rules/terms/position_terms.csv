@@ -13,7 +13,6 @@ position,centrally
 position,cephalic
 position,contralateral
 position,cranial
-position,deep
 position,distal
 position,dorsal
 position,dorsally
@@ -29,13 +28,13 @@ position,immediately
 position,inferior
 position,ipsilateral
 position,labral
-position,last
 position,lateral
 position,laterally
 position,marginal
 position,medial
 position,mesothoracic
 position,middle
+position,midline
 position,oral
 position,paratergal
 position,posterior
@@ -66,3 +65,11 @@ position,transverse
 position,ventral
 position,ventrally
 position,vulvar
+rel_pos,close
+rel_pos,close to
+rel_pos,deep
+rel_pos,extending
+rel_pos,last
+rel_pos,present except on
+rel_pos,present on
+rel_pos,single midline

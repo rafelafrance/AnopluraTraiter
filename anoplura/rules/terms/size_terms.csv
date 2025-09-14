@@ -1,15 +1,18 @@
 label,pattern
-size_term,large,
-size_term,larger,
+size_term,equal in size
+size_term,large
+size_term,larger
 size_term,larger than
 size_term,long
 size_term,longer
 size_term,longer than
+size_term,more or less
 size_term,other
 size_term,relative
 size_term,relatively
 size_term,short
 size_term,shorter
+size_term,shorter than
 size_term,sized
 size_term,small
 size_term,smaller
@@ -17,3 +20,7 @@ size_term,smaller than
 size_term,wide
 size_term,wider
 size_term,wider than
+size_term,different lengths
+size_term,different length
+size_term,same length
+size_term,same lengths

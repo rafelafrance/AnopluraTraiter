@@ -14,13 +14,15 @@ from anoplura.rules.base import PARTS, Base
 class Description(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
-        Path(__file__).parent / "terms" / "position_terms.csv",
-        Path(__file__).parent / "terms" / "size_terms.csv",
-        Path(__file__).parent / "terms" / "shape_terms.csv",
         Path(__file__).parent / "terms" / "group_terms.csv",
+        Path(__file__).parent / "terms" / "morphology_terms.csv",
+        Path(__file__).parent / "terms" / "part_terms.csv",
+        Path(__file__).parent / "terms" / "position_terms.csv",
         Path(__file__).parent / "terms" / "separator_terms.csv",
+        Path(__file__).parent / "terms" / "shape_terms.csv",
+        Path(__file__).parent / "terms" / "size_terms.csv",
     ]
-    descr: ClassVar[list[str]] = ["shape_term", "size_term", "position"]
+    descr: ClassVar[list[str]] = ["shape_term", "size_term", "position", "rel_pos"]
     dash: ClassVar[list[str]] = ["-", "–", "—"]
     # ----------------------
 
@@ -47,18 +49,28 @@ class Description(Base):
                 decoder={
                     "-": {"TEXT": {"IN": cls.dash}},
                     "9": {"ENT_TYPE": "count"},
+                    "adp": {"POS": {"IN": ["ADP"]}},
+                    "adv": {"POS": {"IN": ["ADV"]}},
                     "descr": {"ENT_TYPE": {"IN": cls.descr}},
                     "group": {"ENT_TYPE": "group"},
-                    "suffix": {"ENT_TYPE": "number_suffix"},
                     "part": {"ENT_TYPE": {"IN": PARTS}},
-                    "to": {"ENT_TYPE": {"IN": ["linker", "separator"]}},
+                    "sep": {"ENT_TYPE": {"IN": ["linker", "separator"]}},
+                    "suffix": {"ENT_TYPE": "number_suffix"},
+                    "morph": {"ENT_TYPE": "morphology"},
+                    "pro": {"POS": "PRON"},
                     "verb": {"POS": "VERB"},
                 },
                 patterns=[
                     " descr+ group* ",
+                    " descr* group+ ",
                     " 9+ -* suffix+ ",
-                    " verb? descr+ to descr+ group* ",
-                    " verb? descr+ to descr+ to descr+ group* ",
+                    " verb? descr+ sep* descr+ group* ",
+                    " verb? descr+ sep* descr+ sep* descr+ group* ",
+                    " verb? descr+ sep* descr* adp* descr+ group* ",
+                    " verb? descr+ sep* descr* adp* descr+ group* ",
+                    " verb? descr+ sep* verb?  adp* descr+ group* ",
+                    " adv+  descr+ ",
+                    " pro?  morph+ sep? verb? ",
                 ],
             ),
         ]

@@ -21,6 +21,7 @@ class TestPart(unittest.TestCase):
             parse("Antennae 5-segmented"),
             [
                 Part(start=0, end=8, part="antenna"),
+                Description(start=9, end=20, description="5-segmented"),
             ],
         )
 
@@ -30,6 +31,7 @@ class TestPart(unittest.TestCase):
             [
                 Part(start=0, end=4, part="head"),
                 Subpart(start=10, end=28, subpart="anterolateral lobe"),
+                Description(start=29, end=41, description="on each side"),
             ],
         )
 

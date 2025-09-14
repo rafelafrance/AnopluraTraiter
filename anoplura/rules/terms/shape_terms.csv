@@ -62,8 +62,8 @@ shape_term,compressed-obovoid
 shape_term,compressed-ovoid
 shape_term,concave
 shape_term,conelike
-shape_term,coning
 shape_term,confluent
+shape_term,coning
 shape_term,connate-perfoliate
 shape_term,contracted
 shape_term,convex
@@ -72,6 +72,8 @@ shape_term,cordiform
 shape_term,coronate
 shape_term,craspedial
 shape_term,crateriform
+shape_term,crenulated
+shape_term,crenulations
 shape_term,cross-venulate
 shape_term,cruciform
 shape_term,cultrate
@@ -114,6 +116,7 @@ shape_term,fenestrate
 shape_term,filiform
 shape_term,flabelliorm
 shape_term,flagelliform
+shape_term,fluted
 shape_term,foliate
 shape_term,funicular
 shape_term,funiform
@@ -273,6 +276,7 @@ shape_term,saucerlike
 shape_term,saucershaped
 shape_term,sausage-shaped
 shape_term,scapiform
+shape_term,sculpting
 shape_term,semiamplexicaul
 shape_term,semicircular
 shape_term,semicordate

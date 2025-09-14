@@ -47,10 +47,11 @@ class Segment(Base):
                     "segment": {"ENT_TYPE": "segments"},
                 },
                 patterns=[
-                    " pos+ segment 9* ",
-                    " pos+ segment 9-9* ",
-                    " segment 9 ",
-                    " segment 9-9+ ",
+                    " segment+ ",
+                    " segment+ 9 ",
+                    " segment+ 9-9+ ",
+                    " pos+ segment+ 9* ",
+                    " pos+ segment+ 9-9* ",
                 ],
             ),
         ]
