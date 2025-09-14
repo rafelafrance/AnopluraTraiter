@@ -47,7 +47,7 @@ class Sternite(Base):
                     ",": {"ENT_TYPE": "separator"},
                     "9": {"ENT_TYPE": "number"},
                     "9-9": {"ENT_TYPE": "range"},
-                    "label": {"ENT_TYPE": "labels"},
+                    "label": {"ENT_TYPE": "no_labels"},
                     "sternite": {"ENT_TYPE": "sternites"},
                 },
                 patterns=[

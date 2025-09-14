@@ -16,6 +16,7 @@ class Sclerotization(Base):
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "part_terms.csv",
     ]
+    dash: ClassVar[list[str]] = ["-", "–", "—"]
     # ----------------------
 
     sclerotization: str | None = None
@@ -38,11 +39,12 @@ class Sclerotization(Base):
                 label="sclerotization",
                 on_match="sclerotization_match",
                 decoder={
+                    "-": {"TEXT": {"IN": cls.dash}},
                     "adv": {"POS": "ADV"},
                     "sclerotized": {"ENT_TYPE": "sclerotized"},
                 },
                 patterns=[
-                    " adv* sclerotized+ ",
+                    " adv* -* sclerotized+ ",
                 ],
             ),
         ]

@@ -1,5 +1,6 @@
 import unittest
 
+from anoplura.rules.description import Description
 from anoplura.rules.part import Part
 from anoplura.rules.subpart import Subpart
 from tests.setup import parse
@@ -10,7 +11,8 @@ class TestPart(unittest.TestCase):
         self.assertEqual(
             parse("Legs progressively larger"),
             [
-                Part(part="leg", start=0, end=4),
+                Part(start=0, end=4, sex=None, part="leg"),
+                Description(start=5, end=25, description="progressively larger"),
             ],
         )
 
@@ -18,11 +20,7 @@ class TestPart(unittest.TestCase):
         self.assertEqual(
             parse("Antennae 5-segmented"),
             [
-                Part(
-                    start=0,
-                    end=8,
-                    part="antenna",
-                ),
+                Part(start=0, end=8, part="antenna"),
             ],
         )
 
@@ -30,15 +28,15 @@ class TestPart(unittest.TestCase):
         self.assertEqual(
             parse("head with anterolateral lobe on each side"),
             [
-                Part(
-                    start=0,
-                    end=4,
-                    part="head",
-                ),
-                Subpart(
-                    start=10,
-                    end=28,
-                    subpart="anterolateral lobe",
-                ),
+                Part(start=0, end=4, part="head"),
+                Subpart(start=10, end=28, subpart="anterolateral lobe"),
+            ],
+        )
+
+    def test_part_04(self) -> None:
+        self.assertEqual(
+            parse("Mesothoracic spiracle"),
+            [
+                Part(start=0, end=21, part="mesothoracic spiracle"),
             ],
         )

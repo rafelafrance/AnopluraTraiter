@@ -1,5 +1,6 @@
 import unittest
 
+from anoplura.rules.description import Description
 from anoplura.rules.subpart import Subpart
 from tests.setup import parse
 
@@ -9,11 +10,7 @@ class TestSubpart(unittest.TestCase):
         self.assertEqual(
             parse("dorsal head suture"),
             [
-                Subpart(
-                    subpart="dorsal head suture",
-                    start=0,
-                    end=18,
-                ),
+                Subpart(subpart="dorsal head suture", start=0, end=18),
             ],
         )
 
@@ -21,7 +18,8 @@ class TestSubpart(unittest.TestCase):
         self.assertEqual(
             parse("small posterior spur"),
             [
-                Subpart(subpart="posterior spur", start=6, end=20),
+                Description(start=0, end=5, description="small"),
+                Subpart(start=6, end=20, subpart="posterior spur"),
             ],
         )
 

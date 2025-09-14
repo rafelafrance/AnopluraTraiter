@@ -10,10 +10,7 @@ class TestSeta(unittest.TestCase):
             parse("dachs"),
             [
                 Seta(
-                    seta="dorsal accessory head setae",
-                    seta_part="head",
-                    start=0,
-                    end=5,
+                    seta="dorsal accessory head setae", seta_part="head", start=0, end=5
                 )
             ],
         )
@@ -48,10 +45,6 @@ class TestSeta(unittest.TestCase):
         self.assertEqual(
             parse("Setae;"),
             [
-                Seta(
-                    start=0,
-                    end=5,
-                    seta="setae",
-                ),
+                Seta(start=0, end=5, seta="setae"),
             ],
         )

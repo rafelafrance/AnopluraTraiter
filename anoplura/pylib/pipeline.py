@@ -4,6 +4,7 @@ from traiter.rules.number import Number
 
 from anoplura.rules.count import Count
 from anoplura.rules.date_ import Date
+from anoplura.rules.description import Description
 from anoplura.rules.elevation import Elevation
 from anoplura.rules.gonopod import Gonopod
 from anoplura.rules.lat_long import LatLong
@@ -62,6 +63,7 @@ def build() -> spacy.Language:
     Count.pipe(nlp)
 
     Sclerotization.pipe(nlp)
+    Description.pipe(nlp)
 
     delete.pipe(nlp, delete=["number", "range", "roman", "count"])
 

@@ -11,13 +11,6 @@ class TestElevation(unittest.TestCase):
         traits = parse("elevation 1,500 m")
         self.assertEqual(
             traits,
-            [
-                Elevation(
-                    elevation=1500.0,
-                    units="m",
-                    start=0,
-                    end=17,
-                )
-            ],
+            [Elevation(elevation=1500.0, units="m", start=0, end=17)],
         )
         self.assertEqual(as_dict(traits[0]), {"elevation": 1500.0, "units": "m"})

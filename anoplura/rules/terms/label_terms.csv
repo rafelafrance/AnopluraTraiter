@@ -1,7 +1,9 @@
 label,pattern
-labels,no
-labels,no.
-labels,nos
-labels,nos.
-labels,number
-labels,numbers
+no_labels,no
+no_labels,no.
+no_labels,nos
+no_labels,nos.
+no_labels,number
+no_labels,numbers
+total_label,total body
+total_label,total body:

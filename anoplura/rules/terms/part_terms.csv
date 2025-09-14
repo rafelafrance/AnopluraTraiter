@@ -3,7 +3,6 @@ bug_part,abdomen,abdomen
 bug_part,antenna,antenna
 bug_part,antennae,antenna
 bug_part,antennas,antenna
-bug_part,body,body
 bug_part,chitin,chitin
 bug_part,coxa,coxa
 bug_part,coxae,coxa
@@ -60,8 +59,8 @@ bug_subpart,margins,margin
 bug_subpart,ridge,ridge
 bug_subpart,ridges,ridge
 bug_subpart,spur,spur
-bug_subpart,spur,spur
 bug_subpart,spurs,spur
+shape_term,spur-like
 bug_subpart,suture,suture
 bug_subpart,sutures,suture
 chitinized,chitinized,chitinized

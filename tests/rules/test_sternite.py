@@ -27,25 +27,11 @@ class TestSternite(unittest.TestCase):
     def test_sternite_03(self) -> None:
         self.assertEqual(
             parse("sternites (nos. 2 and 3)"),
-            [
-                Sternite(
-                    part="sternite",
-                    number=[2, 3],
-                    start=0,
-                    end=24,
-                )
-            ],
+            [Sternite(part="sternite", number=[2, 3], start=0, end=24)],
         )
 
     def test_sternite_04(self) -> None:
         self.assertEqual(
             parse("sternite (no. 4)"),
-            [
-                Sternite(
-                    part="sternite",
-                    number=[4],
-                    start=0,
-                    end=16,
-                )
-            ],
+            [Sternite(part="sternite", number=[4], start=0, end=16)],
         )
