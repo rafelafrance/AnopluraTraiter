@@ -11,7 +11,7 @@ class TestPart(unittest.TestCase):
         self.assertEqual(
             parse("Legs progressively larger"),
             [
-                Part(start=0, end=4, sex=None, part="leg"),
+                Part(start=0, end=4, part="leg"),
                 Description(start=5, end=25, description="progressively larger"),
             ],
         )

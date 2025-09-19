@@ -42,7 +42,7 @@ class TestDescription(unittest.TestCase):
             [
                 Segment(start=0, end=13, part="basal segment"),
                 Description(start=14, end=25, description="larger than"),
-                Segment(start=26, end=40, sex=None, part="segment"),
+                Segment(start=26, end=40, part="segment"),
                 Description(start=45, end=70, description="slightly longer than wide"),
             ],
         )
@@ -52,7 +52,7 @@ class TestDescription(unittest.TestCase):
             parse("""subtriangular coxae proximally and acuminate claws terminally"""),
             [
                 Description(start=0, end=13, description="subtriangular"),
-                Part(start=14, end=19, sex=None, part="coxa"),
+                Part(start=14, end=19, part="coxa"),
                 Description(start=20, end=44, description="proximally and acuminate"),
                 Subpart(start=45, end=50, subpart="claw"),
                 Description(start=51, end=61, description="terminally"),

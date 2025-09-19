@@ -9,6 +9,7 @@ from anoplura.rules.elevation import Elevation
 from anoplura.rules.gonopod import Gonopod
 from anoplura.rules.lat_long import LatLong
 from anoplura.rules.part import Part
+from anoplura.rules.phrase_linker import PhraseLinker
 from anoplura.rules.plate import Plate
 from anoplura.rules.range import Range
 from anoplura.rules.roman import Roman
@@ -68,7 +69,9 @@ def build() -> spacy.Language:
     Sclerotization.pipe(nlp)
     Description.pipe(nlp)
 
-    # delete.pipe(nlp, delete=["number", "range", "roman", "count"])
+    PhraseLinker.pipe(nlp)
+
+    delete.pipe(nlp, delete=["number", "range", "roman", "count"])
 
     # for name in nlp.pipe_names:
     #     print(name)

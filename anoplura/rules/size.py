@@ -9,9 +9,9 @@ from traiter.pylib import const as t_const
 from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
 from traiter.rules import terms as t_terms
-from traiter.rules.base import Base
 
 from anoplura.pylib.dimension import Dimension
+from anoplura.rules.base import Base
 
 
 @dataclass(eq=False)
