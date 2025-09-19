@@ -16,6 +16,7 @@ from anoplura.rules.sclerotization import Sclerotization
 from anoplura.rules.segment import Segment
 from anoplura.rules.seta import Seta
 from anoplura.rules.sex import Sex
+from anoplura.rules.sexual_dimorphism import SexualDimorphism
 from anoplura.rules.size import Size
 from anoplura.rules.specimen_type import SpecimenType
 from anoplura.rules.sternite import Sternite
@@ -62,10 +63,12 @@ def build() -> spacy.Language:
     Size.pipe(nlp)
     Count.pipe(nlp)
 
+    SexualDimorphism.pipe(nlp)
+
     Sclerotization.pipe(nlp)
     Description.pipe(nlp)
 
-    delete.pipe(nlp, delete=["number", "range", "roman", "count"])
+    # delete.pipe(nlp, delete=["number", "range", "roman", "count"])
 
     # for name in nlp.pipe_names:
     #     print(name)

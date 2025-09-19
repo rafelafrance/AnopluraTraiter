@@ -9,7 +9,6 @@ install:
 	uv pip install "git+https://github.com/rafelafrance/traiter.git@master#egg=traiter"
 	uv run -- spacy download en_core_web_md
 
-
 dev:
 	uv sync
 	uv pip install -e ../../traiter/traiter
