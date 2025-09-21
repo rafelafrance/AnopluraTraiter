@@ -25,7 +25,6 @@ class Description(Base):
     ]
     leading_descr: ClassVar[list[str]] = [
         "morphology",
-        "other_part",
         "position",
         "rel_pos",
         "rel_size",
@@ -41,7 +40,7 @@ class Description(Base):
     @classmethod
     def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="description_terms", path=cls.terms)
-        add.debug_tokens(nlp)  # #########################################
+        # add.debug_tokens(nlp)  # #########################################
         add.trait_pipe(
             nlp,
             name="description_patterns",
@@ -65,7 +64,7 @@ class Description(Base):
                     "group": {"ENT_TYPE": "group"},
                     "joiner": {"ENT_TYPE": {"IN": joiner}},
                     "leader": {"ENT_TYPE": {"IN": cls.leading_descr}},
-                    "part_desc": {"ENT_TYPE": {"IN": ["seta", "other_part", *PARTS]}},
+                    "part_desc": {"ENT_TYPE": {"IN": ["seta", "subpart", *PARTS]}},
                     "pron": {"POS": {"IN": ["PRON"]}},
                     "sep": {"ENT_TYPE": {"IN": ["linker", "separator"]}},
                     "suffix": {"ENT_TYPE": "number_suffix"},
@@ -77,7 +76,8 @@ class Description(Base):
                     " verb? pron? adv* leader* joiner+ part_desc+ ",
                     " verb? pron? adv* leader* sep* descr* joiner+ part_desc+ ",
                     # -----------------
-                    " adv* joiner* leader+ ",
+                    " adv* joiner* leader+    group* ",
+                    " adv* joiner+ part_desc+ group* ",
                     # -----------------
                     " verb? leader+ group* ",
                     " verb? leader* group+ ",

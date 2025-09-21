@@ -18,8 +18,7 @@ class TestSubpart(unittest.TestCase):
         self.assertEqual(
             parse("small posterior spur"),
             [
-                Description(start=0, end=5, description="small"),
-                Subpart(start=6, end=20, subpart="posterior spur"),
+                Description(start=0, end=20, description="small posterior spur"),
             ],
         )
 

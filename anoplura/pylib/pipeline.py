@@ -73,7 +73,7 @@ def build() -> spacy.Language:
     SclerotizationLinker.pipe(nlp)
     DescriptionLinker.pipe(nlp)
 
-    # delete.pipe(nlp, delete=["number", "range", "roman", "count"])
+    delete.pipe(nlp, delete=["number", "range", "roman", "count"])
 
     # for name in nlp.pipe_names:
     #     print(name)

@@ -6,10 +6,15 @@ rel_size,as short as
 rel_size,as thin as
 rel_size,as wide as
 rel_size,larger than
+rel_size,larger than other
 rel_size,longer than
+rel_size,longer than other
 rel_size,shorter than
+rel_size,shorter than other
 rel_size,smaller than
+rel_size,smaller than other
 rel_size,wider than
+rel_size,wider than other
 size_term,different length
 size_term,different lengths
 size_term,equal in size

@@ -42,23 +42,25 @@ class TestDescription(unittest.TestCase):
                     end=13,
                     links=[
                         Description(
-                            start=14,
-                            end=70,
-                            description=(
-                                "larger than other segments and slightly "
-                                "longer than wide"
-                            ),
-                        )
+                            start=14, end=40, description="larger than other segments"
+                        ),
+                        Description(
+                            start=45, end=70, description="slightly longer than wide"
+                        ),
                     ],
                     part="basal segment",
                 ),
                 Description(
                     start=14,
+                    end=40,
+                    links=[Segment(start=0, end=13, part="basal segment")],
+                    description="larger than other segments",
+                ),
+                Description(
+                    start=45,
                     end=70,
                     links=[Segment(start=0, end=13, part="basal segment")],
-                    description=(
-                        "larger than other segments and slightly longer than wide"
-                    ),
+                    description="slightly longer than wide",
                 ),
             ],
         )
