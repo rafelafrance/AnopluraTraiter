@@ -19,10 +19,20 @@ class Description(Base):
         Path(__file__).parent / "terms" / "part_terms.csv",
         Path(__file__).parent / "terms" / "position_terms.csv",
         Path(__file__).parent / "terms" / "separator_terms.csv",
+        Path(__file__).parent / "terms" / "seta_terms.csv",
         Path(__file__).parent / "terms" / "shape_terms.csv",
         Path(__file__).parent / "terms" / "size_terms.csv",
     ]
-    descr: ClassVar[list[str]] = ["shape_term", "size_term", "position", "rel_pos"]
+    leading_descr: ClassVar[list[str]] = [
+        "morphology",
+        "other_part",
+        "position",
+        "rel_pos",
+        "rel_size",
+        "shape_term",
+        "size_term",
+    ]
+    descr: ClassVar[list[str]] = [*leading_descr, "subpart"]
     dash: ClassVar[list[str]] = ["-", "–", "—"]
     # ----------------------
 
@@ -31,17 +41,18 @@ class Description(Base):
     @classmethod
     def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="description_terms", path=cls.terms)
-        # add.debug_tokens(nlp)  # #########################################
+        add.debug_tokens(nlp)  # #########################################
         add.trait_pipe(
             nlp,
             name="description_patterns",
             compiler=cls.description_patterns(),
-            overwrite=["count", "number_suffix"],
+            overwrite=["count", "number_suffix", "subpart", "seta", *PARTS],
         )
         add.cleanup_pipe(nlp, name="description_cleanup")
 
     @classmethod
     def description_patterns(cls) -> list[Compiler]:
+        joiner = ["linker", "rel_pos", "rel_size"]
         return [
             Compiler(
                 label="description",
@@ -49,28 +60,36 @@ class Description(Base):
                 decoder={
                     "-": {"TEXT": {"IN": cls.dash}},
                     "9": {"ENT_TYPE": "count"},
-                    "adp": {"POS": {"IN": ["ADP"]}},
                     "adv": {"POS": {"IN": ["ADV"]}},
                     "descr": {"ENT_TYPE": {"IN": cls.descr}},
                     "group": {"ENT_TYPE": "group"},
-                    "part": {"ENT_TYPE": {"IN": PARTS}},
+                    "joiner": {"ENT_TYPE": {"IN": joiner}},
+                    "leader": {"ENT_TYPE": {"IN": cls.leading_descr}},
+                    "part_desc": {"ENT_TYPE": {"IN": ["seta", "other_part", *PARTS]}},
+                    "pron": {"POS": {"IN": ["PRON"]}},
                     "sep": {"ENT_TYPE": {"IN": ["linker", "separator"]}},
                     "suffix": {"ENT_TYPE": "number_suffix"},
-                    "morph": {"ENT_TYPE": "morphology"},
-                    "pro": {"POS": "PRON"},
                     "verb": {"POS": "VERB"},
                 },
                 patterns=[
-                    " descr+ group* ",
-                    " descr* group+ ",
                     " 9+ -* suffix+ ",
-                    " verb? descr+ sep* descr+ group* ",
-                    " verb? descr+ sep* descr+ sep* descr+ group* ",
-                    " verb? descr+ sep* descr* adp* descr+ group* ",
-                    " verb? descr+ sep* descr* adp* descr+ group* ",
-                    " verb? descr+ sep* verb?  adp* descr+ group* ",
-                    " adv+  descr+ ",
-                    " pro?  morph+ sep? verb? ",
+                    # -----------------
+                    " verb? pron? adv* leader* joiner+ part_desc+ ",
+                    " verb? pron? adv* leader* sep* descr* joiner+ part_desc+ ",
+                    # -----------------
+                    " adv* joiner* leader+ ",
+                    # -----------------
+                    " verb? leader+ group* ",
+                    " verb? leader* group+ ",
+                    " verb? leader+ sep* descr+ group* ",
+                    " verb? leader+ sep* descr+ sep* descr+ group* ",
+                    " verb? leader+ sep* descr+ sep* descr+ sep* descr+ group* ",
+                    (
+                        " verb? leader+ sep* descr+ sep* descr+ sep* descr+ "
+                        "sep* descr+ group* "
+                    ),
+                    # -----------------
+                    " leader+ ",
                 ],
             ),
         ]

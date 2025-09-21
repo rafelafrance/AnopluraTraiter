@@ -65,11 +65,13 @@ position,transverse
 position,ventral
 position,ventrally
 position,vulvar
-rel_pos,close
+rel_pos,corresponding
 rel_pos,close to
 rel_pos,deep
 rel_pos,extending
 rel_pos,last
+rel_pos,lateral to
+rel_pos,next to
 rel_pos,present except on
 rel_pos,present on
 rel_pos,single midline
