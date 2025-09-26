@@ -5,6 +5,7 @@ from typing import ClassVar, Never
 from spacy import Language, registry
 from spacy.tokens import Span
 from traiter.pipes import add, reject_match
+from traiter.pylib import const as t_const
 from traiter.pylib.pattern_compiler import Compiler
 
 from anoplura.rules.base import PARTS, Base
@@ -16,6 +17,7 @@ class CountLinker(Base):
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "separator_terms.csv",
     ]
+    all_parts: ClassVar[list[str]] = [*PARTS, "seta", "sex", "subpart"]
     # ----------------------
 
     @classmethod
@@ -37,25 +39,31 @@ class CountLinker(Base):
                 on_match="count_linker_match",
                 decoder={
                     ",": {"ENT_TYPE": "separator"},
-                    "part": {"ENT_TYPE": {"IN": PARTS}},
-                    "sclerotized": {"ENT_TYPE": "sclerotization"},
+                    "(": {"TEXT": {"IN": t_const.OPEN}},
+                    ")": {"TEXT": {"IN": t_const.CLOSE}},
+                    "9": {"ENT_TYPE": "count"},
+                    "desc": {"ENT_TYPE": "description"},
+                    "part": {"ENT_TYPE": {"IN": cls.all_parts}},
                 },
                 patterns=[
-                    " part+ sclerotized+ ",
-                    " part+ ,* part+ sclerotized+ ",
-                    " part+ ,* part+ ,* part+ sclerotized+ ",
+                    " (? 9+ )? (? desc* )? part+ ",
+                    " (? 9+ part+ )? ",
+                    " (? part+ 9+ )? ",
+                    " part+ (? 9+ )? ",
+                    " part+ (? 9+ )? ",
+                    " part+ (? 9+ ,* 9+ )? ",
                 ],
             ),
         ]
 
     @classmethod
     def count_linker_match(cls, span: Span) -> Never:
-        sclerotized = next(e._.trait for e in span.ents if e.label_ == "sclerotization")
-        parts = [e._.trait for e in span.ents if e.label_ in PARTS]
+        counts = [e._.trait for e in span.ents if e.label_ == "count"]
+        parent = next(e._.trait for e in span.ents if e.label_ in cls.all_parts)
 
-        for part in parts:
-            part.append_link(sclerotized)
-            sclerotized.append_link(part)
+        for count in counts:
+            parent.append_link(count)
+            count.append_link(parent)
 
         raise reject_match.SkipTraitCreation
 

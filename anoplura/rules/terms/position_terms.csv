@@ -12,6 +12,7 @@ position,central
 position,centrally
 position,cephalic
 position,contralateral
+position,corresponding
 position,cranial
 position,distal
 position,dorsal
@@ -65,7 +66,6 @@ position,transverse
 position,ventral
 position,ventrally
 position,vulvar
-rel_pos,corresponding
 rel_pos,close to
 rel_pos,deep
 rel_pos,extending

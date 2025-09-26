@@ -21,7 +21,6 @@ PARTS: list[str] = [
 
 @dataclass(eq=False)
 class Base(TraiterBase):
-    _linked: set[str] = field(default_factory=set)
     links: list | None = field(default_factory=list)
 
     @classmethod
@@ -31,15 +30,8 @@ class Base(TraiterBase):
         new = deepcopy(other)
         new.links = None
 
-        if other._trait in self._linked or self._trait in other._linked:
-            return
-
         if other != self and other not in self.links:
             self.links.append(new)
-
-    def links_completed_for(self, *type_: str) -> None:
-        for t in type_:
-            self._linked.add(t)
 
     def __eq__(self, other: "Base") -> bool:
         return as_dict(self) == as_dict(other)

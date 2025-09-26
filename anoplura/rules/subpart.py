@@ -52,8 +52,8 @@ class Subpart(Base):
                 },
                 patterns=[
                     " subpart+ ",
-                    " part+ subpart+ ",
-                    " pos+ subpart+ ",
+                    " part+  subpart+ ",
+                    " pos+   subpart+ ",
                     " pos+ part+ subpart+ ",
                 ],
             ),
@@ -71,7 +71,7 @@ class Subpart(Base):
                 if hasattr(e._.trait, "number"):
                     sub.append(e._.trait.number)
                 sub.append(e._.trait.part)
-            elif e.label_ == "position":
+            elif e.label_ in ("position", "shape_term"):
                 sub.append(e.text.lower())
 
         sub = " ".join(sub)

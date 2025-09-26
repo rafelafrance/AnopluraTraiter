@@ -18,6 +18,8 @@ rel_size,wider than other
 size_term,different length
 size_term,different lengths
 size_term,equal in size
+size_term,intermediate sized
+size_term,intermediate-sized
 size_term,large
 size_term,larger
 size_term,long

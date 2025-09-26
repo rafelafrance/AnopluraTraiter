@@ -23,7 +23,7 @@ class Description(Base):
         Path(__file__).parent / "terms" / "shape_terms.csv",
         Path(__file__).parent / "terms" / "size_terms.csv",
     ]
-    leading_descr: ClassVar[list[str]] = [
+    desc: ClassVar[list[str]] = [
         "morphology",
         "position",
         "rel_pos",
@@ -31,7 +31,6 @@ class Description(Base):
         "shape_term",
         "size_term",
     ]
-    descr: ClassVar[list[str]] = [*leading_descr, "subpart"]
     dash: ClassVar[list[str]] = ["-", "–", "—"]
     # ----------------------
 
@@ -51,7 +50,6 @@ class Description(Base):
 
     @classmethod
     def description_patterns(cls) -> list[Compiler]:
-        joiner = ["linker", "rel_pos", "rel_size"]
         return [
             Compiler(
                 label="description",
@@ -60,36 +58,31 @@ class Description(Base):
                     "-": {"TEXT": {"IN": cls.dash}},
                     "9": {"ENT_TYPE": "count"},
                     "adv": {"POS": {"IN": ["ADV"]}},
-                    "descr": {"ENT_TYPE": {"IN": cls.descr}},
+                    "desc": {"ENT_TYPE": {"IN": cls.desc}},
                     "group": {"ENT_TYPE": "group"},
-                    "joiner": {"ENT_TYPE": {"IN": joiner}},
-                    "leader": {"ENT_TYPE": {"IN": cls.leading_descr}},
+                    "linker": {"ENT_TYPE": "linker"},
                     "part_desc": {"ENT_TYPE": {"IN": ["seta", "subpart", *PARTS]}},
                     "pron": {"POS": {"IN": ["PRON"]}},
-                    "sep": {"ENT_TYPE": {"IN": ["linker", "separator"]}},
+                    "rel": {"ENT_TYPE": {"IN": ["rel_pos", "rel_size"]}},
+                    "sep": {"ENT_TYPE": "separator"},
                     "suffix": {"ENT_TYPE": "number_suffix"},
                     "verb": {"POS": "VERB"},
                 },
                 patterns=[
                     " 9+ -* suffix+ ",
                     # -----------------
-                    " verb? pron? adv* leader* joiner+ part_desc+ ",
-                    " verb? pron? adv* leader* sep* descr* joiner+ part_desc+ ",
+                    # " verb? pron? adv* desc* sep* rel+ part_desc+ ",
+                    # " verb? pron? adv* desc* sep* rel+ part_desc+ desc+ ",
+                    # " verb? pron? adv* desc* sep* rel+ part_desc+ sep+ desc+ ",
                     # -----------------
-                    " adv* joiner* leader+    group* ",
-                    " adv* joiner+ part_desc+ group* ",
+                    " verb? adv* desc+ group* ",
+                    " verb? adv* desc* group+ ",
+                    " verb? adv* desc+ sep+ desc+ group* ",
+                    " verb? adv* desc+ sep+ desc+ sep+ desc+ group* ",
                     # -----------------
-                    " verb? leader+ group* ",
-                    " verb? leader* group+ ",
-                    " verb? leader+ sep* descr+ group* ",
-                    " verb? leader+ sep* descr+ sep* descr+ group* ",
-                    " verb? leader+ sep* descr+ sep* descr+ sep* descr+ group* ",
-                    (
-                        " verb? leader+ sep* descr+ sep* descr+ sep* descr+ "
-                        "sep* descr+ group* "
-                    ),
-                    # -----------------
-                    " leader+ ",
+                    " desc+ linker+ desc+ ",
+                    " desc+ linker+ desc+ linker+ desc+ ",
+                    " desc+ sep+    desc+ linker+ desc+ ",
                 ],
             ),
         ]

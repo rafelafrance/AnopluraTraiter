@@ -2,6 +2,7 @@ import unittest
 
 from anoplura.rules.description import Description
 from anoplura.rules.part import Part
+from anoplura.rules.subpart import Subpart
 from tests.setup import parse
 
 
@@ -50,23 +51,18 @@ class TestPart(unittest.TestCase):
         self.assertEqual(
             parse("head with anterolateral lobe on each side"),
             [
-                Part(
-                    start=0,
-                    end=4,
-                    links=[
-                        Description(
-                            start=5,
-                            end=41,
-                            description="with anterolateral lobe on each side",
-                        )
-                    ],
-                    part="head",
+                Part(_trait="part", start=0, end=4, links=[], part="head"),
+                Subpart(
+                    start=10,
+                    end=28,
+                    links=[Description(start=29, end=41, description="on each side")],
+                    subpart="anterolateral lobe",
                 ),
                 Description(
-                    start=5,
+                    start=29,
                     end=41,
-                    links=[Part(start=0, end=4, part="head")],
-                    description="with anterolateral lobe on each side",
+                    links=[Subpart(start=10, end=28, subpart="anterolateral lobe")],
+                    description="on each side",
                 ),
             ],
         )

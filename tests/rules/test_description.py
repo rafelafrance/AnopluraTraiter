@@ -41,25 +41,30 @@ class TestDescription(unittest.TestCase):
                     start=0,
                     end=13,
                     links=[
-                        Description(
-                            start=14, end=40, description="larger than other segments"
-                        ),
-                        Description(
-                            start=45, end=70, description="slightly longer than wide"
-                        ),
+                        Description(start=14, end=31, description="larger than other")
                     ],
                     part="basal segment",
                 ),
                 Description(
                     start=14,
-                    end=40,
+                    end=31,
                     links=[Segment(start=0, end=13, part="basal segment")],
-                    description="larger than other segments",
+                    description="larger than other",
+                ),
+                Segment(
+                    start=32,
+                    end=40,
+                    links=[
+                        Description(
+                            start=45, end=70, description="slightly longer than wide"
+                        )
+                    ],
+                    part="segment",
                 ),
                 Description(
                     start=45,
                     end=70,
-                    links=[Segment(start=0, end=13, part="basal segment")],
+                    links=[Segment(start=32, end=40, part="segment")],
                     description="slightly longer than wide",
                 ),
             ],
@@ -81,18 +86,28 @@ class TestDescription(unittest.TestCase):
                     links=[
                         Description(start=0, end=13, description="subtriangular"),
                         Description(
-                            start=20,
-                            end=61,
-                            description="proximally and acuminate claws terminally",
+                            start=20, end=44, description="proximally and acuminate"
                         ),
                     ],
                     part="coxa",
                 ),
                 Description(
                     start=20,
-                    end=61,
+                    end=44,
                     links=[Part(start=14, end=19, part="coxa")],
-                    description="proximally and acuminate claws terminally",
+                    description="proximally and acuminate",
+                ),
+                Subpart(
+                    start=45,
+                    end=50,
+                    links=[Description(start=51, end=61, description="terminally")],
+                    subpart="claw",
+                ),
+                Description(
+                    start=51,
+                    end=61,
+                    links=[Subpart(start=45, end=50, subpart="claw")],
+                    description="terminally",
                 ),
             ],
         )
@@ -125,24 +140,22 @@ class TestDescription(unittest.TestCase):
         )
 
     def test_description_05(self) -> None:
-        self.maxDiff = None
         self.assertEqual(
             parse("Abdomen wider than thorax."),
             [
                 Part(
                     start=0,
                     end=7,
-                    links=[
-                        Description(start=8, end=25, description="wider than thorax")
-                    ],
+                    links=[Description(start=8, end=18, description="wider than")],
                     part="abdomen",
                 ),
                 Description(
                     start=8,
-                    end=25,
+                    end=18,
                     links=[Part(start=0, end=7, part="abdomen")],
-                    description="wider than thorax",
+                    description="wider than",
                 ),
+                Part(start=19, end=25, links=[], part="thorax"),
             ],
         )
 
@@ -157,29 +170,84 @@ class TestDescription(unittest.TestCase):
                     end=22,
                     links=[
                         Description(
-                            start=23,
-                            end=165,
-                            description="club-shaped with rounded anterolateral "
-                            "margins, broadly acuminate anterior "
-                            "apex, and elongate posterior extension "
-                            "with squarish posterior apex",
+                            start=23, end=47, description="club-shaped with rounded"
                         )
                     ],
                     part="thoracic sternal plate",
                 ),
                 Description(
                     start=23,
-                    end=165,
+                    end=47,
+                    links=[Plate(start=0, end=22, part="thoracic sternal plate")],
+                    description="club-shaped with rounded",
+                ),
+                Subpart(
+                    start=48,
+                    end=69,
                     links=[
-                        Plate(
-                            start=0,
-                            end=22,
-                            part="thoracic sternal plate",
+                        Description(start=71, end=88, description="broadly acuminate")
+                    ],
+                    subpart="anterolateral margin",
+                ),
+                Description(
+                    start=71,
+                    end=88,
+                    links=[Subpart(start=48, end=69, subpart="anterolateral margin")],
+                    description="broadly acuminate",
+                ),
+                Subpart(
+                    start=89,
+                    end=102,
+                    links=[Description(start=108, end=116, description="elongate")],
+                    subpart="anterior apex",
+                ),
+                Description(
+                    start=108,
+                    end=116,
+                    links=[
+                        Subpart(start=89, end=102, links=None, subpart="anterior apex")
+                    ],
+                    description="elongate",
+                ),
+                Subpart(
+                    start=117,
+                    end=136,
+                    links=[],
+                    subpart="posterior extension",
+                ),
+                Description(
+                    _trait="description",
+                    _text="squarish",
+                    start=142,
+                    end=150,
+                    links=[
+                        Subpart(
+                            _trait="subpart",
+                            _text="posterior apex",
+                            start=151,
+                            end=165,
+                            links=None,
+                            subpart="posterior apex",
                         )
                     ],
-                    description="club-shaped with rounded anterolateral margins, "
-                    "broadly acuminate anterior apex, and elongate "
-                    "posterior extension with squarish posterior apex",
+                    description="squarish",
+                ),
+                Subpart(
+                    _trait="subpart",
+                    _text="posterior apex",
+                    start=151,
+                    end=165,
+                    links=[
+                        Description(
+                            _trait="description",
+                            _text="squarish",
+                            start=142,
+                            end=150,
+                            links=None,
+                            description="squarish",
+                        )
+                    ],
+                    subpart="posterior apex",
                 ),
             ],
         )
@@ -188,23 +256,29 @@ class TestDescription(unittest.TestCase):
         self.assertEqual(
             parse("""hind femora with relatively broad spur-like ridge posteriorly"""),
             [
-                Part(
-                    start=0,
-                    end=11,
-                    links=[
-                        Description(
-                            start=17,
-                            end=61,
-                            description="relatively broad spur-like ridge posteriorly",
-                        )
-                    ],
-                    part="hind femur",
-                ),
+                Part(start=0, end=11, links=[], part="hind femur"),
                 Description(
                     start=17,
+                    end=43,
+                    links=[Subpart(start=44, end=49, subpart="ridge")],
+                    description="relatively broad spur-like",
+                ),
+                Subpart(
+                    start=44,
+                    end=49,
+                    links=[
+                        Description(
+                            start=17, end=43, description="relatively broad spur-like"
+                        ),
+                        Description(start=50, end=61, description="posteriorly"),
+                    ],
+                    subpart="ridge",
+                ),
+                Description(
+                    start=50,
                     end=61,
-                    links=[Part(start=0, end=11, part="hind femur")],
-                    description="relatively broad spur-like ridge posteriorly",
+                    links=[Subpart(start=44, end=49, subpart="ridge")],
+                    description="posteriorly",
                 ),
             ],
         )
@@ -219,10 +293,8 @@ class TestDescription(unittest.TestCase):
                     links=[
                         Description(
                             start=5,
-                            end=56,
-                            description=(
-                                "inserted anteriorly and close to dorsal head suture"
-                            ),
+                            end=37,
+                            description="inserted anteriorly and close to",
                         )
                     ],
                     seta="dorsal marginal head setae",
@@ -230,7 +302,7 @@ class TestDescription(unittest.TestCase):
                 ),
                 Description(
                     start=5,
-                    end=56,
+                    end=37,
                     links=[
                         Seta(
                             start=0,
@@ -239,8 +311,9 @@ class TestDescription(unittest.TestCase):
                             seta_part="head",
                         )
                     ],
-                    description="inserted anteriorly and close to dorsal head suture",
+                    description="inserted anteriorly and close to",
                 ),
+                Subpart(start=38, end=56, subpart="dorsal head suture"),
             ],
         )
 
@@ -254,8 +327,8 @@ class TestDescription(unittest.TestCase):
                     links=[
                         Description(
                             start=5,
-                            end=45,
-                            description="inserted posteriorly and lateral to dphs",
+                            end=40,
+                            description="inserted posteriorly and lateral to",
                         )
                     ],
                     seta="dorsal marginal head setae",
@@ -263,7 +336,7 @@ class TestDescription(unittest.TestCase):
                 ),
                 Description(
                     start=5,
-                    end=45,
+                    end=40,
                     links=[
                         Seta(
                             start=0,
@@ -272,7 +345,14 @@ class TestDescription(unittest.TestCase):
                             seta_part="head",
                         )
                     ],
-                    description="inserted posteriorly and lateral to dphs",
+                    description="inserted posteriorly and lateral to",
+                ),
+                Seta(
+                    start=41,
+                    end=45,
+                    links=[],
+                    seta="dorsal principal head setae",
+                    seta_part="head",
                 ),
             ],
         )
@@ -327,8 +407,26 @@ class TestDescription(unittest.TestCase):
             parse("""broad spur-like ridge posteriorly"""),
             [
                 Description(
-                    start=0, end=33, description="broad spur-like ridge posteriorly"
-                )
+                    start=0,
+                    end=15,
+                    links=[Subpart(start=16, end=21, subpart="ridge")],
+                    description="broad spur-like",
+                ),
+                Subpart(
+                    start=16,
+                    end=21,
+                    links=[
+                        Description(start=0, end=15, description="broad spur-like"),
+                        Description(start=22, end=33, description="posteriorly"),
+                    ],
+                    subpart="ridge",
+                ),
+                Description(
+                    start=22,
+                    end=33,
+                    links=[Subpart(start=16, end=21, subpart="ridge")],
+                    description="posteriorly",
+                ),
             ],
         )
 
@@ -341,19 +439,18 @@ class TestDescription(unittest.TestCase):
                     end=13,
                     links=[
                         Description(
-                            start=14,
-                            end=46,
-                            description="about twice as long as parameres",
+                            start=14, end=36, description="about twice as long as"
                         )
                     ],
                     subpart="basal apodeme",
                 ),
                 Description(
                     start=14,
-                    end=46,
+                    end=36,
                     links=[Subpart(start=0, end=13, subpart="basal apodeme")],
-                    description="about twice as long as parameres",
+                    description="about twice as long as",
                 ),
+                Part(start=37, end=46, links=[], part="paramere"),
             ],
         )
 
@@ -362,10 +459,19 @@ class TestDescription(unittest.TestCase):
             parse("""each articulating with corresponding paratergal plate """),
             [
                 Description(
-                    start=0,
+                    start=5,
+                    end=17,
+                    links=[
+                        Plate(start=23, end=53, part="corresponding paratergal plate")
+                    ],
+                    description="articulating",
+                ),
+                Plate(
+                    start=23,
                     end=53,
-                    description="each articulating with corresponding paratergal plate",
-                )
+                    links=[Description(start=5, end=17, description="articulating")],
+                    part="corresponding paratergal plate",
+                ),
             ],
         )
 

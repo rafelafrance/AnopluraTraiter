@@ -59,8 +59,6 @@ class SclerotizationLinker(Base):
             part.append_link(sclerotized)
             sclerotized.append_link(part)
 
-        sclerotized.links_completed_for("part")
-
         raise reject_match.SkipTraitCreation
 
 

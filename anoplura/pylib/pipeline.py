@@ -3,6 +3,7 @@ from traiter.pipes import delete, extensions, tokenizer
 from traiter.rules.number import Number
 
 from anoplura.rules.count import Count
+from anoplura.rules.count_linker import CountLinker
 from anoplura.rules.date_ import Date
 from anoplura.rules.description import Description
 from anoplura.rules.description_linker import DescriptionLinker
@@ -72,8 +73,13 @@ def build() -> spacy.Language:
 
     SclerotizationLinker.pipe(nlp)
     DescriptionLinker.pipe(nlp)
+    CountLinker.pipe(nlp)
 
-    delete.pipe(nlp, delete=["number", "range", "roman", "count"])
+    # size, sexual dimorphism, sex, subpart linkers
+
+    # delete.pipe(nlp, delete=["number", "range", "roman"])
+    # delete_unlinked.pipe(nlp, ["count", "size"])
+    delete.pipe(nlp, ["count", "size", "number", "range", "roman"])
 
     # for name in nlp.pipe_names:
     #     print(name)

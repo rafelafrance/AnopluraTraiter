@@ -5,6 +5,7 @@ from typing import ClassVar, Never
 from spacy import Language, registry
 from spacy.tokens import Span
 from traiter.pipes import add, reject_match
+from traiter.pylib import const as t_const
 from traiter.pylib.pattern_compiler import Compiler
 
 from anoplura.rules.base import PARTS, Base
@@ -36,7 +37,9 @@ class DescriptionLinker(Base):
                 label="description_linker",
                 on_match="description_linker_match",
                 decoder={
-                    ",": {"ENT_TYPE": {"IN": ["separator", "linker"]}},
+                    "(": {"TEXT": {"IN": t_const.OPEN}},
+                    ")": {"TEXT": {"IN": t_const.CLOSE}},
+                    "sep": {"ENT_TYPE": "separator"},
                     "descr": {"ENT_TYPE": "description"},
                     "linker": {"ENT_TYPE": "linker"},
                     "part": {"ENT_TYPE": {"IN": PARTS}},
@@ -44,24 +47,25 @@ class DescriptionLinker(Base):
                     "subpart": {"ENT_TYPE": "subpart"},
                 },
                 patterns=[
-                    " part+ ,* descr+ ",
-                    " seta+ ,* descr+ ",
-                    " subpart+ ,* descr+ ",
-                    " part+ ,* descr+ ,* descr+ ",
-                    " seta+ ,* descr+ ,* descr+ ",
-                    " subpart+ ,* descr+ ,* descr+ ",
-                    " descr+ part+ ",
-                    " descr+ seta+ ",
-                    " descr+ subpart+ ",
-                    " descr+ part+ descr+ ",
-                    " descr+ seta+ descr+ ",
-                    " descr+ subpart+ descr+ ",
+                    " part+ sep* (? descr+ )? ",
+                    " seta+ sep* (? descr+ )? ",
+                    " subpart+ sep* (? descr+ )? ",
+                    " part+ sep* (? descr+ )? sep* (? descr+ )? ",
+                    " seta+ sep* (? descr+ )? sep* (? descr+ )? ",
+                    " subpart+ sep* (? descr+ )? sep* (? descr+ )? ",
+                    " (? descr+ )? linker+ part+ ",
+                    " (? descr+ )? part+ ",
+                    " (? descr+ )? seta+ ",
+                    " (? descr+ )? subpart+ ",
+                    " (? descr+ )? part+ (? descr+ )? ",
+                    " (? descr+ )? seta+ (? descr+ )? ",
+                    " (? descr+ )? subpart+ (? descr+ )? ",
                 ],
             ),
         ]
 
     @classmethod
-    def description_linker_match(cls, span: Span) -> Never:  # noqa: C901
+    def description_linker_match(cls, span: Span) -> Never:
         descr = []
         part, subpart, seta = None, None, None
 
@@ -85,9 +89,6 @@ class DescriptionLinker(Base):
             if seta:
                 seta.append_link(d)
                 d.append_link(seta)
-
-        for d in descr:
-            d.links_completed_for("subpart", "seta", *PARTS)
 
         raise reject_match.SkipTraitCreation
 
