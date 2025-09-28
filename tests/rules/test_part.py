@@ -51,11 +51,19 @@ class TestPart(unittest.TestCase):
         self.assertEqual(
             parse("head with anterolateral lobe on each side"),
             [
-                Part(_trait="part", start=0, end=4, links=[], part="head"),
+                Part(
+                    start=0,
+                    end=4,
+                    links=[Subpart(start=10, end=28, subpart="anterolateral lobe")],
+                    part="head",
+                ),
                 Subpart(
                     start=10,
                     end=28,
-                    links=[Description(start=29, end=41, description="on each side")],
+                    links=[
+                        Description(start=29, end=41, description="on each side"),
+                        Part(start=0, end=4, part="head"),
+                    ],
                     subpart="anterolateral lobe",
                 ),
                 Description(

@@ -88,6 +88,7 @@ class TestDescription(unittest.TestCase):
                         Description(
                             start=20, end=44, description="proximally and acuminate"
                         ),
+                        Subpart(start=45, end=50, subpart="claw"),
                     ],
                     part="coxa",
                 ),
@@ -100,7 +101,10 @@ class TestDescription(unittest.TestCase):
                 Subpart(
                     start=45,
                     end=50,
-                    links=[Description(start=51, end=61, description="terminally")],
+                    links=[
+                        Description(start=51, end=61, description="terminally"),
+                        Part(start=14, end=19, part="coxa"),
+                    ],
                     subpart="claw",
                 ),
                 Description(
@@ -163,7 +167,7 @@ class TestDescription(unittest.TestCase):
         self.assertEqual(
             parse("""Thoracic sternal plate club-shaped with rounded anterolateral
                 margins, broadly acuminate anterior apex, and elongate posterior
-                extension with squarish posterior apex,"""),
+                extension with squarish posterior apex."""),
             [
                 Plate(
                     start=0,
@@ -171,7 +175,11 @@ class TestDescription(unittest.TestCase):
                     links=[
                         Description(
                             start=23, end=47, description="club-shaped with rounded"
-                        )
+                        ),
+                        Subpart(start=48, end=69, subpart="anterolateral margin"),
+                        Subpart(start=89, end=102, subpart="anterior apex"),
+                        Subpart(start=117, end=136, subpart="posterior extension"),
+                        Subpart(start=151, end=165, subpart="posterior apex"),
                     ],
                     part="thoracic sternal plate",
                 ),
@@ -185,7 +193,8 @@ class TestDescription(unittest.TestCase):
                     start=48,
                     end=69,
                     links=[
-                        Description(start=71, end=88, description="broadly acuminate")
+                        Description(start=71, end=88, description="broadly acuminate"),
+                        Plate(start=0, end=22, part="thoracic sternal plate"),
                     ],
                     subpart="anterolateral margin",
                 ),
@@ -198,54 +207,36 @@ class TestDescription(unittest.TestCase):
                 Subpart(
                     start=89,
                     end=102,
-                    links=[Description(start=108, end=116, description="elongate")],
+                    links=[
+                        Description(start=108, end=116, description="elongate"),
+                        Plate(start=0, end=22, part="thoracic sternal plate"),
+                    ],
                     subpart="anterior apex",
                 ),
                 Description(
                     start=108,
                     end=116,
-                    links=[
-                        Subpart(start=89, end=102, links=None, subpart="anterior apex")
-                    ],
+                    links=[Subpart(start=89, end=102, subpart="anterior apex")],
                     description="elongate",
                 ),
                 Subpart(
                     start=117,
                     end=136,
-                    links=[],
+                    links=[Plate(start=0, end=22, part="thoracic sternal plate")],
                     subpart="posterior extension",
                 ),
                 Description(
-                    _trait="description",
-                    _text="squarish",
                     start=142,
                     end=150,
-                    links=[
-                        Subpart(
-                            _trait="subpart",
-                            _text="posterior apex",
-                            start=151,
-                            end=165,
-                            links=None,
-                            subpart="posterior apex",
-                        )
-                    ],
+                    links=[Subpart(start=151, end=165, subpart="posterior apex")],
                     description="squarish",
                 ),
                 Subpart(
-                    _trait="subpart",
-                    _text="posterior apex",
                     start=151,
                     end=165,
                     links=[
-                        Description(
-                            _trait="description",
-                            _text="squarish",
-                            start=142,
-                            end=150,
-                            links=None,
-                            description="squarish",
-                        )
+                        Description(start=142, end=150, description="squarish"),
+                        Plate(start=0, end=22, part="thoracic sternal plate"),
                     ],
                     subpart="posterior apex",
                 ),
@@ -256,7 +247,12 @@ class TestDescription(unittest.TestCase):
         self.assertEqual(
             parse("""hind femora with relatively broad spur-like ridge posteriorly"""),
             [
-                Part(start=0, end=11, links=[], part="hind femur"),
+                Part(
+                    start=0,
+                    end=11,
+                    links=[Subpart(start=44, end=49, subpart="ridge")],
+                    part="hind femur",
+                ),
                 Description(
                     start=17,
                     end=43,
@@ -271,6 +267,7 @@ class TestDescription(unittest.TestCase):
                             start=17, end=43, description="relatively broad spur-like"
                         ),
                         Description(start=50, end=61, description="posteriorly"),
+                        Part(start=0, end=11, part="hind femur"),
                     ],
                     subpart="ridge",
                 ),

@@ -2,7 +2,9 @@ import unittest
 
 from anoplura.rules.elevation import Elevation
 from anoplura.rules.part import Part
+from anoplura.rules.seta import Seta
 from anoplura.rules.size import Dimension, Size
+from anoplura.rules.subpart import Subpart
 from tests.setup import parse
 
 
@@ -148,6 +150,80 @@ class TestSize(unittest.TestCase):
                     links=[Part(start=0, end=4, part="head")],
                     dims=[
                         Dimension(dim="width", units="mm", low=1.02, start=5, end=20)
+                    ],
+                ),
+            ],
+        )
+
+    def test_size_05(self) -> None:
+        self.assertEqual(
+            parse("""(DPTS) length, 0.123 mm;"""),
+            [
+                Seta(
+                    start=1,
+                    end=5,
+                    links=[
+                        Size(
+                            start=7,
+                            end=23,
+                            dims=[
+                                Dimension(
+                                    dim="length", units="mm", low=0.123, start=7, end=23
+                                )
+                            ],
+                        )
+                    ],
+                    seta="dorsal principal thoracic setae",
+                    seta_part="thorax",
+                ),
+                Size(
+                    start=7,
+                    end=23,
+                    links=[
+                        Seta(
+                            start=1,
+                            end=5,
+                            seta="dorsal principal thoracic setae",
+                            seta_part="thorax",
+                        )
+                    ],
+                    dims=[
+                        Dimension(dim="length", units="mm", low=0.123, start=7, end=23)
+                    ],
+                ),
+            ],
+        )
+
+    def test_size_06(self) -> None:
+        self.assertEqual(
+            parse("""posterior apex length, 0.123 mm;"""),
+            [
+                Subpart(
+                    start=0,
+                    end=14,
+                    links=[
+                        Size(
+                            start=15,
+                            end=31,
+                            dims=[
+                                Dimension(
+                                    dim="length",
+                                    units="mm",
+                                    low=0.123,
+                                    start=15,
+                                    end=31,
+                                )
+                            ],
+                        )
+                    ],
+                    subpart="posterior apex",
+                ),
+                Size(
+                    start=15,
+                    end=31,
+                    links=[Subpart(start=0, end=14, subpart="posterior apex")],
+                    dims=[
+                        Dimension(dim="length", units="mm", low=0.123, start=15, end=31)
                     ],
                 ),
             ],

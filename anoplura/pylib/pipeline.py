@@ -12,6 +12,7 @@ from anoplura.rules.elevation import Elevation
 from anoplura.rules.gonopod import Gonopod
 from anoplura.rules.lat_long import LatLong
 from anoplura.rules.part import Part
+from anoplura.rules.part_linker import PartLinker
 from anoplura.rules.plate import Plate
 from anoplura.rules.range import Range
 from anoplura.rules.roman import Roman
@@ -26,6 +27,7 @@ from anoplura.rules.size_linker import SizeLinker
 from anoplura.rules.specimen_type import SpecimenType
 from anoplura.rules.sternite import Sternite
 from anoplura.rules.subpart import Subpart
+from anoplura.rules.subpart_linker import SubpartLinker
 from anoplura.rules.taxon import Taxon
 from anoplura.rules.tergite import Tergite
 
@@ -77,7 +79,9 @@ def build() -> spacy.Language:
     DescriptionLinker.pipe(nlp)
     CountLinker.pipe(nlp)
     SizeLinker.pipe(nlp)
-    # sex, subpart linkers
+    SubpartLinker.pipe(nlp)
+
+    PartLinker.pipe(nlp)
 
     sex_linker.pipe(nlp)
 
