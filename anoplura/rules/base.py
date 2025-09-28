@@ -21,6 +21,7 @@ PARTS: list[str] = [
 
 @dataclass(eq=False)
 class Base(TraiterBase):
+    sex: str | None = None
     links: list | None = field(default_factory=list)
 
     @classmethod

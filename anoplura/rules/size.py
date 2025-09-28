@@ -36,6 +36,7 @@ class Size(Base):
     @classmethod
     def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="size_terms", path=cls.terms)
+        # add.debug_tokens(nlp)  # #########################################
         add.trait_pipe(
             nlp,
             name="size_patterns",
@@ -69,7 +70,7 @@ class Size(Base):
                 patterns=[
                     "99+    cm+ dim*",
                     "99-99+ cm+ dim*",
-                    "99-99+ cm* dim* x 99-99+ cm+ dim*",
+                    "dim* 99-99+ cm* dim* x 99-99+ cm+ dim*",
                     " dim+ sep* 99+    cm+ ",
                     " dim+ sep* 99-99+ cm+ ",
                 ],

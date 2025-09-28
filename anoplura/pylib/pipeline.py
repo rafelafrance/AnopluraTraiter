@@ -2,6 +2,7 @@ import spacy
 from traiter.pipes import delete, extensions, tokenizer
 from traiter.rules.number import Number
 
+from anoplura.rules import delete_unlinked, sex_linker
 from anoplura.rules.count import Count
 from anoplura.rules.count_linker import CountLinker
 from anoplura.rules.date_ import Date
@@ -21,6 +22,7 @@ from anoplura.rules.seta import Seta
 from anoplura.rules.sex import Sex
 from anoplura.rules.sexual_dimorphism import SexualDimorphism
 from anoplura.rules.size import Size
+from anoplura.rules.size_linker import SizeLinker
 from anoplura.rules.specimen_type import SpecimenType
 from anoplura.rules.sternite import Sternite
 from anoplura.rules.subpart import Subpart
@@ -74,12 +76,13 @@ def build() -> spacy.Language:
     SclerotizationLinker.pipe(nlp)
     DescriptionLinker.pipe(nlp)
     CountLinker.pipe(nlp)
+    SizeLinker.pipe(nlp)
+    # sex, subpart linkers
 
-    # size, sexual dimorphism, sex, subpart linkers
+    sex_linker.pipe(nlp)
 
-    # delete.pipe(nlp, delete=["number", "range", "roman"])
-    # delete_unlinked.pipe(nlp, ["count", "size"])
-    delete.pipe(nlp, ["count", "size", "number", "range", "roman"])
+    delete.pipe(nlp, delete=["number", "range", "roman"])
+    delete_unlinked.pipe(nlp, ["count", "size"])
 
     # for name in nlp.pipe_names:
     #     print(name)

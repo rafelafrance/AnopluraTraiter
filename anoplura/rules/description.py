@@ -71,10 +71,6 @@ class Description(Base):
                 patterns=[
                     " 9+ -* suffix+ ",
                     # -----------------
-                    # " verb? pron? adv* desc* sep* rel+ part_desc+ ",
-                    # " verb? pron? adv* desc* sep* rel+ part_desc+ desc+ ",
-                    # " verb? pron? adv* desc* sep* rel+ part_desc+ sep+ desc+ ",
-                    # -----------------
                     " verb? adv* desc+ group* ",
                     " verb? adv* desc* group+ ",
                     " verb? adv* desc+ sep+ desc+ group* ",
