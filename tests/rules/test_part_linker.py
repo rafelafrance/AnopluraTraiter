@@ -4,6 +4,7 @@ from anoplura.rules.count import Count
 from anoplura.rules.description import Description
 from anoplura.rules.segment import Segment
 from anoplura.rules.sternite import Sternite
+from anoplura.rules.tergite import Tergite
 from tests.setup import parse
 
 
@@ -40,6 +41,42 @@ class TestPartLinker(unittest.TestCase):
                     links=[Sternite(start=8, end=16, part="sternite")],
                     part="segment",
                     number=[1],
+                ),
+            ],
+        )
+
+    def test_part_linker_02(self) -> None:
+        self.assertEqual(
+            parse("2 narrow tergites on segment 7;"),
+            [
+                Count(
+                    start=0,
+                    end=1,
+                    links=[Tergite(start=9, end=17, part="tergite")],
+                    count_low=2,
+                ),
+                Description(
+                    start=2,
+                    end=8,
+                    links=[Tergite(start=9, end=17, part="tergite")],
+                    description="narrow",
+                ),
+                Tergite(
+                    start=9,
+                    end=17,
+                    links=[
+                        Description(start=2, end=8, description="narrow"),
+                        Count(start=0, end=1, count_low=2),
+                        Segment(start=21, end=30, part="segment", number=[7]),
+                    ],
+                    part="tergite",
+                ),
+                Segment(
+                    start=21,
+                    end=30,
+                    links=[Tergite(start=9, end=17, part="tergite")],
+                    part="segment",
+                    number=[7],
                 ),
             ],
         )

@@ -22,6 +22,7 @@ class SubpartLinker(Base):
         "separator",
         "linker",
         "subpart",
+        "seta",
     ]
     # ----------------------
 
@@ -43,12 +44,7 @@ class SubpartLinker(Base):
                 label="subpart_linker",
                 on_match="subpart_linker_match",
                 decoder={
-                    "count": {"ENT_TYPE": "count"},
-                    "desc": {"ENT_TYPE": "description"},
                     "part": {"ENT_TYPE": {"IN": PARTS}},
-                    "subpart": {"ENT_TYPE": "subpart"},
-                    "sep": {"ENT_TYPE": "separator"},
-                    "with": {"ENT_TYPE": "linker"},
                     "phrase": {"ENT_TYPE": {"IN": cls.phrase}},
                 },
                 patterns=[
@@ -59,7 +55,7 @@ class SubpartLinker(Base):
 
     @classmethod
     def subpart_linker_match(cls, ent: Span) -> Never:
-        subparts = [e._.trait for e in ent.ents if e.label_ == "subpart"]
+        subparts = [e._.trait for e in ent.ents if e.label_ in ("subpart", "seta")]
         part = next(e._.trait for e in ent.ents if e.label_ in PARTS)
 
         for subpart in subparts:

@@ -498,3 +498,30 @@ class TestDescription(unittest.TestCase):
                 Description(start=20, end=39, description="about equal in size"),
             ],
         )
+
+    def test_description_18(self) -> None:
+        self.assertEqual(
+            parse("""parameres relatively broad and curved, tapering posteriorly;"""),
+            [
+                Part(
+                    start=0,
+                    end=9,
+                    links=[
+                        Description(
+                            start=10,
+                            end=59,
+                            description=(
+                                "relatively broad and curved, tapering posteriorly"
+                            ),
+                        )
+                    ],
+                    part="paramere",
+                ),
+                Description(
+                    start=10,
+                    end=59,
+                    links=[Part(start=0, end=9, part="paramere")],
+                    description="relatively broad and curved, tapering posteriorly",
+                ),
+            ],
+        )
