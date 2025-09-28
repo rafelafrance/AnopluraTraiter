@@ -34,8 +34,10 @@ class SexLinker:
         for ent in doc.ents:
             if ent.label_ == "sex":
                 sex = ent._.trait.sex
-            elif ent._.trait.links and any(
-                lk._trait == "sex" for lk in ent._.trait.links
+            elif (
+                hasattr(ent._.trait, "links")
+                and ent._.trait.links
+                and any(lk._trait == "sex" for lk in ent._.trait.links)
             ):
                 link = next(lk for lk in ent._.trait.links if lk._trait == "sex")
                 ent._.trait.sex = link.sex
