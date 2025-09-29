@@ -9,11 +9,5 @@ class TestLatLong(unittest.TestCase):
     def test_lat_long_01(self) -> None:
         self.assertEqual(
             parse("[10°18'N, 84°47'W],"),
-            [
-                LatLong(
-                    lat_long="10° 18' N, 84° 47' W",
-                    start=1,
-                    end=18,
-                )
-            ],
+            [LatLong(lat_long="10° 18' N, 84° 47' W", start=1, end=18)],
         )

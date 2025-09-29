@@ -1,6 +1,10 @@
 import unittest
 
+from anoplura.rules.elevation import Elevation
+from anoplura.rules.part import Part
+from anoplura.rules.seta import Seta
 from anoplura.rules.size import Dimension, Size
+from anoplura.rules.subpart import Subpart
 from tests.setup import parse
 
 
@@ -10,49 +14,68 @@ class TestSize(unittest.TestCase):
         self.assertEqual(
             parse("""Elevation: 0–3600 m"""),
             [
-                Size(
-                    dims=[
-                        Dimension(
-                            dim="length",
-                            low=0,
-                            high=3600,
-                            units="m",
-                            start=11,
-                            end=19,
-                        )
-                    ],
-                    start=11,
-                    end=19,
-                ),
+                Elevation(
+                    start=0, end=19, elevation=0.0, elevation_high=3600.0, units="m"
+                )
             ],
         )
 
     def test_size_02(self) -> None:
         """It handles two dimensions."""
         self.assertEqual(
-            parse("""30–60 × 10-20 cm,"""),
+            parse("""total body length 30–60 × 10-20 cm,"""),
             [
+                Part(
+                    start=0,
+                    end=10,
+                    links=[
+                        Size(
+                            start=11,
+                            end=34,
+                            dims=[
+                                Dimension(
+                                    dim="length",
+                                    units="cm",
+                                    low=30.0,
+                                    high=60.0,
+                                    start=11,
+                                    end=23,
+                                ),
+                                Dimension(
+                                    dim="width",
+                                    units="cm",
+                                    low=10.0,
+                                    high=20.0,
+                                    start=26,
+                                    end=34,
+                                ),
+                            ],
+                        )
+                    ],
+                    part="total body",
+                ),
                 Size(
+                    start=11,
+                    end=34,
+                    links=[Part(start=0, end=10, part="total body")],
                     dims=[
                         Dimension(
                             dim="length",
-                            low=30,
-                            high=60,
                             units="cm",
-                            start=0,
-                            end=5,
+                            low=30.0,
+                            high=60.0,
+                            start=11,
+                            end=23,
                         ),
                         Dimension(
                             dim="width",
-                            low=10,
-                            high=20,
                             units="cm",
-                            start=8,
-                            end=16,
+                            low=10.0,
+                            high=20.0,
+                            start=26,
+                            end=34,
                         ),
                     ],
-                    start=0,
-                    end=16,
                 ),
             ],
         )
@@ -60,41 +83,148 @@ class TestSize(unittest.TestCase):
     def test_size_03(self) -> None:
         """It handles an extra plus sign."""
         self.assertEqual(
-            parse("""10–30+ cm,"""),
+            parse("""leg length 10–30+ cm,"""),
             [
+                Part(
+                    start=0,
+                    end=3,
+                    links=[
+                        Size(
+                            start=4,
+                            end=20,
+                            dims=[
+                                Dimension(
+                                    dim="length",
+                                    units="cm",
+                                    low=10.0,
+                                    high=30.0,
+                                    start=4,
+                                    end=20,
+                                )
+                            ],
+                        )
+                    ],
+                    part="leg",
+                ),
                 Size(
+                    start=4,
+                    end=20,
+                    links=[Part(start=0, end=3, part="leg")],
                     dims=[
                         Dimension(
                             dim="length",
-                            low=10,
-                            high=30,
                             units="cm",
-                            start=0,
-                            end=9,
+                            low=10.0,
+                            high=30.0,
+                            start=4,
+                            end=20,
                         )
                     ],
-                    start=0,
-                    end=9,
                 ),
             ],
         )
 
     def test_size_04(self) -> None:
         self.assertEqual(
-            parse("""length, 1.02 mm."""),
+            parse("""head width, 1.02 mm."""),
             [
-                Size(
-                    dims=[
-                        Dimension(
-                            dim="length",
-                            low=1.02,
-                            units="mm",
-                            start=0,
-                            end=16,
+                Part(
+                    start=0,
+                    end=4,
+                    links=[
+                        Size(
+                            start=5,
+                            end=20,
+                            dims=[
+                                Dimension(
+                                    dim="width", units="mm", low=1.02, start=5, end=20
+                                )
+                            ],
                         )
                     ],
+                    part="head",
+                ),
+                Size(
+                    start=5,
+                    end=20,
+                    links=[Part(start=0, end=4, part="head")],
+                    dims=[
+                        Dimension(dim="width", units="mm", low=1.02, start=5, end=20)
+                    ],
+                ),
+            ],
+        )
+
+    def test_size_05(self) -> None:
+        self.assertEqual(
+            parse("""(DPTS) length, 0.123 mm;"""),
+            [
+                Seta(
+                    start=1,
+                    end=5,
+                    links=[
+                        Size(
+                            start=7,
+                            end=23,
+                            dims=[
+                                Dimension(
+                                    dim="length", units="mm", low=0.123, start=7, end=23
+                                )
+                            ],
+                        )
+                    ],
+                    seta="dorsal principal thoracic setae",
+                    seta_part="thorax",
+                ),
+                Size(
+                    start=7,
+                    end=23,
+                    links=[
+                        Seta(
+                            start=1,
+                            end=5,
+                            seta="dorsal principal thoracic setae",
+                            seta_part="thorax",
+                        )
+                    ],
+                    dims=[
+                        Dimension(dim="length", units="mm", low=0.123, start=7, end=23)
+                    ],
+                ),
+            ],
+        )
+
+    def test_size_06(self) -> None:
+        self.assertEqual(
+            parse("""posterior apex length, 0.123 mm;"""),
+            [
+                Subpart(
                     start=0,
-                    end=16,
+                    end=14,
+                    links=[
+                        Size(
+                            start=15,
+                            end=31,
+                            dims=[
+                                Dimension(
+                                    dim="length",
+                                    units="mm",
+                                    low=0.123,
+                                    start=15,
+                                    end=31,
+                                )
+                            ],
+                        )
+                    ],
+                    subpart="posterior apex",
+                ),
+                Size(
+                    start=15,
+                    end=31,
+                    links=[Subpart(start=0, end=14, subpart="posterior apex")],
+                    dims=[
+                        Dimension(dim="length", units="mm", low=0.123, start=15, end=31)
+                    ],
                 ),
             ],
         )

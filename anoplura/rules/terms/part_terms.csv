@@ -3,7 +3,6 @@ bug_part,abdomen,abdomen
 bug_part,antenna,antenna
 bug_part,antennae,antenna
 bug_part,antennas,antenna
-bug_part,body,body
 bug_part,chitin,chitin
 bug_part,coxa,coxa
 bug_part,coxae,coxa
@@ -33,6 +32,7 @@ bug_part,spiracles,spiracle
 bug_part,sterna,sternum
 bug_part,sternum,sternum
 bug_part,thorax,thorax
+bug_part,total body
 bug_part,vulvar fimbriae,vulvar fimbriae
 bug_subpart,apex,apex
 bug_subpart,apexes,apex
@@ -49,36 +49,36 @@ bug_subpart,claws,claw
 bug_subpart,coning,coning
 bug_subpart,extension,extension
 bug_subpart,indentation,indentation
+bug_subpart,indentation,lobe
 bug_subpart,indentations,indentation
 bug_subpart,lacuna,lacuna
 bug_subpart,lacunae,lacuna
 bug_subpart,lacunas,lacuna
 bug_subpart,lobe,lobe
-bug_subpart,indentation,lobe
 bug_subpart,margin,margin
 bug_subpart,margins,margin
 bug_subpart,ridge,ridge
 bug_subpart,ridges,ridge
-bug_subpart,spur,spur
 bug_subpart,spur,spur
 bug_subpart,spurs,spur
 bug_subpart,suture,suture
 bug_subpart,sutures,suture
 chitinized,chitinized,chitinized
 chitinized,chitinous,chitinized
-gonopods,gonopod,gonopod
 gonopods,gonopods,gonopod
+gonopods,gonopod,gonopod
 number_suffix,segmented,segment
-plates,plate,plate
 plates,plates,plate
-sclerotization,sclerotization,sclerotized
-sclerotization,sclerotized,sclerotized
-segments,segment,segment
+plates,plate,plate
+sclerotized,sclerotization,sclerotized
+sclerotized,sclerotized,sclerotized
 segments,segments,segment
-segments,other segments,
+segments,segment,segment
+shape_term,spur-like
+sternites,sternites,sternite
 sternites,sternite,sternite
 sternites,sternites,sternite
+tergites,tergites,tergite
 tergites,terga,tergite
 tergites,tergite,tergite
-tergites,tergites,tergite
 tergites,tergum,tergite

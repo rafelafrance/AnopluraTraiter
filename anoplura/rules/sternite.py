@@ -15,16 +15,14 @@ from anoplura.rules.base import Base
 class Sternite(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
-        Path(__file__).parent / "terms" / "group_terms.csv",
+        Path(__file__).parent / "terms" / "label_terms.csv",
         Path(__file__).parent / "terms" / "part_terms.csv",
         Path(__file__).parent / "terms" / "separator_terms.csv",
     ]
     # ----------------------
 
     part: str = "sternite"
-    which: list[int] | None = None
-    reference_part: str | None = None
-    reference_which: str | list[str] | list[int] | None = None
+    number: list[int] | None = None
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:
@@ -49,7 +47,7 @@ class Sternite(Base):
                     ",": {"ENT_TYPE": "separator"},
                     "9": {"ENT_TYPE": "number"},
                     "9-9": {"ENT_TYPE": "range"},
-                    "label": {"ENT_TYPE": "labels"},
+                    "label": {"ENT_TYPE": "no_labels"},
                     "sternite": {"ENT_TYPE": "sternites"},
                 },
                 patterns=[
@@ -67,20 +65,20 @@ class Sternite(Base):
 
     @classmethod
     def sternite_match(cls, ent: Span) -> "Sternite":
-        which = []
+        number = []
 
         for sub_ent in ent.ents:
             if sub_ent.label_ == "number":
-                which.append(int(sub_ent._.trait.number))
+                number.append(int(sub_ent._.trait.number))
 
             elif sub_ent.label_ == "range":
                 low = int(sub_ent._.trait.low)
                 high = int(sub_ent._.trait.high)
-                which += list(range(low, high + 1))
+                number += list(range(low, high + 1))
 
-        which = sorted(set(which)) if which else None
+        number = sorted(set(number)) if number else None
 
-        return cls.from_ent(ent, which=which)
+        return cls.from_ent(ent, number=number)
 
 
 @registry.misc("sternite_match")

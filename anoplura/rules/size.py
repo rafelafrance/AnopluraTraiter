@@ -9,9 +9,9 @@ from traiter.pylib import const as t_const
 from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
 from traiter.rules import terms as t_terms
-from traiter.rules.base import Base
 
 from anoplura.pylib.dimension import Dimension
+from anoplura.rules.base import Base
 
 
 @dataclass(eq=False)
@@ -36,6 +36,7 @@ class Size(Base):
     @classmethod
     def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="size_terms", path=cls.terms)
+        # add.debug_tokens(nlp)  # #########################################
         add.trait_pipe(
             nlp,
             name="size_patterns",
@@ -69,7 +70,7 @@ class Size(Base):
                 patterns=[
                     "99+    cm+ dim*",
                     "99-99+ cm+ dim*",
-                    "99-99+ cm* dim* x 99-99+ cm+ dim*",
+                    "dim* 99-99+ cm* dim* x 99-99+ cm+ dim*",
                     " dim+ sep* 99+    cm+ ",
                     " dim+ sep* 99-99+ cm+ ",
                 ],

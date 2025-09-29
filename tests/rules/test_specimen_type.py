@@ -10,10 +10,7 @@ class TestSpecimenType(unittest.TestCase):
             parse("Holotype (female)"),
             [
                 SpecimenType(
-                    specimen_type="holotype",
-                    specimen_sex="female",
-                    start=0,
-                    end=17,
+                    specimen_type="holotype", specimen_sex="female", start=0, end=17
                 ),
             ],
         )

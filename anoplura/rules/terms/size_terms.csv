@@ -1,19 +1,39 @@
 label,pattern
-size_term,large,
-size_term,larger,
-size_term,larger than
+rel_size,as long as
+rel_size,as narrow as
+rel_size,as short as
+rel_size,as short as
+rel_size,as thin as
+rel_size,as wide as
+rel_size,larger than
+rel_size,larger than other
+rel_size,longer than
+rel_size,longer than other
+rel_size,shorter than
+rel_size,shorter than other
+rel_size,smaller than
+rel_size,smaller than other
+rel_size,wider than
+rel_size,wider than other
+size_term,different length
+size_term,different lengths
+size_term,equal in size
+size_term,intermediate sized
+size_term,intermediate-sized
+size_term,large
+size_term,larger
 size_term,long
 size_term,longer
-size_term,longer than
+size_term,more or less
 size_term,other
 size_term,relative
 size_term,relatively
+size_term,same length
+size_term,same lengths
 size_term,short
 size_term,shorter
 size_term,sized
 size_term,small
 size_term,smaller
-size_term,smaller than
 size_term,wide
 size_term,wider
-size_term,wider than

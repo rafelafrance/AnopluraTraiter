@@ -1,12 +1,17 @@
-from dataclasses import dataclass
+from copy import deepcopy
+from dataclasses import asdict, dataclass, field
 
 from spacy import Language
-from spacy.tokens import Span
 from traiter.rules.base import Base as TraiterBase
 
-SKIPS = {"start", "end", "trait"}
-MORE_SKIPS = SKIPS | {"dim"}
+# Fields to use for a minimal comparison between traits
+MIN_COMPARE = {"start", "end", "_trait"}
 
+# Fields to skip when outputting data
+SKIPS = {"start", "end", "trait", "links"}
+DIM_SKIPS = SKIPS | {"dim"}
+
+# Parts get parsed differently so they are not the same object
 PARTS: list[str] = [
     "part",
     "gonopod",
@@ -16,53 +21,68 @@ PARTS: list[str] = [
     "tergite",
 ]
 
-
-@dataclass
-class BodyPart:
-    part: str | list[str] | None = None
-    which: str | list[str] | list[int] | None = None
+ANY_PART: list[str] = [*PARTS, "subpart", "seta"]
 
 
 @dataclass(eq=False)
 class Base(TraiterBase):
     sex: str | None = None
+    links: list | None = field(default_factory=list)
 
     @classmethod
     def pipe(cls, nlp: Language) -> None: ...
 
+    def append_link(self, other: "Base") -> None:
+        new = deepcopy(other)
+        new.links = None
+
+        if other != self and other not in self.links:
+            self.links.append(new)
+
+    def __eq__(self, other: "Base") -> bool:
+        return as_dict(self) == as_dict(other)
+
+
+def min_compare(trait1: Base, trait2: Base) -> bool:
+    """
+    Compare traits w/ minimum fields make sure we don't add same trait to links twice.
+
+    The other __eq__ compare is used for testing.
+    """
+    t1 = {k: v for k, v in asdict(trait1).items() if k in MIN_COMPARE}
+    t2 = {k: v for k, v in asdict(trait2).items() if k in MIN_COMPARE}
+    return t1 == t2
+
+
+def link_traits(trait1: Base, trait2: Base) -> None:
+    if trait1 == trait2:
+        return
+    if not any(min_compare(trait2, t) for t in trait1.links):
+        trait1.append_link(trait2)
+    if not any(min_compare(trait1, t) for t in trait2.links):
+        trait2.append_link(trait1)
+
 
 def as_dict(trait: Base) -> dict:
-    dct = {
-        k: v
-        for k, v in trait.to_dict().items()
-        if v is not None and k not in SKIPS and not k.startswith("_")
-    }
+    """Convert trait to a dict: ignore some fields and lift others into a flat dict."""
+    dct = filter_fields(trait, SKIPS)
     key = next((k for k in dct if k.endswith("dims")), None)
     if key:
         for dim in dct[key]:
             new_key = f"{key}_{dim['dim']}"
-            dct[new_key] = {
-                k: v
-                for k, v in dim.items()
-                if v is not None and k not in MORE_SKIPS and not k.startswith("_")
-            }
+            dct[new_key] = filter_fields(trait, DIM_SKIPS)
         del dct[key]
+
+    if hasattr(trait, "links") and trait.links:
+        dct["links"] = [filter_fields(link, SKIPS) for link in trait.links]
+
     return dct
 
 
-def get_body_part(sub_ent: Span) -> BodyPart:
-    trait = sub_ent._.trait
-    part = BodyPart(part=trait.part, which=trait.which)
-    return part
-
-
-def get_all_body_parts(
-    sub_ents: list[Span],
-) -> tuple[list[str], str | list[str] | list[int]]:
-    body_parts = [get_body_part(e) for e in sub_ents]
-    parts = [p.part for p in body_parts]
-    parts = parts[0] if len(parts) == 1 else parts
-    which = [p.which for p in body_parts if p.which]
-    which = which[0] if len(which) == 1 else which
-    which = which if which else None
-    return parts, which
+def filter_fields(trait: Base, skips: set[str]) -> dict:
+    """Remove some fields from an output dict when displaying traits."""
+    return {
+        k: v
+        for k, v in asdict(trait).items()
+        if v is not None and k not in skips and not k.startswith("_")
+    }

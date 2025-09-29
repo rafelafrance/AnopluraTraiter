@@ -24,8 +24,6 @@ class Seta(Base):
 
     seta: str | None = None
     seta_part: str | None = None
-    part: str = None
-    which: str | list[str] | list[int] | None = None
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

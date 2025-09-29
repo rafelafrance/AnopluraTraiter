@@ -20,11 +20,12 @@ class Segment(Base):
     # ----------------------
 
     part: str = "segment"
-    which: list[int] | str | None = None
+    number: list[int] | None = None
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="segment_terms", path=cls.terms)
+        # add.debug_tokens(nlp)  # #########################################
         add.trait_pipe(
             nlp,
             name="segment_patterns",
@@ -46,37 +47,37 @@ class Segment(Base):
                     "segment": {"ENT_TYPE": "segments"},
                 },
                 patterns=[
-                    " pos+ segment 9* ",
-                    " pos+ segment 9-9* ",
-                    " segment 9 ",
-                    " segment 9-9+ ",
+                    " segment+ ",
+                    " segment+ 9 ",
+                    " segment+ 9-9+ ",
+                    " pos+ segment+ 9* ",
+                    " pos+ segment+ 9-9* ",
                 ],
             ),
         ]
 
     @classmethod
     def segment_match(cls, ent: Span) -> "Segment":
-        segments = []
-        pos = []
+        number = []
+        part = []
 
         for sub_ent in ent.ents:
             if sub_ent.label_ == "number":
-                segments.append(int(sub_ent._.trait.number))
+                number.append(int(sub_ent._.trait.number))
 
             elif sub_ent.label_ == "position":
-                pos.append(sub_ent.text.lower())
+                part.append(sub_ent.text.lower())
 
             elif sub_ent.label_ == "range":
                 low = int(sub_ent._.trait.low)
                 high = int(sub_ent._.trait.high)
-                segments += list(range(low, high + 1))
+                number += list(range(low, high + 1))
 
-        pos = " ".join(pos)
+        part = " ".join([*part, "segment"])
 
-        segments = sorted(set(segments)) if segments else None
-        segments = segments if segments else pos
+        number = sorted(set(number)) if number else None
 
-        return cls.from_ent(ent, which=segments)
+        return cls.from_ent(ent, part=part, number=number)
 
 
 @registry.misc("segment_match")

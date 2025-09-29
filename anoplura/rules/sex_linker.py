@@ -1,28 +1,28 @@
 from spacy import Language
 from spacy.tokens import Doc
 
-SEX_ASSIGNMENT = "sex_assignment"
+SEX_LINKER = "sex_linker"
 
 
 def pipe(nlp: Language, *, name: str | None = None, skip: bool | None = None) -> None:
-    name = name if name else SEX_ASSIGNMENT
+    name = name if name else SEX_LINKER
 
     if skip:
         skip = skip if isinstance(skip, list) else [skip]
 
     config = {"skip": skip}
-    nlp.add_pipe(SEX_ASSIGNMENT, name=name, config=config)
+    nlp.add_pipe(SEX_LINKER, name=name, config=config)
 
 
-@Language.factory(SEX_ASSIGNMENT)
-class SexAssignment:
+@Language.factory(SEX_LINKER)
+class SexLinker:
     def __init__(self, nlp: Language, name: str, skip: list[str] | None) -> None:
         super().__init__()
         self.nlp = nlp
         self.name = name
 
         skip = set(skip) if skip else set()  # Don't assign a sex to these traits
-        skip |= {"sex", "sex_count"}
+        skip |= {"sex"}
         skip |= {"taxon"}
         skip |= {"number", "range", "roman"}
         skip |= {"lat_long", "elevation"}
@@ -34,6 +34,13 @@ class SexAssignment:
         for ent in doc.ents:
             if ent.label_ == "sex":
                 sex = ent._.trait.sex
+            elif (
+                hasattr(ent._.trait, "links")
+                and ent._.trait.links
+                and any(lk._trait == "sex" for lk in ent._.trait.links)
+            ):
+                link = next(lk for lk in ent._.trait.links if lk._trait == "sex")
+                ent._.trait.sex = link.sex
             elif (
                 sex
                 and hasattr(ent._.trait, "sex")

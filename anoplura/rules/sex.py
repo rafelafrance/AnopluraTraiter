@@ -14,15 +14,15 @@ from anoplura.rules.base import Base
 @dataclass(eq=False)
 class Sex(Base):
     # Class vars ----------
-    sex_csv: ClassVar[Path] = Path(__file__).parent / "terms" / "sex_terms.csv"
-    replace: ClassVar[dict[str, str]] = term_util.look_up_table(sex_csv, "replace")
+    terms: ClassVar[list[Path]] = [Path(__file__).parent / "terms" / "sex_terms.csv"]
+    replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
     # ---------------------
 
     sex: str | None = None
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:
-        add.term_pipe(nlp, name="sex_terms", path=cls.sex_csv)
+        add.term_pipe(nlp, name="sex_terms", path=cls.terms)
         add.trait_pipe(
             nlp,
             name="sex_patterns",

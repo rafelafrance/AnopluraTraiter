@@ -1,13 +1,13 @@
 from dataclasses import dataclass
 
 from spacy.language import Language
-from traiter.rules.lat_long import LatLong as T_LatLong
+from traiter.rules.date_ import Date as T_Date
 
 from anoplura.rules.base import Base
 
 
 @dataclass(eq=False)
-class LatLong(Base, T_LatLong):
+class Date(Base, T_Date):
     @classmethod
     def pipe(cls, nlp: Language) -> None:
-        T_LatLong.pipe(nlp)
+        T_Date.pipe(nlp)

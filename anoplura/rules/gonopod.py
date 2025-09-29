@@ -19,7 +19,7 @@ class Gonopod(Base):
     # ----------------------
 
     part: str = "gonopod"
-    which: list[int] | None = None
+    number: list[int] | None = None
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:
@@ -53,12 +53,12 @@ class Gonopod(Base):
 
     @classmethod
     def gonopod_match(cls, ent: Span) -> "Gonopod":
-        which = [
+        number = [
             int(e._.trait.number) for e in ent.ents if e.label_ in ("number", "roman")
         ]
-        which = sorted(set(which)) if which else None
+        number = sorted(set(number)) if number else None
 
-        return cls.from_ent(ent, which=which)
+        return cls.from_ent(ent, number=number)
 
 
 @registry.misc("gonopod_match")

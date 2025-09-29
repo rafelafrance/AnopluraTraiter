@@ -14,7 +14,9 @@ from anoplura.rules.base import Base
 @dataclass(eq=False)
 class Taxon(Base):
     # Class vars ----------
-    taxon_csv: ClassVar[Path] = Path(__file__).parent / "terms" / "taxon_terms.csv"
+    taxon_csv: ClassVar[list[Path]] = [
+        Path(__file__).parent / "terms" / "taxon_terms.csv",
+    ]
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(taxon_csv, "replace")
     ranks: ClassVar[dict[str, str]] = term_util.look_up_table(taxon_csv, "rank")
     groups: ClassVar[dict[str, str]] = term_util.look_up_table(taxon_csv, "label")

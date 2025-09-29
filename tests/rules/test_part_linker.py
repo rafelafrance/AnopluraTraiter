@@ -1,0 +1,111 @@
+import unittest
+
+from anoplura.rules.count import Count
+from anoplura.rules.description import Description
+from anoplura.rules.segment import Segment
+from anoplura.rules.seta import Seta
+from anoplura.rules.sternite import Sternite
+from anoplura.rules.tergite import Tergite
+from tests.setup import parse
+
+
+class TestPartLinker(unittest.TestCase):
+    def test_part_linker_01(self) -> None:
+        self.assertEqual(
+            parse("1 small sternite on segment 1;"),
+            [
+                Count(
+                    start=0,
+                    end=1,
+                    links=[Sternite(start=8, end=16, part="sternite")],
+                    count_low=1,
+                ),
+                Description(
+                    start=2,
+                    end=7,
+                    links=[Sternite(start=8, end=16, part="sternite")],
+                    description="small",
+                ),
+                Sternite(
+                    start=8,
+                    end=16,
+                    links=[
+                        Description(start=2, end=7, description="small"),
+                        Count(start=0, end=1, count_low=1),
+                        Segment(start=20, end=29, part="segment", number=[1]),
+                    ],
+                    part="sternite",
+                ),
+                Segment(
+                    start=20,
+                    end=29,
+                    links=[Sternite(start=8, end=16, part="sternite")],
+                    part="segment",
+                    number=[1],
+                ),
+            ],
+        )
+
+    def test_part_linker_02(self) -> None:
+        self.assertEqual(
+            parse("2 narrow tergites on segment 7;"),
+            [
+                Count(
+                    start=0,
+                    end=1,
+                    links=[Tergite(start=9, end=17, part="tergite")],
+                    count_low=2,
+                ),
+                Description(
+                    start=2,
+                    end=8,
+                    links=[Tergite(start=9, end=17, part="tergite")],
+                    description="narrow",
+                ),
+                Tergite(
+                    start=9,
+                    end=17,
+                    links=[
+                        Description(start=2, end=8, description="narrow"),
+                        Count(start=0, end=1, count_low=2),
+                        Segment(start=21, end=30, part="segment", number=[7]),
+                    ],
+                    part="tergite",
+                ),
+                Segment(
+                    start=21,
+                    end=30,
+                    links=[Tergite(start=9, end=17, part="tergite")],
+                    part="segment",
+                    number=[7],
+                ),
+            ],
+        )
+
+    def test_part_linker_03(self) -> None:
+        self.assertEqual(
+            parse("TeAS on tergites 3-5;"),
+            [
+                Seta(
+                    start=0,
+                    end=4,
+                    links=[Tergite(start=8, end=20, part="tergite", number=[3, 4, 5])],
+                    seta="tergal abdominal setae",
+                    seta_part="abdomen",
+                ),
+                Tergite(
+                    start=8,
+                    end=20,
+                    links=[
+                        Seta(
+                            start=0,
+                            end=4,
+                            seta="tergal abdominal setae",
+                            seta_part="abdomen",
+                        )
+                    ],
+                    part="tergite",
+                    number=[3, 4, 5],
+                ),
+            ],
+        )

@@ -16,6 +16,7 @@ dependencies = [
     "jinja2>=3.1.6",
     "pandas>=2.3.1",
     "pip>=25.2",
+    "pre-commit>=4.3.0",
     "regex>=2025.7.34",
     "spacy>=3.8.7",
     "tqdm>=4.67.1",
@@ -54,7 +55,6 @@ ignore = [
     "DTZ005",  # Pass a `datetime.timezone` object to the `tz` parameter
     "ERA001",  # Remove commented-out code
     "LOG015",  # Use own logger instead TODO
-    "PD901",   # Avoid using the generic variable name df for DataFrames
     "PLW2901", # Outer {outer_kind} variable {name} overwritten by inner {inner_kind} target
     "PT009",   # Use a regular "assert" instead of unittest-style {assertion}
     "RET504",  # Unnecessary assignment to {name} before return statement

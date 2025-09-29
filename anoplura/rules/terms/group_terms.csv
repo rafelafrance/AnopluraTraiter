@@ -1,7 +1,6 @@
 label,pattern
 group,each side
 group,each with
-group,on each of
 group,on each side
 group,on the other
 group,on the other side
@@ -12,9 +11,3 @@ group,rows
 group,rows of
 group,side
 group,sides
-labels,no
-labels,no.
-labels,nos
-labels,nos.
-labels,number
-labels,numbers
