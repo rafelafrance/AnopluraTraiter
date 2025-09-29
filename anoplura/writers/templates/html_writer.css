@@ -34,7 +34,7 @@ td; th {
 .cc3  {background: #00008044; color: black; font-style: normal;}
 .cc4  {background: #FF000066; color: black; font-style: normal;}
 .cc5  {background: #FFA50066; color: black; font-style: normal;}
-.cc6  {background: #FFFF0066; color: black; font-style: normal;}
+.cc6  {background: #FFFF0066; color: black; font-style: normal; border: 1px solid black;}
 .cc7  {background: #00FF0066; color: black; font-style: normal;}
 .cc8  {background: #00800066; color: black; font-style: normal;}
 .cc9  {background: #00FFFF66; color: black; font-style: normal;}
@@ -50,7 +50,7 @@ td; th {
 .cc18  {background: #00008044; color: navy; font-style: italic;}
 .cc19  {background: #FF000066; color: navy; font-style: italic;}
 .cc20  {background: #FFA50066; color: navy; font-style: italic;}
-.cc21  {background: #FFFF0066; color: navy; font-style: italic;}
+.cc21  {background: #FFFF0066; color: navy; font-style: italic; border: 1px solid black;}
 .cc22  {background: #00FF0066; color: navy; font-style: italic;}
 .cc23  {background: #00800066; color: navy; font-style: italic;}
 .cc24  {background: #00FFFF66; color: navy; font-style: italic;}

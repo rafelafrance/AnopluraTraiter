@@ -312,36 +312,39 @@ class TestDescription(unittest.TestCase):
             [
                 Description(
                     start=0,
-                    end=14,
-                    links=[Seta(start=15, end=20, seta="setae")],
-                    description="narrow central",
+                    end=6,
+                    links=[
+                        Seta(start=7, end=20, seta="central setae"),
+                        Seta(start=31, end=44, seta="lateral setae"),
+                    ],
+                    description="narrow",
                 ),
                 Seta(
-                    start=15,
+                    start=7,
                     end=20,
                     links=[
-                        Description(start=0, end=14, description="narrow central"),
-                        Description(start=25, end=38, description="stout lateral"),
+                        Description(start=0, end=6, description="narrow"),
+                        Description(start=25, end=30, description="stout"),
                     ],
-                    seta="setae",
+                    seta="central setae",
                 ),
                 Description(
                     start=25,
-                    end=38,
+                    end=30,
                     links=[
-                        Seta(start=15, end=20, seta="setae"),
-                        Seta(start=39, end=44, seta="setae"),
+                        Seta(start=7, end=20, seta="central setae"),
+                        Seta(start=31, end=44, seta="lateral setae"),
                     ],
-                    description="stout lateral",
+                    description="stout",
                 ),
                 Seta(
-                    start=39,
+                    start=31,
                     end=44,
                     links=[
-                        Description(start=0, end=14, description="narrow central"),
-                        Description(start=25, end=38, description="stout lateral"),
+                        Description(start=0, end=6, description="narrow"),
+                        Description(start=25, end=30, description="stout"),
                     ],
-                    seta="setae",
+                    seta="lateral setae",
                 ),
             ],
         )
@@ -428,33 +431,6 @@ class TestDescription(unittest.TestCase):
 
     def test_description_13(self) -> None:
         self.assertEqual(
-            parse("""on each side"""),
-            [
-                Description(start=0, end=12, description="on each side"),
-            ],
-        )
-
-    def test_description_14(self) -> None:
-        self.assertEqual(
-            parse("""distinctly shorter than lateral"""),
-            [
-                Description(
-                    start=0, end=31, description="distinctly shorter than lateral"
-                ),
-            ],
-        )
-
-    def test_description_15(self) -> None:
-        self.assertEqual(
-            parse("""moderate length and about equal in size;"""),
-            [
-                Description(start=0, end=15, description="moderate length"),
-                Description(start=20, end=39, description="about equal in size"),
-            ],
-        )
-
-    def test_description_16(self) -> None:
-        self.assertEqual(
             parse("""parameres relatively broad and curved, tapering posteriorly;"""),
             [
                 Part(
@@ -480,7 +456,7 @@ class TestDescription(unittest.TestCase):
             ],
         )
 
-    def test_description_17(self) -> None:
+    def test_description_14(self) -> None:
         self.assertEqual(
             parse("""2 sternites on each of segments 4-6;"""),
             [

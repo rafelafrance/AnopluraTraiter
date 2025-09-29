@@ -44,6 +44,7 @@ class CountLinker(Base):
                     "9": {"ENT_TYPE": "count"},
                     "desc": {"ENT_TYPE": "description"},
                     "part": {"ENT_TYPE": {"IN": cls.all_parts}},
+                    "sep": {"ENT_TYPE": {"IN": ["separator", "linker"]}},
                 },
                 patterns=[
                     " (? 9+ )? (? desc* )? part+ ",

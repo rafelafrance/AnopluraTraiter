@@ -258,30 +258,89 @@ class TestDescriptionLinker(unittest.TestCase):
 
     def test_description_linker_07(self) -> None:
         self.assertEqual(
-            parse("""setae of moderate length and about equal in size; """),
+            parse("""apical setae of moderate length and about equal in size;"""),
             [
                 Seta(
                     start=0,
-                    end=5,
+                    end=12,
                     links=[
-                        Description(start=9, end=24, description="moderate length"),
+                        Description(start=16, end=31, description="moderate length"),
                         Description(
-                            start=29, end=48, description="about equal in size"
+                            start=36, end=55, description="about equal in size"
+                        ),
+                    ],
+                    seta="apical setae",
+                ),
+                Description(
+                    start=16,
+                    end=31,
+                    links=[Seta(start=0, end=12, seta="apical setae")],
+                    description="moderate length",
+                ),
+                Description(
+                    start=36,
+                    end=55,
+                    links=[Seta(start=0, end=12, seta="apical setae")],
+                    description="about equal in size",
+                ),
+            ],
+        )
+
+    def test_description_linker_08(self) -> None:
+        self.assertEqual(
+            parse("""StAS, all relatively long,"""),
+            [
+                Seta(
+                    start=0,
+                    end=4,
+                    links=[
+                        Description(start=10, end=25, description="relatively long")
+                    ],
+                    seta="sternal abdominal setae",
+                    seta_part="abdomen",
+                ),
+                Description(
+                    start=10,
+                    end=25,
+                    links=[
+                        Seta(
+                            start=0,
+                            end=4,
+                            seta="sternal abdominal setae",
+                            seta_part="abdomen",
+                        )
+                    ],
+                    description="relatively long",
+                ),
+            ],
+        )
+
+    def test_description_linker_09(self) -> None:
+        self.assertEqual(
+            parse("""small setae arranged more or less centrally"""),
+            [
+                Description(
+                    start=0,
+                    end=5,
+                    links=[Seta(start=6, end=11, seta="setae")],
+                    description="small",
+                ),
+                Seta(
+                    start=6,
+                    end=11,
+                    links=[
+                        Description(start=0, end=5, description="small"),
+                        Description(
+                            start=21, end=43, description="more or less centrally"
                         ),
                     ],
                     seta="setae",
                 ),
                 Description(
-                    start=9,
-                    end=24,
-                    links=[Seta(start=0, end=5, seta="setae")],
-                    description="moderate length",
-                ),
-                Description(
-                    start=29,
-                    end=48,
-                    links=[Seta(start=0, end=5, seta="setae")],
-                    description="about equal in size",
+                    start=21,
+                    end=43,
+                    links=[Seta(start=6, end=11, seta="setae")],
+                    description="more or less centrally",
                 ),
             ],
         )

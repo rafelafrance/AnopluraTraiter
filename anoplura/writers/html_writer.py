@@ -54,7 +54,7 @@ def format_text(text: str, traits: list[Base], _classes: dict[str, int]) -> str:
     print("=" * 90)
     for trait in traits:
         if trait._trait not in ANY_PART:
-            print(trait._trait, text[trait.start : trait.end])
+            print(f"{trait._trait}: {text[trait.start : trait.end]}")
             if not hasattr(trait, "links"):
                 print("    ok")
                 continue

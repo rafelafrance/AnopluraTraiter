@@ -88,7 +88,7 @@ def build() -> spacy.Language:
     sex_linker.pipe(nlp)
 
     delete.pipe(nlp, delete=["number", "range", "roman"])
-    delete_unlinked.pipe(nlp, ["count", "size"])
+    delete_unlinked.pipe(nlp, ["count", "size", "description"])
 
     # for name in nlp.pipe_names:
     #     print(name)
