@@ -4,6 +4,9 @@ from dataclasses import asdict, dataclass, field
 from spacy import Language
 from traiter.rules.base import Base as TraiterBase
 
+# Fields to use for a minimal comparison between traits
+MIN_COMPARE = {"start", "end", "_trait"}
+
 # Fields to skip when outputting data
 SKIPS = {"start", "end", "trait", "links"}
 DIM_SKIPS = SKIPS | {"dim"}
@@ -17,6 +20,8 @@ PARTS: list[str] = [
     "sternite",
     "tergite",
 ]
+
+ANY_PART: list[str] = [*PARTS, "subpart", "seta"]
 
 
 @dataclass(eq=False)
@@ -36,6 +41,26 @@ class Base(TraiterBase):
 
     def __eq__(self, other: "Base") -> bool:
         return as_dict(self) == as_dict(other)
+
+
+def min_compare(trait1: Base, trait2: Base) -> bool:
+    """
+    Compare traits w/ minimum fields make sure we don't add same trait to links twice.
+
+    The other __eq__ compare is used for testing.
+    """
+    t1 = {k: v for k, v in asdict(trait1).items() if k in MIN_COMPARE}
+    t2 = {k: v for k, v in asdict(trait2).items() if k in MIN_COMPARE}
+    return t1 == t2
+
+
+def link_traits(trait1: Base, trait2: Base) -> None:
+    if trait1 == trait2:
+        return
+    if not any(min_compare(trait2, t) for t in trait1.links):
+        trait1.append_link(trait2)
+    if not any(min_compare(trait1, t) for t in trait2.links):
+        trait2.append_link(trait1)
 
 
 def as_dict(trait: Base) -> dict:

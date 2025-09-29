@@ -8,7 +8,7 @@ from traiter.pipes import add, reject_match
 from traiter.pylib import const as t_const
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.base import PARTS, Base
+from anoplura.rules.base import ANY_PART, Base, link_traits
 
 
 @dataclass(eq=False)
@@ -39,56 +39,29 @@ class DescriptionLinker(Base):
                 decoder={
                     "(": {"TEXT": {"IN": t_const.OPEN}},
                     ")": {"TEXT": {"IN": t_const.CLOSE}},
+                    "any_part": {"ENT_TYPE": {"IN": ANY_PART}},
                     "sep": {"ENT_TYPE": "separator"},
                     "descr": {"ENT_TYPE": "description"},
                     "linker": {"ENT_TYPE": "linker"},
-                    "part": {"ENT_TYPE": {"IN": PARTS}},
-                    "seta": {"ENT_TYPE": "seta"},
-                    "subpart": {"ENT_TYPE": "subpart"},
                 },
                 patterns=[
-                    " part+ sep* (? descr+ )? ",
-                    " seta+ sep* (? descr+ )? ",
-                    " subpart+ sep* (? descr+ )? ",
-                    " part+ sep* (? descr+ )? sep* (? descr+ )? ",
-                    " seta+ sep* (? descr+ )? sep* (? descr+ )? ",
-                    " subpart+ sep* (? descr+ )? sep* (? descr+ )? ",
-                    " (? descr+ )? linker+ part+ ",
-                    " (? descr+ )? part+ ",
-                    " (? descr+ )? seta+ ",
-                    " (? descr+ )? subpart+ ",
-                    " (? descr+ )? part+ (? descr+ )? ",
-                    " (? descr+ )? seta+ (? descr+ )? ",
-                    " (? descr+ )? subpart+ (? descr+ )? ",
+                    " any_part+ sep* (? descr+ )? ",
+                    " any_part+ sep* (? descr+ )? sep* (? descr+ )? ",
+                    " (? descr+ )? linker+ any_part+ ",
+                    " (? descr+ )? any_part+ ",
+                    " (? descr+ )? any_part+ (? descr+ )? ",
                 ],
             ),
         ]
 
     @classmethod
     def description_linker_match(cls, span: Span) -> Never:
-        descr = []
-        part, subpart, seta = None, None, None
-
-        for e in span.ents:
-            if e.label_ == "description":
-                descr.append(e._.trait)
-            elif e.label_ in PARTS:
-                part = e._.trait
-            elif e.label_ == "subpart":
-                subpart = e._.trait
-            elif e.label_ == "seta":
-                seta = e._.trait
+        descr = [e._.trait for e in span.ents if e.label_ == "description"]
+        parts = [e._.trait for e in span.ents if e.label_ in ANY_PART]
 
         for d in descr:
-            if part:
-                part.append_link(d)
-                d.append_link(part)
-            if subpart:
-                subpart.append_link(d)
-                d.append_link(subpart)
-            if seta:
-                seta.append_link(d)
-                d.append_link(seta)
+            for p in parts:
+                link_traits(d, p)
 
         raise reject_match.SkipTraitCreation
 

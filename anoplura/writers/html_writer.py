@@ -7,7 +7,7 @@ from typing import Any
 
 from jinja2 import Environment, FileSystemLoader
 
-from anoplura.rules.base import Base, as_dict
+from anoplura.rules.base import PARTS, Base, as_dict
 
 COLOR_COUNT = 30
 BACKGROUNDS = cycle([f"cc{i}" for i in range(COLOR_COUNT)])
@@ -41,7 +41,21 @@ def build_classes(traits: list[Base]) -> dict[str, int]:
     return classes
 
 
-def format_text(text: str, traits: list[Base], classes: dict[str, int]) -> str:
+def format_text(text: str, traits: list[Base], _classes: dict[str, int]) -> str:
+    """Colorize and format the text for HTML."""
+    frags = []
+    for part in traits:
+        if part._trait in PARTS:
+            print(text[part.start : part.end])
+            if not part.links:
+                print("    NO LINKS ******************************")
+            for link in part.links:
+                print(f"   {link._trait}: {text[link.start : link.end]}")
+
+    return "".join(frags)
+
+
+def format_text_old(text: str, traits: list[Base], classes: dict[str, int]) -> str:
     """Colorize and format the text for HTML."""
     frags = []
 
@@ -67,6 +81,13 @@ def format_text(text: str, traits: list[Base], classes: dict[str, int]) -> str:
 
 
 def format_traits(
+    _text: str, _traits: list[Base], _classes: dict[str, int]
+) -> dict[Any, Any]:
+    formatted = {}
+    return formatted
+
+
+def format_traits_old(
     text: str, traits: list[Base], classes: dict[str, int]
 ) -> dict[Any, Any]:
     """Format the traits for HTML."""

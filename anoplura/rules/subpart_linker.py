@@ -7,7 +7,7 @@ from spacy.tokens import Span
 from traiter.pipes import add, reject_match
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.base import PARTS, Base
+from anoplura.rules.base import PARTS, Base, link_traits
 
 
 @dataclass(eq=False)
@@ -59,8 +59,7 @@ class SubpartLinker(Base):
         part = next(e._.trait for e in ent.ents if e.label_ in PARTS)
 
         for subpart in subparts:
-            part.append_link(subpart)
-            subpart.append_link(part)
+            link_traits(subpart, part)
 
         raise reject_match.SkipTraitCreation
 

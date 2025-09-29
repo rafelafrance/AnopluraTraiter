@@ -3,6 +3,7 @@ import unittest
 from anoplura.rules.count import Count
 from anoplura.rules.description import Description
 from anoplura.rules.segment import Segment
+from anoplura.rules.seta import Seta
 from anoplura.rules.sternite import Sternite
 from anoplura.rules.tergite import Tergite
 from tests.setup import parse
@@ -77,6 +78,34 @@ class TestPartLinker(unittest.TestCase):
                     links=[Tergite(start=9, end=17, part="tergite")],
                     part="segment",
                     number=[7],
+                ),
+            ],
+        )
+
+    def test_part_linker_03(self) -> None:
+        self.assertEqual(
+            parse("TeAS on tergites 3-5;"),
+            [
+                Seta(
+                    start=0,
+                    end=4,
+                    links=[Tergite(start=8, end=20, part="tergite", number=[3, 4, 5])],
+                    seta="tergal abdominal setae",
+                    seta_part="abdomen",
+                ),
+                Tergite(
+                    start=8,
+                    end=20,
+                    links=[
+                        Seta(
+                            start=0,
+                            end=4,
+                            seta="tergal abdominal setae",
+                            seta_part="abdomen",
+                        )
+                    ],
+                    part="tergite",
+                    number=[3, 4, 5],
                 ),
             ],
         )

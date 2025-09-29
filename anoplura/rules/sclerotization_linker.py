@@ -7,7 +7,7 @@ from spacy.tokens import Span
 from traiter.pipes import add, reject_match
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.base import PARTS, Base
+from anoplura.rules.base import PARTS, Base, link_traits
 
 
 @dataclass(eq=False)
@@ -56,8 +56,7 @@ class SclerotizationLinker(Base):
         parts = [e._.trait for e in span.ents if e.label_ in PARTS]
 
         for part in parts:
-            part.append_link(sclerotized)
-            sclerotized.append_link(part)
+            link_traits(sclerotized, part)
 
         raise reject_match.SkipTraitCreation
 

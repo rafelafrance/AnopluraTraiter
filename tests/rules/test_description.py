@@ -1,10 +1,12 @@
 import unittest
 
+from anoplura.rules.count import Count
 from anoplura.rules.description import Description
 from anoplura.rules.part import Part
 from anoplura.rules.plate import Plate
 from anoplura.rules.segment import Segment
 from anoplura.rules.seta import Seta
+from anoplura.rules.sternite import Sternite
 from anoplura.rules.subpart import Subpart
 from tests.setup import parse
 
@@ -41,7 +43,8 @@ class TestDescription(unittest.TestCase):
                     start=0,
                     end=13,
                     links=[
-                        Description(start=14, end=31, description="larger than other")
+                        Description(start=14, end=31, description="larger than other"),
+                        Segment(start=32, end=40, part="segment"),
                     ],
                     part="basal segment",
                 ),
@@ -57,7 +60,8 @@ class TestDescription(unittest.TestCase):
                     links=[
                         Description(
                             start=45, end=70, description="slightly longer than wide"
-                        )
+                        ),
+                        Segment(start=0, end=13, part="basal segment"),
                     ],
                     part="segment",
                 ),
@@ -150,7 +154,10 @@ class TestDescription(unittest.TestCase):
                 Part(
                     start=0,
                     end=7,
-                    links=[Description(start=8, end=18, description="wider than")],
+                    links=[
+                        Description(start=8, end=18, description="wider than"),
+                        Part(start=19, end=25, part="thorax"),
+                    ],
                     part="abdomen",
                 ),
                 Description(
@@ -159,7 +166,12 @@ class TestDescription(unittest.TestCase):
                     links=[Part(start=0, end=7, part="abdomen")],
                     description="wider than",
                 ),
-                Part(start=19, end=25, links=[], part="thorax"),
+                Part(
+                    start=19,
+                    end=25,
+                    links=[Part(start=0, end=7, part="abdomen")],
+                    part="thorax",
+                ),
             ],
         )
 
@@ -292,7 +304,8 @@ class TestDescription(unittest.TestCase):
                             start=5,
                             end=37,
                             description="inserted anteriorly and close to",
-                        )
+                        ),
+                        Subpart(start=38, end=56, subpart="dorsal head suture"),
                     ],
                     seta="dorsal marginal head setae",
                     seta_part="head",
@@ -310,7 +323,19 @@ class TestDescription(unittest.TestCase):
                     ],
                     description="inserted anteriorly and close to",
                 ),
-                Subpart(start=38, end=56, subpart="dorsal head suture"),
+                Subpart(
+                    start=38,
+                    end=56,
+                    links=[
+                        Seta(
+                            start=0,
+                            end=4,
+                            seta="dorsal marginal head setae",
+                            seta_part="head",
+                        )
+                    ],
+                    subpart="dorsal head suture",
+                ),
             ],
         )
 
@@ -326,7 +351,13 @@ class TestDescription(unittest.TestCase):
                             start=5,
                             end=40,
                             description="inserted posteriorly and lateral to",
-                        )
+                        ),
+                        Seta(
+                            start=41,
+                            end=45,
+                            seta="dorsal principal head setae",
+                            seta_part="head",
+                        ),
                     ],
                     seta="dorsal marginal head setae",
                     seta_part="head",
@@ -347,7 +378,14 @@ class TestDescription(unittest.TestCase):
                 Seta(
                     start=41,
                     end=45,
-                    links=[],
+                    links=[
+                        Seta(
+                            start=0,
+                            end=4,
+                            seta="dorsal marginal head setae",
+                            seta_part="head",
+                        )
+                    ],
                     seta="dorsal principal head setae",
                     seta_part="head",
                 ),
@@ -434,10 +472,12 @@ class TestDescription(unittest.TestCase):
                 Subpart(
                     start=0,
                     end=13,
+                    sex=None,
                     links=[
                         Description(
                             start=14, end=36, description="about twice as long as"
-                        )
+                        ),
+                        Part(start=37, end=46, part="paramere"),
                     ],
                     subpart="basal apodeme",
                 ),
@@ -447,7 +487,12 @@ class TestDescription(unittest.TestCase):
                     links=[Subpart(start=0, end=13, subpart="basal apodeme")],
                     description="about twice as long as",
                 ),
-                Part(start=37, end=46, links=[], part="paramere"),
+                Part(
+                    start=37,
+                    end=46,
+                    links=[Subpart(start=0, end=13, subpart="basal apodeme")],
+                    part="paramere",
+                ),
             ],
         )
 
@@ -522,6 +567,49 @@ class TestDescription(unittest.TestCase):
                     end=59,
                     links=[Part(start=0, end=9, part="paramere")],
                     description="relatively broad and curved, tapering posteriorly",
+                ),
+            ],
+        )
+
+    def test_description_19(self) -> None:
+        self.assertEqual(
+            parse("""2 sternites on each of segments 4-6;"""),
+            [
+                Count(
+                    start=0,
+                    end=1,
+                    links=[Sternite(start=2, end=11, part="sternite")],
+                    count_low=2,
+                ),
+                Sternite(
+                    start=2,
+                    end=11,
+                    links=[
+                        Description(start=12, end=22, description="on each of"),
+                        Count(start=0, end=1, count_low=2),
+                        Segment(
+                            _trait="segment",
+                            _text="segments 4-6",
+                            start=23,
+                            end=35,
+                            part="segment",
+                            number=[4, 5, 6],
+                        ),
+                    ],
+                    part="sternite",
+                ),
+                Description(
+                    start=12,
+                    end=22,
+                    links=[Sternite(start=2, end=11, part="sternite")],
+                    description="on each of",
+                ),
+                Segment(
+                    start=23,
+                    end=35,
+                    links=[Sternite(start=2, end=11, part="sternite")],
+                    part="segment",
+                    number=[4, 5, 6],
                 ),
             ],
         )

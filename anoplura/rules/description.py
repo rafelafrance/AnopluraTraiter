@@ -7,7 +7,7 @@ from spacy.tokens import Span
 from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.base import PARTS, Base
+from anoplura.rules.base import ANY_PART, Base
 
 
 @dataclass(eq=False)
@@ -32,6 +32,7 @@ class Description(Base):
         "size_term",
     ]
     dash: ClassVar[list[str]] = ["-", "–", "—"]
+    relative: ClassVar[list[str]] = ["rel_pos", "rel_size"]
     # ----------------------
 
     description: str | None = None
@@ -44,7 +45,7 @@ class Description(Base):
             nlp,
             name="description_patterns",
             compiler=cls.description_patterns(),
-            overwrite=["count", "number_suffix", "subpart", "seta", *PARTS],
+            overwrite=["count", "number_suffix", "subpart", "seta", *ANY_PART],
         )
         add.cleanup_pipe(nlp, name="description_cleanup")
 
@@ -58,9 +59,11 @@ class Description(Base):
                     "-": {"TEXT": {"IN": cls.dash}},
                     "9": {"ENT_TYPE": "count"},
                     "adv": {"POS": {"IN": ["ADV"]}},
+                    "any_part": {"ENT_TYPE": {"IN": ANY_PART}},
                     "desc": {"ENT_TYPE": {"IN": cls.desc}},
                     "group": {"ENT_TYPE": "group"},
                     "linker": {"ENT_TYPE": "linker"},
+                    "rel": {"ENT_TYPE": {"IN": cls.relative}},
                     "sep": {"ENT_TYPE": "separator"},
                     "suffix": {"ENT_TYPE": "number_suffix"},
                 },
@@ -75,6 +78,8 @@ class Description(Base):
                     " desc+ linker+ desc+ ",
                     " desc+ linker+ desc+ linker+ desc+ ",
                     " desc+ sep+    desc+ linker+ desc+ ",
+                    # -----------------
+                    # " descr* rel+ any_part+ ",
                 ],
             ),
         ]

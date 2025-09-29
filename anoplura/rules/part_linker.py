@@ -7,33 +7,25 @@ from spacy.tokens import Span
 from traiter.pipes import add, reject_match
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.base import Base
+from anoplura.rules.base import ANY_PART, Base, link_traits
 
 
-@dataclass(eq=False)
+@dataclass
 class PartLinker(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "separator_terms.csv",
-    ]
-    reference: ClassVar[list[str]] = [
-        "segment",
-    ]
-    linkee: ClassVar[list[str]] = [
-        "sternite",
-        "tergite",
     ]
     # ----------------------
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="part_linker_terms", path=cls.terms)
-        # add.debug_tokens(nlp)  # ########################################
+        add.debug_tokens(nlp)  # ########################################
         add.context_pipe(
             nlp,
             name="part_linker_patterns",
             compiler=cls.part_linker_patterns(),
-            overwrite=cls.linkee,
         )
         add.cleanup_pipe(nlp, name="part_linker_cleanup")
 
@@ -44,25 +36,24 @@ class PartLinker(Base):
                 label="part_linker",
                 on_match="part_linker_match",
                 decoder={
-                    "reference": {"ENT_TYPE": {"IN": cls.reference}},
-                    "linkee": {"ENT_TYPE": {"IN": cls.linkee}},
-                    "with": {"ENT_TYPE": "linker"},
+                    "any_part": {"ENT_TYPE": {"IN": ANY_PART}},
+                    "desc": {"ENT_TYPE": "description"},
+                    "on": {"ENT_TYPE": "linker"},
                 },
                 patterns=[
-                    " reference+ with+ linkee+ ",
-                    " linkee+ with+ reference+ ",
+                    " any_part+ on+ any_part+ ",
+                    " any_part+ desc+ any_part+ ",
                 ],
             ),
         ]
 
     @classmethod
     def part_linker_match(cls, ent: Span) -> Never:
-        linkees = [e._.trait for e in ent.ents if e.label_ in cls.linkee]
-        reference = next(e._.trait for e in ent.ents if e.label_ in cls.reference)
+        parts = [e._.trait for e in ent.ents if e.label_ in ANY_PART]
 
-        for linkee in linkees:
-            reference.append_link(linkee)
-            linkee.append_link(reference)
+        for part1 in parts:
+            for part2 in parts:
+                link_traits(part1, part2)
 
         raise reject_match.SkipTraitCreation
 
