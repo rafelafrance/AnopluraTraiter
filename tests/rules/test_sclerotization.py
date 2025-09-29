@@ -17,7 +17,9 @@ class TestSclerotized(unittest.TestCase):
                     links=[
                         Sclerotization(
                             start=26, end=48, sclerotization="moderately sclerotized"
-                        )
+                        ),
+                        Part(start=6, end=12, part="thorax"),
+                        Part(start=18, end=25, part="abdomen"),
                     ],
                     part="head",
                 ),
@@ -27,7 +29,9 @@ class TestSclerotized(unittest.TestCase):
                     links=[
                         Sclerotization(
                             start=26, end=48, sclerotization="moderately sclerotized"
-                        )
+                        ),
+                        Part(start=0, end=4, part="head"),
+                        Part(start=18, end=25, part="abdomen"),
                     ],
                     part="thorax",
                 ),
@@ -37,7 +41,9 @@ class TestSclerotized(unittest.TestCase):
                     links=[
                         Sclerotization(
                             start=26, end=48, sclerotization="moderately sclerotized"
-                        )
+                        ),
+                        Part(start=0, end=4, part="head"),
+                        Part(start=6, end=12, part="thorax"),
                     ],
                     part="abdomen",
                 ),

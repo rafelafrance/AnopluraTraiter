@@ -7,7 +7,7 @@ from spacy.tokens import Span
 from traiter.pipes import add, reject_match
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.base import ANY_PART, Base, link_traits
+from anoplura.rules.base import ANY_PART, PARTS, Base, link_traits
 
 
 @dataclass
@@ -37,13 +37,14 @@ class PartLinker(Base):
                 on_match="part_linker_match",
                 decoder={
                     "any_part": {"ENT_TYPE": {"IN": ANY_PART}},
+                    "part": {"ENT_TYPE": {"IN": PARTS}},
                     "desc": {"ENT_TYPE": "description"},
-                    "linker": {"ENT_TYPE": "linker"},
+                    "linker": {"ENT_TYPE": {"IN": ["separator", "linker"]}},
                 },
                 patterns=[
-                    " any_part+ linker+ any_part+ ",
-                    " any_part+ desc* any_part+ ",
-                    " any_part+ linker* any_part+ desc* any_part+ ",
+                    " any_part+ linker* any_part+ ",
+                    " any_part+ desc* linker* any_part+ ",
+                    " any_part+ desc* linker* any_part+ linker* desc* part+ ",
                 ],
             ),
         ]

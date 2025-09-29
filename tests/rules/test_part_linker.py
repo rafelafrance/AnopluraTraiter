@@ -2,6 +2,7 @@ import unittest
 
 from anoplura.rules.count import Count
 from anoplura.rules.description import Description
+from anoplura.rules.gonopod import Gonopod
 from anoplura.rules.part import Part
 from anoplura.rules.segment import Segment
 from anoplura.rules.seta import Seta
@@ -151,6 +152,54 @@ class TestPartLinker(unittest.TestCase):
                         Subpart(start=15, end=28, subpart="basal apodeme"),
                     ],
                     part="paramere",
+                ),
+            ],
+        )
+
+    def test_part_linker_05(self) -> None:
+        self.assertEqual(
+            parse("sternite ventrally on segment 1;"),
+            [
+                Sternite(
+                    start=0,
+                    end=8,
+                    links=[
+                        Description(start=9, end=18, description="ventrally"),
+                        Segment(start=22, end=31, part="segment", number=[1]),
+                    ],
+                    part="sternite",
+                ),
+                Description(
+                    start=9,
+                    end=18,
+                    links=[Sternite(start=0, end=8, part="sternite")],
+                    description="ventrally",
+                ),
+                Segment(
+                    start=22,
+                    end=31,
+                    links=[Sternite(start=0, end=8, part="sternite")],
+                    part="segment",
+                    number=[1],
+                ),
+            ],
+        )
+
+    def test_part_linker_06(self) -> None:
+        self.assertEqual(
+            parse("Gonopods and vulvar fimbriae distinct;"),
+            [
+                Gonopod(
+                    start=0,
+                    end=8,
+                    links=[Part(start=13, end=28, part="vulvar fimbriae")],
+                    part="gonopod",
+                ),
+                Part(
+                    start=13,
+                    end=28,
+                    links=[Gonopod(start=0, end=8, part="gonopod")],
+                    part="vulvar fimbriae",
                 ),
             ],
         )

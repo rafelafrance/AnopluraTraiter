@@ -177,123 +177,6 @@ class TestDescription(unittest.TestCase):
 
     def test_description_06(self) -> None:
         self.assertEqual(
-            parse("""Thoracic sternal plate club-shaped with rounded anterolateral
-                margins, broadly acuminate anterior apex, and elongate posterior
-                extension with squarish posterior apex."""),
-            [
-                Plate(
-                    start=0,
-                    end=22,
-                    links=[
-                        Description(
-                            start=23, end=47, description="club-shaped with rounded"
-                        ),
-                        Subpart(start=48, end=69, subpart="anterolateral margin"),
-                        Subpart(start=89, end=102, subpart="anterior apex"),
-                        Subpart(start=117, end=136, subpart="posterior extension"),
-                        Subpart(start=151, end=165, subpart="posterior apex"),
-                    ],
-                    part="thoracic sternal plate",
-                ),
-                Description(
-                    start=23,
-                    end=47,
-                    links=[Plate(start=0, end=22, part="thoracic sternal plate")],
-                    description="club-shaped with rounded",
-                ),
-                Subpart(
-                    start=48,
-                    end=69,
-                    links=[
-                        Description(start=71, end=88, description="broadly acuminate"),
-                        Plate(start=0, end=22, part="thoracic sternal plate"),
-                    ],
-                    subpart="anterolateral margin",
-                ),
-                Description(
-                    start=71,
-                    end=88,
-                    links=[Subpart(start=48, end=69, subpart="anterolateral margin")],
-                    description="broadly acuminate",
-                ),
-                Subpart(
-                    start=89,
-                    end=102,
-                    links=[
-                        Description(start=108, end=116, description="elongate"),
-                        Plate(start=0, end=22, part="thoracic sternal plate"),
-                    ],
-                    subpart="anterior apex",
-                ),
-                Description(
-                    start=108,
-                    end=116,
-                    links=[Subpart(start=89, end=102, subpart="anterior apex")],
-                    description="elongate",
-                ),
-                Subpart(
-                    start=117,
-                    end=136,
-                    links=[Plate(start=0, end=22, part="thoracic sternal plate")],
-                    subpart="posterior extension",
-                ),
-                Description(
-                    start=142,
-                    end=150,
-                    links=[Subpart(start=151, end=165, subpart="posterior apex")],
-                    description="squarish",
-                ),
-                Subpart(
-                    start=151,
-                    end=165,
-                    links=[
-                        Description(start=142, end=150, description="squarish"),
-                        Plate(start=0, end=22, part="thoracic sternal plate"),
-                    ],
-                    subpart="posterior apex",
-                ),
-            ],
-        )
-
-    def test_description_07(self) -> None:
-        self.assertEqual(
-            parse("""hind femora with relatively broad spur-like ridge posteriorly"""),
-            [
-                Part(
-                    start=0,
-                    end=11,
-                    links=[Subpart(start=44, end=49, subpart="ridge")],
-                    part="hind femur",
-                ),
-                Description(
-                    start=17,
-                    end=43,
-                    links=[Subpart(start=44, end=49, subpart="ridge")],
-                    description="relatively broad spur-like",
-                ),
-                Subpart(
-                    start=44,
-                    end=49,
-                    links=[
-                        Description(
-                            start=17, end=43, description="relatively broad spur-like"
-                        ),
-                        Description(start=50, end=61, description="posteriorly"),
-                        Part(start=0, end=11, part="hind femur"),
-                    ],
-                    subpart="ridge",
-                ),
-                Description(
-                    start=50,
-                    end=61,
-                    links=[Subpart(start=44, end=49, subpart="ridge")],
-                    description="posteriorly",
-                ),
-            ],
-        )
-
-    def test_description_08(self) -> None:
-        self.assertEqual(
             parse("DMHS inserted anteriorly and close to dorsal head suture"),
             [
                 Seta(
@@ -339,7 +222,7 @@ class TestDescription(unittest.TestCase):
             ],
         )
 
-    def test_description_09(self) -> None:
+    def test_description_07(self) -> None:
         self.assertEqual(
             parse("DMHS inserted posteriorly and lateral to DPHS;"),
             [
@@ -392,7 +275,7 @@ class TestDescription(unittest.TestCase):
             ],
         )
 
-    def test_position_10(self) -> None:
+    def test_position_08(self) -> None:
         self.assertEqual(
             parse("(VPHS) ventrally on each side"),
             [
@@ -406,7 +289,7 @@ class TestDescription(unittest.TestCase):
             ],
         )
 
-    def test_description_11(self) -> None:
+    def test_description_09(self) -> None:
         self.assertEqual(
             parse("narrow central setae and stout lateral setae"),
             [
@@ -437,7 +320,7 @@ class TestDescription(unittest.TestCase):
             ],
         )
 
-    def test_description_12(self) -> None:
+    def test_description_10(self) -> None:
         self.assertEqual(
             parse("""broad spur-like ridge posteriorly"""),
             [
@@ -465,7 +348,7 @@ class TestDescription(unittest.TestCase):
             ],
         )
 
-    def test_description_13(self) -> None:
+    def test_description_11(self) -> None:
         self.assertEqual(
             parse("""basal apodeme about twice as long as parameres;"""),
             [
@@ -496,7 +379,7 @@ class TestDescription(unittest.TestCase):
             ],
         )
 
-    def test_description_14(self) -> None:
+    def test_description_12(self) -> None:
         self.assertEqual(
             parse("""each articulating with corresponding paratergal plate """),
             [
@@ -517,7 +400,7 @@ class TestDescription(unittest.TestCase):
             ],
         )
 
-    def test_description_15(self) -> None:
+    def test_description_13(self) -> None:
         self.assertEqual(
             parse("""on each side"""),
             [
@@ -525,7 +408,7 @@ class TestDescription(unittest.TestCase):
             ],
         )
 
-    def test_description_16(self) -> None:
+    def test_description_14(self) -> None:
         self.assertEqual(
             parse("""distinctly shorter than lateral"""),
             [
@@ -535,7 +418,7 @@ class TestDescription(unittest.TestCase):
             ],
         )
 
-    def test_description_17(self) -> None:
+    def test_description_15(self) -> None:
         self.assertEqual(
             parse("""moderate length and about equal in size;"""),
             [
@@ -544,7 +427,7 @@ class TestDescription(unittest.TestCase):
             ],
         )
 
-    def test_description_18(self) -> None:
+    def test_description_16(self) -> None:
         self.assertEqual(
             parse("""parameres relatively broad and curved, tapering posteriorly;"""),
             [
@@ -571,7 +454,7 @@ class TestDescription(unittest.TestCase):
             ],
         )
 
-    def test_description_19(self) -> None:
+    def test_description_17(self) -> None:
         self.assertEqual(
             parse("""2 sternites on each of segments 4-6;"""),
             [

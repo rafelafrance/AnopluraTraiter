@@ -40,7 +40,7 @@ class DescriptionLinker(Base):
                     "(": {"TEXT": {"IN": t_const.OPEN}},
                     ")": {"TEXT": {"IN": t_const.CLOSE}},
                     "any_part": {"ENT_TYPE": {"IN": ANY_PART}},
-                    "sep": {"ENT_TYPE": "separator"},
+                    "sep": {"ENT_TYPE": {"IN": ["separator", "linker"]}},
                     "descr": {"ENT_TYPE": "description"},
                     "linker": {"ENT_TYPE": "linker"},
                 },
