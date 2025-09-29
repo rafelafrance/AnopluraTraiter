@@ -203,3 +203,23 @@ class TestPartLinker(unittest.TestCase):
                 ),
             ],
         )
+
+    def test_part_linker_07(self) -> None:
+        self.assertEqual(
+            parse("setae present between gonopods IX."),
+            [
+                Seta(
+                    start=0,
+                    end=5,
+                    links=[Gonopod(start=22, end=33, part="gonopod", number=[9])],
+                    seta="setae",
+                ),
+                Gonopod(
+                    start=22,
+                    end=33,
+                    links=[Seta(start=0, end=5, seta="setae")],
+                    part="gonopod",
+                    number=[9],
+                ),
+            ],
+        )

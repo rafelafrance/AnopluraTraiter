@@ -7,7 +7,7 @@ from typing import Any
 
 from jinja2 import Environment, FileSystemLoader
 
-from anoplura.rules.base import PARTS, Base, as_dict
+from anoplura.rules.base import ANY_PART, Base, as_dict
 
 COLOR_COUNT = 30
 BACKGROUNDS = cycle([f"cc{i}" for i in range(COLOR_COUNT)])
@@ -44,12 +44,26 @@ def build_classes(traits: list[Base]) -> dict[str, int]:
 def format_text(text: str, traits: list[Base], _classes: dict[str, int]) -> str:
     """Colorize and format the text for HTML."""
     frags = []
-    for part in traits:
-        if part._trait in PARTS:
-            print(text[part.start : part.end])
-            if not part.links:
+    for trait in traits:
+        if trait._trait in ANY_PART:
+            print(text[trait.start : trait.end])
+            if not trait.links:
                 print("    NO LINKS ******************************")
-            for link in part.links:
+            for link in trait.links:
+                print(f"   {link._trait}: {text[link.start : link.end]}")
+    print("=" * 90)
+    for trait in traits:
+        if trait._trait not in ANY_PART:
+            print(trait._trait, text[trait.start : trait.end])
+            if not hasattr(trait, "links"):
+                print("    ok")
+                continue
+            if trait._trait in ("taxon", "sex", "specimen_type"):
+                print("    ok")
+                continue
+            if hasattr(trait, "links") and not trait.links:
+                print("    NO LINKS ******************************")
+            for link in trait.links:
                 print(f"   {link._trait}: {text[link.start : link.end]}")
 
     return "".join(frags)

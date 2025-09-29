@@ -51,10 +51,7 @@ class TestSexualDimorphism(unittest.TestCase):
                     end=36,
                     links=[
                         Part(start=0, end=4, part="head"),
-                        Part(
-                            start=6,
-                            end=12,
-                        ),
+                        Part(start=6, end=12, part="thorax"),
                         Part(start=18, end=25, part="abdomen"),
                     ],
                     reference_sex="male",

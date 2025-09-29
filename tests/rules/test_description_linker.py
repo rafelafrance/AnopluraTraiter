@@ -224,3 +224,64 @@ class TestDescriptionLinker(unittest.TestCase):
                 ),
             ],
         )
+
+    def test_description_linker_06(self) -> None:
+        self.assertEqual(
+            parse("""(DPoCHS) dorsally on each side;"""),
+            [
+                Seta(
+                    start=1,
+                    end=7,
+                    links=[
+                        Description(
+                            start=9, end=30, description="dorsally on each side"
+                        )
+                    ],
+                    seta="dorsal posterior central head setae",
+                    seta_part="head",
+                ),
+                Description(
+                    start=9,
+                    end=30,
+                    links=[
+                        Seta(
+                            start=1,
+                            end=7,
+                            seta="dorsal posterior central head setae",
+                            seta_part="head",
+                        )
+                    ],
+                    description="dorsally on each side",
+                ),
+            ],
+        )
+
+    def test_description_linker_07(self) -> None:
+        self.assertEqual(
+            parse("""setae of moderate length and about equal in size; """),
+            [
+                Seta(
+                    start=0,
+                    end=5,
+                    links=[
+                        Description(start=9, end=24, description="moderate length"),
+                        Description(
+                            start=29, end=48, description="about equal in size"
+                        ),
+                    ],
+                    seta="setae",
+                ),
+                Description(
+                    start=9,
+                    end=24,
+                    links=[Seta(start=0, end=5, seta="setae")],
+                    description="moderate length",
+                ),
+                Description(
+                    start=29,
+                    end=48,
+                    links=[Seta(start=0, end=5, seta="setae")],
+                    description="about equal in size",
+                ),
+            ],
+        )

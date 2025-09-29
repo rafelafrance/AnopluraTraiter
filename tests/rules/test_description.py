@@ -275,17 +275,34 @@ class TestDescription(unittest.TestCase):
             ],
         )
 
-    def test_position_08(self) -> None:
+    def test_description_08(self) -> None:
         self.assertEqual(
             parse("(VPHS) ventrally on each side"),
             [
                 Seta(
                     start=1,
                     end=5,
+                    links=[
+                        Description(
+                            start=7, end=29, description="ventrally on each side"
+                        )
+                    ],
                     seta="ventral principal head setae",
                     seta_part="head",
                 ),
-                Description(start=7, end=29, description="ventrally on each side"),
+                Description(
+                    start=7,
+                    end=29,
+                    links=[
+                        Seta(
+                            start=1,
+                            end=5,
+                            seta="ventral principal head setae",
+                            seta_part="head",
+                        )
+                    ],
+                    description="ventrally on each side",
+                ),
             ],
         )
 
@@ -302,19 +319,28 @@ class TestDescription(unittest.TestCase):
                 Seta(
                     start=15,
                     end=20,
-                    links=[Description(start=0, end=14, description="narrow central")],
+                    links=[
+                        Description(start=0, end=14, description="narrow central"),
+                        Description(start=25, end=38, description="stout lateral"),
+                    ],
                     seta="setae",
                 ),
                 Description(
                     start=25,
                     end=38,
-                    links=[Seta(start=39, end=44, seta="setae")],
+                    links=[
+                        Seta(start=15, end=20, seta="setae"),
+                        Seta(start=39, end=44, seta="setae"),
+                    ],
                     description="stout lateral",
                 ),
                 Seta(
                     start=39,
                     end=44,
-                    links=[Description(start=25, end=38, description="stout lateral")],
+                    links=[
+                        Description(start=0, end=14, description="narrow central"),
+                        Description(start=25, end=38, description="stout lateral"),
+                    ],
                     seta="setae",
                 ),
             ],

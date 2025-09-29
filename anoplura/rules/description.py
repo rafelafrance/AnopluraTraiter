@@ -75,9 +75,9 @@ class Description(Base):
                     " adv* desc+ sep+ desc+ group* ",
                     " adv* desc+ sep+ desc+ sep+ desc+ group* ",
                     # -----------------
-                    " desc+ linker+ desc+ ",
-                    " desc+ linker+ desc+ linker+ desc+ ",
-                    " desc+ sep+    desc+ linker+ desc+ ",
+                    " desc+ linker+ desc+ group* ",
+                    " desc+ linker+ desc+ linker+ desc+ group* ",
+                    " desc+ sep+    desc+ linker+ desc+ group* ",
                     # -----------------
                     # " descr* rel+ any_part+ ",
                 ],

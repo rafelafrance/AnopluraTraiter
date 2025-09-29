@@ -8,7 +8,7 @@ from traiter.pipes import add, reject_match
 from traiter.pylib import const as t_const
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.base import ANY_PART, Base, link_traits
+from anoplura.rules.base import ANY_PART, PARTS, Base, link_traits
 
 
 @dataclass(eq=False)
@@ -40,16 +40,18 @@ class DescriptionLinker(Base):
                     "(": {"TEXT": {"IN": t_const.OPEN}},
                     ")": {"TEXT": {"IN": t_const.CLOSE}},
                     "any_part": {"ENT_TYPE": {"IN": ANY_PART}},
-                    "sep": {"ENT_TYPE": {"IN": ["separator", "linker"]}},
                     "descr": {"ENT_TYPE": "description"},
-                    "linker": {"ENT_TYPE": "linker"},
+                    "part": {"ENT_TYPE": {"IN": PARTS}},
+                    "sep": {"ENT_TYPE": {"IN": ["separator", "linker"]}},
+                    "seta": {"ENT_TYPE": "seta"},
                 },
                 patterns=[
-                    " any_part+ sep* (? descr+ )? ",
-                    # " any_part+ sep* (? descr+ )? sep* (? descr+ )? ",
-                    " (? descr+ )? linker* any_part+ ",
+                    " (? any_part+ )? sep* (? descr+ )? ",
+                    " (? descr+ )? sep* any_part+ ",
                     " (? descr+ )? any_part+ ",
-                    " (? descr+ )? any_part+ (? descr+ )? ",
+                    " (? descr+ )? any_part+ sep* (? descr+ )? ",
+                    " (? any_part+ )? sep* (? descr+ )? sep* (? descr+ )? ",
+                    " descr+ (? any_part+ )? sep* (? descr+ )? sep* (? seta+ )? ",
                 ],
             ),
         ]
