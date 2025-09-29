@@ -19,7 +19,6 @@ class SexualDimorphism(Base):
     # ---------------------
 
     reference_sex: str | None = None
-    parts: list[str] | None = None
     description: str | None = None
 
     @classmethod
@@ -64,14 +63,10 @@ class SexualDimorphism(Base):
                 decoder={
                     ",": {"ENT_TYPE": "separator"},
                     "morph": {"ENT_TYPE": "dimorphism"},
-                    "part": {"ENT_TYPE": "part"},
                     "sex": {"ENT_TYPE": "sex"},
                 },
                 patterns=[
-                    "                         morph+ sex+ ",
-                    " part+ ,*                morph* sex+ ",
-                    " part+ ,* part+ ,*       morph* sex+ ",
-                    " part+ ,* part+ ,* part+ morph* sex+ ",
+                    " morph+ sex+ ",
                 ],
             ),
         ]
@@ -83,16 +78,13 @@ class SexualDimorphism(Base):
     @classmethod
     def sexual_dimorphism_match(cls, ent: Span) -> "SexualDimorphism":
         sex, morph = None, None
-        parts = []
         for e in ent.ents:
             if e.label_ == "sex":
                 sex = e._.trait.sex
-            elif e.label_ == "part":
-                parts.append(e._.trait.part)
             elif e.label_ == "dimorphism":
                 morph = e.text.lower()
 
-        return cls.from_ent(ent, reference_sex=sex, parts=parts, description=morph)
+        return cls.from_ent(ent, reference_sex=sex, description=morph)
 
 
 @registry.misc("dimorphism_match")

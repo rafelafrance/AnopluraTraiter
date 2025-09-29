@@ -21,7 +21,7 @@ class PartLinker(Base):
     @classmethod
     def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="part_linker_terms", path=cls.terms)
-        add.debug_tokens(nlp)  # ########################################
+        # add.debug_tokens(nlp)  # ########################################
         add.context_pipe(
             nlp,
             name="part_linker_patterns",
@@ -38,11 +38,12 @@ class PartLinker(Base):
                 decoder={
                     "any_part": {"ENT_TYPE": {"IN": ANY_PART}},
                     "desc": {"ENT_TYPE": "description"},
-                    "on": {"ENT_TYPE": "linker"},
+                    "linker": {"ENT_TYPE": "linker"},
                 },
                 patterns=[
-                    " any_part+ on+ any_part+ ",
-                    " any_part+ desc+ any_part+ ",
+                    " any_part+ linker+ any_part+ ",
+                    " any_part+ desc* any_part+ ",
+                    " any_part+ linker* any_part+ desc* any_part+ ",
                 ],
             ),
         ]

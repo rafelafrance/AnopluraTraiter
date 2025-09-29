@@ -13,24 +13,43 @@ class TestSexualDimorphism(unittest.TestCase):
                 Part(
                     start=0,
                     end=4,
+                    links=[
+                        SexualDimorphism(
+                            start=26, end=36, reference_sex="male", description="as in"
+                        )
+                    ],
                     part="head",
                 ),
                 Part(
                     start=6,
                     end=12,
+                    links=[
+                        SexualDimorphism(
+                            start=26, end=36, reference_sex="male", description="as in"
+                        )
+                    ],
                     part="thorax",
                 ),
                 Part(
                     start=18,
                     end=25,
+                    links=[
+                        SexualDimorphism(
+                            start=26, end=36, reference_sex="male", description="as in"
+                        )
+                    ],
                     part="abdomen",
                 ),
                 SexualDimorphism(
-                    reference_sex="male",
-                    parts=["head", "thorax", "abdomen"],
-                    description="as in",
                     start=26,
                     end=36,
+                    links=[
+                        Part(start=0, end=4, part="head"),
+                        Part(start=6, end=12, part="thorax"),
+                        Part(start=18, end=25, part="abdomen"),
+                    ],
+                    reference_sex="male",
+                    description="as in",
                 ),
             ],
         )
@@ -42,14 +61,22 @@ class TestSexualDimorphism(unittest.TestCase):
                 Part(
                     start=0,
                     end=6,
+                    links=[
+                        SexualDimorphism(
+                            start=7,
+                            end=26,
+                            reference_sex="male",
+                            description="longer than in",
+                        )
+                    ],
                     part="femur",
                 ),
                 SexualDimorphism(
-                    reference_sex="male",
-                    parts=["femur"],
-                    description="longer than in",
                     start=7,
                     end=26,
+                    links=[Part(start=0, end=6, part="femur")],
+                    reference_sex="male",
+                    description="longer than in",
                 ),
             ],
         )
@@ -59,11 +86,11 @@ class TestSexualDimorphism(unittest.TestCase):
             parse("similar to those of male"),
             [
                 SexualDimorphism(
-                    reference_sex="male",
-                    parts=[],
-                    description="similar to those of",
                     start=0,
                     end=24,
-                ),
+                    links=[],
+                    reference_sex="male",
+                    description="similar to those of",
+                )
             ],
         )

@@ -55,7 +55,7 @@ def format_text(text: str, traits: list[Base], _classes: dict[str, int]) -> str:
     return "".join(frags)
 
 
-def format_text_old(text: str, traits: list[Base], classes: dict[str, int]) -> str:
+def old_format_text(text: str, traits: list[Base], classes: dict[str, int]) -> str:
     """Colorize and format the text for HTML."""
     frags = []
 
@@ -80,14 +80,14 @@ def format_text_old(text: str, traits: list[Base], classes: dict[str, int]) -> s
     return "".join(frags)
 
 
-def format_traits(
+def new_format_traits(
     _text: str, _traits: list[Base], _classes: dict[str, int]
 ) -> dict[Any, Any]:
     formatted = {}
     return formatted
 
 
-def format_traits_old(
+def format_traits(
     text: str, traits: list[Base], classes: dict[str, int]
 ) -> dict[Any, Any]:
     """Format the traits for HTML."""

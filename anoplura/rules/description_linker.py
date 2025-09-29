@@ -46,8 +46,8 @@ class DescriptionLinker(Base):
                 },
                 patterns=[
                     " any_part+ sep* (? descr+ )? ",
-                    " any_part+ sep* (? descr+ )? sep* (? descr+ )? ",
-                    " (? descr+ )? linker+ any_part+ ",
+                    # " any_part+ sep* (? descr+ )? sep* (? descr+ )? ",
+                    " (? descr+ )? linker* any_part+ ",
                     " (? descr+ )? any_part+ ",
                     " (? descr+ )? any_part+ (? descr+ )? ",
                 ],

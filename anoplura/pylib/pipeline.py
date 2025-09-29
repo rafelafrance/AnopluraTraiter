@@ -22,6 +22,7 @@ from anoplura.rules.segment import Segment
 from anoplura.rules.seta import Seta
 from anoplura.rules.sex import Sex
 from anoplura.rules.sexual_dimorphism import SexualDimorphism
+from anoplura.rules.sexual_dimorphism_linker import SexualDimorphismLinker
 from anoplura.rules.size import Size
 from anoplura.rules.size_linker import SizeLinker
 from anoplura.rules.specimen_type import SpecimenType
@@ -80,6 +81,7 @@ def build() -> spacy.Language:
     CountLinker.pipe(nlp)
     SizeLinker.pipe(nlp)
     SubpartLinker.pipe(nlp)
+    SexualDimorphismLinker.pipe(nlp)
 
     PartLinker.pipe(nlp)
 

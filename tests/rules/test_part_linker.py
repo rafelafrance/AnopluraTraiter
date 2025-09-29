@@ -2,9 +2,11 @@ import unittest
 
 from anoplura.rules.count import Count
 from anoplura.rules.description import Description
+from anoplura.rules.part import Part
 from anoplura.rules.segment import Segment
 from anoplura.rules.seta import Seta
 from anoplura.rules.sternite import Sternite
+from anoplura.rules.subpart import Subpart
 from anoplura.rules.tergite import Tergite
 from tests.setup import parse
 
@@ -106,6 +108,49 @@ class TestPartLinker(unittest.TestCase):
                     ],
                     part="tergite",
                     number=[3, 4, 5],
+                ),
+            ],
+        )
+
+    def test_part_linker_04(self) -> None:
+        self.assertEqual(
+            parse("Genitalia with basal apodeme about twice as long as parameres;"),
+            [
+                Part(
+                    start=0,
+                    end=9,
+                    links=[
+                        Subpart(start=15, end=28, subpart="basal apodeme"),
+                        Part(start=52, end=61, part="paramere"),
+                    ],
+                    part="genitalia",
+                ),
+                Subpart(
+                    start=15,
+                    end=28,
+                    links=[
+                        Description(
+                            start=29, end=51, description="about twice as long as"
+                        ),
+                        Part(start=0, end=9, part="genitalia"),
+                        Part(start=52, end=61, part="paramere"),
+                    ],
+                    subpart="basal apodeme",
+                ),
+                Description(
+                    start=29,
+                    end=51,
+                    links=[Subpart(start=15, end=28, subpart="basal apodeme")],
+                    description="about twice as long as",
+                ),
+                Part(
+                    start=52,
+                    end=61,
+                    links=[
+                        Part(start=0, end=9, part="genitalia"),
+                        Subpart(start=15, end=28, subpart="basal apodeme"),
+                    ],
+                    part="paramere",
                 ),
             ],
         )
