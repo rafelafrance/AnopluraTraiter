@@ -56,7 +56,7 @@ class SexualDimorphismLinker(Base):
         parts = [e._.trait for e in span.ents if e.label_ in PARTS]
 
         for part in parts:
-            morph.link(part)
+            part.link(morph)
 
         raise reject_match.SkipTraitCreation
 

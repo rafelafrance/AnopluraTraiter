@@ -11,22 +11,26 @@ class TestSexualDimorphism(unittest.TestCase):
         self.assertEqual(
             parse("Head, thorax, and abdomen as in male"),
             [
-                Part(start=0, end=4, part="head"),
-                Part(start=6, end=12, part="thorax"),
-                Part(start=18, end=25, part="abdomen"),
+                Part(
+                    start=0,
+                    end=4,
+                    links=[Link(trait="sexual_dimorphism", start=26, end=36)],
+                    part="head",
+                ),
+                Part(
+                    start=6,
+                    end=12,
+                    links=[Link(trait="sexual_dimorphism", start=26, end=36)],
+                    part="thorax",
+                ),
+                Part(
+                    start=18,
+                    end=25,
+                    links=[Link(trait="sexual_dimorphism", start=26, end=36)],
+                    part="abdomen",
+                ),
                 SexualDimorphism(
-                    _trait="sexual_dimorphism",
-                    _text="as in male",
-                    start=26,
-                    end=36,
-                    sex=None,
-                    links=[
-                        Link(trait="part", start=0, end=4),
-                        Link(trait="part", start=6, end=12),
-                        Link(trait="part", start=18, end=25),
-                    ],
-                    reference_sex="male",
-                    description="as in",
+                    start=26, end=36, reference_sex="male", description="as in"
                 ),
             ],
         )
@@ -35,13 +39,14 @@ class TestSexualDimorphism(unittest.TestCase):
         self.assertEqual(
             parse("femora longer than in male"),
             [
-                Part(start=0, end=6, part="femur"),
+                Part(
+                    start=0,
+                    end=6,
+                    links=[Link(trait="sexual_dimorphism", start=7, end=26)],
+                    part="femur",
+                ),
                 SexualDimorphism(
-                    start=7,
-                    end=26,
-                    links=[Link(trait="part", start=0, end=6)],
-                    reference_sex="male",
-                    description="longer than in",
+                    start=7, end=26, reference_sex="male", description="longer than in"
                 ),
             ],
         )
@@ -53,7 +58,6 @@ class TestSexualDimorphism(unittest.TestCase):
                 SexualDimorphism(
                     start=0,
                     end=24,
-                    links=[],
                     reference_sex="male",
                     description="similar to those of",
                 )

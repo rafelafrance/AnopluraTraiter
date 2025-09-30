@@ -56,7 +56,7 @@ class SclerotizationLinker(Base):
         parts = [e._.trait for e in span.ents if e.label_ in PARTS]
 
         for part in parts:
-            sclerotized.link(part)
+            part.link(sclerotized)
 
         raise reject_match.SkipTraitCreation
 

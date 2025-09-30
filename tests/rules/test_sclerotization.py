@@ -12,18 +12,26 @@ class TestSclerotized(unittest.TestCase):
         self.assertEqual(
             parse("Head, thorax, and abdomen moderately sclerotized"),
             [
-                Part(start=0, end=4, part="head"),
-                Part(start=6, end=12, part="thorax"),
-                Part(start=18, end=25, part="abdomen"),
+                Part(
+                    start=0,
+                    end=4,
+                    links=[Link(trait="sclerotization", start=26, end=48)],
+                    part="head",
+                ),
+                Part(
+                    start=6,
+                    end=12,
+                    links=[Link(trait="sclerotization", start=26, end=48)],
+                    part="thorax",
+                ),
+                Part(
+                    start=18,
+                    end=25,
+                    links=[Link(trait="sclerotization", start=26, end=48)],
+                    part="abdomen",
+                ),
                 Sclerotization(
-                    start=26,
-                    end=48,
-                    links=[
-                        Link(trait="part", start=0, end=4),
-                        Link(trait="part", start=6, end=12),
-                        Link(trait="part", start=18, end=25),
-                    ],
-                    sclerotization="moderately sclerotized",
+                    start=26, end=48, sclerotization="moderately sclerotized"
                 ),
             ],
         )
@@ -32,16 +40,18 @@ class TestSclerotized(unittest.TestCase):
         self.assertEqual(
             parse("Genitalia with well-sclerotized subgenital plate"),
             [
-                Part(start=0, end=9, part="genitalia"),
-                Sclerotization(
-                    start=15,
-                    end=31,
-                    links=[
-                        Link(trait="part", start=0, end=9),
-                        Link(trait="plate", start=32, end=48),
-                    ],
-                    sclerotization="well-sclerotized",
+                Part(
+                    start=0,
+                    end=9,
+                    links=[Link(trait="sclerotization", start=15, end=31)],
+                    part="genitalia",
                 ),
-                Plate(start=32, end=48, part="subgenital plate"),
+                Sclerotization(start=15, end=31, sclerotization="well-sclerotized"),
+                Plate(
+                    start=32,
+                    end=48,
+                    links=[Link(trait="sclerotization", start=15, end=31)],
+                    part="subgenital plate",
+                ),
             ],
         )
