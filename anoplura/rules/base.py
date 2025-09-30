@@ -1,11 +1,7 @@
-from copy import deepcopy
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass
 
 from spacy import Language
 from traiter.rules.base import Base as TraiterBase
-
-# Fields to use for a minimal comparison between traits
-MIN_COMPARE = {"start", "end", "_trait"}
 
 # Fields to skip when outputting data
 SKIPS = {"start", "end", "trait", "links"}
@@ -24,43 +20,32 @@ PARTS: list[str] = [
 ANY_PART: list[str] = [*PARTS, "subpart", "seta"]
 
 
+@dataclass
+class Link:
+    trait: str
+    start: int
+    end: int
+
+
 @dataclass(eq=False)
 class Base(TraiterBase):
     sex: str | None = None
-    links: list | None = field(default_factory=list)
-
-    @classmethod
-    def pipe(cls, nlp: Language) -> None: ...
-
-    def append_link(self, other: "Base") -> None:
-        new = deepcopy(other)
-        new.links = None
-
-        if other != self and other not in self.links:
-            self.links.append(new)
+    links: list | None = None
 
     def __eq__(self, other: "Base") -> bool:
         return as_dict(self) == as_dict(other)
 
+    @classmethod
+    def pipe(cls, nlp: Language) -> None: ...
 
-def min_compare(trait1: Base, trait2: Base) -> bool:
-    """
-    Compare traits w/ minimum fields make sure we don't add same trait to links twice.
-
-    The other __eq__ compare is used for testing.
-    """
-    t1 = {k: v for k, v in asdict(trait1).items() if k in MIN_COMPARE}
-    t2 = {k: v for k, v in asdict(trait2).items() if k in MIN_COMPARE}
-    return t1 == t2
-
-
-def link_traits(trait1: Base, trait2: Base) -> None:
-    if trait1 == trait2:
-        return
-    if not any(min_compare(trait2, t) for t in trait1.links):
-        trait1.append_link(trait2)
-    if not any(min_compare(trait1, t) for t in trait2.links):
-        trait2.append_link(trait1)
+    def link(self, child: "Base") -> None:
+        if child == self:
+            return
+        link = Link(child._trait, child.start, child.end)
+        if not self.links:
+            self.links = []
+        if all(lk != link for lk in self.links):
+            self.links.append(link)
 
 
 def as_dict(trait: Base) -> dict:

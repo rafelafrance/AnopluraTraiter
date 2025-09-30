@@ -7,7 +7,7 @@ from typing import Any
 
 from jinja2 import Environment, FileSystemLoader
 
-from anoplura.rules.base import ANY_PART, Base, as_dict
+from anoplura.rules.base import Base, as_dict
 
 COLOR_COUNT = 30
 BACKGROUNDS = cycle([f"cc{i}" for i in range(COLOR_COUNT)])
@@ -41,32 +41,27 @@ def build_classes(traits: list[Base]) -> dict[str, int]:
     return classes
 
 
-def format_text(text: str, traits: list[Base], _classes: dict[str, int]) -> str:
+def format_text(_text: str, traits: list[Base], _classes: dict[str, int]) -> str:
     """Colorize and format the text for HTML."""
-    frags = []
-    for trait in traits:
-        if trait._trait in ANY_PART:
-            print(text[trait.start : trait.end])
-            if not trait.links:
-                print("    NO LINKS ******************************")
-            for link in trait.links:
-                print(f"   {link._trait}: {text[link.start : link.end]}")
-    print("=" * 90)
-    for trait in traits:
-        if trait._trait not in ANY_PART:
-            print(f"{trait._trait}: {text[trait.start : trait.end]}")
-            if not hasattr(trait, "links"):
-                print("    ok")
-                continue
-            if trait._trait in ("taxon", "sex", "specimen_type"):
-                print("    ok")
-                continue
-            if hasattr(trait, "links") and not trait.links:
-                print("    NO LINKS ******************************")
-            for link in trait.links:
-                print(f"   {link._trait}: {text[link.start : link.end]}")
+    # Build index
+    indexed = {t.start: t for t in traits}
+    indexed = dict(sorted(indexed.items()))
 
-    return "".join(frags)
+    for start in indexed:
+        parent = indexed[start]
+        if parent._trait in ("part", "sex", "date", "elevation", "lat_long"):
+            show_children(indexed, parent, 0)
+
+    return ""
+
+
+def show_children(indexed: dict[int, Base], parent: Base, depth: int = 0) -> None:
+    print("    " * depth, parent)
+    if hasattr(parent, "links") and parent.links:
+        for link in parent.links:
+            child = indexed[link.start]
+            if link.start in indexed:
+                show_children(indexed, child, depth + 1)
 
 
 def old_format_text(text: str, traits: list[Base], classes: dict[str, int]) -> str:

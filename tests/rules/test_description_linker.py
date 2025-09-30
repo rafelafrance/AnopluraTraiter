@@ -1,5 +1,6 @@
 import unittest
 
+from anoplura.rules.base import Link
 from anoplura.rules.description import Description
 from anoplura.rules.part import Part
 from anoplura.rules.plate import Plate
@@ -16,24 +17,14 @@ class TestDescriptionLinker(unittest.TestCase):
                 Seta(
                     start=0,
                     end=5,
-                    links=[
-                        Description(start=6, end=23, description="present except on"),
-                        Part(start=24, end=28, part="leg"),
-                    ],
+                    links=[Link(start=6, end=23, trait="description")],
                     seta="setae",
                 ),
-                Description(
-                    start=6,
-                    end=23,
-                    links=[
-                        Seta(_trait="seta", _text="setae", start=0, end=5, seta="setae")
-                    ],
-                    description="present except on",
-                ),
+                Description(start=6, end=23, description="present except on"),
                 Part(
                     start=24,
                     end=28,
-                    links=[Seta(start=0, end=5, seta="setae")],
+                    links=[Link(start=0, end=5, trait="seta")],
                     part="leg",
                 ),
             ],
@@ -46,18 +37,13 @@ class TestDescriptionLinker(unittest.TestCase):
                 Plate(
                     start=0,
                     end=7,
-                    links=[
-                        Description(
-                            start=18, end=39, description="broadly subtriangular"
-                        )
-                    ],
+                    links=[Link(start=18, end=39, trait="description")],
                     part="plate",
                     number=[1],
                 ),
                 Description(
                     start=18,
                     end=39,
-                    links=[Plate(start=0, end=7, part="plate", number=[1])],
                     description="broadly subtriangular",
                 ),
             ],
@@ -70,34 +56,22 @@ class TestDescriptionLinker(unittest.TestCase):
                 Seta(
                     start=0,
                     end=4,
-                    links=[
-                        Description(start=5, end=17, description="on each side"),
-                        Subpart(start=21, end=37, subpart="posterior margin"),
-                        Plate(start=41, end=57, part="subgenital plate"),
-                    ],
+                    links=[Link(start=5, end=17, trait="description")],
                     seta="setae",
                 ),
-                Description(
-                    start=5,
-                    end=17,
-                    links=[Seta(start=0, end=4, seta="setae")],
-                    description="on each side",
-                ),
+                Description(start=5, end=17, description="on each side"),
                 Subpart(
                     start=21,
                     end=37,
-                    links=[
-                        Seta(start=0, end=4, seta="setae"),
-                        Plate(start=41, end=57, part="subgenital plate"),
-                    ],
+                    links=[Link(start=0, end=4, trait="seta")],
                     subpart="posterior margin",
                 ),
                 Plate(
                     start=41,
                     end=57,
                     links=[
-                        Seta(start=0, end=4, seta="setae"),
-                        Subpart(start=21, end=37, subpart="posterior margin"),
+                        Link(start=0, end=4, trait="seta"),
+                        Link(start=21, end=37, trait="subpart"),
                     ],
                     part="subgenital plate",
                 ),
@@ -114,75 +88,37 @@ class TestDescriptionLinker(unittest.TestCase):
                     start=0,
                     end=22,
                     links=[
-                        Description(
-                            start=23, end=47, description="club-shaped with rounded"
-                        ),
-                        Subpart(start=48, end=69, subpart="anterolateral margin"),
-                        Subpart(start=89, end=102, subpart="anterior apex"),
-                        Subpart(start=117, end=136, subpart="posterior extension"),
-                        Subpart(start=151, end=165, subpart="posterior apex"),
+                        Link(trait="description", start=23, end=47),
+                        Link(trait="subpart", start=48, end=69),
+                        Link(trait="subpart", start=89, end=102),
+                        Link(trait="subpart", start=117, end=136),
+                        Link(trait="subpart", start=151, end=165),
                     ],
                     part="thoracic sternal plate",
                 ),
-                Description(
-                    start=23,
-                    end=47,
-                    links=[Plate(start=0, end=22, part="thoracic sternal plate")],
-                    description="club-shaped with rounded",
-                ),
+                Description(start=23, end=47, description="club-shaped with rounded"),
                 Subpart(
                     start=48,
                     end=69,
-                    links=[
-                        Description(start=71, end=88, description="broadly acuminate"),
-                        Plate(start=0, end=22, part="thoracic sternal plate"),
-                    ],
+                    links=[Link(trait="description", start=71, end=88)],
                     subpart="anterolateral margin",
                 ),
-                Description(
-                    _trait="description",
-                    _text="broadly acuminate",
-                    start=71,
-                    end=88,
-                    links=[Subpart(start=48, end=69, subpart="anterolateral margin")],
-                    description="broadly acuminate",
-                ),
+                Description(start=71, end=88, description="broadly acuminate"),
                 Subpart(
                     start=89,
                     end=102,
-                    links=[
-                        Description(start=108, end=116, description="elongate"),
-                        Plate(start=0, end=22, part="thoracic sternal plate"),
-                    ],
+                    links=[Link(trait="description", start=108, end=116)],
                     subpart="anterior apex",
                 ),
-                Description(
-                    start=108,
-                    end=116,
-                    links=[Subpart(start=89, end=102, subpart="anterior apex")],
-                    description="elongate",
-                ),
+                Description(start=108, end=116, description="elongate"),
                 Subpart(
                     start=117,
                     end=136,
-                    links=[
-                        Description(start=142, end=150, description="squarish"),
-                        Plate(start=0, end=22, part="thoracic sternal plate"),
-                    ],
+                    links=[Link(trait="description", start=142, end=150)],
                     subpart="posterior extension",
                 ),
-                Description(
-                    start=142,
-                    end=150,
-                    links=[Subpart(start=117, end=136, subpart="posterior extension")],
-                    description="squarish",
-                ),
-                Subpart(
-                    start=151,
-                    end=165,
-                    links=[Plate(start=0, end=22, part="thoracic sternal plate")],
-                    subpart="posterior apex",
-                ),
+                Description(start=142, end=150, description="squarish"),
+                Subpart(start=151, end=165, subpart="posterior apex"),
             ],
         )
 
@@ -194,34 +130,23 @@ class TestDescriptionLinker(unittest.TestCase):
                     start=0,
                     end=11,
                     links=[
-                        Description(
-                            start=17, end=43, description="relatively broad spur-like"
-                        ),
-                        Subpart(start=44, end=49, subpart="ridge"),
+                        Link(start=17, end=43, trait="description"),
+                        Link(start=44, end=49, trait="subpart"),
                     ],
                     part="hind femur",
                 ),
                 Description(
                     start=17,
                     end=43,
-                    links=[Part(start=0, end=11, part="hind femur")],
                     description="relatively broad spur-like",
                 ),
                 Subpart(
                     start=44,
                     end=49,
-                    links=[
-                        Description(start=50, end=61, description="posteriorly"),
-                        Part(start=0, end=11, part="hind femur"),
-                    ],
+                    links=[Link(start=50, end=61, trait="description")],
                     subpart="ridge",
                 ),
-                Description(
-                    start=50,
-                    end=61,
-                    links=[Subpart(start=44, end=49, subpart="ridge")],
-                    description="posteriorly",
-                ),
+                Description(start=50, end=61, description="posteriorly"),
             ],
         )
 
@@ -232,27 +157,11 @@ class TestDescriptionLinker(unittest.TestCase):
                 Seta(
                     start=1,
                     end=7,
-                    links=[
-                        Description(
-                            start=9, end=30, description="dorsally on each side"
-                        )
-                    ],
+                    links=[Link(start=9, end=30, trait="description")],
                     seta="dorsal posterior central head setae",
                     seta_part="head",
                 ),
-                Description(
-                    start=9,
-                    end=30,
-                    links=[
-                        Seta(
-                            start=1,
-                            end=7,
-                            seta="dorsal posterior central head setae",
-                            seta_part="head",
-                        )
-                    ],
-                    description="dorsally on each side",
-                ),
+                Description(start=9, end=30, description="dorsally on each side"),
             ],
         )
 
@@ -264,25 +173,13 @@ class TestDescriptionLinker(unittest.TestCase):
                     start=0,
                     end=12,
                     links=[
-                        Description(start=16, end=31, description="moderate length"),
-                        Description(
-                            start=36, end=55, description="about equal in size"
-                        ),
+                        Link(start=16, end=31, trait="description"),
+                        Link(start=36, end=55, trait="description"),
                     ],
                     seta="apical setae",
                 ),
-                Description(
-                    start=16,
-                    end=31,
-                    links=[Seta(start=0, end=12, seta="apical setae")],
-                    description="moderate length",
-                ),
-                Description(
-                    start=36,
-                    end=55,
-                    links=[Seta(start=0, end=12, seta="apical setae")],
-                    description="about equal in size",
-                ),
+                Description(start=16, end=31, description="moderate length"),
+                Description(start=36, end=55, description="about equal in size"),
             ],
         )
 
@@ -293,25 +190,11 @@ class TestDescriptionLinker(unittest.TestCase):
                 Seta(
                     start=0,
                     end=4,
-                    links=[
-                        Description(start=10, end=25, description="relatively long")
-                    ],
+                    links=[Link(start=10, end=25, trait="description")],
                     seta="sternal abdominal setae",
                     seta_part="abdomen",
                 ),
-                Description(
-                    start=10,
-                    end=25,
-                    links=[
-                        Seta(
-                            start=0,
-                            end=4,
-                            seta="sternal abdominal setae",
-                            seta_part="abdomen",
-                        )
-                    ],
-                    description="relatively long",
-                ),
+                Description(start=10, end=25, description="relatively long"),
             ],
         )
 
@@ -319,28 +202,16 @@ class TestDescriptionLinker(unittest.TestCase):
         self.assertEqual(
             parse("""small setae arranged more or less centrally"""),
             [
-                Description(
-                    start=0,
-                    end=5,
-                    links=[Seta(start=6, end=11, seta="setae")],
-                    description="small",
-                ),
+                Description(start=0, end=5, description="small"),
                 Seta(
                     start=6,
                     end=11,
                     links=[
-                        Description(start=0, end=5, description="small"),
-                        Description(
-                            start=21, end=43, description="more or less centrally"
-                        ),
+                        Link(start=0, end=5, trait="description"),
+                        Link(start=21, end=43, trait="description"),
                     ],
                     seta="setae",
                 ),
-                Description(
-                    start=21,
-                    end=43,
-                    links=[Seta(start=6, end=11, seta="setae")],
-                    description="more or less centrally",
-                ),
+                Description(start=21, end=43, description="more or less centrally"),
             ],
         )

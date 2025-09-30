@@ -1,5 +1,6 @@
 import unittest
 
+from anoplura.rules.base import Link
 from anoplura.rules.description import Description
 from anoplura.rules.part import Part
 from anoplura.rules.subpart import Subpart
@@ -14,15 +15,12 @@ class TestPart(unittest.TestCase):
                 Part(
                     start=0,
                     end=4,
-                    links=[
-                        Description(start=5, end=25, description="progressively larger")
-                    ],
+                    links=[Link(start=5, end=25, trait="description")],
                     part="leg",
                 ),
                 Description(
                     start=5,
                     end=25,
-                    links=[Part(start=0, end=4, part="leg")],
                     description="progressively larger",
                 ),
             ],
@@ -35,15 +33,10 @@ class TestPart(unittest.TestCase):
                 Part(
                     start=0,
                     end=8,
-                    links=[Description(start=9, end=20, description="5-segmented")],
+                    links=[Link(start=9, end=20, trait="description")],
                     part="antenna",
                 ),
-                Description(
-                    start=9,
-                    end=20,
-                    links=[Part(start=0, end=8, part="antenna")],
-                    description="5-segmented",
-                ),
+                Description(start=9, end=20, description="5-segmented"),
             ],
         )
 
@@ -54,24 +47,16 @@ class TestPart(unittest.TestCase):
                 Part(
                     start=0,
                     end=4,
-                    links=[Subpart(start=10, end=28, subpart="anterolateral lobe")],
+                    links=[Link(start=10, end=28, trait="subpart")],
                     part="head",
                 ),
                 Subpart(
                     start=10,
                     end=28,
-                    links=[
-                        Description(start=29, end=41, description="on each side"),
-                        Part(start=0, end=4, part="head"),
-                    ],
+                    links=[Link(start=29, end=41, trait="description")],
                     subpart="anterolateral lobe",
                 ),
-                Description(
-                    start=29,
-                    end=41,
-                    links=[Subpart(start=10, end=28, subpart="anterolateral lobe")],
-                    description="on each side",
-                ),
+                Description(start=29, end=41, description="on each side"),
             ],
         )
 

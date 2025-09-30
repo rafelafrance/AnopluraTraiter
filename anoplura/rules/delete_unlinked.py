@@ -25,9 +25,19 @@ class DeleteUnlinked:
 
     def __call__(self, doc: Doc) -> Doc:
         entities = []
+        links = set()
 
+        # Get links
         for ent in doc.ents:
-            if ent.label_ in self.check and not ent._.trait.links:
+            trait = ent._.trait
+            if not hasattr(trait, "links") or not trait.links:
+                continue
+            for link in trait.links:
+                links.add(link.start)
+
+        # Delete unlinked
+        for ent in doc.ents:
+            if ent.label_ in self.check and ent._.trait.start not in links:
                 pipe_util.clear_tokens(ent)
                 continue
 

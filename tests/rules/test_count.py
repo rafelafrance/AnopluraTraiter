@@ -1,5 +1,6 @@
 import unittest
 
+from anoplura.rules.base import Link
 from anoplura.rules.count import Count
 from anoplura.rules.description import Description
 from anoplura.rules.seta import Seta
@@ -14,24 +15,14 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             parse("One small lobe"),
             [
-                Count(
-                    start=0,
-                    end=3,
-                    links=[Subpart(start=10, end=14, subpart="lobe")],
-                    count_low=1,
-                ),
-                Description(
-                    start=4,
-                    end=9,
-                    links=[Subpart(start=10, end=14, subpart="lobe")],
-                    description="small",
-                ),
+                Count(start=0, end=3, count_low=1),
+                Description(start=4, end=9, description="small"),
                 Subpart(
                     start=10,
                     end=14,
                     links=[
-                        Description(start=4, end=9, description="small"),
-                        Count(start=0, end=3, count_low=1),
+                        Link(start=4, end=9, trait="description"),
+                        Link(start=0, end=3, trait="count"),
                     ],
                     subpart="lobe",
                 ),
@@ -42,24 +33,14 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             parse("3 long, narrow sternites"),
             [
-                Count(
-                    start=0,
-                    end=1,
-                    links=[Sternite(start=15, end=24, part="sternite")],
-                    count_low=3,
-                ),
-                Description(
-                    start=2,
-                    end=14,
-                    links=[Sternite(start=15, end=24, part="sternite")],
-                    description="long, narrow",
-                ),
+                Count(start=0, end=1, count_low=3),
+                Description(start=2, end=14, description="long, narrow"),
                 Sternite(
                     start=15,
                     end=24,
                     links=[
-                        Description(start=2, end=14, description="long, narrow"),
-                        Count(start=0, end=1, count_low=3),
+                        Link(start=2, end=14, trait="description"),
+                        Link(start=0, end=1, trait="count"),
                     ],
                     part="sternite",
                 ),
@@ -70,23 +51,11 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             parse("4 DCAS,"),
             [
-                Count(
-                    start=0,
-                    end=1,
-                    links=[
-                        Seta(
-                            start=2,
-                            end=6,
-                            seta="dorsal central abdominal setae",
-                            seta_part="abdomen",
-                        )
-                    ],
-                    count_low=4,
-                ),
+                Count(start=0, end=1, count_low=4),
                 Seta(
                     start=2,
                     end=6,
-                    links=[Count(start=0, end=1, count_low=4)],
+                    links=[Link(start=0, end=1, trait="count")],
                     seta="dorsal central abdominal setae",
                     seta_part="abdomen",
                 ),
@@ -97,24 +66,11 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             parse("5 pairs of DCAS,"),
             [
-                Count(
-                    start=0,
-                    end=10,
-                    links=[
-                        Seta(
-                            start=11,
-                            end=15,
-                            seta="dorsal central abdominal setae",
-                            seta_part="abdomen",
-                        )
-                    ],
-                    count_low=5,
-                    count_group="pairs of",
-                ),
+                Count(start=0, end=10, count_low=5, count_group="pairs of"),
                 Seta(
                     start=11,
                     end=15,
-                    links=[Count(start=0, end=10, count_low=5, count_group="pairs of")],
+                    links=[Link(start=0, end=10, trait="count")],
                     seta="dorsal central abdominal setae",
                     seta_part="abdomen",
                 ),
@@ -125,24 +81,11 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             parse("6-7 DCAS,"),
             [
-                Count(
-                    start=0,
-                    end=3,
-                    links=[
-                        Seta(
-                            start=4,
-                            end=8,
-                            seta="dorsal central abdominal setae",
-                            seta_part="abdomen",
-                        )
-                    ],
-                    count_low=6,
-                    count_high=7,
-                ),
+                Count(start=0, end=3, count_low=6, count_high=7),
                 Seta(
                     start=4,
                     end=8,
-                    links=[Count(start=0, end=3, count_low=6, count_high=7)],
+                    links=[Link(start=0, end=3, trait="count")],
                     seta="dorsal central abdominal setae",
                     seta_part="abdomen",
                 ),
@@ -157,41 +100,19 @@ class TestCount(unittest.TestCase):
                 """
             ),
             [
-                Count(
-                    start=0,
-                    end=6,
-                    links=[
-                        Seta(
-                            start=7, end=24, seta="apical head setae", seta_part="head"
-                        )
-                    ],
-                    count_low=3,
-                    count_high=4,
-                ),
+                Count(start=0, end=6, count_low=3, count_high=4),
                 Seta(
                     start=7,
                     end=24,
-                    links=[Count(start=0, end=6, count_low=3, count_high=4)],
+                    links=[Link(start=0, end=6, trait="count")],
                     seta="apical head setae",
                     seta_part="head",
                 ),
-                Count(
-                    start=26,
-                    end=27,
-                    links=[
-                        Seta(
-                            start=28,
-                            end=56,
-                            seta="dorsal preantennal head setae",
-                            seta_part="head",
-                        )
-                    ],
-                    count_low=1,
-                ),
+                Count(start=26, end=27, count_low=1),
                 Seta(
                     start=28,
                     end=56,
-                    links=[Count(start=26, end=27, count_low=1)],
+                    links=[Link(start=26, end=27, trait="count")],
                     seta="dorsal preantennal head setae",
                     seta_part="head",
                 ),
@@ -202,56 +123,20 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             parse("2 lateral StAS on each side"),
             [
-                Count(
-                    start=0,
-                    end=1,
-                    links=[
-                        Seta(
-                            start=10,
-                            end=14,
-                            seta="sternal abdominal setae",
-                            seta_part="abdomen",
-                        )
-                    ],
-                    count_low=2,
-                ),
-                Description(
-                    start=2,
-                    end=9,
-                    links=[
-                        Seta(
-                            start=10,
-                            end=14,
-                            seta="sternal abdominal setae",
-                            seta_part="abdomen",
-                        )
-                    ],
-                    description="lateral",
-                ),
+                Count(start=0, end=1, count_low=2),
+                Description(start=2, end=9, description="lateral"),
                 Seta(
                     start=10,
                     end=14,
                     links=[
-                        Description(start=2, end=9, description="lateral"),
-                        Description(start=15, end=27, description="on each side"),
-                        Count(start=0, end=1, count_low=2),
+                        Link(start=2, end=9, trait="description"),
+                        Link(start=15, end=27, trait="description"),
+                        Link(start=0, end=1, trait="count"),
                     ],
                     seta="sternal abdominal setae",
                     seta_part="abdomen",
                 ),
-                Description(
-                    start=15,
-                    end=27,
-                    links=[
-                        Seta(
-                            start=10,
-                            end=14,
-                            seta="sternal abdominal setae",
-                            seta_part="abdomen",
-                        )
-                    ],
-                    description="on each side",
-                ),
+                Description(start=15, end=27, description="on each side"),
             ],
         )
 
@@ -259,28 +144,14 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             parse("1 (posterior row) setae"),
             [
-                Count(
-                    start=0,
-                    end=1,
-                    links=[Seta(start=18, end=23, seta="setae")],
-                    count_low=1,
-                ),
-                Description(
-                    start=3,
-                    end=16,
-                    links=[Seta(start=18, end=23, seta="setae")],
-                    description="posterior row",
-                ),
+                Count(start=0, end=1, count_low=1),
+                Description(start=3, end=16, description="posterior row"),
                 Seta(
                     start=18,
                     end=23,
                     links=[
-                        Description(start=3, end=16, description="posterior row"),
-                        Count(
-                            start=0,
-                            end=1,
-                            count_low=1,
-                        ),
+                        Link(start=3, end=16, trait="description"),
+                        Link(start=0, end=1, trait="count"),
                     ],
                     seta="setae",
                 ),
@@ -295,31 +166,16 @@ class TestCount(unittest.TestCase):
                     start=0,
                     end=5,
                     links=[
-                        Count(start=7, end=18, count_low=2, count_group="on 1 side"),
-                        Count(
-                            start=20, end=34, count_low=3, count_group="on the other"
-                        ),
+                        Link(start=7, end=18, trait="count"),
+                        Link(start=20, end=34, trait="count"),
                     ],
                     seta="setae",
                 ),
-                Count(
-                    start=7,
-                    end=18,
-                    links=[Seta(start=0, end=5, seta="setae")],
-                    count_low=2,
-                    count_group="on 1 side",
-                ),
-                Count(
-                    start=20,
-                    end=34,
-                    links=[Seta(start=0, end=5, seta="setae")],
-                    count_low=3,
-                    count_group="on the other",
-                ),
+                Count(start=7, end=18, count_low=2, count_group="on 1 side"),
+                Count(start=20, end=34, count_low=3, count_group="on the other"),
                 Sternite(
                     start=37,
                     end=51,
-                    links=[],
                     part="sternite",
                     number=[4, 5, 6, 7, 8, 9, 10],
                 ),
@@ -330,31 +186,19 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             parse("(23♂, 28♀)"),
             [
-                Count(
-                    start=1,
-                    end=3,
-                    sex="male",
-                    links=[Sex(start=3, end=4, sex="male")],
-                    count_low=23,
-                ),
+                Count(start=1, end=3, count_low=23),
                 Sex(
                     start=3,
                     end=4,
-                    links=[Count(start=1, end=3, count_low=23)],
                     sex="male",
+                    links=[Link(trait="count", start=1, end=3)],
                 ),
-                Count(
-                    start=6,
-                    end=8,
-                    sex="female",
-                    links=[Sex(start=8, end=9, sex="female")],
-                    count_low=28,
-                ),
+                Count(start=6, end=8, sex="male", count_low=28),
                 Sex(
                     start=8,
                     end=9,
-                    links=[Count(start=6, end=8, count_low=28)],
                     sex="female",
+                    links=[Link(trait="count", start=6, end=8)],
                 ),
             ],
         )

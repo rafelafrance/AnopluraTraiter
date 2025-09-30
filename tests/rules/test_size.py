@@ -1,5 +1,6 @@
 import unittest
 
+from anoplura.rules.base import Link
 from anoplura.rules.elevation import Elevation
 from anoplura.rules.part import Part
 from anoplura.rules.seta import Seta
@@ -28,36 +29,12 @@ class TestSize(unittest.TestCase):
                 Part(
                     start=0,
                     end=10,
-                    links=[
-                        Size(
-                            start=11,
-                            end=34,
-                            dims=[
-                                Dimension(
-                                    dim="length",
-                                    units="cm",
-                                    low=30.0,
-                                    high=60.0,
-                                    start=11,
-                                    end=23,
-                                ),
-                                Dimension(
-                                    dim="width",
-                                    units="cm",
-                                    low=10.0,
-                                    high=20.0,
-                                    start=26,
-                                    end=34,
-                                ),
-                            ],
-                        )
-                    ],
+                    links=[Link(trait="size", start=11, end=34)],
                     part="total body",
                 ),
                 Size(
                     start=11,
                     end=34,
-                    links=[Part(start=0, end=10, part="total body")],
                     dims=[
                         Dimension(
                             dim="length",
@@ -88,28 +65,12 @@ class TestSize(unittest.TestCase):
                 Part(
                     start=0,
                     end=3,
-                    links=[
-                        Size(
-                            start=4,
-                            end=20,
-                            dims=[
-                                Dimension(
-                                    dim="length",
-                                    units="cm",
-                                    low=10.0,
-                                    high=30.0,
-                                    start=4,
-                                    end=20,
-                                )
-                            ],
-                        )
-                    ],
+                    links=[Link(trait="size", start=4, end=20)],
                     part="leg",
                 ),
                 Size(
                     start=4,
                     end=20,
-                    links=[Part(start=0, end=3, part="leg")],
                     dims=[
                         Dimension(
                             dim="length",
@@ -131,25 +92,20 @@ class TestSize(unittest.TestCase):
                 Part(
                     start=0,
                     end=4,
-                    links=[
-                        Size(
-                            start=5,
-                            end=20,
-                            dims=[
-                                Dimension(
-                                    dim="width", units="mm", low=1.02, start=5, end=20
-                                )
-                            ],
-                        )
-                    ],
+                    links=[Link(trait="size", start=5, end=20)],
                     part="head",
                 ),
                 Size(
                     start=5,
                     end=20,
-                    links=[Part(start=0, end=4, part="head")],
                     dims=[
-                        Dimension(dim="width", units="mm", low=1.02, start=5, end=20)
+                        Dimension(
+                            dim="width",
+                            units="mm",
+                            low=1.02,
+                            start=5,
+                            end=20,
+                        )
                     ],
                 ),
             ],
@@ -162,33 +118,21 @@ class TestSize(unittest.TestCase):
                 Seta(
                     start=1,
                     end=5,
-                    links=[
-                        Size(
-                            start=7,
-                            end=23,
-                            dims=[
-                                Dimension(
-                                    dim="length", units="mm", low=0.123, start=7, end=23
-                                )
-                            ],
-                        )
-                    ],
+                    links=[Link(trait="size", start=7, end=23)],
                     seta="dorsal principal thoracic setae",
                     seta_part="thorax",
                 ),
                 Size(
                     start=7,
                     end=23,
-                    links=[
-                        Seta(
-                            start=1,
-                            end=5,
-                            seta="dorsal principal thoracic setae",
-                            seta_part="thorax",
-                        )
-                    ],
                     dims=[
-                        Dimension(dim="length", units="mm", low=0.123, start=7, end=23)
+                        Dimension(
+                            dim="length",
+                            units="mm",
+                            low=0.123,
+                            start=7,
+                            end=23,
+                        )
                     ],
                 ),
             ],
@@ -201,27 +145,12 @@ class TestSize(unittest.TestCase):
                 Subpart(
                     start=0,
                     end=14,
-                    links=[
-                        Size(
-                            start=15,
-                            end=31,
-                            dims=[
-                                Dimension(
-                                    dim="length",
-                                    units="mm",
-                                    low=0.123,
-                                    start=15,
-                                    end=31,
-                                )
-                            ],
-                        )
-                    ],
+                    links=[Link(trait="size", start=15, end=31)],
                     subpart="posterior apex",
                 ),
                 Size(
                     start=15,
                     end=31,
-                    links=[Subpart(start=0, end=14, subpart="posterior apex")],
                     dims=[
                         Dimension(dim="length", units="mm", low=0.123, start=15, end=31)
                     ],

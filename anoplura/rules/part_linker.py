@@ -7,7 +7,7 @@ from spacy.tokens import Span
 from traiter.pipes import add, reject_match
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.base import ANY_PART, PARTS, Base, link_traits
+from anoplura.rules.base import ANY_PART, PARTS, Base
 
 
 @dataclass
@@ -16,6 +16,10 @@ class PartLinker(Base):
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "separator_terms.csv",
     ]
+    ranks: ClassVar[dict[str, int]] = dict.fromkeys(PARTS, 40)
+    ranks["segment"] = 50
+    ranks["subpart"] = 30
+    ranks["seta"] = 20
     # ----------------------
 
     @classmethod
@@ -55,7 +59,14 @@ class PartLinker(Base):
 
         for part1 in parts:
             for part2 in parts:
-                link_traits(part1, part2)
+                rank1 = cls.ranks[part1._trait]
+                rank2 = cls.ranks[part2._trait]
+                if rank1 > rank2:
+                    part1.link(part2)
+                elif rank2 > rank1:
+                    part2.link(part1)
+                else:
+                    pass
 
         raise reject_match.SkipTraitCreation
 

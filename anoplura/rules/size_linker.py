@@ -8,7 +8,7 @@ from traiter.pipes import add, reject_match
 from traiter.pylib import const as t_const
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.base import PARTS, Base, link_traits
+from anoplura.rules.base import PARTS, Base
 
 
 @dataclass(eq=False)
@@ -62,7 +62,7 @@ class SizeLinker(Base):
         parent = next(e._.trait for e in span.ents if e.label_ in cls.all_parts)
 
         for size in sizes:
-            link_traits(size, parent)
+            parent.link(size)
 
         raise reject_match.SkipTraitCreation
 

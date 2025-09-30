@@ -8,7 +8,7 @@ from traiter.pipes import add, reject_match
 from traiter.pylib import const as t_const
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.base import ANY_PART, PARTS, Base, link_traits
+from anoplura.rules.base import ANY_PART, PARTS, Base
 
 
 @dataclass(eq=False)
@@ -63,9 +63,9 @@ class DescriptionLinker(Base):
         descr = [e._.trait for e in span.ents if e.label_ == "description"]
         parts = [e._.trait for e in span.ents if e.label_ in ANY_PART]
 
-        for d in descr:
-            for p in parts:
-                link_traits(d, p)
+        for desc in descr:
+            for part in parts:
+                part.link(desc)
 
         raise reject_match.SkipTraitCreation
 
