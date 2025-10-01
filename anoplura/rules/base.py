@@ -25,6 +25,13 @@ class Link:
     trait: str
     start: int
     end: int
+    _text: str = ""
+
+    def __eq__(self, other: "Link") -> bool:
+        return self.to_dict() == other.to_dict()
+
+    def to_dict(self) -> dict:
+        return {k: v for k, v in asdict(self).items() if v is not None and k[0] != "_"}
 
 
 @dataclass(eq=False)
@@ -35,13 +42,18 @@ class Base(TraiterBase):
     def __eq__(self, other: "Base") -> bool:
         return as_dict(self) == as_dict(other)
 
+    def __str__(self) -> str:
+        return f"{self._trait}: {self._text}"
+
     @classmethod
     def pipe(cls, nlp: Language) -> None: ...
 
     def link(self, child: "Base") -> None:
         if child == self:
             return
-        link = Link(child._trait, child.start, child.end)
+        link = Link(
+            trait=child._trait, start=child.start, end=child.end, _text=child._text
+        )
         if not self.links:
             self.links = []
         if all(lk != link for lk in self.links):
@@ -49,12 +61,13 @@ class Base(TraiterBase):
 
 
 def as_dict(trait: Base) -> dict:
-    """Convert trait to a dict: ignore some fields and lift others into a flat dict."""
+    """Convert trait to a dict: ignore some fields & lift others into a flat dict."""
     dct = filter_fields(trait, SKIPS)
     key = next((k for k in dct if k.endswith("dims")), None)
     if key:
         for dim in dct[key]:
             new_key = f"{key}_{dim['dim']}"
+            dct[new_key] = filter_fields(trait, DIM_SKIPS)
             dct[new_key] = filter_fields(trait, DIM_SKIPS)
         del dct[key]
 

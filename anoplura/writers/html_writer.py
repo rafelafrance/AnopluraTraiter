@@ -47,21 +47,29 @@ def format_text(_text: str, traits: list[Base], _classes: dict[str, int]) -> str
     indexed = {t.start: t for t in traits}
     indexed = dict(sorted(indexed.items()))
 
-    for start in indexed:
+    # Get unlinked traits
+    linked = set()
+    for trait in indexed.values():
+        if hasattr(trait, "links") and trait.links:
+            for link in trait.links:
+                linked.add(link.start)
+    unlinked = set(indexed.keys()) - linked
+
+    for start in sorted(unlinked):
+        print("=" * 80)
         parent = indexed[start]
-        if parent._trait in ("part", "sex", "date", "elevation", "lat_long"):
-            show_children(indexed, parent, 0)
+        show_children(indexed, parent, 0)
 
     return ""
 
 
 def show_children(indexed: dict[int, Base], parent: Base, depth: int = 0) -> None:
-    print("    " * depth, parent)
+    spaces = "    " * depth
+    print(f"{spaces} {parent}")
     if hasattr(parent, "links") and parent.links:
         for link in parent.links:
             child = indexed[link.start]
-            if link.start in indexed:
-                show_children(indexed, child, depth + 1)
+            show_children(indexed, child, depth + 1)
 
 
 def old_format_text(text: str, traits: list[Base], classes: dict[str, int]) -> str:
