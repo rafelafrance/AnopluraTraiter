@@ -50,7 +50,7 @@ def format_text(_text: str, traits: list[Base], _classes: dict[str, int]) -> str
     # Get unlinked traits
     linked = set()
     for trait in indexed.values():
-        if hasattr(trait, "links") and trait.links:
+        if trait.links:
             for link in trait.links:
                 linked.add(link.start)
     unlinked = set(indexed.keys()) - linked
@@ -66,7 +66,7 @@ def format_text(_text: str, traits: list[Base], _classes: dict[str, int]) -> str
 def show_children(indexed: dict[int, Base], parent: Base, depth: int = 0) -> None:
     spaces = "    " * depth
     print(f"{spaces} {parent}")
-    if hasattr(parent, "links") and parent.links:
+    if parent.links:
         for link in parent.links:
             child = indexed[link.start]
             show_children(indexed, child, depth + 1)

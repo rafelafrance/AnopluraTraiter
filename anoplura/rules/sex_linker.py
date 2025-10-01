@@ -34,19 +34,12 @@ class SexLinker:
         for ent in doc.ents:
             if ent.label_ == "sex":
                 sex = ent._.trait.sex
-            elif (
-                hasattr(ent._.trait, "links")
-                and ent._.trait.links
-                and any(lk.trait == "sex" for lk in ent._.trait.links)
+            elif ent._.trait.links and any(
+                lk.trait == "sex" for lk in ent._.trait.links
             ):
                 link = next(lk for lk in ent._.trait.links if lk.trait == "sex")
                 ent._.trait.sex = link.sex
-            elif (
-                sex
-                and hasattr(ent._.trait, "sex")
-                and not ent._.trait.sex
-                and ent.label_ not in self.skip
-            ):
+            elif sex and not ent._.trait.sex and ent.label_ not in self.skip:
                 ent._.trait.sex = sex
 
         return doc

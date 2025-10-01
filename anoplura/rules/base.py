@@ -71,7 +71,7 @@ def as_dict(trait: Base) -> dict:
             dct[new_key] = filter_fields(trait, DIM_SKIPS)
         del dct[key]
 
-    if hasattr(trait, "links") and trait.links:
+    if trait.links:
         dct["links"] = [filter_fields(link, SKIPS) for link in trait.links]
 
     return dct

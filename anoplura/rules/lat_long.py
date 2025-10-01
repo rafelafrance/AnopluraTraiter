@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
 from spacy import registry
+from spacy.language import Language
 from spacy.tokens import Span
 from traiter.rules.lat_long import LatLong as T_LatLong
 
@@ -8,18 +9,22 @@ from anoplura.rules.base import Base
 
 
 @dataclass(eq=False)
-class LatLong(T_LatLong, Base):
+class LatLong(Base, T_LatLong):
+    @classmethod
+    def pipe(cls, nlp: Language) -> None:
+        T_LatLong.pipe(nlp)
+
     @classmethod
     def lat_long_match(cls, ent: Span) -> "LatLong":
         return super().lat_long_match(ent)
 
     @classmethod
     def lat_long_plus(cls, ent: Span) -> "LatLong":
-        return super().lat_long_match(ent)
+        return super().lat_long_plus(ent)
 
 
 @registry.misc("lat_long_match")
-def color_match(ent: Span) -> LatLong:
+def lat_long_match(ent: Span) -> LatLong:
     return LatLong.lat_long_match(ent)
 
 

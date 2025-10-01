@@ -30,7 +30,7 @@ class DeleteUnlinked:
         # Get links
         for ent in doc.ents:
             trait = ent._.trait
-            if not hasattr(trait, "links") or not trait.links:
+            if not trait.links:
                 continue
             for link in trait.links:
                 links.add(link.start)
