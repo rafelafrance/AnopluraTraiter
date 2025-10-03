@@ -2,13 +2,14 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import ClassVar, Never
 
-from spacy import Language, registry
+from spacy.language import Language
 from spacy.tokens import Span
+from spacy.util import registry
 from traiter.pipes import add, reject_match
 from traiter.pylib import const as t_const
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.base import PARTS, Base
+from anoplura.rules.base import ANY_PART, Base
 
 
 @dataclass(eq=False)
@@ -17,7 +18,16 @@ class CountLinker(Base):
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "separator_terms.csv",
     ]
-    all_parts: ClassVar[list[str]] = [*PARTS, "seta", "sex", "subpart"]
+    descr: ClassVar[list[str]] = [
+        "group",
+        "morphology",
+        "position",
+        "relative_position",
+        "relative_size",
+        "shape",
+        "size_description",
+    ]
+    all_parts: ClassVar[list[str]] = [*ANY_PART, "sex"]
     # ----------------------
 
     @classmethod
@@ -42,7 +52,7 @@ class CountLinker(Base):
                     "(": {"TEXT": {"IN": t_const.OPEN}},
                     ")": {"TEXT": {"IN": t_const.CLOSE}},
                     "9": {"ENT_TYPE": "count"},
-                    "desc": {"ENT_TYPE": "description"},
+                    "desc": {"ENT_TYPE": {"IN": cls.descr}},
                     "part": {"ENT_TYPE": {"IN": cls.all_parts}},
                     "sep": {"ENT_TYPE": {"IN": ["separator", "linker"]}},
                 },

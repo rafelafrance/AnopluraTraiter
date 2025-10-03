@@ -2,11 +2,14 @@ import unittest
 
 from anoplura.rules.base import Link
 from anoplura.rules.count import Count
-from anoplura.rules.description import Description
 from anoplura.rules.gonopod import Gonopod
 from anoplura.rules.part import Part
+from anoplura.rules.position import Position
+from anoplura.rules.relative_size import RelativeSize
 from anoplura.rules.segment import Segment
 from anoplura.rules.seta import Seta
+from anoplura.rules.shape import Shape
+from anoplura.rules.size_description import SizeDescription
 from anoplura.rules.sternite import Sternite
 from anoplura.rules.subpart import Subpart
 from anoplura.rules.tergite import Tergite
@@ -19,16 +22,16 @@ class TestPartLinker(unittest.TestCase):
             parse("1 small sternite on segment 1;"),
             [
                 Count(start=0, end=1, count_low=1),
-                Description(
+                SizeDescription(
                     start=2,
                     end=7,
-                    description="small",
+                    size_description="small",
                 ),
                 Sternite(
                     start=8,
                     end=16,
                     links=[
-                        Link(start=2, end=7, trait="description"),
+                        Link(start=2, end=7, trait="size_description"),
                         Link(start=0, end=1, trait="count"),
                     ],
                     part="sternite",
@@ -48,12 +51,12 @@ class TestPartLinker(unittest.TestCase):
             parse("2 narrow tergites on segment 7;"),
             [
                 Count(start=0, end=1, count_low=2),
-                Description(start=2, end=8, description="narrow"),
+                Shape(start=2, end=8, shape="narrow"),
                 Tergite(
                     start=9,
                     end=17,
                     links=[
-                        Link(start=2, end=8, trait="description"),
+                        Link(start=2, end=8, trait="shape"),
                         Link(start=0, end=1, trait="count"),
                     ],
                     part="tergite",
@@ -92,21 +95,17 @@ class TestPartLinker(unittest.TestCase):
                 Part(
                     start=0,
                     end=9,
-                    links=[Link(trait="subpart", start=15, end=28)],
+                    links=[
+                        Link(trait="subpart", start=15, end=28, _text="basal apodeme")
+                    ],
                     part="genitalia",
                 ),
-                Subpart(
-                    start=15,
-                    end=28,
-                    links=[Link(trait="description", start=29, end=51)],
-                    subpart="basal apodeme",
-                ),
-                Description(start=29, end=51, description="about twice as long as"),
-                Part(
-                    start=52,
+                Subpart(start=15, end=28, subpart="basal apodeme"),
+                RelativeSize(
+                    start=41,
                     end=61,
-                    links=[Link(trait="subpart", start=15, end=28)],
-                    part="paramere",
+                    relative_size="as long as",
+                    relative_part="paramere",
                 ),
             ],
         )
@@ -118,20 +117,15 @@ class TestPartLinker(unittest.TestCase):
                 Sternite(
                     start=0,
                     end=8,
-                    links=[
-                        Link(start=9, end=18, trait="description"),
-                    ],
+                    sex=None,
+                    links=[Link(trait="position", start=9, end=18, _text="ventrally")],
                     part="sternite",
                 ),
-                Description(
-                    start=9,
-                    end=18,
-                    description="ventrally",
-                ),
+                Position(start=9, end=18, position="ventrally"),
                 Segment(
                     start=22,
                     end=31,
-                    links=[Link(start=0, end=8, trait="sternite")],
+                    links=[Link(trait="sternite", start=0, end=8, _text="sternite")],
                     part="segment",
                     number=[1],
                 ),

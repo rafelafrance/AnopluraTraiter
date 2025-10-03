@@ -2,8 +2,8 @@ import unittest
 
 from anoplura.rules.base import Link
 from anoplura.rules.count import Count
-from anoplura.rules.description import Description
 from anoplura.rules.seta import Seta
+from anoplura.rules.shape import Shape
 from anoplura.rules.tergite import Tergite
 from tests.setup import parse
 
@@ -24,11 +24,11 @@ class TestSubpartLinker(unittest.TestCase):
                     number=[1, 2, 17],
                 ),
                 Count(start=22, end=33, count_low=4, count_group="each with"),
-                Description(start=34, end=38, description="long"),
+                Shape(start=34, end=38, shape="long"),
                 Seta(
                     start=39,
                     end=43,
-                    links=[Link(trait="description", start=34, end=38)],
+                    links=[Link(trait="shape", start=34, end=38)],
                     seta="tergal abdominal setae",
                     seta_part="abdomen",
                 ),

@@ -53,9 +53,9 @@ def format_text(_text: str, traits: list[Base], _classes: dict[str, int]) -> str
         if trait.links:
             for link in trait.links:
                 linked.add(link.start)
-    unlinked = set(indexed.keys()) - linked
+    roots = set(indexed.keys()) - linked
 
-    for start in sorted(unlinked):
+    for start in sorted(roots):
         print("=" * 80)
         parent = indexed[start]
         show_children(indexed, parent, 0)

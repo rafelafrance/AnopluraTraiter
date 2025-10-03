@@ -3,10 +3,16 @@ import unittest
 from anoplura.rules.base import Link
 from anoplura.rules.count import Count
 from anoplura.rules.description import Description
+from anoplura.rules.group import Group
 from anoplura.rules.part import Part
 from anoplura.rules.plate import Plate
+from anoplura.rules.position import Position
+from anoplura.rules.relative_position import RelativePosition
+from anoplura.rules.relative_size import RelativeSize
 from anoplura.rules.segment import Segment
 from anoplura.rules.seta import Seta
+from anoplura.rules.shape import Shape
+from anoplura.rules.size_description import SizeDescription
 from anoplura.rules.sternite import Sternite
 from anoplura.rules.subpart import Subpart
 from tests.setup import parse
@@ -17,11 +23,11 @@ class TestDescription(unittest.TestCase):
         self.assertEqual(
             parse("subtriangular coxae"),
             [
-                Description(start=0, end=13, description="subtriangular"),
+                Shape(start=0, end=13, shape="subtriangular"),
                 Part(
                     start=14,
                     end=19,
-                    links=[Link(start=0, end=13, trait="description")],
+                    links=[Link(start=0, end=13, trait="shape")],
                     part="coxa",
                 ),
             ],
@@ -38,17 +44,21 @@ class TestDescription(unittest.TestCase):
                 Segment(
                     start=0,
                     end=13,
-                    links=[Link(start=14, end=31, trait="description")],
+                    links=[
+                        Link(trait="relative_size", start=14, end=40),
+                        Link(trait="size_description", start=45, end=70),
+                    ],
                     part="basal segment",
                 ),
-                Description(start=14, end=31, description="larger than other"),
-                Segment(
-                    start=32,
+                RelativeSize(
+                    start=14,
                     end=40,
-                    links=[Link(start=45, end=70, trait="description")],
-                    part="segment",
+                    relative_size="larger than other",
+                    relative_part="segment",
                 ),
-                Description(start=45, end=70, description="slightly longer than wide"),
+                SizeDescription(
+                    start=45, end=70, size_description="slightly longer than wide"
+                ),
             ],
         )
 
@@ -56,25 +66,29 @@ class TestDescription(unittest.TestCase):
         self.assertEqual(
             parse("""subtriangular coxae proximally and acuminate claws terminally"""),
             [
-                Description(start=0, end=13, description="subtriangular"),
+                Shape(start=0, end=13, shape="subtriangular"),
                 Part(
                     start=14,
                     end=19,
                     links=[
-                        Link(trait="description", start=0, end=13),
-                        Link(trait="description", start=20, end=44),
+                        Link(trait="shape", start=0, end=13),
+                        Link(trait="position", start=20, end=30),
                         Link(trait="subpart", start=45, end=50),
                     ],
                     part="coxa",
                 ),
-                Description(start=20, end=44, description="proximally and acuminate"),
+                Position(start=20, end=30, position="proximally"),
+                Shape(start=35, end=44, shape="acuminate"),
                 Subpart(
                     start=45,
                     end=50,
-                    links=[Link(trait="description", start=51, end=61)],
+                    links=[
+                        Link(trait="shape", start=35, end=44),
+                        Link(trait="position", start=51, end=61),
+                    ],
                     subpart="claw",
                 ),
-                Description(start=51, end=61, description="terminally"),
+                Position(start=51, end=61, position="terminally"),
             ],
         )
 
@@ -85,14 +99,16 @@ class TestDescription(unittest.TestCase):
                 Part(
                     start=0,
                     end=4,
-                    links=[Link(start=5, end=52, trait="description")],
+                    links=[
+                        Link(start=5, end=25, trait="size_description"),
+                        Link(start=31, end=52, trait="position"),
+                    ],
                     part="leg",
                 ),
-                Description(
-                    start=5,
-                    end=52,
-                    description="progressively larger from anterior to posterior",
+                SizeDescription(
+                    start=5, end=25, size_description="progressively larger"
                 ),
+                Position(start=31, end=52, position="anterior to posterior"),
             ],
         )
 
@@ -103,15 +119,12 @@ class TestDescription(unittest.TestCase):
                 Part(
                     start=0,
                     end=7,
-                    links=[Link(start=8, end=18, trait="description")],
+                    links=[Link(trait="relative_size", start=8, end=25)],
                     part="abdomen",
                 ),
-                Description(
-                    start=8,
-                    end=18,
-                    description="wider than",
+                RelativeSize(
+                    start=8, end=25, relative_size="wider than", relative_part="thorax"
                 ),
-                Part(start=19, end=25, part="thorax"),
             ],
         )
 
@@ -122,18 +135,19 @@ class TestDescription(unittest.TestCase):
                 Seta(
                     start=0,
                     end=4,
-                    links=[Link(start=5, end=37, trait="description")],
+                    links=[
+                        Link(trait="position", start=5, end=24),
+                        Link(trait="relative_position", start=29, end=56),
+                    ],
                     seta="dorsal marginal head setae",
                     seta_part="head",
                 ),
-                Description(
-                    start=5, end=37, description="inserted anteriorly and close to"
-                ),
-                Subpart(
-                    start=38,
+                Position(start=5, end=24, position="inserted anteriorly"),
+                RelativePosition(
+                    start=29,
                     end=56,
-                    links=[Link(start=0, end=4, trait="seta")],
-                    subpart="dorsal head suture",
+                    relative_position="close to",
+                    relative_part="dorsal head suture",
                 ),
             ],
         )
@@ -146,19 +160,18 @@ class TestDescription(unittest.TestCase):
                     start=0,
                     end=4,
                     links=[
-                        Link(start=5, end=40, trait="description"),
+                        Link(start=5, end=25, trait="position"),
+                        Link(start=30, end=45, trait="relative_position"),
                     ],
                     seta="dorsal marginal head setae",
                     seta_part="head",
                 ),
-                Description(
-                    start=5, end=40, description="inserted posteriorly and lateral to"
-                ),
-                Seta(
-                    start=41,
+                Position(start=5, end=25, position="inserted posteriorly"),
+                RelativePosition(
+                    start=30,
                     end=45,
-                    seta="dorsal principal head setae",
-                    seta_part="head",
+                    relative_position="lateral to",
+                    relative_part="dorsal principal head setae",
                 ),
             ],
         )
@@ -170,11 +183,15 @@ class TestDescription(unittest.TestCase):
                 Seta(
                     start=1,
                     end=5,
-                    links=[Link(start=7, end=29, trait="description")],
+                    links=[
+                        Link(trait="position", start=7, end=16, _text="ventrally"),
+                        Link(trait="group", start=17, end=29, _text="on each side"),
+                    ],
                     seta="ventral principal head setae",
                     seta_part="head",
                 ),
-                Description(start=7, end=29, description="ventrally on each side"),
+                Position(start=7, end=16, position="ventrally"),
+                Group(start=17, end=29, group="on each side"),
             ],
         )
 

@@ -1,7 +1,7 @@
 import unittest
 
 from anoplura.rules.base import Link
-from anoplura.rules.description import Description
+from anoplura.rules.size_description import SizeDescription
 from anoplura.rules.subpart import Subpart
 from tests.setup import parse
 
@@ -19,7 +19,7 @@ class TestSubpart(unittest.TestCase):
         self.assertEqual(
             parse("small posterior spur"),
             [
-                Description(start=0, end=5, description="small"),
+                SizeDescription(start=0, end=5, size_description="small"),
                 Subpart(
                     start=6,
                     end=20,

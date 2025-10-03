@@ -25,6 +25,7 @@ class DeleteUnlinked:
 
     def __call__(self, doc: Doc) -> Doc:
         entities = []
+        unlinked = []
         links = set()
 
         # Get links
@@ -38,10 +39,12 @@ class DeleteUnlinked:
         # Delete unlinked
         for ent in doc.ents:
             if ent.label_ in self.check and ent._.trait.start not in links:
+                unlinked.append(ent)
                 pipe_util.clear_tokens(ent)
                 continue
 
             entities.append(ent)
 
         doc.ents = entities
+        doc._.unlinked = unlinked
         return doc

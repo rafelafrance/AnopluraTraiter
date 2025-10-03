@@ -1,6 +1,6 @@
 from dataclasses import asdict, dataclass
 
-from spacy import Language
+from spacy.language import Language
 from traiter.rules.base import Base as TraiterBase
 
 # Fields to skip when outputting data
@@ -67,7 +67,6 @@ def as_dict(trait: Base) -> dict:
     if key:
         for dim in dct[key]:
             new_key = f"{key}_{dim['dim']}"
-            dct[new_key] = filter_fields(trait, DIM_SKIPS)
             dct[new_key] = filter_fields(trait, DIM_SKIPS)
         del dct[key]
 

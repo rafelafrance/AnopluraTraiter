@@ -1,8 +1,10 @@
 import unittest
 
 from anoplura.rules.base import Link
-from anoplura.rules.description import Description
+from anoplura.rules.group import Group
+from anoplura.rules.morphology import Morphology
 from anoplura.rules.part import Part
+from anoplura.rules.size_description import SizeDescription
 from anoplura.rules.subpart import Subpart
 from tests.setup import parse
 
@@ -15,13 +17,13 @@ class TestPart(unittest.TestCase):
                 Part(
                     start=0,
                     end=4,
-                    links=[Link(start=5, end=25, trait="description")],
+                    links=[Link(start=5, end=25, trait="size_description")],
                     part="leg",
                 ),
-                Description(
+                SizeDescription(
                     start=5,
                     end=25,
-                    description="progressively larger",
+                    size_description="progressively larger",
                 ),
             ],
         )
@@ -33,10 +35,10 @@ class TestPart(unittest.TestCase):
                 Part(
                     start=0,
                     end=8,
-                    links=[Link(start=9, end=20, trait="description")],
+                    links=[Link(start=9, end=20, trait="morphology")],
                     part="antenna",
                 ),
-                Description(start=9, end=20, description="5-segmented"),
+                Morphology(start=9, end=20, morphology="5-segmented"),
             ],
         )
 
@@ -47,16 +49,16 @@ class TestPart(unittest.TestCase):
                 Part(
                     start=0,
                     end=4,
-                    links=[Link(start=10, end=28, trait="subpart")],
+                    links=[Link(trait="subpart", start=10, end=28)],
                     part="head",
                 ),
                 Subpart(
                     start=10,
                     end=28,
-                    links=[Link(start=29, end=41, trait="description")],
+                    links=[Link(trait="group", start=29, end=41)],
                     subpart="anterolateral lobe",
                 ),
-                Description(start=29, end=41, description="on each side"),
+                Group(start=29, end=41, group="on each side"),
             ],
         )
 

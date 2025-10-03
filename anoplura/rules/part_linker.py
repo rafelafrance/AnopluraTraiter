@@ -2,8 +2,9 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import ClassVar, Never
 
-from spacy import Language, registry
+from spacy.language import Language
 from spacy.tokens import Span
+from spacy.util import registry
 from traiter.pipes import add, reject_match
 from traiter.pylib.pattern_compiler import Compiler
 
@@ -15,6 +16,15 @@ class PartLinker(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "separator_terms.csv",
+    ]
+    descr: ClassVar[list[str]] = [
+        "group",
+        "morphology",
+        "position",
+        "relative_position",
+        "relative_size",
+        "shape",
+        "size_description",
     ]
     ranks: ClassVar[dict[str, int]] = dict.fromkeys(PARTS, 40)
     ranks["segment"] = 50
@@ -42,7 +52,7 @@ class PartLinker(Base):
                 decoder={
                     "any_part": {"ENT_TYPE": {"IN": ANY_PART}},
                     "part": {"ENT_TYPE": {"IN": PARTS}},
-                    "desc": {"ENT_TYPE": "description"},
+                    "desc": {"ENT_TYPE": {"IN": cls.descr}},
                     "linker": {"ENT_TYPE": {"IN": ["separator", "linker"]}},
                 },
                 patterns=[

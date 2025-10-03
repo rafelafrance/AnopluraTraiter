@@ -18,11 +18,17 @@ class SubpartLinker(Base):
     ]
     phrase: ClassVar[list[str]] = [
         "count",
-        "description",
-        "separator",
+        "group",
         "linker",
-        "subpart",
+        "morphology",
+        "position",
+        "relative_position",
+        "relative_size",
+        "separator",
         "seta",
+        "shape",
+        "size_description",
+        "subpart",
     ]
     # ----------------------
 

@@ -2,8 +2,9 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import ClassVar, Never
 
-from spacy import Language, registry
+from spacy.language import Language
 from spacy.tokens import Span
+from spacy.util import registry
 from traiter.pipes import add, reject_match
 from traiter.pylib import const as t_const
 from traiter.pylib.pattern_compiler import Compiler
@@ -16,6 +17,15 @@ class DescriptionLinker(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "separator_terms.csv",
+    ]
+    descr: ClassVar[list[str]] = [
+        "group",
+        "morphology",
+        "position",
+        "relative_position",
+        "relative_size",
+        "shape",
+        "size_description",
     ]
     # ----------------------
 
@@ -40,7 +50,7 @@ class DescriptionLinker(Base):
                     "(": {"TEXT": {"IN": t_const.OPEN}},
                     ")": {"TEXT": {"IN": t_const.CLOSE}},
                     "any_part": {"ENT_TYPE": {"IN": ANY_PART}},
-                    "desc": {"ENT_TYPE": "description"},
+                    "desc": {"ENT_TYPE": {"IN": cls.descr}},
                     "part": {"ENT_TYPE": {"IN": PARTS}},
                     "junk": {"POS": {"IN": ["PRON", "VERB"]}},
                     "sep": {"ENT_TYPE": {"IN": ["separator", "linker"]}},
@@ -60,7 +70,8 @@ class DescriptionLinker(Base):
 
     @classmethod
     def description_linker_match(cls, span: Span) -> Never:
-        descr = [e._.trait for e in span.ents if e.label_ == "description"]
+        print(span)
+        descr = [e._.trait for e in span.ents if e.label_ in cls.descr]
         parts = [e._.trait for e in span.ents if e.label_ in ANY_PART]
 
         for desc in descr:
