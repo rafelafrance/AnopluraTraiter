@@ -20,6 +20,7 @@ class CountLinker(Base):
     ]
     descr: ClassVar[list[str]] = [
         "group",
+        # "group_prefix",
         "morphology",
         "position",
         "relative_position",
@@ -36,10 +37,37 @@ class CountLinker(Base):
         # add.debug_tokens(nlp)  # #########################################
         add.context_pipe(
             nlp,
+            name="count_parent_patterns",
+            compiler=cls.count_parent_patterns(),
+        )
+        # add.debug_tokens(nlp)  # #########################################
+        add.context_pipe(
+            nlp,
             name="count_linker_patterns",
             compiler=cls.count_linker_patterns(),
         )
         add.cleanup_pipe(nlp, name="count_linker_cleanup")
+
+    @classmethod
+    def count_parent_patterns(cls) -> list[Compiler]:
+        return [
+            Compiler(
+                label="count_parent_linker",
+                on_match="count_parent_match",
+                decoder={
+                    "(": {"TEXT": {"IN": t_const.OPEN}},
+                    ")": {"TEXT": {"IN": t_const.CLOSE}},
+                    "9": {"ENT_TYPE": "count"},
+                    "group": {"ENT_TYPE": "group"},
+                    "prefix": {"ENT_TYPE": "group_prefix"},
+                },
+                patterns=[
+                    " (? prefix+ )? (? 9+ )? ",
+                    " (? 9+ )? (? group+ )? ",
+                    " (? 9+ )? (? prefix+ )? ",
+                ],
+            ),
+        ]
 
     @classmethod
     def count_linker_patterns(cls) -> list[Compiler]:
@@ -54,18 +82,30 @@ class CountLinker(Base):
                     "9": {"ENT_TYPE": "count"},
                     "desc": {"ENT_TYPE": {"IN": cls.descr}},
                     "part": {"ENT_TYPE": {"IN": cls.all_parts}},
-                    "sep": {"ENT_TYPE": {"IN": ["separator", "linker"]}},
+                    "prefix": {"ENT_TYPE": "group_prefix"},
                 },
                 patterns=[
                     " (? 9+ )? (? desc* )? part+ ",
+                    " (? 9+ )? (? desc* ,* desc* )? part+ ",
+                    " (? 9+ )? (? prefix* )? part+ ",
                     " (? 9+ part+ )? ",
                     " (? part+ 9+ )? ",
                     " part+ (? 9+ )? ",
-                    " part+ (? 9+ )? ",
-                    " part+ (? 9+ ,* 9+ )? ",
+                    " part+ (? 9+ desc* ,* 9+ )? ",
                 ],
             ),
         ]
+
+    @classmethod
+    def count_parent_match(cls, span: Span) -> Never:
+        counts = [e._.trait for e in span.ents if e.label_ == "count"]
+        group = next(
+            e._.trait for e in span.ents if e.label_ in ("group_prefix", "group")
+        )
+        for count in counts:
+            count.link(group)
+
+        raise reject_match.SkipTraitCreation
 
     @classmethod
     def count_linker_match(cls, span: Span) -> Never:
@@ -76,6 +116,11 @@ class CountLinker(Base):
             parent.link(count)
 
         raise reject_match.SkipTraitCreation
+
+
+@registry.misc("count_parent_match")
+def count_parent_match(ent: Span) -> CountLinker:
+    return CountLinker.count_parent_match(ent)
 
 
 @registry.misc("count_linker_match")

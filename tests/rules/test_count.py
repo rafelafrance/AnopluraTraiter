@@ -2,9 +2,13 @@ import unittest
 
 from anoplura.rules.base import Link
 from anoplura.rules.count import Count
-from anoplura.rules.description import Description
+from anoplura.rules.group import Group
+from anoplura.rules.group_prefix import GroupPrefix
+from anoplura.rules.position import Position
 from anoplura.rules.seta import Seta
 from anoplura.rules.sex import Sex
+from anoplura.rules.shape import Shape
+from anoplura.rules.size_description import SizeDescription
 from anoplura.rules.sternite import Sternite
 from anoplura.rules.subpart import Subpart
 from tests.setup import parse
@@ -16,12 +20,12 @@ class TestCount(unittest.TestCase):
             parse("One small lobe"),
             [
                 Count(start=0, end=3, count_low=1),
-                Description(start=4, end=9, description="small"),
+                SizeDescription(start=4, end=9, size_description="small"),
                 Subpart(
                     start=10,
                     end=14,
                     links=[
-                        Link(start=4, end=9, trait="description"),
+                        Link(start=4, end=9, trait="size_description"),
                         Link(start=0, end=3, trait="count"),
                     ],
                     subpart="lobe",
@@ -34,13 +38,14 @@ class TestCount(unittest.TestCase):
             parse("3 long, narrow sternites"),
             [
                 Count(start=0, end=1, count_low=3),
-                Description(start=2, end=14, description="long, narrow"),
+                SizeDescription(start=2, end=6, size_description="long"),
+                Shape(start=8, end=14, shape="narrow"),
                 Sternite(
                     start=15,
                     end=24,
                     links=[
-                        Link(start=2, end=14, trait="description"),
-                        Link(start=0, end=1, trait="count"),
+                        Link(trait="shape", start=8, end=14, _text="narrow"),
+                        Link(trait="count", start=0, end=1, _text="3"),
                     ],
                     part="sternite",
                 ),
@@ -66,11 +71,20 @@ class TestCount(unittest.TestCase):
         self.assertEqual(
             parse("5 pairs of DCAS,"),
             [
-                Count(start=0, end=10, count_low=5, count_group="pairs of"),
+                Count(
+                    start=0,
+                    end=1,
+                    links=[Link(trait="group_prefix", start=2, end=10)],
+                    count_low=5,
+                ),
+                GroupPrefix(start=2, end=10, group="pairs of"),
                 Seta(
                     start=11,
                     end=15,
-                    links=[Link(start=0, end=10, trait="count")],
+                    links=[
+                        Link(trait="group_prefix", start=2, end=10),
+                        Link(trait="count", start=0, end=1),
+                    ],
                     seta="dorsal central abdominal setae",
                     seta_part="abdomen",
                 ),
@@ -124,19 +138,19 @@ class TestCount(unittest.TestCase):
             parse("2 lateral StAS on each side"),
             [
                 Count(start=0, end=1, count_low=2),
-                Description(start=2, end=9, description="lateral"),
+                Position(start=2, end=9, position="lateral"),
                 Seta(
                     start=10,
                     end=14,
                     links=[
-                        Link(start=2, end=9, trait="description"),
-                        Link(start=15, end=27, trait="description"),
+                        Link(start=2, end=9, trait="position"),
+                        Link(start=15, end=27, trait="group"),
                         Link(start=0, end=1, trait="count"),
                     ],
                     seta="sternal abdominal setae",
                     seta_part="abdomen",
                 ),
-                Description(start=15, end=27, description="on each side"),
+                Group(start=15, end=27, group="on each side"),
             ],
         )
 
@@ -145,13 +159,15 @@ class TestCount(unittest.TestCase):
             parse("1 (posterior row) setae"),
             [
                 Count(start=0, end=1, count_low=1),
-                Description(start=3, end=16, description="posterior row"),
+                Position(start=3, end=12, position="posterior"),
+                Group(start=13, end=16, group="row"),
                 Seta(
                     start=18,
                     end=23,
                     links=[
-                        Link(start=3, end=16, trait="description"),
-                        Link(start=0, end=1, trait="count"),
+                        Link(trait="position", start=3, end=12),
+                        Link(trait="group", start=13, end=16),
+                        Link(trait="count", start=0, end=1),
                     ],
                     seta="setae",
                 ),
@@ -166,18 +182,27 @@ class TestCount(unittest.TestCase):
                     start=0,
                     end=5,
                     links=[
-                        Link(start=7, end=18, trait="count"),
-                        Link(start=20, end=34, trait="count"),
+                        Link(trait="count", start=7, end=8, _text="2"),
+                        Link(trait="count", start=20, end=21, _text="3"),
                     ],
                     seta="setae",
                 ),
-                Count(start=7, end=18, count_low=2, count_group="on 1 side"),
-                Count(start=20, end=34, count_low=3, count_group="on the other"),
+                Count(
+                    start=7,
+                    end=8,
+                    links=[Link(trait="group", start=9, end=18, _text="on 1 side")],
+                    count_low=2,
+                ),
+                Group(start=9, end=18, group="on 1 side"),
+                Count(
+                    start=20,
+                    end=21,
+                    links=[Link(trait="group", start=22, end=34, _text="on the other")],
+                    count_low=3,
+                ),
+                Group(start=22, end=34, group="on the other"),
                 Sternite(
-                    start=37,
-                    end=51,
-                    part="sternite",
-                    number=[4, 5, 6, 7, 8, 9, 10],
+                    start=37, end=51, part="sternite", number=[4, 5, 6, 7, 8, 9, 10]
                 ),
             ],
         )

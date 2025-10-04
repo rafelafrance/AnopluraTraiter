@@ -38,7 +38,11 @@ class DeleteUnlinked:
 
         # Delete unlinked
         for ent in doc.ents:
-            if ent.label_ in self.check and ent._.trait.start not in links:
+            if (
+                ent.label_ in self.check
+                and ent._.trait.start not in links
+                and not ent._.trait.links
+            ):
                 unlinked.append(ent)
                 pipe_util.clear_tokens(ent)
                 continue

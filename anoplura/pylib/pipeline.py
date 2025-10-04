@@ -12,6 +12,7 @@ from anoplura.rules.description_linker import DescriptionLinker
 from anoplura.rules.elevation import Elevation
 from anoplura.rules.gonopod import Gonopod
 from anoplura.rules.group import Group
+from anoplura.rules.group_prefix import GroupPrefix
 from anoplura.rules.lat_long import LatLong
 from anoplura.rules.morphology import Morphology
 from anoplura.rules.part import Part
@@ -86,6 +87,7 @@ def build() -> Language:
     Sclerotization.pipe(nlp)
 
     Group.pipe(nlp)
+    GroupPrefix.pipe(nlp)
     Morphology.pipe(nlp)
     Position.pipe(nlp)
     RelativePosition.pipe(nlp)

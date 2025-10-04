@@ -12,7 +12,7 @@ from anoplura.rules.base import Base
 
 
 @dataclass(eq=False)
-class Group(Base):
+class GroupPrefix(Base):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "group_terms.csv",
@@ -23,40 +23,36 @@ class Group(Base):
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:
-        add.term_pipe(nlp, name="group_terms", path=cls.terms)
+        add.term_pipe(nlp, name="group_prefix_terms", path=cls.terms)
         # add.debug_tokens(nlp)  # #########################################
         add.trait_pipe(
             nlp,
-            name="group_patterns",
-            compiler=cls.group_patterns(),
-            overwrite=["group", "count"],
+            name="group_prefix_patterns",
+            compiler=cls.group_prefix_patterns(),
+            overwrite=["group_prefix"],
         )
-        add.cleanup_pipe(nlp, name="group_cleanup")
+        add.cleanup_pipe(nlp, name="group_prefix_cleanup")
 
     @classmethod
-    def group_patterns(cls) -> list[Compiler]:
+    def group_prefix_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
-                label="group",
-                on_match="group_match",
+                label="group_prefix",
+                on_match="group_prefix_match",
                 decoder={
-                    "group": {"ENT_TYPE": "group"},
-                    "on": {"LOWER": "on"},
-                    "1": {"TEXT": "1"},
-                    "side": {"LOWER": "side"},
+                    "group_prefix": {"ENT_TYPE": "group_prefix"},
                 },
                 patterns=[
-                    " group+ ",
-                    " on 1 side ",
+                    " group_prefix+ ",
                 ],
             ),
         ]
 
     @classmethod
-    def group_match(cls, ent: Span) -> "Group":
+    def group_prefix_match(cls, ent: Span) -> "GroupPrefix":
         return cls.from_ent(ent, group=ent.text.lower())
 
 
-@registry.misc("group_match")
-def group_match(ent: Span) -> Group:
-    return Group.group_match(ent)
+@registry.misc("group_prefix_match")
+def group_match(ent: Span) -> GroupPrefix:
+    return GroupPrefix.group_prefix_match(ent)

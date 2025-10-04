@@ -1,11 +1,11 @@
 import unittest
 
 from anoplura.rules.base import Link
-from anoplura.rules.description import Description
 from anoplura.rules.group import Group
 from anoplura.rules.part import Part
 from anoplura.rules.plate import Plate
 from anoplura.rules.position import Position
+from anoplura.rules.relative_position import RelativePosition
 from anoplura.rules.seta import Seta
 from anoplura.rules.shape import Shape
 from anoplura.rules.size_description import SizeDescription
@@ -21,15 +21,14 @@ class TestDescriptionLinker(unittest.TestCase):
                 Seta(
                     start=0,
                     end=5,
-                    links=[Link(start=6, end=23, trait="description")],
+                    links=[Link(trait="relative_position", start=6, end=28)],
                     seta="setae",
                 ),
-                Description(start=6, end=23, description="present except on"),
-                Part(
-                    start=24,
+                RelativePosition(
+                    start=6,
                     end=28,
-                    links=[Link(start=0, end=5, trait="seta")],
-                    part="leg",
+                    relative_position="present except on",
+                    relative_part="leg",
                 ),
             ],
         )
@@ -45,11 +44,7 @@ class TestDescriptionLinker(unittest.TestCase):
                     part="plate",
                     number=[1],
                 ),
-                Description(
-                    start=18,
-                    end=39,
-                    description="broadly subtriangular",
-                ),
+                Shape(start=18, end=39, shape="broadly subtriangular"),
             ],
         )
 
@@ -60,10 +55,10 @@ class TestDescriptionLinker(unittest.TestCase):
                 Seta(
                     start=0,
                     end=4,
-                    links=[Link(start=5, end=17, trait="description")],
+                    links=[Link(start=5, end=17, trait="group")],
                     seta="setae",
                 ),
-                Description(start=5, end=17, description="on each side"),
+                Group(start=5, end=17, group="on each side"),
                 Subpart(
                     start=21,
                     end=37,
@@ -83,6 +78,7 @@ class TestDescriptionLinker(unittest.TestCase):
         )
 
     def test_description_linker_04(self) -> None:
+        # TODO: Last shape should link to the last subpart
         self.assertEqual(
             parse("""Thoracic sternal plate club-shaped with rounded anterolateral
                 margins, broadly acuminate anterior apex, and elongate posterior
@@ -93,13 +89,13 @@ class TestDescriptionLinker(unittest.TestCase):
                     end=22,
                     links=[
                         Link(trait="shape", start=23, end=47),
-                        Link(trait="shape", start=40, end=47),
                         Link(trait="subpart", start=48, end=69),
                         Link(trait="subpart", start=89, end=102),
                         Link(trait="subpart", start=117, end=136),
                         Link(trait="subpart", start=151, end=165),
                     ],
                     part="thoracic sternal plate",
+                    number=None,
                 ),
                 Shape(start=23, end=47, shape="club-shaped with rounded"),
                 Subpart(
@@ -119,7 +115,7 @@ class TestDescriptionLinker(unittest.TestCase):
                 Subpart(
                     start=117,
                     end=136,
-                    links=[Link(trait="description", start=142, end=150)],
+                    links=[Link(trait="shape", start=142, end=150)],
                     subpart="posterior extension",
                 ),
                 Shape(start=142, end=150, shape="squarish"),

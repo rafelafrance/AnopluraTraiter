@@ -2,8 +2,9 @@ import unittest
 
 from anoplura.rules.base import Link
 from anoplura.rules.count import Count
-from anoplura.rules.description import Description
 from anoplura.rules.group import Group
+from anoplura.rules.group_prefix import GroupPrefix
+from anoplura.rules.morphology import Morphology
 from anoplura.rules.part import Part
 from anoplura.rules.plate import Plate
 from anoplura.rules.position import Position
@@ -196,29 +197,22 @@ class TestDescription(unittest.TestCase):
         )
 
     def test_description_09(self) -> None:
+        # TODO: Last shape should link to the last seta
         self.assertEqual(
             parse("narrow central setae and stout lateral setae"),
             [
-                Description(start=0, end=6, description="narrow"),
+                Shape(start=0, end=6, shape="narrow"),
                 Seta(
                     start=7,
                     end=20,
                     links=[
-                        Link(trait="description", start=0, end=6),
-                        Link(trait="description", start=25, end=30),
+                        Link(trait="shape", start=0, end=6, _text="narrow"),
+                        Link(trait="shape", start=25, end=30, _text="stout"),
                     ],
                     seta="central setae",
                 ),
-                Description(start=25, end=30, description="stout"),
-                Seta(
-                    start=31,
-                    end=44,
-                    links=[
-                        Link(trait="description", start=0, end=6),
-                        Link(trait="description", start=25, end=30),
-                    ],
-                    seta="lateral setae",
-                ),
+                Shape(start=25, end=30, shape="stout"),
+                Seta(start=31, end=44, seta="lateral setae"),
             ],
         )
 
@@ -226,17 +220,17 @@ class TestDescription(unittest.TestCase):
         self.assertEqual(
             parse("""broad spur-like ridge posteriorly"""),
             [
-                Description(start=0, end=15, description="broad spur-like"),
+                Shape(start=0, end=15, shape="broad spur-like"),
                 Subpart(
                     start=16,
                     end=21,
                     links=[
-                        Link(start=0, end=15, trait="description"),
-                        Link(start=22, end=33, trait="description"),
+                        Link(start=0, end=15, trait="shape"),
+                        Link(start=22, end=33, trait="position"),
                     ],
                     subpart="ridge",
                 ),
-                Description(start=22, end=33, description="posteriorly"),
+                Position(start=22, end=33, position="posteriorly"),
             ],
         )
 
@@ -244,25 +238,12 @@ class TestDescription(unittest.TestCase):
         self.assertEqual(
             parse("""basal apodeme about twice as long as parameres;"""),
             [
-                Subpart(
-                    start=0,
-                    end=13,
-                    sex=None,
-                    links=[
-                        Link(start=14, end=36, trait="description"),
-                    ],
-                    subpart="basal apodeme",
-                ),
-                Description(
-                    start=14,
-                    end=36,
-                    description="about twice as long as",
-                ),
-                Part(
-                    start=37,
+                Subpart(start=0, end=13, subpart="basal apodeme"),
+                RelativeSize(
+                    start=26,
                     end=46,
-                    links=[Link(start=0, end=13, trait="subpart")],
-                    part="paramere",
+                    relative_size="as long as",
+                    relative_part="paramere",
                 ),
             ],
         )
@@ -271,11 +252,11 @@ class TestDescription(unittest.TestCase):
         self.assertEqual(
             parse("""each articulating with corresponding paratergal plate """),
             [
-                Description(start=5, end=17, description="articulating"),
+                Morphology(start=5, end=17, morphology="articulating"),
                 Plate(
                     start=23,
                     end=53,
-                    links=[Link(start=5, end=17, trait="description")],
+                    links=[Link(start=5, end=17, trait="morphology")],
                     part="corresponding paratergal plate",
                 ),
             ],
@@ -288,14 +269,14 @@ class TestDescription(unittest.TestCase):
                 Part(
                     start=0,
                     end=9,
-                    links=[Link(start=10, end=59, trait="description")],
+                    links=[
+                        Link(trait="shape", start=10, end=47),
+                        Link(trait="position", start=48, end=59),
+                    ],
                     part="paramere",
                 ),
-                Description(
-                    start=10,
-                    end=59,
-                    description="relatively broad and curved, tapering posteriorly",
-                ),
+                Shape(start=10, end=47, shape="relatively broad and curved, tapering"),
+                Position(start=48, end=59, position="posteriorly"),
             ],
         )
 
@@ -307,21 +288,21 @@ class TestDescription(unittest.TestCase):
                 Sternite(
                     start=2,
                     end=11,
-                    links=[
-                        Link(start=12, end=22, trait="description"),
-                        Link(start=0, end=1, trait="count"),
-                    ],
+                    links=[Link(trait="count", start=0, end=1, _text="2")],
                     part="sternite",
                 ),
-                Description(
+                GroupPrefix(
                     start=12,
                     end=22,
-                    description="on each of",
+                    group="on each of",
                 ),
                 Segment(
                     start=23,
                     end=35,
-                    links=[Link(start=2, end=11, trait="sternite")],
+                    sex=None,
+                    links=[
+                        Link(trait="group_prefix", start=12, end=22, _text="on each of")
+                    ],
                     part="segment",
                     number=[4, 5, 6],
                 ),

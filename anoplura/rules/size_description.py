@@ -25,7 +25,7 @@ class SizeDescription(Base):
     @classmethod
     def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="size_description_terms", path=cls.terms)
-        add.debug_tokens(nlp)  # #########################################
+        # add.debug_tokens(nlp)  # #########################################
         add.trait_pipe(
             nlp,
             name="size_description_patterns",

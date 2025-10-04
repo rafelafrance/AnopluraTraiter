@@ -20,6 +20,7 @@ class DescriptionLinker(Base):
     ]
     descr: ClassVar[list[str]] = [
         "group",
+        # "group_prefix",
         "morphology",
         "position",
         "relative_position",
@@ -51,6 +52,7 @@ class DescriptionLinker(Base):
                     ")": {"TEXT": {"IN": t_const.CLOSE}},
                     "any_part": {"ENT_TYPE": {"IN": ANY_PART}},
                     "desc": {"ENT_TYPE": {"IN": cls.descr}},
+                    "prefix": {"ENT_TYPE": "group_prefix"},
                     "part": {"ENT_TYPE": {"IN": PARTS}},
                     "junk": {"POS": {"IN": ["PRON", "VERB"]}},
                     "sep": {"ENT_TYPE": {"IN": ["separator", "linker"]}},
@@ -59,19 +61,20 @@ class DescriptionLinker(Base):
                 patterns=[
                     " (? any_part+ )? sep* junk? (? desc+ )? ",
                     " (? desc+ )? sep* any_part+ ",
-                    " (? desc+ )? any_part+ ",
                     " (? desc+ )? any_part+ sep* (? desc+ )? ",
+                    " prefix+ any_part+ ",
                     " (? any_part+ )? sep* (? desc+ )? sep* (? desc+ )? ",
-                    " desc+ (? any_part+ )? sep* (? desc+ )? sep* (? seta+ )? ",
-                    " desc+ sep* any_part+ sep* junk? desc+",
+                    # " desc+ (? any_part+ )? sep* (? desc+ )? sep* (? seta+ )? ",
+                    # " desc+ sep* any_part+ sep* junk? desc+",
                 ],
             ),
         ]
 
     @classmethod
     def description_linker_match(cls, span: Span) -> Never:
-        print(span)
-        descr = [e._.trait for e in span.ents if e.label_ in cls.descr]
+        descr = [
+            e._.trait for e in span.ents if e.label_ in [*cls.descr, "group_prefix"]
+        ]
         parts = [e._.trait for e in span.ents if e.label_ in ANY_PART]
 
         for desc in descr:

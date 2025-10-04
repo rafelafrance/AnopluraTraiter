@@ -50,6 +50,7 @@ class Shape(Base):
                 patterns=[
                     " adv* shape+ ",
                     " adv* rel+ sep* shape+ ",
+                    " adv* rel+ linker* shape+ ",
                     " adv* rel+ sep* rel+ sep* shape+ ",
                 ],
             ),
