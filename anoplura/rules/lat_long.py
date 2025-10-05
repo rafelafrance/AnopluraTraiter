@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 
-from spacy import registry
 from spacy.language import Language
 from spacy.tokens import Span
+from spacy.util import registry
 from traiter.rules.lat_long import LatLong as T_LatLong
 
 from anoplura.rules.base import Base
@@ -10,6 +10,16 @@ from anoplura.rules.base import Base
 
 @dataclass(eq=False)
 class LatLong(Base, T_LatLong):
+    def __str__(self) -> str:
+        val = f"{self._trait}: {self.lat_long}"
+        if self.uncertainty:
+            val += f" ± {self.uncertainty:f}"
+        if self.units:
+            val += f" {self.units}"
+        if self.datum:
+            val += f" {self.datum}"
+        return val
+
     @classmethod
     def pipe(cls, nlp: Language) -> None:
         T_LatLong.pipe(nlp)

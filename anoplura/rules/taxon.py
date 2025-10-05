@@ -2,8 +2,9 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import ClassVar
 
-from spacy import Language, registry
+from spacy.language import Language
 from spacy.tokens import Span
+from spacy.util import registry
 from traiter.pipes import add
 from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
@@ -24,10 +25,12 @@ class Taxon(Base):
 
     taxon: str | None = None
     rank: str | None = None
-    group: str | None = None
 
-    def formatted(self) -> dict[str, str]:
-        return {"Taxon": self.taxon, "Rank": self.rank, "Group": self.group}
+    def __str__(self) -> str:
+        val = f"{self._trait}: {self.taxon}"
+        if self.rank:
+            val += f" {self.rank}"
+        return val
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:
@@ -55,8 +58,7 @@ class Taxon(Base):
         text = ent.text.lower()
         taxon = cls.replace.get(text, text)
         rank = cls.ranks.get(text, "species")
-        group = cls.groups.get(text, "mammal")
-        return cls.from_ent(ent, taxon=taxon, rank=rank, group=group)
+        return cls.from_ent(ent, taxon=taxon, rank=rank)
 
 
 @registry.misc("taxon_match")

@@ -22,6 +22,9 @@ class SexualDimorphism(Base):
     reference_sex: str | None = None
     description: str | None = None
 
+    def __str__(self) -> str:
+        return f"{self._trait}: {self.description} {self.reference_sex}"
+
     @classmethod
     def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="dimorphism_terms", path=cls.terms)

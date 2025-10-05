@@ -238,11 +238,16 @@ class TestDescription(unittest.TestCase):
         self.assertEqual(
             parse("""basal apodeme about twice as long as parameres;"""),
             [
-                Subpart(start=0, end=13, subpart="basal apodeme"),
+                Subpart(
+                    start=0,
+                    end=13,
+                    links=[Link(trait="relative_size", start=14, end=46)],
+                    subpart="basal apodeme",
+                ),
                 RelativeSize(
-                    start=26,
+                    start=14,
                     end=46,
-                    relative_size="as long as",
+                    relative_size="about twice as long as",
                     relative_part="paramere",
                 ),
             ],

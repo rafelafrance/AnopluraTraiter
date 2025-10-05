@@ -38,12 +38,13 @@ class TestCount(unittest.TestCase):
             parse("3 long, narrow sternites"),
             [
                 Count(start=0, end=1, count_low=3),
-                SizeDescription(start=2, end=6, size_description="long"),
+                SizeDescription(start=2, end=6, links=None, size_description="long"),
                 Shape(start=8, end=14, shape="narrow"),
                 Sternite(
                     start=15,
                     end=24,
                     links=[
+                        Link(trait="size_description", start=2, end=6, _text="long"),
                         Link(trait="shape", start=8, end=14, _text="narrow"),
                         Link(trait="count", start=0, end=1, _text="3"),
                     ],

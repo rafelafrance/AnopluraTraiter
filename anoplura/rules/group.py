@@ -21,6 +21,9 @@ class Group(Base):
 
     group: str | None = None
 
+    def __str__(self) -> str:
+        return f"{self._trait}: {self.group}"
+
     @classmethod
     def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="group_terms", path=cls.terms)

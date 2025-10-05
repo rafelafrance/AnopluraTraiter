@@ -20,7 +20,6 @@ class DescriptionLinker(Base):
     ]
     descr: ClassVar[list[str]] = [
         "group",
-        # "group_prefix",
         "morphology",
         "position",
         "relative_position",
@@ -28,6 +27,7 @@ class DescriptionLinker(Base):
         "shape",
         "size_description",
     ]
+    all_descr: ClassVar[list[str]] = [*descr, "group_prefix"]
     # ----------------------
 
     @classmethod
@@ -64,17 +64,15 @@ class DescriptionLinker(Base):
                     " (? desc+ )? any_part+ sep* (? desc+ )? ",
                     " prefix+ any_part+ ",
                     " (? any_part+ )? sep* (? desc+ )? sep* (? desc+ )? ",
-                    # " desc+ (? any_part+ )? sep* (? desc+ )? sep* (? seta+ )? ",
-                    # " desc+ sep* any_part+ sep* junk? desc+",
+                    " desc+ sep* any_part+ sep* junk? desc+",
+                    " desc+ sep* desc+ sep* any_part+ ",
                 ],
             ),
         ]
 
     @classmethod
     def description_linker_match(cls, span: Span) -> Never:
-        descr = [
-            e._.trait for e in span.ents if e.label_ in [*cls.descr, "group_prefix"]
-        ]
+        descr = [e._.trait for e in span.ents if e.label_ in cls.all_descr]
         parts = [e._.trait for e in span.ents if e.label_ in ANY_PART]
 
         for desc in descr:

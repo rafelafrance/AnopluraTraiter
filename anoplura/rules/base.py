@@ -22,10 +22,10 @@ ANY_PART: list[str] = [*PARTS, "subpart", "seta"]
 
 @dataclass
 class Link:
-    trait: str
-    start: int
-    end: int
-    _text: str = ""
+    trait: str | None
+    start: int | None
+    end: int | None
+    _text: str | None = ""
 
     def __eq__(self, other: "Link") -> bool:
         return self.to_dict() == other.to_dict()

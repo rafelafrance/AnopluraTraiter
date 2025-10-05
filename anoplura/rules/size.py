@@ -2,8 +2,9 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import ClassVar
 
-from spacy import Language, registry
+from spacy.language import Language
 from spacy.tokens import Span
+from spacy.util import registry
 from traiter.pipes import add
 from traiter.pylib import const as t_const
 from traiter.pylib import term_util
@@ -32,6 +33,17 @@ class Size(Base):
     # ---------------------
 
     dims: list[Dimension] = field(default_factory=list)
+
+    def __str__(self) -> str:
+        val = f"{self._trait}:"
+        for i, dim in enumerate(self.dims):
+            if i != 0:
+                val += " x "
+            val += f" {dim.dim} = {dim.low:0.2f}"
+            if dim.high:
+                val += f" - {dim.high:0.2f}"
+            val += f" {dim.units}"
+        return val
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

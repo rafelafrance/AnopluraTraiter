@@ -95,16 +95,19 @@ class TestPartLinker(unittest.TestCase):
                 Part(
                     start=0,
                     end=9,
-                    links=[
-                        Link(trait="subpart", start=15, end=28, _text="basal apodeme")
-                    ],
+                    links=[Link(trait="subpart", start=15, end=28)],
                     part="genitalia",
                 ),
-                Subpart(start=15, end=28, subpart="basal apodeme"),
+                Subpart(
+                    start=15,
+                    end=28,
+                    links=[Link(trait="relative_size", start=29, end=61)],
+                    subpart="basal apodeme",
+                ),
                 RelativeSize(
-                    start=41,
+                    start=29,
                     end=61,
-                    relative_size="as long as",
+                    relative_size="about twice as long as",
                     relative_part="paramere",
                 ),
             ],

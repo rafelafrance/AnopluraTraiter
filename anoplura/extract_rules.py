@@ -18,11 +18,10 @@ def main(args: argparse.Namespace) -> None:
         text = util.clean_text(text)
         text = remove_figures(text)
         doc = nlp(text)
-        traits = [e._.trait for e in doc.ents]
         if args.html_file:
-            html_writer.writer(traits, text, args.html_file)
+            html_writer.writer(doc, args.html_file)
         elif args.json_file:
-            json_writer.write_json(traits, text, args.json_file)
+            json_writer.write_json(doc, args.json_file)
 
 
 def remove_figures(text: str) -> str:

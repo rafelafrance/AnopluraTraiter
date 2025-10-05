@@ -1,11 +1,10 @@
 from collections import defaultdict
-from datetime import datetime
 from html import escape
 from itertools import cycle
 from pathlib import Path
 from typing import Any
 
-from jinja2 import Environment, FileSystemLoader
+from spacy.tokens import Doc
 
 from anoplura.rules.base import Base, as_dict
 
@@ -13,22 +12,33 @@ COLOR_COUNT = 30
 BACKGROUNDS = cycle([f"cc{i}" for i in range(COLOR_COUNT)])
 
 
-def writer(traits: list[Base], text: str, html_file: Path) -> None:
-    env = Environment(
-        loader=FileSystemLoader("./anoplura/writers/templates"), autoescape=True
-    )
+def writer(doc: Doc, _html_file: Path) -> None:
+    # env = Environment(
+    #     loader=FileSystemLoader("./anoplura/writers/templates"), autoescape=True
+    # )
+
+    traits = [e._.trait for e in doc.ents]
 
     classes = build_classes(traits)
 
-    template = env.get_template("html_writer.html").render(
-        now=datetime.strftime(datetime.now(), "%Y-%m-%d %H:%M"),
-        text=format_text(text, traits, classes),
-        traits=format_traits(text, traits, classes),
-        file_name=html_file.stem,
-    )
+    print("=" * 80)
+    format_text(doc.text, traits, classes)
 
-    with html_file.open("w") as out_file:
-        out_file.write(template)
+    unlinked = [e._.trait for e in doc._.unlinked]
+
+    print("\n")
+    print("=" * 80)
+    format_text(doc.text, unlinked, classes)
+
+    # template = env.get_template("html_writer.html").render(
+    #     now=datetime.strftime(datetime.now(), "%Y-%m-%d %H:%M"),
+    #     text=format_text(text, traits, classes),
+    #     traits=format_traits(text, traits, classes),
+    #     file_name=html_file.stem,
+    # )
+    #
+    # with html_file.open("w") as out_file:
+    #     out_file.write(template)
 
 
 def build_classes(traits: list[Base]) -> dict[str, int]:
@@ -56,7 +66,7 @@ def format_text(_text: str, traits: list[Base], _classes: dict[str, int]) -> str
     roots = set(indexed.keys()) - linked
 
     for start in sorted(roots):
-        print("=" * 80)
+        print("-" * 80)
         parent = indexed[start]
         show_children(indexed, parent, 0)
 

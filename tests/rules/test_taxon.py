@@ -14,7 +14,6 @@ class TestTaxon(unittest.TestCase):
                 Taxon(
                     taxon="Lemurpediculus claytoni",
                     rank="species",
-                    group="anoplura",
                     start=11,
                     end=22,
                 ),
@@ -28,7 +27,6 @@ class TestTaxon(unittest.TestCase):
                 Taxon(
                     taxon="Abrocomaphthirus",
                     rank="genus",
-                    group="anoplura",
                     start=22,
                     end=38,
                 ),

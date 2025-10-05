@@ -14,15 +14,18 @@ class TestSubpartLinker(unittest.TestCase):
         self.assertEqual(
             parse("Tergites 1, 2, and 17 each with 4 long TeAS;"),
             [
-                Tergite(start=0, end=21, part="tergite", number=[1, 2, 17]),
+                Tergite(
+                    start=0,
+                    end=21,
+                    links=[Link(trait="group_prefix", start=22, end=31)],
+                    part="tergite",
+                    number=[1, 2, 17],
+                ),
                 GroupPrefix(start=22, end=31, group="each with"),
                 Count(
                     start=32,
                     end=33,
-                    sex=None,
-                    links=[
-                        Link(trait="group_prefix", start=22, end=31, _text="each with")
-                    ],
+                    links=[Link(trait="group_prefix", start=22, end=31)],
                     count_low=4,
                 ),
                 SizeDescription(start=34, end=38, size_description="long"),

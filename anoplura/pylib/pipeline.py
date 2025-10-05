@@ -107,7 +107,23 @@ def build() -> Language:
     sex_linker.pipe(nlp)
 
     delete.pipe(nlp, delete=["number", "range", "roman"])
-    delete_unlinked.pipe(nlp, ["count", "size", "description"])
+    delete_unlinked.pipe(
+        nlp,
+        [
+            "count",
+            "group",
+            "group_prefix",
+            "morphology",
+            "position",
+            "relative_position",
+            "relative_size",
+            "sclerotization",
+            "sexual_dimorphism",
+            "shape",
+            "size",
+            "size_description",
+        ],
+    )
 
     # for name in nlp.pipe_names:
     #     print(name)

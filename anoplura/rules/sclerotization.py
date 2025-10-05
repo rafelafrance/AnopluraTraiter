@@ -2,8 +2,9 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import ClassVar
 
-from spacy import Language, registry
+from spacy.language import Language
 from spacy.tokens import Span
+from spacy.util import registry
 from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
 
@@ -20,6 +21,9 @@ class Sclerotization(Base):
     # ----------------------
 
     sclerotization: str | None = None
+
+    def __str__(self) -> str:
+        return f"{self._trait}: {self.sclerotization}"
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

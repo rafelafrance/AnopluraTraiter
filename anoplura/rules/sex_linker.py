@@ -1,4 +1,4 @@
-from spacy import Language
+from spacy.language import Language
 from spacy.tokens import Doc
 
 SEX_LINKER = "sex_linker"

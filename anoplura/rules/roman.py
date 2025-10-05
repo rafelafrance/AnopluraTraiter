@@ -1,7 +1,8 @@
 from dataclasses import dataclass
 
-from spacy import Language, registry
+from spacy.language import Language
 from spacy.tokens import Span
+from spacy.util import registry
 from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
 
@@ -11,7 +12,7 @@ from anoplura.rules.base import Base
 
 @dataclass(eq=False)
 class Roman(Base):
-    number: int = None
+    number: int | None = None
     is_roman: bool = True
 
     @classmethod

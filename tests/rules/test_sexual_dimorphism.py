@@ -53,13 +53,19 @@ class TestSexualDimorphism(unittest.TestCase):
 
     def test_sexual_dimorphism_03(self) -> None:
         self.assertEqual(
-            parse("similar to those of male"),
+            parse("head similar to those of male"),
             [
-                SexualDimorphism(
+                Part(
                     start=0,
-                    end=24,
+                    end=4,
+                    links=[Link(trait="sexual_dimorphism", start=5, end=29)],
+                    part="head",
+                ),
+                SexualDimorphism(
+                    start=5,
+                    end=29,
                     reference_sex="male",
                     description="similar to those of",
-                )
+                ),
             ],
         )

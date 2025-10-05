@@ -3,8 +3,9 @@ from pathlib import Path
 from typing import ClassVar
 
 import traiter.pylib.const as t_const
-from spacy import Language, registry
+from spacy.language import Language
 from spacy.tokens import Span
+from spacy.util import registry
 from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
 
@@ -22,6 +23,14 @@ class SpecimenType(Base):
     specimen_type: str | None = None
     specimen_sex: str | None = None
     specimen_type_other: str | None = None
+
+    def __str__(self) -> str:
+        val = f"{self._trait}: {self.specimen_type}"
+        if self.specimen_sex:
+            val += f" {self.specimen_sex}"
+        if self.specimen_type_other:
+            val += f" {self.specimen_type_other}"
+        return val
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

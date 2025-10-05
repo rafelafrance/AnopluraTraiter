@@ -17,11 +17,18 @@ class RelativeSize(Base):
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "size_terms.csv",
     ]
+    pos: ClassVar[list[str]] = ["ADV", "ADP", "ADJ"]
     # ----------------------
 
     relative_size: str | None = None
     relative_part: str | None = None
     relative_part_number: list[int] | None = None
+
+    def __str__(self) -> str:
+        val = f"{self._trait}: {self.relative_size} {self.relative_part}"
+        if self.relative_part_number:
+            val += f" {self.relative_part_number}"
+        return val
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:
@@ -42,23 +49,21 @@ class RelativeSize(Base):
                 label="relative_size",
                 on_match="relative_size_match",
                 decoder={
+                    "adv": {"POS": {"IN": cls.pos}},
                     "any_part": {"ENT_TYPE": {"IN": ANY_PART}},
                     "rel": {"ENT_TYPE": "rel_size"},
                 },
                 patterns=[
-                    " rel+ any_part+ ",
+                    " adv* rel+ any_part+ ",
                 ],
             ),
         ]
 
     @classmethod
     def relative_size_match(cls, ent: Span) -> "RelativeSize":
-        size = []
         part, num = None, None
         for e in ent.ents:
-            if e.label_ == "rel_size":
-                size.append(e.text.lower())
-            elif e.label_ in PARTS:
+            if e.label_ in PARTS:
                 part = e._.trait.part
                 num = e._.trait.number if hasattr(e._.trait, "number") else None
             elif e.label_ == "subpart":
@@ -66,6 +71,9 @@ class RelativeSize(Base):
             elif e.label_ == "seta":
                 part = e._.trait.seta
 
+        size = [
+            t.lower_ for t in ent if t.ent_type_ == "relative_size" or t.pos_ in cls.pos
+        ]
         size = " ".join(size)
 
         return cls.from_ent(

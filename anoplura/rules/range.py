@@ -1,8 +1,9 @@
 from dataclasses import dataclass
 from typing import ClassVar
 
-from spacy import Language, registry
+from spacy.language import Language
 from spacy.tokens import Span
+from spacy.util import registry
 from traiter.pipes import add
 from traiter.pylib import const as t_const
 from traiter.pylib.pattern_compiler import Compiler
