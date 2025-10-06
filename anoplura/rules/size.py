@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import ClassVar
+from typing import ClassVar, LiteralString
 
 from spacy.language import Language
 from spacy.tokens import Span
@@ -23,7 +23,7 @@ class Size(Base):
         Path(__file__).parent / "terms" / "separator_terms.csv",
         Path(t_terms.__file__).parent / "unit_length_terms.csv",
     ]
-    cross: ClassVar[list[str]] = t_const.CROSS + t_const.COMMA
+    cross: ClassVar[list[LiteralString]] = t_const.CROSS + t_const.COMMA
     factors_cm: ClassVar[dict[str, float]] = term_util.look_up_table(
         terms, "factor_cm", float
     )
@@ -33,17 +33,6 @@ class Size(Base):
     # ---------------------
 
     dims: list[Dimension] = field(default_factory=list)
-
-    def format(self) -> str:
-        val = f"{self._trait}:"
-        for i, dim in enumerate(self.dims):
-            if i != 0:
-                val += " x "
-            val += f" {dim.dim} = {dim.low:0.2f}"
-            if dim.high:
-                val += f" - {dim.high:0.2f}"
-            val += f" {dim.units}"
-        return val
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:
@@ -60,7 +49,7 @@ class Size(Base):
 
     @property
     def dimensions(self) -> tuple[str, ...]:
-        return tuple(d.dim for d in self.dims)
+        return tuple(d.dim for d in self.dims if d.dim)
 
     @classmethod
     def size_patterns(cls) -> list[Compiler]:
@@ -173,7 +162,8 @@ class Size(Base):
                 if value is None:
                     continue
 
-                factor = cls.factors_cm.get(dim.units)
+                units = dim.units if dim.units else ""
+                factor = cls.factors_cm.get(units, 1.0)
 
                 value = round(value * factor, 3)
                 setattr(dim, key, value)

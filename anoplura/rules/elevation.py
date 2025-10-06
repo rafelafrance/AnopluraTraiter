@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 
 from spacy.language import Language
 from spacy.tokens import Span
@@ -10,21 +10,18 @@ from anoplura.rules.base import Base
 
 @dataclass(eq=False)
 class Elevation(Base, T_Elevation):
-    def format(self) -> str:
-        val = f"{self._trait}: {'~ ' if self.about else ''}{self.elevation:0.2f}"
-        if self.elevation_high:
-            val += f" - {self.elevation_high:0.2f}"
-        if self.units:
-            val += f" {self.units}"
-        return val
-
     @classmethod
     def pipe(cls, nlp: Language) -> None:
         T_Elevation.pipe(nlp)
 
     @classmethod
+    def convert_super(cls, sup: T_Elevation) -> "Elevation":
+        return cls(**asdict(sup))
+
+    @classmethod
     def elevation_match(cls, ent: Span) -> "Elevation":
-        return super().elevation_match(ent)
+        sup = super().elevation_match(ent)
+        return cls.convert_super(sup)
 
 
 @registry.misc("elevation_match")

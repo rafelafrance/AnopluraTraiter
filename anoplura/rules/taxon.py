@@ -26,12 +26,6 @@ class Taxon(Base):
     taxon: str | None = None
     rank: str | None = None
 
-    def format(self) -> str:
-        val = f"{self._trait}: {self.taxon}"
-        if self.rank:
-            val += f" {self.rank}"
-        return val
-
     @classmethod
     def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="taxon_terms", path=cls.taxon_csv)

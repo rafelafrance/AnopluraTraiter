@@ -7,23 +7,19 @@ from pathlib import Path
 
 from pylib import pipeline
 from traiter.pylib import util
-from writers import html_writer, json_writer, text_writer
+from writers import html_writer
 
 
 def main(args: argparse.Namespace) -> None:
     nlp = pipeline.build()
 
-    with args.text.open() as in_file:
+    with args.text_input.open() as in_file:
         text = " ".join(in_file.readlines())
         text = util.clean_text(text)
         text = remove_figures(text)
         doc = nlp(text)
-        if args.html_file:
-            html_writer.writer(doc, args.html_file)
-        if args.text_file:
-            text_writer.writer(doc, args.text_file)
-        if args.json_file:
-            json_writer.writer(doc, args.json_file)
+        if args.html_output:
+            html_writer.writer(doc, args.html_output)
 
 
 def remove_figures(text: str) -> str:
@@ -39,7 +35,7 @@ def parse_args() -> argparse.Namespace:
     )
 
     arg_parser.add_argument(
-        "--text",
+        "--text-input",
         type=Path,
         required=True,
         metavar="PATH",
@@ -47,31 +43,10 @@ def parse_args() -> argparse.Namespace:
     )
 
     arg_parser.add_argument(
-        "--html-file",
+        "--html-output",
         type=Path,
         metavar="PATH",
         help="""Output the results to this HTML file.""",
-    )
-
-    arg_parser.add_argument(
-        "--text-file",
-        type=Path,
-        metavar="PATH",
-        help="""Output the results to this text file.""",
-    )
-
-    arg_parser.add_argument(
-        "--json-file",
-        type=Path,
-        metavar="PATH",
-        help="""Output the results to this JSON file.""",
-    )
-
-    arg_parser.add_argument(
-        "--csv-file",
-        type=Path,
-        metavar="PATH",
-        help="""Output the results to this CSV file.""",
     )
 
     args = arg_parser.parse_args()

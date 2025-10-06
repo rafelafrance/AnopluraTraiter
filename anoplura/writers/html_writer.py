@@ -70,23 +70,23 @@ def format_text(_text: str, traits: list[Base], _classes: dict[str, int]) -> str
     grouped = defaultdict(list)
     for start in roots:
         root = indexed[start]
-        grouped[root.format()].append(start)
+        grouped[root].append(start)
 
     for start in roots:
         print("-" * 80)
         parent = indexed[start]
-        show_children(indexed, parent, 0)
+        show_nodes(indexed, parent, 0)
 
     return ""
 
 
-def show_children(indexed: dict[int, Base], parent: Base, depth: int = 0) -> None:
+def show_nodes(indexed: dict[int, Base], parent: Base, depth: int = 0) -> None:
     spaces = "    " * depth
-    print(f"{spaces} {parent.format()}")
+    print(f"{spaces} {parent}")
     if parent.links:
         for link in parent.links:
             child = indexed[link.start]
-            show_children(indexed, child, depth + 1)
+            show_nodes(indexed, child, depth + 1)
 
 
 def old_format_text(text: str, traits: list[Base], classes: dict[str, int]) -> str:

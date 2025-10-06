@@ -27,12 +27,6 @@ class Seta(Base):
     seta: str | None = None
     seta_part: str | None = None
 
-    def format(self) -> str:
-        val = f"{self._trait}: {self.seta}"
-        if self.seta_part:
-            val += f" - {self.seta_part}"
-        return val
-
     @classmethod
     def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="seta_terms", path=cls.terms)

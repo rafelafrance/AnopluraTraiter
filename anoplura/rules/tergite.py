@@ -25,12 +25,6 @@ class Tergite(Base):
     part: str = "tergite"
     number: list[int] | None = None
 
-    def format(self) -> str:
-        val = f"{self._trait}: {self.part}"
-        if self.number:
-            val += f" - {self.number}"
-        return val
-
     @classmethod
     def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="tergite_terms", path=cls.terms)

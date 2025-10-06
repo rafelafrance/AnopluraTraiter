@@ -22,9 +22,6 @@ class Position(Base):
 
     position: str | None = None
 
-    def format(self) -> str:
-        return f"{self._trait}: {self.position}"
-
     @classmethod
     def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="position_terms", path=cls.terms)

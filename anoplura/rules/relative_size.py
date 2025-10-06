@@ -24,12 +24,6 @@ class RelativeSize(Base):
     relative_part: str | None = None
     relative_part_number: list[int] | None = None
 
-    def format(self) -> str:
-        val = f"{self._trait}: {self.relative_size} {self.relative_part}"
-        if self.relative_part_number:
-            val += f" {self.relative_part_number}"
-        return val
-
     @classmethod
     def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="relative_size_terms", path=cls.terms)

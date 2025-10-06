@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 
 from spacy.language import Language
 from spacy.tokens import Span
@@ -10,20 +10,19 @@ from anoplura.rules.base import Base
 
 @dataclass(eq=False)
 class Date(Base, T_Date):
-    def format(self) -> str:
-        return f"{self._trait}: {self.date}"
-
     @classmethod
     def pipe(cls, nlp: Language) -> None:
         T_Date.pipe(nlp)
 
     @classmethod
     def date_match(cls, ent: Span) -> "Date":
-        return super().date_match(ent)
+        sup = super().date_match(ent)
+        return cls(**asdict(sup))
 
     @classmethod
     def short_date(cls, ent: Span) -> "Date":
-        return super().short_date(ent)
+        sup = super().short_date(ent)
+        return cls(**asdict(sup))
 
 
 @registry.misc("date_match")

@@ -23,9 +23,6 @@ class Shape(Base):
 
     shape: str | None = None
 
-    def format(self) -> str:
-        return f"{self._trait}: {self.shape}"
-
     @classmethod
     def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="shape_terms", path=cls.terms)

@@ -1,11 +1,9 @@
 from dataclasses import asdict, dataclass
 
-from spacy.language import Language
 from traiter.rules.base import Base as TraiterBase
 
 # Fields to skip when outputting data
 SKIPS = {"start", "end", "trait", "links"}
-DIM_SKIPS = SKIPS | {"dim"}
 
 # Parts get parsed differently so they are not the same object
 PARTS: list[str] = [
@@ -27,7 +25,12 @@ class Link:
     end: int | None
     _text: str | None = ""
 
-    def __eq__(self, other: "Link") -> bool:
+    def __hash__(self) -> int:
+        return hash(tuple(self.to_dict().items()))
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Link):
+            return False
         return self.to_dict() == other.to_dict()
 
     def to_dict(self) -> dict:
@@ -39,14 +42,13 @@ class Base(TraiterBase):
     sex: str | None = None
     links: list | None = None
 
-    def __eq__(self, other: "Base") -> bool:
+    def __hash__(self) -> int:
+        return hash(tuple(as_dict(self).items()))
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Base):
+            return False
         return as_dict(self) == as_dict(other)
-
-    def format(self) -> str:
-        return f"{self._trait}: {self._text}"
-
-    @classmethod
-    def pipe(cls, nlp: Language) -> None: ...
 
     def link(self, child: "Base") -> None:
         if child == self:
@@ -67,7 +69,7 @@ def as_dict(trait: Base) -> dict:
     if key:
         for dim in dct[key]:
             new_key = f"{key}_{dim['dim']}"
-            dct[new_key] = filter_fields(trait, DIM_SKIPS)
+            dct[new_key] = filter_fields(trait, SKIPS)
         del dct[key]
 
     if trait.links:

@@ -21,9 +21,6 @@ class Sex(Base):
 
     sex: str | None = None
 
-    def format(self) -> str:
-        return f"{self._trait}: {self.sex}"
-
     @classmethod
     def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="sex_terms", path=cls.terms)

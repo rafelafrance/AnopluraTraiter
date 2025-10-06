@@ -4,29 +4,21 @@ from spacy.tokens import Doc
 SEX_LINKER = "sex_linker"
 
 
-def pipe(nlp: Language, *, name: str | None = None, skip: bool | None = None) -> None:
+def pipe(nlp: Language, *, name: str | None = None) -> None:
     name = name if name else SEX_LINKER
-
-    if skip:
-        skip = skip if isinstance(skip, list) else [skip]
-
-    config = {"skip": skip}
-    nlp.add_pipe(SEX_LINKER, name=name, config=config)
+    nlp.add_pipe(SEX_LINKER, name=name)
 
 
 @Language.factory(SEX_LINKER)
 class SexLinker:
-    def __init__(self, nlp: Language, name: str, skip: list[str] | None) -> None:
+    def __init__(self, nlp: Language, name: str) -> None:
         super().__init__()
         self.nlp = nlp
         self.name = name
 
-        skip = set(skip) if skip else set()  # Don't assign a sex to these traits
-        skip |= {"sex"}
+        skip = {"sex"}
         skip |= {"taxon"}
-        skip |= {"number", "range", "roman"}
-        skip |= {"lat_long", "elevation"}
-        skip |= {"position", "group"}
+        skip |= {"date", "elevation", "lat_long"}
         self.skip = skip
 
     def __call__(self, doc: Doc) -> Doc:

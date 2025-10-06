@@ -24,14 +24,6 @@ class SpecimenType(Base):
     specimen_sex: str | None = None
     specimen_type_other: str | None = None
 
-    def format(self) -> str:
-        val = f"{self._trait}: {self.specimen_type}"
-        if self.specimen_sex:
-            val += f" {self.specimen_sex}"
-        if self.specimen_type_other:
-            val += f" {self.specimen_type_other}"
-        return val
-
     @classmethod
     def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="specimen_type_terms", path=cls.terms)

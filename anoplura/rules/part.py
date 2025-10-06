@@ -24,9 +24,6 @@ class Part(Base):
 
     part: str | None = None
 
-    def format(self) -> str:
-        return f"{self._trait}: {self.part}"
-
     @classmethod
     def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="part_terms", path=cls.terms)

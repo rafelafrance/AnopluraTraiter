@@ -22,9 +22,6 @@ class Sclerotization(Base):
 
     sclerotization: str | None = None
 
-    def format(self) -> str:
-        return f"{self._trait}: {self.sclerotization}"
-
     @classmethod
     def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="sclerotization_terms", path=cls.terms)

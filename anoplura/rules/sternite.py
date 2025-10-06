@@ -25,12 +25,6 @@ class Sternite(Base):
     part: str = "sternite"
     number: list[int] | None = None
 
-    def format(self) -> str:
-        val = f"{self._trait}: {self.part}"
-        if self.number:
-            val += f" - {self.number}"
-        return val
-
     @classmethod
     def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="sternite_terms", path=cls.terms)
