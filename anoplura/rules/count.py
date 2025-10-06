@@ -38,7 +38,7 @@ class Count(Base):
         )
         add.cleanup_pipe(nlp, name="count_cleanup")
 
-    def __str__(self) -> str:
+    def format(self) -> str:
         val = f"{self._trait}: {self.count_low}"
         if self.count_high:
             val += f" - {self.count_high}"

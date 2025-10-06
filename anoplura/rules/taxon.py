@@ -26,7 +26,7 @@ class Taxon(Base):
     taxon: str | None = None
     rank: str | None = None
 
-    def __str__(self) -> str:
+    def format(self) -> str:
         val = f"{self._trait}: {self.taxon}"
         if self.rank:
             val += f" {self.rank}"

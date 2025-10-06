@@ -7,7 +7,7 @@ from pathlib import Path
 
 from pylib import pipeline
 from traiter.pylib import util
-from writers import html_writer, json_writer
+from writers import html_writer, json_writer, text_writer
 
 
 def main(args: argparse.Namespace) -> None:
@@ -20,8 +20,10 @@ def main(args: argparse.Namespace) -> None:
         doc = nlp(text)
         if args.html_file:
             html_writer.writer(doc, args.html_file)
-        elif args.json_file:
-            json_writer.write_json(doc, args.json_file)
+        if args.text_file:
+            text_writer.writer(doc, args.text_file)
+        if args.json_file:
+            json_writer.writer(doc, args.json_file)
 
 
 def remove_figures(text: str) -> str:
@@ -52,18 +54,25 @@ def parse_args() -> argparse.Namespace:
     )
 
     arg_parser.add_argument(
+        "--text-file",
+        type=Path,
+        metavar="PATH",
+        help="""Output the results to this text file.""",
+    )
+
+    arg_parser.add_argument(
         "--json-file",
         type=Path,
         metavar="PATH",
         help="""Output the results to this JSON file.""",
     )
 
-    # arg_parser.add_argument(
-    #     "--csv-file",
-    #     type=Path,
-    #     metavar="PATH",
-    #     help="""Output the results to this CSV file.""",
-    # )
+    arg_parser.add_argument(
+        "--csv-file",
+        type=Path,
+        metavar="PATH",
+        help="""Output the results to this CSV file.""",
+    )
 
     args = arg_parser.parse_args()
 

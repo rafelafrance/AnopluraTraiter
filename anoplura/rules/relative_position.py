@@ -23,7 +23,7 @@ class RelativePosition(Base):
     relative_part: str | None = None
     relative_part_number: list[int] | None = None
 
-    def __str__(self) -> str:
+    def format(self) -> str:
         val = f"{self._trait}: {self.relative_position} {self.relative_part}"
         if self.relative_part_number:
             val += f" {self.relative_part_number}"

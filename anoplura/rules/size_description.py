@@ -22,7 +22,7 @@ class SizeDescription(Base):
 
     size_description: str | None = None
 
-    def __str__(self) -> str:
+    def format(self) -> str:
         return f"{self._trait}: {self.size_description}"
 
     @classmethod

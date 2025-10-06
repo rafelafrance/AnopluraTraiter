@@ -21,7 +21,7 @@ class GroupPrefix(Base):
 
     group: str | None = None
 
-    def __str__(self) -> str:
+    def format(self) -> str:
         return f"{self._trait}: {self.group}"
 
     @classmethod

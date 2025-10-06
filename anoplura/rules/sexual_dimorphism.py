@@ -22,7 +22,7 @@ class SexualDimorphism(Base):
     reference_sex: str | None = None
     description: str | None = None
 
-    def __str__(self) -> str:
+    def format(self) -> str:
         return f"{self._trait}: {self.description} {self.reference_sex}"
 
     @classmethod

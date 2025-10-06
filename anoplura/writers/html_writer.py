@@ -57,15 +57,22 @@ def format_text(_text: str, traits: list[Base], _classes: dict[str, int]) -> str
     indexed = {t.start: t for t in traits}
     indexed = dict(sorted(indexed.items()))
 
-    # Get unlinked traits
+    # Get root traits
     linked = set()
     for trait in indexed.values():
         if trait.links:
             for link in trait.links:
                 linked.add(link.start)
     roots = set(indexed.keys()) - linked
+    roots = sorted(roots)
 
-    for start in sorted(roots):
+    # Group root traits
+    grouped = defaultdict(list)
+    for start in roots:
+        root = indexed[start]
+        grouped[root.format()].append(start)
+
+    for start in roots:
         print("-" * 80)
         parent = indexed[start]
         show_children(indexed, parent, 0)
@@ -75,7 +82,7 @@ def format_text(_text: str, traits: list[Base], _classes: dict[str, int]) -> str
 
 def show_children(indexed: dict[int, Base], parent: Base, depth: int = 0) -> None:
     spaces = "    " * depth
-    print(f"{spaces} {parent}")
+    print(f"{spaces} {parent.format()}")
     if parent.links:
         for link in parent.links:
             child = indexed[link.start]

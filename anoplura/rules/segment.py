@@ -23,7 +23,7 @@ class Segment(Base):
     part: str = "segment"
     number: list[int] | None = None
 
-    def __str__(self) -> str:
+    def format(self) -> str:
         val = f"{self._trait}: {self.part}"
         if self.number:
             val += f" - {self.number}"

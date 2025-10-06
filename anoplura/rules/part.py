@@ -24,7 +24,7 @@ class Part(Base):
 
     part: str | None = None
 
-    def __str__(self) -> str:
+    def format(self) -> str:
         return f"{self._trait}: {self.part}"
 
     @classmethod

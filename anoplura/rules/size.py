@@ -34,7 +34,7 @@ class Size(Base):
 
     dims: list[Dimension] = field(default_factory=list)
 
-    def __str__(self) -> str:
+    def format(self) -> str:
         val = f"{self._trait}:"
         for i, dim in enumerate(self.dims):
             if i != 0:

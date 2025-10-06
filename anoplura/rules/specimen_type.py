@@ -24,7 +24,7 @@ class SpecimenType(Base):
     specimen_sex: str | None = None
     specimen_type_other: str | None = None
 
-    def __str__(self) -> str:
+    def format(self) -> str:
         val = f"{self._trait}: {self.specimen_type}"
         if self.specimen_sex:
             val += f" {self.specimen_sex}"

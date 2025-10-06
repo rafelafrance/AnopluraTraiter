@@ -10,7 +10,7 @@ from anoplura.rules.base import Base
 
 @dataclass(eq=False)
 class LatLong(Base, T_LatLong):
-    def __str__(self) -> str:
+    def format(self) -> str:
         val = f"{self._trait}: {self.lat_long}"
         if self.uncertainty:
             val += f" ± {self.uncertainty:f}"

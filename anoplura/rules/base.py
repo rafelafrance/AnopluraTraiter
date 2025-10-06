@@ -42,7 +42,7 @@ class Base(TraiterBase):
     def __eq__(self, other: "Base") -> bool:
         return as_dict(self) == as_dict(other)
 
-    def __str__(self) -> str:
+    def format(self) -> str:
         return f"{self._trait}: {self._text}"
 
     @classmethod

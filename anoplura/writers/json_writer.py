@@ -1,11 +1,14 @@
 import json
 from dataclasses import asdict
 from pathlib import Path
-from typing import Any
+
+from spacy.tokens import Doc
 
 
-def write_json(traits: list[Any], text: str, json_file: Path) -> None:
-    json_doc = {"path": "", "text": text, "traits": []}
+def writer(doc: Doc, json_file: Path) -> None:
+    json_doc = {"path": "", "text": doc.text, "traits": []}
+    traits = [e._.trait for e in doc.ents]
+
     for trait in traits:
         obj = {
             k.removeprefix("_"): v for k, v in asdict(trait).items() if v is not None

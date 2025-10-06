@@ -22,7 +22,7 @@ class Sclerotization(Base):
 
     sclerotization: str | None = None
 
-    def __str__(self) -> str:
+    def format(self) -> str:
         return f"{self._trait}: {self.sclerotization}"
 
     @classmethod

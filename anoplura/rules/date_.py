@@ -10,7 +10,7 @@ from anoplura.rules.base import Base
 
 @dataclass(eq=False)
 class Date(Base, T_Date):
-    def __str__(self) -> str:
+    def format(self) -> str:
         return f"{self._trait}: {self.date}"
 
     @classmethod

@@ -10,7 +10,7 @@ from anoplura.rules.base import Base
 
 @dataclass(eq=False)
 class Elevation(Base, T_Elevation):
-    def __str__(self) -> str:
+    def format(self) -> str:
         val = f"{self._trait}: {'~ ' if self.about else ''}{self.elevation:0.2f}"
         if self.elevation_high:
             val += f" - {self.elevation_high:0.2f}"
