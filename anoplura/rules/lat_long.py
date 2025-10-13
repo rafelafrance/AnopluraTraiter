@@ -5,20 +5,20 @@ from spacy.tokens import Span
 from spacy.util import registry
 from traiter.rules.lat_long import LatLong as T_LatLong
 
-from anoplura.rules.base import Base
+from anoplura.rules.base import Base, HtmlFormat
 
 
 @dataclass(eq=False)
 class LatLong(Base, T_LatLong):
-    def for_html(self) -> str:
-        text = f"Lat/Long: {self.lat_long}"
+    def for_html(self) -> HtmlFormat:
+        text = self.lat_long if self.lat_long else ""
         if self.datum:
             text += f" {self.datum}"
         if self.uncertainty:
             text += " +/- {self.uncertainty:0.2f}"
         if self.units:
             text += f" {self.units}"
-        return text
+        return HtmlFormat(key="Lat/Long", value=text)
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

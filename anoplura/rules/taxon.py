@@ -9,7 +9,7 @@ from traiter.pipes import add
 from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.base import Base
+from anoplura.rules.base import Base, HtmlFormat
 
 
 @dataclass(eq=False)
@@ -23,11 +23,14 @@ class Taxon(Base):
     groups: ClassVar[dict[str, str]] = term_util.look_up_table(taxon_csv, "label")
     # ---------------------
 
-    taxon: str | None = None
+    taxon: str = ""
     rank: str | None = None
 
-    def for_html(self) -> str:
-        return f"Taxon: {self.taxon} {self.rank}"
+    def for_html(self) -> HtmlFormat:
+        value = self.taxon
+        if self.rank:
+            value += f" {self.rank}"
+        return HtmlFormat("Taxon", value=value)
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

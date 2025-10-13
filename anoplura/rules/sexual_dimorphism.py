@@ -8,7 +8,7 @@ from spacy.util import registry
 from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.base import Base
+from anoplura.rules.base import Base, HtmlFormat
 
 
 @dataclass(eq=False)
@@ -22,8 +22,9 @@ class SexualDimorphism(Base):
     reference_sex: str | None = None
     description: str | None = None
 
-    def for_html(self) -> str:
-        return f"Sexual Dimorphism: {self.description} compared to {self.reference_sex}"
+    def for_html(self) -> HtmlFormat:
+        value = f"{self.description} compared to {self.reference_sex}"
+        return HtmlFormat(key="Sexual Dimorphism", value=value)
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

@@ -8,7 +8,7 @@ from spacy.util import registry
 from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.base import Base
+from anoplura.rules.base import Base, HtmlFormat
 
 
 @dataclass(eq=False)
@@ -22,8 +22,8 @@ class Sclerotization(Base):
 
     sclerotization: str = ""
 
-    def for_html(self) -> str:
-        return f"Sclerotization: {self.sclerotization}"
+    def for_html(self) -> HtmlFormat:
+        return HtmlFormat(key="Sclerotization", value=self.sclerotization)
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

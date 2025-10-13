@@ -37,6 +37,12 @@ class Link:
         return {k: v for k, v in asdict(self).items() if v is not None and k[0] != "_"}
 
 
+@dataclass
+class HtmlFormat:
+    key: str
+    value: str = ""
+
+
 @dataclass(eq=False)
 class Base(TraiterBase):
     sex: str = ""
@@ -65,8 +71,8 @@ class Base(TraiterBase):
         if all(lk != link for lk in self.links):
             self.links.append(link)
 
-    def for_html(self) -> str:
-        return f"Trait: {self._trait} - {self._text}"
+    def for_html(self) -> HtmlFormat:
+        return HtmlFormat(key="Trait", value=self._text)
 
 
 def as_dict(trait: Base) -> dict:

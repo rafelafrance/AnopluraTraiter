@@ -8,7 +8,7 @@ from spacy.util import registry
 from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.base import ANY_PART, PARTS, Base
+from anoplura.rules.base import ANY_PART, PARTS, Base, HtmlFormat
 
 
 @dataclass(eq=False)
@@ -23,8 +23,8 @@ class RelativePosition(Base):
     relative_part: str | None = None
     relative_part_number: list[int] | None = None
 
-    def for_html(self) -> str:
-        text = f"Position: {self.relative_position} {self.relative_part}"
+    def for_html(self) -> HtmlFormat:
+        text = f"{self.relative_position} {self.relative_part}"
         if not self.relative_part_number:
             number = ""
         elif len(self.relative_part_number) == 1:
@@ -32,7 +32,7 @@ class RelativePosition(Base):
         else:
             numbers = [str(n) for n in self.relative_part_number]
             number = f"s: {', '.join(numbers)}"
-        return f"{text}{number}"
+        return HtmlFormat(key="Position", value=text + number)
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

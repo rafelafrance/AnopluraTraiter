@@ -8,7 +8,7 @@ from spacy.util import registry
 from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.base import ANY_PART, Base
+from anoplura.rules.base import ANY_PART, Base, HtmlFormat
 
 
 @dataclass(eq=False)
@@ -20,10 +20,10 @@ class SizeDescription(Base):
     ]
     # ----------------------
 
-    size_description: str | None = None
+    size_description: str = ""
 
-    def for_html(self) -> str:
-        return f"Size: {self.size_description}"
+    def for_html(self) -> HtmlFormat:
+        return HtmlFormat(key="Size", value=self.size_description)
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

@@ -8,7 +8,7 @@ from spacy.util import registry
 from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.base import Base
+from anoplura.rules.base import Base, HtmlFormat
 
 
 @dataclass(eq=False)
@@ -24,8 +24,7 @@ class Plate(Base):
     part: str = "plate"
     number: list[int] | None = None
 
-    def for_html(self) -> str:
-        part = self.part.title()
+    def for_html(self) -> HtmlFormat:
         if not self.number:
             number = ""
         elif len(self.number) == 1:
@@ -33,7 +32,7 @@ class Plate(Base):
         else:
             numbers = [str(n) for n in self.number]
             number = f"s: {', '.join(numbers)}"
-        return f"{part}{number}"
+        return HtmlFormat(key=self.part.title(), value=number)
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

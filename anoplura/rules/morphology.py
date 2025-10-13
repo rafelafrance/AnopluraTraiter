@@ -8,7 +8,7 @@ from spacy.util import registry
 from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.base import Base
+from anoplura.rules.base import Base, HtmlFormat
 
 
 @dataclass(eq=False)
@@ -23,8 +23,8 @@ class Morphology(Base):
 
     morphology: str = ""
 
-    def for_html(self) -> str:
-        return f"Morphology: {self.morphology}"
+    def for_html(self) -> HtmlFormat:
+        return HtmlFormat(key="Morphology", value=self.morphology)
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

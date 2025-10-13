@@ -10,7 +10,7 @@ from traiter.pipes import add
 from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.base import Base
+from anoplura.rules.base import Base, HtmlFormat
 
 
 @dataclass(eq=False)
@@ -27,11 +27,8 @@ class Seta(Base):
     seta: str = ""
     seta_part: str | None = None
 
-    def for_html(self) -> str:
-        text = self.seta.title()
-        # if self.seta_part:
-        #     text += f" on {self.seta_part.title()}"
-        return text
+    def for_html(self) -> HtmlFormat:
+        return HtmlFormat(key=self.seta.title())
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

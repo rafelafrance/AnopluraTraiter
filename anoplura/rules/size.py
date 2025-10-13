@@ -12,7 +12,7 @@ from traiter.pylib.pattern_compiler import Compiler
 from traiter.rules import terms as t_terms
 
 from anoplura.pylib.dimension import Dimension
-from anoplura.rules.base import Base
+from anoplura.rules.base import Base, HtmlFormat
 
 
 @dataclass(eq=False)
@@ -34,8 +34,8 @@ class Size(Base):
 
     dims: list[Dimension] = field(default_factory=list)
 
-    def for_html(self) -> str:
-        text = "Size: "
+    def for_html(self) -> HtmlFormat:
+        text = ""
         dims = []
         for dim in self.dims:
             val = f" {dim.dim} {dim.low}"
@@ -44,7 +44,7 @@ class Size(Base):
             val += f" {dim.units}"
             dims.append(val)
         text += " x ".join(dims)
-        return text
+        return HtmlFormat(key="Size", value=text)
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:
