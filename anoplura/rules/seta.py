@@ -24,8 +24,14 @@ class Seta(Base):
     parts: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "part")
     # ----------------------
 
-    seta: str | None = None
+    seta: str = ""
     seta_part: str | None = None
+
+    def for_html(self) -> str:
+        text = self.seta.title()
+        # if self.seta_part:
+        #     text += f" on {self.seta_part.title()}"
+        return text
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

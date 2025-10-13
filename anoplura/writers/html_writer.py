@@ -1,5 +1,4 @@
 from collections import defaultdict
-from html import escape
 from itertools import cycle
 from pathlib import Path
 from typing import Any
@@ -8,8 +7,8 @@ from spacy.tokens import Doc
 
 from anoplura.rules.base import Base, as_dict
 
-COLOR_COUNT = 30
-BACKGROUNDS = cycle([f"cc{i}" for i in range(COLOR_COUNT)])
+CSS_CLASSES_COUNT = 30  # Look in the html_writer.css file
+CSS_CLASSES = cycle([f"cc{i}" for i in range(CSS_CLASSES_COUNT)])
 
 
 def writer(doc: Doc, _html_file: Path) -> None:
@@ -17,18 +16,18 @@ def writer(doc: Doc, _html_file: Path) -> None:
     #     loader=FileSystemLoader("./anoplura/writers/templates"), autoescape=True
     # )
 
-    traits = [e._.trait for e in doc.ents]
+    traits: list[Base] = [e._.trait for e in doc.ents]
 
-    classes = build_classes(traits)
+    # css_classes: dict[str, str] = build_css_classes(traits)
 
-    print("=" * 80)
-    format_text(doc.text, traits, classes)
+    print("#" * 80)
+    format_trait_tree(traits, doc.text)
 
-    unlinked = [e._.trait for e in doc._.unlinked]
+    # unlinked_traits = [e._.trait for e in doc._.unlinked]
 
-    print("\n")
-    print("=" * 80)
-    format_text(doc.text, unlinked, classes)
+    # print("\n")
+    # print("=" * 80)
+    # format_trait_tree(unlinked_traits, doc.text)
 
     # template = env.get_template("html_writer.html").render(
     #     now=datetime.strftime(datetime.now(), "%Y-%m-%d %H:%M"),
@@ -41,84 +40,73 @@ def writer(doc: Doc, _html_file: Path) -> None:
     #     out_file.write(template)
 
 
-def build_classes(traits: list[Base]) -> dict[str, int]:
-    """Make tags for HTML text color highlighting."""
-    classes = {}
-    for trait in traits:
-        if trait._trait not in classes:
-            name = trait._trait.replace(" ", "_")
-            classes[name] = next(BACKGROUNDS)
-    return classes
+def format_trait_tree(traits: list[Base], text: str) -> str:
+    indexed_by_start_index = {t.start: t for t in traits}
+    indexed_by_start_index = dict(sorted(indexed_by_start_index.items()))
 
+    indexed_by_trait_name: dict[str, list[Base]] = defaultdict(list)
+    _ = {indexed_by_trait_name[t._trait].append(t) for t in traits}
 
-def format_text(_text: str, traits: list[Base], _classes: dict[str, int]) -> str:
-    """Colorize and format the text for HTML."""
-    # Build index
-    indexed = {t.start: t for t in traits}
-    indexed = dict(sorted(indexed.items()))
+    for trait_name in ("taxon", "date", "lat_long", "elevation", "specimen_type"):
+        traits = indexed_by_trait_name.get(trait_name, [])
+        if traits:
+            print("-" * 80)
+            for trait in traits:
+                format_parent_data(trait, indexed_by_start_index, text)
+                format_nodes(indexed_by_start_index, trait, 0)
+                del indexed_by_start_index[trait.start]
 
-    # Get root traits
-    linked = set()
-    for trait in indexed.values():
+    # Get child traits
+    child_traits = set()
+    for trait in indexed_by_start_index.values():
         if trait.links:
             for link in trait.links:
-                linked.add(link.start)
-    roots = set(indexed.keys()) - linked
-    roots = sorted(roots)
+                child_traits.add(link.start)
 
-    # Group root traits
-    grouped = defaultdict(list)
-    for start in roots:
-        root = indexed[start]
-        grouped[root].append(start)
+    # Parent traits are those that are not in child traits
+    parent_indexes = {k for k in indexed_by_start_index if k} - child_traits
 
-    for start in roots:
+    for start in parent_indexes:
         print("-" * 80)
-        parent = indexed[start]
-        show_nodes(indexed, parent, 0)
+        parent = indexed_by_start_index[start]
+        format_parent_data(parent, indexed_by_start_index, text)
+        format_nodes(indexed_by_start_index, parent, 0)
 
     return ""
 
 
-def show_nodes(indexed: dict[int, Base], parent: Base, depth: int = 0) -> None:
+def format_parent_data(
+    parent: Base, indexed_by_start_index: dict[int, Base], text: str
+) -> None:
+    start, end = get_text_indexes(
+        parent, indexed_by_start_index, parent.start, parent.end
+    )
+    parent_name = " ".join(parent._trait.split("_")).title()
+    print(f"Trait type: {parent_name}")
+    print(f"Raw text: {text[start:end]}")
+    print()
+
+
+def get_text_indexes(
+    parent: Base, indexed_by_start_index: dict[int, Base], start: int, end: int
+) -> tuple[int, int]:
+    start = min(start, parent.start)
+    end = max(end, parent.end)
+    for link in parent.links:
+        child = indexed_by_start_index[link.start]
+        start, end = get_text_indexes(child, indexed_by_start_index, start, end)
+    return start, end
+
+
+def format_nodes(indexed: dict[int, Base], parent: Base, depth: int = 0) -> None:
     spaces = "    " * depth
-    print(f"{spaces} {parent}")
+    sex = f"{parent.sex.title()} " if parent.sex and depth == 0 else ""
+    formatted = f"{sex}{parent.for_html()}"
+    print(f"{spaces}{formatted}")
     if parent.links:
         for link in parent.links:
             child = indexed[link.start]
-            show_nodes(indexed, child, depth + 1)
-
-
-def old_format_text(text: str, traits: list[Base], classes: dict[str, int]) -> str:
-    """Colorize and format the text for HTML."""
-    frags = []
-
-    prev = 0
-    for trait in traits:
-        cls = trait._trait.replace(" ", "_")
-
-        start = trait.start
-        end = trait.end
-        title = ", ".join(f"{k} = {v}" for k, v in as_dict(trait).items())
-        title = f"{trait._trait}: {title}" if title else trait._trait
-        if prev < start:
-            frags.append(escape(text[prev:start]))
-        frags.append(f'<span class="{classes[cls]}" title="{title}">')
-        frags.append(escape(text[start:end]))
-        frags.append("</span>")
-        prev = end
-
-    if len(text) > prev:
-        frags.append(text[prev:])
-
-    return "".join(frags)
-
-
-def new_format_traits(
-    _text: str, _traits: list[Base], _classes: dict[str, int]
-) -> dict[Any, Any]:
-    formatted = {}
-    return formatted
+            format_nodes(indexed, child, depth + 1)
 
 
 def format_traits(
@@ -152,3 +140,39 @@ def format_traits(
         formatted[span] = "<br/>".join(new_traits)
 
     return formatted
+
+
+def build_css_classes(traits: list[Base]) -> dict[str, str]:
+    classes = {}
+    for trait in traits:
+        if trait._trait not in classes:
+            name = trait._trait
+            name = name.replace(" ", "_")
+            classes[name] = next(CSS_CLASSES)
+    return classes
+
+
+# def old_format_text(text: str, traits: list[Base], classes: dict[str, int]) -> str:
+#     """Colorize and format the text for HTML."""
+#     frags = []
+#
+#     prev = 0
+#     for trait in traits:
+#         cls = trait._trait if trait._trait else ""
+#         cls = cls.replace(" ", "_")
+#
+#         start = trait.start
+#         end = trait.end
+#         title = ", ".join(f"{k} = {v}" for k, v in as_dict(trait).items())
+#         title = f"{trait._trait}: {title}" if title else trait._trait
+#         if prev < start:
+#             frags.append(escape(text[prev:start]))
+#         frags.append(f'<span class="{classes[cls]}" title="{title}">')
+#         frags.append(escape(text[start:end]))
+#         frags.append("</span>")
+#         prev = end
+#
+#     if len(text) > prev:
+#         frags.append(text[prev:])
+#
+#     return "".join(frags)

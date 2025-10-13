@@ -22,7 +22,10 @@ class Subpart(Base):
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
     # ----------------------
 
-    subpart: str | None = None
+    subpart: str = ""
+
+    def for_html(self) -> str:
+        return "Subpart: " + self.subpart.title()
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

@@ -19,7 +19,10 @@ class Group(Base):
     ]
     # ----------------------
 
-    group: str | None = None
+    group: str = ""
+
+    def for_html(self) -> str:
+        return f"Group: {self.group}"
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

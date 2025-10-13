@@ -34,6 +34,18 @@ class Size(Base):
 
     dims: list[Dimension] = field(default_factory=list)
 
+    def for_html(self) -> str:
+        text = "Size: "
+        dims = []
+        for dim in self.dims:
+            val = f" {dim.dim} {dim.low}"
+            if dim.high:
+                val += f" - {dim.high}"
+            val += f" {dim.units}"
+            dims.append(val)
+        text += " x ".join(dims)
+        return text
+
     @classmethod
     def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="size_terms", path=cls.terms)

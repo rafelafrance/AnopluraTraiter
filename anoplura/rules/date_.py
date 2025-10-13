@@ -10,6 +10,14 @@ from anoplura.rules.base import Base
 
 @dataclass(eq=False)
 class Date(Base, T_Date):
+    def for_html(self) -> str:
+        text = f"Date: {self.date}"
+        if self.century_adjust:
+            text += ", century adjusted"
+        if self.missing_day:
+            text += ", missing day"
+        return text
+
     @classmethod
     def pipe(cls, nlp: Language) -> None:
         T_Date.pipe(nlp)

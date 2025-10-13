@@ -11,7 +11,7 @@ install:
 
 dev:
 	uv sync
-	uv pip install -e ../../traiter/traiter
+	uv pip install -e ../traiter
 	uv run -- spacy download en_core_web_md
 
 clean:

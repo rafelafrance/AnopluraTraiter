@@ -25,6 +25,17 @@ class Sternite(Base):
     part: str = "sternite"
     number: list[int] | None = None
 
+    def for_html(self) -> str:
+        part = self.part.title()
+        if not self.number:
+            number = ""
+        elif len(self.number) == 1:
+            number = f": {self.number[0]}"
+        else:
+            numbers = [str(n) for n in self.number]
+            number = f"s: {', '.join(numbers)}"
+        return f"{part}{number}"
+
     @classmethod
     def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="sternite_terms", path=cls.terms)

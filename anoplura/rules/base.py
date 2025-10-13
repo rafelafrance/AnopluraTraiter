@@ -1,4 +1,4 @@
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 
 from traiter.rules.base import Base as TraiterBase
 
@@ -20,10 +20,10 @@ ANY_PART: list[str] = [*PARTS, "subpart", "seta"]
 
 @dataclass
 class Link:
-    trait: str | None
-    start: int | None
-    end: int | None
-    _text: str | None = ""
+    trait: str
+    start: int
+    end: int
+    _text: str = ""
 
     def __hash__(self) -> int:
         return hash(tuple(self.to_dict().items()))
@@ -39,11 +39,15 @@ class Link:
 
 @dataclass(eq=False)
 class Base(TraiterBase):
-    sex: str | None = None
-    links: list | None = None
+    sex: str = ""
+    links: list = field(default_factory=list)
 
     def __hash__(self) -> int:
-        return hash(tuple(as_dict(self).items()))
+        dct = as_dict(self)
+        if "links" in dct:
+            del dct["links"]
+        dct = {k: tuple(v) if isinstance(v, list) else v for k, v in dct.items()}
+        return hash(tuple(dct.items()))
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, Base):
@@ -60,6 +64,9 @@ class Base(TraiterBase):
             self.links = []
         if all(lk != link for lk in self.links):
             self.links.append(link)
+
+    def for_html(self) -> str:
+        return f"Trait: {self._trait} - {self._text}"
 
 
 def as_dict(trait: Base) -> dict:

@@ -20,7 +20,10 @@ class Position(Base):
     ]
     # ----------------------
 
-    position: str | None = None
+    position: str = ""
+
+    def for_html(self) -> str:
+        return f"Position: {self.position}"
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

@@ -23,6 +23,9 @@ class Shape(Base):
 
     shape: str | None = None
 
+    def for_html(self) -> str:
+        return f"Shape: {self.shape}"
+
     @classmethod
     def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="shape_terms", path=cls.terms)

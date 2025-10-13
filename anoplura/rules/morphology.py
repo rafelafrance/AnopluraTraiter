@@ -21,7 +21,10 @@ class Morphology(Base):
     dash: ClassVar[list[str]] = ["-", "–", "—"]
     # ----------------------
 
-    morphology: str | None = None
+    morphology: str = ""
+
+    def for_html(self) -> str:
+        return f"Morphology: {self.morphology}"
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

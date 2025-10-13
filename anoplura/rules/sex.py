@@ -19,7 +19,8 @@ class Sex(Base):
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
     # ---------------------
 
-    sex: str | None = None
+    def for_html(self) -> str:
+        return f"Sex: {self.sex}"
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

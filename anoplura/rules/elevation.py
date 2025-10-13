@@ -10,6 +10,14 @@ from anoplura.rules.base import Base
 
 @dataclass(eq=False)
 class Elevation(Base, T_Elevation):
+    def for_html(self) -> str:
+        about = "about " if self.about else ""
+        text = f"Elevation: {about}{self.elevation:0.2f}"
+        if self.elevation_high:
+            text += f" - {self.elevation_high:0.2f}"
+        text += f" {self.units}"
+        return text
+
     @classmethod
     def pipe(cls, nlp: Language) -> None:
         T_Elevation.pipe(nlp)

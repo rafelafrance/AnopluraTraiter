@@ -31,7 +31,7 @@ def remove_figures(text: str) -> str:
 def parse_args() -> argparse.Namespace:
     arg_parser = argparse.ArgumentParser(
         allow_abbrev=True,
-        description=textwrap.dedent("""Parse data from lice papers."""),
+        description=textwrap.dedent("""Parse data from papers describing lice."""),
     )
 
     arg_parser.add_argument(

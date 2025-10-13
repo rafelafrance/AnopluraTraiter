@@ -26,6 +26,9 @@ class Taxon(Base):
     taxon: str | None = None
     rank: str | None = None
 
+    def for_html(self) -> str:
+        return f"Taxon: {self.taxon} {self.rank}"
+
     @classmethod
     def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="taxon_terms", path=cls.taxon_csv)

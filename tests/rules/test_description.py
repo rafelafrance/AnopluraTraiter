@@ -185,8 +185,8 @@ class TestDescription(unittest.TestCase):
                     start=1,
                     end=5,
                     links=[
-                        Link(trait="position", start=7, end=16, _text="ventrally"),
-                        Link(trait="group", start=17, end=29, _text="on each side"),
+                        Link(trait="position", start=7, end=16),
+                        Link(trait="group", start=17, end=29),
                     ],
                     seta="ventral principal head setae",
                     seta_part="head",
@@ -206,8 +206,8 @@ class TestDescription(unittest.TestCase):
                     start=7,
                     end=20,
                     links=[
-                        Link(trait="shape", start=0, end=6, _text="narrow"),
-                        Link(trait="shape", start=25, end=30, _text="stout"),
+                        Link(trait="shape", start=0, end=6),
+                        Link(trait="shape", start=25, end=30),
                     ],
                     seta="central setae",
                 ),
@@ -293,7 +293,7 @@ class TestDescription(unittest.TestCase):
                 Sternite(
                     start=2,
                     end=11,
-                    links=[Link(trait="count", start=0, end=1, _text="2")],
+                    links=[Link(trait="count", start=0, end=1)],
                     part="sternite",
                 ),
                 GroupPrefix(
@@ -304,10 +304,7 @@ class TestDescription(unittest.TestCase):
                 Segment(
                     start=23,
                     end=35,
-                    sex=None,
-                    links=[
-                        Link(trait="group_prefix", start=12, end=22, _text="on each of")
-                    ],
+                    links=[Link(trait="group_prefix", start=12, end=22)],
                     part="segment",
                     number=[4, 5, 6],
                 ),

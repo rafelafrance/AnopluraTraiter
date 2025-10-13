@@ -20,9 +20,15 @@ class SpecimenType(Base):
     ]
     # ----------------------
 
-    specimen_type: str | None = None
-    specimen_sex: str | None = None
+    specimen_type: str = ""
     specimen_type_other: str | None = None
+
+    def for_html(self) -> str:
+        text = (
+            f"{self.specimen_type_other.title()} " if self.specimen_type_other else ""
+        )
+        text += f"{self.specimen_type.title()}"
+        return text
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:
@@ -67,8 +73,10 @@ class SpecimenType(Base):
             elif sub_ent.label_ == "other_type":
                 other = sub_ent.text.lower()
 
+        sex = sex if sex else ""
+
         return cls.from_ent(
-            ent, specimen_type=type_, specimen_sex=sex, specimen_type_other=other
+            ent, specimen_type=type_, sex=sex, specimen_type_other=other
         )
 
 

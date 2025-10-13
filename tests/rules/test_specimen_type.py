@@ -9,9 +9,7 @@ class TestSpecimenType(unittest.TestCase):
         self.assertEqual(
             parse("Holotype (female)"),
             [
-                SpecimenType(
-                    specimen_type="holotype", specimen_sex="female", start=0, end=17
-                ),
+                SpecimenType(specimen_type="holotype", sex="female", start=0, end=17),
             ],
         )
 

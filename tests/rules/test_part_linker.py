@@ -120,15 +120,14 @@ class TestPartLinker(unittest.TestCase):
                 Sternite(
                     start=0,
                     end=8,
-                    sex=None,
-                    links=[Link(trait="position", start=9, end=18, _text="ventrally")],
+                    links=[Link(trait="position", start=9, end=18)],
                     part="sternite",
                 ),
                 Position(start=9, end=18, position="ventrally"),
                 Segment(
                     start=22,
                     end=31,
-                    links=[Link(trait="sternite", start=0, end=8, _text="sternite")],
+                    links=[Link(trait="sternite", start=0, end=8)],
                     part="segment",
                     number=[1],
                 ),

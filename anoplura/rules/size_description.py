@@ -22,6 +22,9 @@ class SizeDescription(Base):
 
     size_description: str | None = None
 
+    def for_html(self) -> str:
+        return f"Size: {self.size_description}"
+
     @classmethod
     def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="size_description_terms", path=cls.terms)

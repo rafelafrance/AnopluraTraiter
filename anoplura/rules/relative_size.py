@@ -24,6 +24,12 @@ class RelativeSize(Base):
     relative_part: str | None = None
     relative_part_number: list[int] | None = None
 
+    def for_html(self) -> str:
+        text = f"Position: {self.relative_size} {self.relative_part}"
+        if self.relative_part_number:
+            text += f" {self.relative_part_number}"
+        return text
+
     @classmethod
     def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="relative_size_terms", path=cls.terms)

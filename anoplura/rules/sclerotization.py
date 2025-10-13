@@ -20,7 +20,10 @@ class Sclerotization(Base):
     dash: ClassVar[list[str]] = ["-", "–", "—"]
     # ----------------------
 
-    sclerotization: str | None = None
+    sclerotization: str = ""
+
+    def for_html(self) -> str:
+        return f"Sclerotization: {self.sclerotization}"
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

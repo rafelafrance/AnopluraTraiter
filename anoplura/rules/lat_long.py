@@ -10,6 +10,16 @@ from anoplura.rules.base import Base
 
 @dataclass(eq=False)
 class LatLong(Base, T_LatLong):
+    def for_html(self) -> str:
+        text = f"Lat/Long: {self.lat_long}"
+        if self.datum:
+            text += f" {self.datum}"
+        if self.uncertainty:
+            text += " +/- {self.uncertainty:0.2f}"
+        if self.units:
+            text += f" {self.units}"
+        return text
+
     @classmethod
     def pipe(cls, nlp: Language) -> None:
         T_LatLong.pipe(nlp)
