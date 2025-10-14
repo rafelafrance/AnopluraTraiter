@@ -10,22 +10,28 @@ h1 > span {
     margin-right: 12px;
 }
 
-table {
-    margin-top: 1em;
-    border-collapse: collapse;
-    border: 1px solid black;
+.trait_type {
+  border-top: 1px solid black;
 }
 
-th {
-    position: sticky;
-    top: 0px;
-    background-color: #f0f0f0;
+.raw_label, .sex, .key {
+  margin-right: 1rem;
 }
 
-td; th {
-    border: 1px solid #0f0f0f;
-    padding: 0.5rem;
-    text-align: left;
+.raw_text {
+  font-size: smaller;
+}
+
+.level-1 {
+  margin-left: 1rem;
+}
+
+.level-2 {
+  margin-left: 2rem;
+}
+
+.level-3 {
+  margin-left: 3rem;
 }
 
 .cc0 {background: #A52A2A66; color: black; font-style: normal;}

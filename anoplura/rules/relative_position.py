@@ -25,14 +25,10 @@ class RelativePosition(Base):
 
     def for_html(self) -> HtmlFormat:
         text = f"{self.relative_position} {self.relative_part}"
-        if not self.relative_part_number:
-            number = ""
-        elif len(self.relative_part_number) == 1:
-            number = f": {self.relative_part_number[0]}"
-        else:
-            numbers = [str(n) for n in self.relative_part_number]
-            number = f"s: {', '.join(numbers)}"
-        return HtmlFormat(key="Position", value=text + number)
+        number = ""
+        if self.relative_part_number:
+            number = " " + ", ".join([str(n) for n in self.relative_part_number])
+        return HtmlFormat("Position", value=text + number)
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

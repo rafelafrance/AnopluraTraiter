@@ -26,14 +26,11 @@ class Tergite(Base):
     number: list[int] | None = None
 
     def for_html(self) -> HtmlFormat:
-        if not self.number:
-            number = ""
-        elif len(self.number) == 1:
-            number = f": {self.number[0]}"
-        else:
-            numbers = [str(n) for n in self.number]
-            number = f"s: {', '.join(numbers)}"
-        return HtmlFormat(key=self.part.title(), value=number)
+        suffix, number = "", ""
+        if self.number:
+            number = ", ".join([str(n) for n in self.number])
+            suffix = "s" if len(number) > 1 else ""
+        return HtmlFormat(key=self.part.title() + suffix, value=number)
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

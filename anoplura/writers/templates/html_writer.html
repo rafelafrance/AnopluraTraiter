@@ -12,21 +12,6 @@
     <h1>Traiter: {{ file_name }} <span>{{ now }}</span></h1>
     <div>{{ text | safe }}</div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Trait label</th>
-                <th>Trait data</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for label, traits in traits.items() %}
-            <tr>
-                <td>{{ label | safe }}</td>
-                <td>{{ traits | safe }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    {{ text | safe }}
 </body>
 </html>
