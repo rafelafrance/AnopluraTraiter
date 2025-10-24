@@ -23,7 +23,7 @@ class SexualDimorphism(Base):
     description: str | None = None
 
     def for_html(self) -> HtmlFormat:
-        value = f"{self.description} compared to {self.reference_sex}"
+        value = f"{self.description} {self.reference_sex}"
         return HtmlFormat(key="Sexual Dimorphism", value=value)
 
     @classmethod
