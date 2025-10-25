@@ -11,7 +11,8 @@ from anoplura.rules.base import Base, ForOutput
 @dataclass(eq=False)
 class Date(Base, T_Date):
     def for_output(self) -> ForOutput:
-        text = self.date if self.date else ""
+        text = "Date: "
+        text += self.date if self.date else ""
         if self.century_adjust:
             text += ", century adjusted"
         if self.missing_day:

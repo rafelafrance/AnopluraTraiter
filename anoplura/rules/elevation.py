@@ -12,7 +12,7 @@ from anoplura.rules.base import Base, ForOutput
 class Elevation(Base, T_Elevation):
     def for_output(self) -> ForOutput:
         about = "about " if self.about else ""
-        text = f"{about}{self.elevation:0.2f}"
+        text = f"Elevation: {about}{self.elevation:0.2f}"
         if self.elevation_high:
             text += f" - {self.elevation_high:0.2f}"
         text += f" {self.units}"

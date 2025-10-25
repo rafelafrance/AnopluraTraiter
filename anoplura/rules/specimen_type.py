@@ -27,7 +27,7 @@ class SpecimenType(Base):
         text = (
             f"{self.specimen_type_other.title()} " if self.specimen_type_other else ""
         )
-        text += f"{self.specimen_type.title()} {self.sex}"
+        text += f"{self.specimen_type.title()}: {self.sex}"
         return ForOutput(key="Specimen Type", value=text)
 
     @classmethod

@@ -11,7 +11,8 @@ from anoplura.rules.base import Base, ForOutput
 @dataclass(eq=False)
 class LatLong(Base, T_LatLong):
     def for_output(self) -> ForOutput:
-        text = self.lat_long if self.lat_long else ""
+        text = "Lat/Long: "
+        text += self.lat_long if self.lat_long else ""
         if self.datum:
             text += f" {self.datum}"
         if self.uncertainty:

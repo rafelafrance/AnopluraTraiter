@@ -23,7 +23,7 @@ class SexualDimorphism(Base):
     description: str | None = None
 
     def for_output(self) -> ForOutput:
-        value = f"{self.sex} {self.description} {self.reference_sex}"
+        value = f"{self.sex.title()} {self.description} {self.reference_sex}"
         return ForOutput(key="Sexual Dimorphism", value=value)
 
     @classmethod

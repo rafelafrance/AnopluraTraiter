@@ -20,7 +20,7 @@ class Sex(Base):
     # ---------------------
 
     def for_output(self) -> ForOutput:
-        return ForOutput(key="Sex", value=self.sex)
+        return ForOutput(key="Sex", value=self.sex.title())
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

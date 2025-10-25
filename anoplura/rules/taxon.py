@@ -28,7 +28,7 @@ class Taxon(Base):
 
     def for_output(self) -> ForOutput:
         key = self.rank.title() if self.rank else "Taxon"
-        return ForOutput(key, value=self.taxon)
+        return ForOutput(key, value=f"{key}: {self.taxon}")
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

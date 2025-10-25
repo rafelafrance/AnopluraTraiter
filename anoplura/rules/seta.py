@@ -28,8 +28,9 @@ class Seta(Base):
     seta_part: str | None = None
 
     def for_output(self) -> ForOutput:
-        text = self.seta.title()
-        return ForOutput(key=text, value=text)
+        sex = f"{self.sex.title()} " if self.sex else ""
+        value = self.seta.title()
+        return ForOutput(key=value, value=f"{sex}{value}")
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:
