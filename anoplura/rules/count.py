@@ -9,7 +9,7 @@ from traiter.pipes import add
 from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.base import Base, HtmlFormat
+from anoplura.rules.base import Base, ForOutput
 
 
 @dataclass(eq=False)
@@ -26,11 +26,11 @@ class Count(Base):
     count_low: int | None = None
     count_high: int | None = None
 
-    def for_html(self) -> HtmlFormat:
+    def for_output(self) -> ForOutput:
         value = f"{self.count_low:d}"
         if self.count_high:
             value += f" - {self.count_high:d}"
-        return HtmlFormat(key="Count", value=value)
+        return ForOutput(key="Count", value=value)
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

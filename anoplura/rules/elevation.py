@@ -5,18 +5,18 @@ from spacy.tokens import Span
 from spacy.util import registry
 from traiter.rules.elevation import Elevation as T_Elevation
 
-from anoplura.rules.base import Base, HtmlFormat
+from anoplura.rules.base import Base, ForOutput
 
 
 @dataclass(eq=False)
 class Elevation(Base, T_Elevation):
-    def for_html(self) -> HtmlFormat:
+    def for_output(self) -> ForOutput:
         about = "about " if self.about else ""
         text = f"{about}{self.elevation:0.2f}"
         if self.elevation_high:
             text += f" - {self.elevation_high:0.2f}"
         text += f" {self.units}"
-        return HtmlFormat(key="Elevation", value=text)
+        return ForOutput(key="Elevation", value=text)
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

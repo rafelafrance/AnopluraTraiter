@@ -9,7 +9,7 @@ from traiter.pipes import add
 from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.base import Base, HtmlFormat
+from anoplura.rules.base import Base, ForOutput
 
 
 @dataclass(eq=False)
@@ -26,11 +26,9 @@ class Taxon(Base):
     taxon: str = ""
     rank: str | None = None
 
-    def for_html(self) -> HtmlFormat:
-        value = self.taxon
-        if self.rank:
-            value += f" {self.rank}"
-        return HtmlFormat("Taxon", value=value)
+    def for_output(self) -> ForOutput:
+        key = self.rank.title() if self.rank else "Taxon"
+        return ForOutput(key, value=self.taxon)
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

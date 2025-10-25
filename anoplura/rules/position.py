@@ -8,7 +8,7 @@ from spacy.util import registry
 from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.base import Base, HtmlFormat
+from anoplura.rules.base import Base, ForOutput
 
 
 @dataclass(eq=False)
@@ -22,8 +22,8 @@ class Position(Base):
 
     position: str = ""
 
-    def for_html(self) -> HtmlFormat:
-        return HtmlFormat(key="Position", value=self.position)
+    def for_output(self) -> ForOutput:
+        return ForOutput(key="Position", value=f"Position: {self.position}")
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

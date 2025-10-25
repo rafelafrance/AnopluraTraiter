@@ -5,18 +5,18 @@ from spacy.tokens import Span
 from spacy.util import registry
 from traiter.rules.date_ import Date as T_Date
 
-from anoplura.rules.base import Base, HtmlFormat
+from anoplura.rules.base import Base, ForOutput
 
 
 @dataclass(eq=False)
 class Date(Base, T_Date):
-    def for_html(self) -> HtmlFormat:
+    def for_output(self) -> ForOutput:
         text = self.date if self.date else ""
         if self.century_adjust:
             text += ", century adjusted"
         if self.missing_day:
             text += ", missing day"
-        return HtmlFormat(key="Date", value=text)
+        return ForOutput(key="Date", value=text)
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

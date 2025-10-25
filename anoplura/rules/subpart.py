@@ -9,7 +9,7 @@ from traiter.pipes import add
 from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.base import PARTS, Base, HtmlFormat
+from anoplura.rules.base import PARTS, Base, ForOutput
 
 
 @dataclass(eq=False)
@@ -24,8 +24,8 @@ class Subpart(Base):
 
     subpart: str = ""
 
-    def for_html(self) -> HtmlFormat:
-        return HtmlFormat(key="Subpart", value=self.subpart.title())
+    def for_output(self) -> ForOutput:
+        return ForOutput(key="Subpart", value=self.subpart.title())
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

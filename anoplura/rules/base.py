@@ -38,7 +38,7 @@ class Link:
 
 
 @dataclass
-class HtmlFormat:
+class ForOutput:
     key: str
     value: str = ""
 
@@ -71,8 +71,8 @@ class Base(TraiterBase):
         if all(lk != link for lk in self.links):
             self.links.append(link)
 
-    def for_html(self) -> HtmlFormat:
-        return HtmlFormat(key="Trait", value=self._text)
+    def for_output(self) -> ForOutput:
+        return ForOutput(key="Trait", value=self._text)
 
 
 def as_dict(trait: Base) -> dict:

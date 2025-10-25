@@ -7,7 +7,7 @@ from pathlib import Path
 
 from pylib import pipeline
 from traiter.pylib import util
-from writers import html_writer
+from writers import html_writer, md_writer
 
 
 def main(args: argparse.Namespace) -> None:
@@ -18,8 +18,12 @@ def main(args: argparse.Namespace) -> None:
         text = util.clean_text(text)
         text = remove_figures(text)
         doc = nlp(text)
+
         if args.html_output:
             html_writer.writer(doc, args.html_output)
+
+        if args.markdown_output:
+            md_writer.write(doc, args.markdown_output)
 
 
 def remove_figures(text: str) -> str:
@@ -47,6 +51,13 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         metavar="PATH",
         help="""Output the results to this HTML file.""",
+    )
+
+    arg_parser.add_argument(
+        "--markdown-output",
+        type=Path,
+        metavar="PATH",
+        help="""Output the results to this markdown file.""",
     )
 
     args = arg_parser.parse_args()

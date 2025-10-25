@@ -9,7 +9,7 @@ from spacy.util import registry
 from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.base import Base, HtmlFormat
+from anoplura.rules.base import Base, ForOutput
 
 
 @dataclass(eq=False)
@@ -23,12 +23,12 @@ class SpecimenType(Base):
     specimen_type: str = ""
     specimen_type_other: str | None = None
 
-    def for_html(self) -> HtmlFormat:
+    def for_output(self) -> ForOutput:
         text = (
             f"{self.specimen_type_other.title()} " if self.specimen_type_other else ""
         )
-        text += f"{self.specimen_type.title()}"
-        return HtmlFormat(key="Specimen Type", value=text)
+        text += f"{self.specimen_type.title()} {self.sex}"
+        return ForOutput(key="Specimen Type", value=text)
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

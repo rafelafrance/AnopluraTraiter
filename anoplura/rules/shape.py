@@ -8,7 +8,7 @@ from spacy.util import registry
 from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.base import Base, HtmlFormat
+from anoplura.rules.base import Base, ForOutput
 
 
 @dataclass(eq=False)
@@ -23,8 +23,8 @@ class Shape(Base):
 
     shape: str = ""
 
-    def for_html(self) -> HtmlFormat:
-        return HtmlFormat(key="Shape", value=self.shape)
+    def for_output(self) -> ForOutput:
+        return ForOutput(key="Shape", value=f"Shape: {self.shape}")
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

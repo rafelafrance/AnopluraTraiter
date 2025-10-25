@@ -9,7 +9,7 @@ from traiter.pipes import add
 from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.base import Base, HtmlFormat
+from anoplura.rules.base import Base, ForOutput
 
 
 @dataclass(eq=False)
@@ -19,8 +19,8 @@ class Sex(Base):
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
     # ---------------------
 
-    def for_html(self) -> HtmlFormat:
-        return HtmlFormat(key="Sex", value=self.sex)
+    def for_output(self) -> ForOutput:
+        return ForOutput(key="Sex", value=self.sex)
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

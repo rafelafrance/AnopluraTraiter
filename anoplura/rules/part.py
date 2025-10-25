@@ -9,7 +9,7 @@ from traiter.pipes import add
 from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.base import Base, HtmlFormat
+from anoplura.rules.base import Base, ForOutput
 
 
 @dataclass(eq=False)
@@ -24,8 +24,10 @@ class Part(Base):
 
     part: str = ""
 
-    def for_html(self) -> HtmlFormat:
-        return HtmlFormat(key=self.part.title())
+    def for_output(self) -> ForOutput:
+        sex = f"{self.sex.title()} " if self.sex else ""
+        value = self.part.title()
+        return ForOutput(key=value, value=f"{sex}{value}")
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:
