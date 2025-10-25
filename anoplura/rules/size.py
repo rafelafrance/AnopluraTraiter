@@ -35,7 +35,7 @@ class Size(Base):
     dims: list[Dimension] = field(default_factory=list)
 
     def for_output(self) -> ForOutput:
-        text = ""
+        text = "Size: "
         dims = []
         for dim in self.dims:
             val = f" {dim.dim} {dim.low}"

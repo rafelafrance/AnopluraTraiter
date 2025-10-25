@@ -30,7 +30,7 @@ class Count(Base):
         value = f"{self.count_low:d}"
         if self.count_high:
             value += f" - {self.count_high:d}"
-        return ForOutput(key="Count", value=value)
+        return ForOutput(key="Count", value=f"Count: {value}")
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

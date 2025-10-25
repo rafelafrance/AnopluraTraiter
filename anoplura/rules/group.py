@@ -22,7 +22,7 @@ class Group(Base):
     group: str = ""
 
     def for_output(self) -> ForOutput:
-        return ForOutput(key="Group", value=self.group)
+        return ForOutput(key="Group", value=f"Group: {self.group}")
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

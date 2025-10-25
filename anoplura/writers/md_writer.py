@@ -65,7 +65,6 @@ def format_traits(traits: list[Base], text: str) -> list[str]:
         lines.append("---")
         header = parents[0].for_output().key
 
-        # header = " ".join(parents[0]._trait.split("_")).title()
         lines.append(f"## {header}")
 
         # Format the raw text for each parent trait
@@ -73,9 +72,15 @@ def format_traits(traits: list[Base], text: str) -> list[str]:
             start, end = get_text_pos(parent, trait_pos, parent.start, parent.end)
             lines.append(f"**Raw Text**  _{text[start:end]}_")
 
+        # Sort parents so they are easier to group
+        parents = sorted(parents, key=lambda p: p.for_output().value)
+
         # Format the trait nodes
+        prev_value = ""
         for parent in parents:
-            format_nodes(lines, trait_pos, parent, 0)
+            value = parent.for_output().value
+            format_nodes(lines, trait_pos, parent, 0, hide=(value == prev_value))
+            prev_value = value
 
     return lines
 
@@ -92,11 +97,17 @@ def get_text_pos(
 
 
 def format_nodes(
-    lines: list[str], indexed: dict[int, Base], parent: Base, depth: int = 0
+    lines: list[str],
+    trait_pos: dict[int, Base],
+    parent: Base,
+    depth: int = 0,
+    *,
+    hide: bool = False,
 ) -> None:
-    level = "    " * depth
-    lines.append(f"{level}- {parent.for_output().value}")
+    if not hide:
+        indent = "    " * depth
+        lines.append(f"{indent}- {parent.for_output().value}")
     if parent.links:
         for link in parent.links:
-            child = indexed[link.start]
-            format_nodes(lines, indexed, child, depth + 1)
+            child = trait_pos[link.start]
+            format_nodes(lines, trait_pos, child, depth + 1)

@@ -24,7 +24,7 @@ class Morphology(Base):
     morphology: str = ""
 
     def for_output(self) -> ForOutput:
-        return ForOutput(key="Morphology", value=self.morphology)
+        return ForOutput(key="Morphology", value=f"Morphology: {self.morphology}")
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

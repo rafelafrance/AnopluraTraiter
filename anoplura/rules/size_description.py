@@ -23,7 +23,7 @@ class SizeDescription(Base):
     size_description: str = ""
 
     def for_output(self) -> ForOutput:
-        return ForOutput(key="Size", value=self.size_description)
+        return ForOutput(key="Size", value=f"Size: {self.size_description}")
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

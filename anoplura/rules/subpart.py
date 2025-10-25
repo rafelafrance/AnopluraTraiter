@@ -25,7 +25,7 @@ class Subpart(Base):
     subpart: str = ""
 
     def for_output(self) -> ForOutput:
-        return ForOutput(key="Subpart", value=self.subpart.title())
+        return ForOutput(key="Subpart", value=f"Subpart: {self.subpart.title()}")
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

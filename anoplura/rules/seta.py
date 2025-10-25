@@ -28,7 +28,8 @@ class Seta(Base):
     seta_part: str | None = None
 
     def for_output(self) -> ForOutput:
-        return ForOutput(key=self.seta.title())
+        text = self.seta.title()
+        return ForOutput(key=text, value=text)
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:

@@ -26,9 +26,10 @@ class Segment(Base):
     def for_output(self) -> ForOutput:
         suffix, number = "", ""
         if self.number:
-            number = ", ".join([str(n) for n in self.number])
-            suffix = "s" if len(number) > 1 else ""
-        return ForOutput(key=self.part.title() + suffix, value=number)
+            number = " " + ", ".join([str(n) for n in self.number])
+            suffix = "s" if len(self.number) > 1 else ""
+        text = self.part.title() + suffix + number
+        return ForOutput(key=text, value=text)
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:
