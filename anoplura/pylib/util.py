@@ -67,3 +67,9 @@ def clean_text(
     text = re.sub(r"\p{Cc}+", " ", text)
 
     return text
+
+
+def remove_figures(text: str) -> str:
+    return re.sub(
+        r" \s* \( [^)]* fig [^)]+ \) ", "", text, flags=re.IGNORECASE | re.VERBOSE
+    )

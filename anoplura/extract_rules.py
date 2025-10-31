@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
 
 import argparse
-import re
 import textwrap
 from pathlib import Path
 
-from pylib import pipeline
-from traiter.pylib import util
+from pylib import pipeline, util
 from writers import html_writer, md_writer
 
 
@@ -16,7 +14,7 @@ def main(args: argparse.Namespace) -> None:
     with args.text_input.open() as in_file:
         text = " ".join(in_file.readlines())
         text = util.clean_text(text)
-        text = remove_figures(text)
+        text = util.remove_figures(text)
         doc = nlp(text)
 
         if args.html_output:
@@ -24,12 +22,6 @@ def main(args: argparse.Namespace) -> None:
 
         if args.markdown_output:
             md_writer.write(doc, args.markdown_output)
-
-
-def remove_figures(text: str) -> str:
-    return re.sub(
-        r" \s* \( [^)]* fig [^)]+ \) ", "", text, flags=re.IGNORECASE | re.VERBOSE
-    )
 
 
 def parse_args() -> argparse.Namespace:

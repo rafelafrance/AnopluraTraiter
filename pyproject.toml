@@ -3,7 +3,7 @@ requires = ["uv_build>=0.8.13"]
 build-backend = "uv_build"
 
 [project]
-name = "AnopluraTraiter"
+name = "anopluraTraiter"
 version = "0.1.0"
 readme = "README.md"
 description = "Rule-based parsers for mining scientific liturature about biting lice"
@@ -14,6 +14,7 @@ dependencies = [
   "dspy>=3.0.1",
   "ftfy>=6.3.1",
   "jinja2>=3.1.6",
+  "marimo>=0.17.2",
   "mohtml>=0.1.11",
   "pip>=25.2",
   "polars>=1.34.0",

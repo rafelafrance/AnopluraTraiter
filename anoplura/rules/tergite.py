@@ -26,11 +26,10 @@ class Tergite(Base):
     number: list[int] | None = None
 
     def for_output(self) -> ForOutput:
-        suffix, number = "", ""
+        number = ""
         if self.number:
             number = " " + ", ".join([str(n) for n in self.number])
-            suffix = "s" if len(self.number) > 1 else ""
-        text = self.part.title() + suffix + number
+        text = self.part.title() + number
         return ForOutput(key=text, value=text)
 
     @classmethod

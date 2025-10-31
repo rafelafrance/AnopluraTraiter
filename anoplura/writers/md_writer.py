@@ -23,7 +23,7 @@ def write(doc: Doc, md_file: Path) -> None:
 
 def format_traits(traits: list[Base], text: str, md_file: Path) -> list[str]:
     # Index traits by position and group traits by type
-    trait_pos, trait_type = orgainize_traits(traits)
+    trait_pos, parent_type = orgainize_traits(traits)
 
     lines = []
     # Add a document header
@@ -31,7 +31,7 @@ def format_traits(traits: list[Base], text: str, md_file: Path) -> list[str]:
     lines.append(f"# {md_file.stem}   {now}")
 
     # Format each trait and its children
-    for parents in trait_type.values():
+    for parents in parent_type.values():
         lines.append("---")
         header = parents[0].for_output().key
 
