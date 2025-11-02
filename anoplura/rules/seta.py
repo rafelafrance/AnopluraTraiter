@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import ClassVar
 
+import traiter.pylib.const as t_const
 from spacy.language import Language
 from spacy.tokens import Span
 from spacy.util import registry
@@ -45,6 +46,8 @@ class Seta(Base):
                 label="seta",
                 on_match="seta_match",
                 decoder={
+                    "(": {"LOWER": {"IN": t_const.OPEN}},
+                    ")": {"LOWER": {"IN": t_const.CLOSE}},
                     "abbrev": {"ENT_TYPE": "seta_abbrev"},
                     "chaeta": {"ENT_TYPE": "chaeta"},
                     "seta": {"ENT_TYPE": "setae"},
@@ -54,6 +57,8 @@ class Seta(Base):
                     "abbrev+",
                     "pos* chaeta+",
                     "pos* seta+",
+                    "pos* chaeta+ (? abbrev+ )?",
+                    "pos* seta+   (? abbrev+ )? ",
                 ],
             ),
         ]

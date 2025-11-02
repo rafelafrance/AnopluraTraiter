@@ -10,8 +10,9 @@
 </head>
 <body>
     <h1>Traiter: {{ file_name }} <span>{{ now }}</span></h1>
-    <div>{{ text | safe }}</div>
 
-    {{ text | safe }}
+    {{ formatted_text | safe }}
+
+    <div>{{ formatted_traits | safe }}</div>
 </body>
 </html>

@@ -1,6 +1,15 @@
 from collections import defaultdict
+from copy import deepcopy
 
 from anoplura.rules.base import Base
+from anoplura.rules.gonopod import Gonopod
+from anoplura.rules.plate import Plate
+from anoplura.rules.segment import Segment
+from anoplura.rules.sternite import Sternite
+from anoplura.rules.tergite import Tergite
+
+# Used for spliting numbered traits
+NumberedPart = Gonopod | Plate | Segment | Sternite | Tergite
 
 ORDER = {
     "taxon": 0,
@@ -21,38 +30,59 @@ ORDER = {
 
 
 def get_text_pos(
-    parent: Base, trait_pos: dict[int, Base], start: int, end: int
+    parent: Base, traits_by_pos: dict[int, list[Base]], start: int, end: int
 ) -> tuple[int, int]:
     """Find the entire string used for the trait."""
     start = min(start, parent.start)
     end = max(end, parent.end)
     for link in parent.links:
-        child = trait_pos[link.start]
-        start, end = get_text_pos(child, trait_pos, start, end)
+        children = traits_by_pos[link.start]
+        for child in children:
+            start, end = get_text_pos(child, traits_by_pos, start, end)
     return start, end
 
 
-def orgainize_traits(traits: list[Base]) -> tuple[dict, dict]:
+def orgainize_traits(traits: list[Base]) -> tuple[dict[int, list], dict[str, list]]:
     """Index traits by position, and group traits by type."""
     # Index the traits by their position in the document
-    trait_pos = {t.start: t for t in traits}
+    traits_by_pos: dict[int, list[Base]] = defaultdict(list)
+    for trait in traits:
+        traits_by_pos[trait.start].append(trait)
 
     # Find the children of each trait
     child_traits = set()
-    for trait in trait_pos.values():
-        if trait.links:
-            for link in trait.links:
-                child_traits.add(link.start)
+    for trait_list in traits_by_pos.values():
+        for trait in trait_list:
+            if trait.links:
+                for link in trait.links:
+                    child_traits.add(link.start)
 
     # Parent traits are those that are not in child traits
-    parent_pos = {k for k in trait_pos if k} - child_traits
+    parent_pos = {k for k in traits_by_pos if k} - child_traits
 
     # Sort parent traits by their type
-    parent_type = defaultdict(list)
+    parents_by_type = defaultdict(list)
     for start in parent_pos:
-        parent = trait_pos[start]
-        key = parent.for_output().key
-        parent_type[(ORDER[parent._trait], key)].append(parent)
-    parent_type = dict(sorted(parent_type.items()))
+        parents = traits_by_pos[start]
+        for parent in parents:
+            key = parent.for_output().key
+            parents_by_type[(ORDER[parent._trait], key)].append(parent)
+    parents_by_type = dict(sorted(parents_by_type.items()))
 
-    return trait_pos, parent_type
+    return traits_by_pos, parents_by_type
+
+
+def split_traits(traits: list[Base]) -> list[Base]:
+    """Split numbered parts so that each number is in its own trait."""
+    new_traits = []
+
+    for trait in traits:
+        if isinstance(trait, NumberedPart) and trait.number:
+            for number in trait.number:
+                new = deepcopy(trait)
+                new.number = [number]
+                new_traits.append(new)
+        else:
+            new_traits.append(trait)
+
+    return new_traits

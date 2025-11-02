@@ -4,13 +4,14 @@ from pathlib import Path
 from spacy.tokens import Doc
 
 from anoplura.rules.base import Base
-from anoplura.writers.writer_util import get_text_pos, orgainize_traits
+from anoplura.writers.writer_util import get_text_pos, orgainize_traits, split_traits
 
 # from pprint import pp
 
 
 def write(doc: Doc, md_file: Path) -> None:
     traits: list[Base] = [e._.trait for e in doc.ents]
+    traits = split_traits(traits)
 
     lines = format_traits(traits, doc.text, md_file)
 
@@ -23,7 +24,7 @@ def write(doc: Doc, md_file: Path) -> None:
 
 def format_traits(traits: list[Base], text: str, md_file: Path) -> list[str]:
     # Index traits by position and group traits by type
-    trait_pos, parent_type = orgainize_traits(traits)
+    traits_by_pos, parents_by_type = orgainize_traits(traits)
 
     lines = []
     # Add a document header
@@ -31,7 +32,7 @@ def format_traits(traits: list[Base], text: str, md_file: Path) -> list[str]:
     lines.append(f"# {md_file.stem}   {now}")
 
     # Format each trait and its children
-    for parents in parent_type.values():
+    for parents in parents_by_type.values():
         lines.append("---")
         header = parents[0].for_output().key
 
@@ -39,7 +40,7 @@ def format_traits(traits: list[Base], text: str, md_file: Path) -> list[str]:
 
         # Format the raw text for each parent trait
         for parent in parents:
-            start, end = get_text_pos(parent, trait_pos, parent.start, parent.end)
+            start, end = get_text_pos(parent, traits_by_pos, parent.start, parent.end)
             lines.append(f"**Raw Text**  _{text[start:end]}_")
 
         # Sort parents so they are easier to group
@@ -49,7 +50,7 @@ def format_traits(traits: list[Base], text: str, md_file: Path) -> list[str]:
         prev_value = ""
         for parent in parents:
             value = parent.for_output().value
-            format_nodes(lines, trait_pos, parent, 0, hide=(value == prev_value))
+            format_nodes(lines, traits_by_pos, parent, 0, hide=(value == prev_value))
             prev_value = value
 
     return lines
@@ -57,7 +58,7 @@ def format_traits(traits: list[Base], text: str, md_file: Path) -> list[str]:
 
 def format_nodes(
     lines: list[str],
-    trait_pos: dict[int, Base],
+    traits_by_pos: dict[int, list[Base]],
     parent: Base,
     depth: int = 0,
     *,
@@ -68,5 +69,6 @@ def format_nodes(
         lines.append(f"{indent}- {parent.for_output().value}")
     if parent.links:
         for link in parent.links:
-            child = trait_pos[link.start]
-            format_nodes(lines, trait_pos, child, depth + 1)
+            children = traits_by_pos[link.start]
+            for child in children:
+                format_nodes(lines, traits_by_pos, child, depth + 1)
