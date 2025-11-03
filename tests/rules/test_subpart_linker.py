@@ -18,7 +18,6 @@ class TestSubpartLinker(unittest.TestCase):
                 Tergite(
                     start=0,
                     end=21,
-                    links=[Link(trait="group_prefix", start=22, end=31)],
                     part="tergite",
                     number=[1, 2, 17],
                 ),

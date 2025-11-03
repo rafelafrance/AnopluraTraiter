@@ -19,7 +19,6 @@ class DescriptionLinker(Base):
         Path(__file__).parent / "terms" / "separator_terms.csv",
     ]
     descr: ClassVar[list[str]] = [
-        "count",
         "group",
         "morphology",
         "position",
@@ -54,26 +53,24 @@ class DescriptionLinker(Base):
                     "all_descr": {"ENT_TYPE": {"IN": cls.all_descr}},
                     "any_part": {"ENT_TYPE": {"IN": ANY_PART}},
                     "desc": {"ENT_TYPE": {"IN": cls.descr}},
+                    "group": {"ENT_TYPE": "group"},
+                    "linker": {"ENT_TYPE": "linker"},
                     "prefix": {"ENT_TYPE": "group_prefix"},
-                    # "part": {"ENT_TYPE": {"IN": PARTS}},
                     "junk": {"POS": {"IN": ["PRON", "VERB"]}},
                     "pos": {"ENT_TYPE": {"IN": ["position", "relative_position"]}},
                     "sep": {"ENT_TYPE": {"IN": ["separator", "linker"]}},
-                    "size_desc": {
-                        "ENT_TYPE": {"IN": ["size_description", "relative_size"]}
-                    },
-                    # "seta": {"ENT_TYPE": "seta"},
+                    "size": {"ENT_TYPE": {"IN": ["size_description", "relative_size"]}},
                 },
                 patterns=[
                     " (? any_part+ )? sep* junk? desc+ ",
-                    " size_desc+ any_part+ pos+ ",
-                    " all_descr+ any_part+ ",
-                    # " (? desc+ )? sep* any_part+ ",
-                    # " (? any_part+ )? sep* junk? (? desc+ )? ",
-                    # " (? desc+ )? any_part+ sep* (? desc+ )? ",
-                    # " (? any_part+ )? sep* (? desc+ )? sep* (? desc+ )? ",
-                    # " desc+ sep* any_part+ sep* junk? desc+",
-                    # " desc+ sep* desc+ sep* any_part+ ",
+                    " all_descr+ any_part+ pos+ ",
+                    " all_descr+ any_part+ group+ ",
+                    " all_descr+ linker? any_part+ ",
+                    " any_part+ desc+ sep+ pos+ ",
+                    " any_part+ desc+ linker+ pos+ ",
+                    " any_part+ size+ sep+ size+ ",
+                    " (? desc+ )? any_part+ ",
+                    " all_descr+ sep* all_descr+ any_part+ ",
                 ],
             ),
         ]
@@ -83,8 +80,8 @@ class DescriptionLinker(Base):
         descr = [e._.trait for e in span.ents if e.label_ in cls.all_descr]
         part = next(e._.trait for e in span.ents if e.label_ in ANY_PART)
 
-        for desc in descr:
-            part.link(desc)
+        for d in descr:
+            part.link(d)
 
         raise reject_match.SkipTraitCreation
 
