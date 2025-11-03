@@ -197,7 +197,6 @@ class TestDescription(unittest.TestCase):
         )
 
     def test_description_09(self) -> None:
-        # TODO: Last shape should link to the last seta
         self.assertEqual(
             parse("narrow central setae and stout lateral setae"),
             [
@@ -205,14 +204,16 @@ class TestDescription(unittest.TestCase):
                 Seta(
                     start=7,
                     end=20,
-                    links=[
-                        Link(trait="shape", start=0, end=6),
-                        Link(trait="shape", start=25, end=30),
-                    ],
+                    links=[Link(trait="shape", start=0, end=6, _text="narrow")],
                     seta="central setae",
                 ),
                 Shape(start=25, end=30, shape="stout"),
-                Seta(start=31, end=44, seta="lateral setae"),
+                Seta(
+                    start=31,
+                    end=44,
+                    links=[Link(trait="shape", start=25, end=30, _text="stout")],
+                    seta="lateral setae",
+                ),
             ],
         )
 

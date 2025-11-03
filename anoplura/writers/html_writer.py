@@ -8,7 +8,7 @@ from mohtml import div, span
 from spacy.tokens import Doc
 
 from anoplura.rules.base import Base
-from anoplura.writers.writer_util import get_text_pos, orgainize_traits
+from anoplura.writers.writer_util import get_text_pos, orgainize_traits, split_traits
 
 # from pprint import pp
 
@@ -22,6 +22,7 @@ def writer(doc: Doc, html_file: Path) -> None:
     )
 
     traits: list[Base] = [e._.trait for e in doc.ents]
+    traits = split_traits(traits)
 
     # index traits by position and group traits by type
     traits_by_pos, parents_by_type = orgainize_traits(traits)
@@ -48,27 +49,46 @@ def format_text(
     text: str,
 ) -> str:
     frags = []
-    slices = []
+    slices = {}
+    type_classes = {}
 
-    for key, parents in parents_by_type.items():
-        class_ = next(CSS_CLASSES)
+    for type_, parents in parents_by_type.items():
         for parent in parents:
             start, end = get_text_pos(parent, traits_by_pos, parent.start, parent.end)
-            slices.append((start, end, class_, key[1]))
+            if end not in slices:
+                slices[end] = start, type_
+            else:
+                old_start, old_type_ = slices[end]
+                start = min(start, old_start)
+                slices[end] = start, old_type_
 
-    slices = sorted(slices)
+    slices = dict(sorted(slices.items()))
     prev = 0
 
-    for start, end, class_, type_ in slices:
+    for end, (start, type_) in slices.items():
+        # Add interstitial text
         if prev < start:
             frags.append(escape(text[prev:start]))
+
+        # Set the color and appearance of the text
+        if type_ not in type_classes and type_.lower() not in ("subpart", "setae"):
+            type_classes[type_] = next(CSS_CLASSES)
+        elif type_.lower() == "subpart":
+            type_classes[type_] = "err0"
+        elif type_.lower() == "setae":
+            type_classes[type_] = "err1"
+        class_ = type_classes[type_]
+
+        # Add the text
         frags.append(f'<span class="{class_}" title="{type_}">')
         frags.append(escape(text[start:end]))
         frags.append("</span>")
+
         prev = end
 
+    # Add trailing text
     if len(text) > prev:
-        frags.append(text[prev:])
+        frags.append(escape(text[prev:]))
 
     return "".join(frags)
 

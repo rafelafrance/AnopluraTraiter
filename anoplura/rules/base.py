@@ -71,6 +71,14 @@ class Base(TraiterBase):
         if all(lk != link for lk in self.links):
             self.links.append(link)
 
+    @property
+    def is_linked(self) -> bool:
+        return bool(self.links) and len(self.links) != 0
+
+    @property
+    def is_unlinked(self) -> bool:
+        return not bool(self.links) or len(self.links) == 0
+
     def for_output(self) -> ForOutput:
         return ForOutput(key="Trait", value=self._text)
 

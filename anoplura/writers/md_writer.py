@@ -31,6 +31,9 @@ def format_traits(traits: list[Base], text: str, md_file: Path) -> list[str]:
     now = datetime.strftime(datetime.now(), "%Y-%m-%d %H:%M")
     lines.append(f"# {md_file.stem}   {now}")
 
+    formatted_text = format_text(traits_by_pos, parents_by_type, text)
+    lines.append(formatted_text)
+
     # Format each trait and its children
     for parents in parents_by_type.values():
         lines.append("---")
@@ -54,6 +57,34 @@ def format_traits(traits: list[Base], text: str, md_file: Path) -> list[str]:
             prev_value = value
 
     return lines
+
+
+def format_text(
+    traits_by_pos: dict[int, list[Base]],
+    parents_by_type: dict[str, list[Base]],
+    text: str,
+) -> str:
+    frags = []
+    slices = {}
+
+    for parents in parents_by_type.values():
+        for parent in parents:
+            start, end = get_text_pos(parent, traits_by_pos, parent.start, parent.end)
+            slices[end] = start
+
+    slices = dict(sorted(slices.items()))
+    prev = 0
+
+    for end, start in slices.items():
+        if prev < start:
+            frags.append(text[prev:start])
+        frags.append(text[start:end])
+        prev = end
+
+    if len(text) > prev:
+        frags.append(text[prev:])
+
+    return "".join(frags)
 
 
 def format_nodes(

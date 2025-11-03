@@ -99,9 +99,9 @@ def build() -> Language:
     DescriptionLinker.pipe(nlp)
     CountLinker.pipe(nlp)
     SizeLinker.pipe(nlp)
+    # SetaLinker.pipe(nlp)
     SubpartLinker.pipe(nlp)
     SexualDimorphismLinker.pipe(nlp)
-
     PartLinker.pipe(nlp)
 
     sex_linker.pipe(nlp)
@@ -124,8 +124,5 @@ def build() -> Language:
             "size_description",
         ],
     )
-
-    # for name in nlp.pipe_names:
-    #     print(name)
 
     return nlp

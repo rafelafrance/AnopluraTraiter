@@ -63,7 +63,7 @@ class SubpartLinker(Base):
 
     @classmethod
     def subpart_linker_match(cls, ent: Span) -> Never:
-        subparts = [e._.trait for e in ent.ents if e.label_ in ("subpart", "seta")]
+        subparts = [e._.trait for e in ent.ents if e.label_ == "subpart"]
         part = next(e._.trait for e in ent.ents if e.label_ in PARTS)
 
         for subpart in subparts:

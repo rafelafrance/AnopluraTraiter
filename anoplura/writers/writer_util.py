@@ -61,13 +61,14 @@ def orgainize_traits(traits: list[Base]) -> tuple[dict[int, list], dict[str, lis
     parent_pos = {k for k in traits_by_pos if k} - child_traits
 
     # Sort parent traits by their type
-    parents_by_type = defaultdict(list)
+    sortable_parents = defaultdict(list)
     for start in parent_pos:
         parents = traits_by_pos[start]
         for parent in parents:
-            key = parent.for_output().key
-            parents_by_type[(ORDER[parent._trait], key)].append(parent)
-    parents_by_type = dict(sorted(parents_by_type.items()))
+            type_ = parent.for_output().key
+            sortable_parents[ORDER[parent._trait], type_].append(parent)
+    sortable_parents = dict(sorted(sortable_parents.items()))
+    parents_by_type = {k[1]: v for k, v in sortable_parents.items()}
 
     return traits_by_pos, parents_by_type
 

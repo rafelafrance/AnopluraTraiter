@@ -12,9 +12,10 @@ h1 > span {
 
 .trait_type {
   border-top: 1px solid black;
+  margin-top: 2rem;
 }
 
-.raw_label, .sex, .key {
+.raw_label {
   margin-right: 1rem;
 }
 
@@ -23,16 +24,19 @@ h1 > span {
 }
 
 .level-1 {
-  margin-left: 1rem;
-}
-
-.level-2 {
   margin-left: 2rem;
 }
 
-.level-3 {
-  margin-left: 3rem;
+.level-2 {
+  margin-left: 4rem;
 }
+
+.level-3 {
+  margin-left: 6rem;
+}
+
+.err0 {background: #000000; color: lightsalmon; font-style: normal;}
+.err1 {background: #000000; color: lightgreen; font-style: normal;}
 
 .cc0 {background: #A52A2A66; color: black; font-style: normal;}
 .cc1  {background: #80800066; color: black; font-style: normal;}

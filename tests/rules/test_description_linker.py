@@ -220,3 +220,17 @@ class TestDescriptionLinker(unittest.TestCase):
                 Position(start=12, end=43, position="arranged more or less centrally"),
             ],
         )
+
+    def test_description_linker_10(self) -> None:
+        self.assertEqual(
+            parse("with small seta,"),
+            [
+                SizeDescription(start=6, end=11, size_description="small"),
+                Seta(
+                    start=12,
+                    end=16,
+                    links=[Link(trait="size_description", start=6, end=11)],
+                    seta="setae",
+                ),
+            ],
+        )
