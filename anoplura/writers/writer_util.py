@@ -73,9 +73,9 @@ def orgainize_traits(traits: list[Base]) -> tuple[dict[int, list], dict[str, lis
     return traits_by_pos, parents_by_type
 
 
-def split_traits(traits: list[Base]) -> list[Base]:
+def split_traits(traits: list[Base | NumberedPart]) -> list[Base]:
     """Split numbered parts so that each number is in its own trait."""
-    new_traits = []
+    new_traits: list[NumberedPart | Base] = []
 
     for trait in traits:
         if isinstance(trait, NumberedPart) and trait.number:

@@ -4,8 +4,8 @@ import argparse
 import textwrap
 from pathlib import Path
 
-from pylib import pipeline, util
-from writers import html_writer, md_writer
+from anoplura.pylib import pipeline, util
+from anoplura.writers import html_writer, md_writer
 
 
 def main(args: argparse.Namespace) -> None:

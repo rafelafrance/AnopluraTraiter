@@ -4,7 +4,6 @@ from itertools import cycle
 from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader
-from mohtml import div, span
 from spacy.tokens import Doc
 
 from anoplura.rules.base import Base
@@ -80,7 +79,7 @@ def format_text(
         class_ = type_classes[type_]
 
         # Add the text
-        frags.append(f'<span class="{class_}" title="{type_}">')
+        frags.append(f"""<span class="{class_}" title="{type_}">""")
         frags.append(escape(text[start:end]))
         frags.append("</span>")
 
@@ -102,7 +101,7 @@ def format_traits(
     frags = []
     for parents in parents_by_type.values():
         header = parents[0].for_output().key
-        frags.append(div(header, klass="trait_type"))
+        frags.append(f"""<div class="trait_type">{escape(header)}</div>""")
 
         for parent in parents:
             format_raw_text(frags, parent, traits_by_pos, text)
@@ -124,13 +123,10 @@ def format_raw_text(
     frags: list[str], parent: Base, traits_by_pos: dict[int, list[Base]], text: str
 ) -> None:
     start, end = get_text_pos(parent, traits_by_pos, parent.start, parent.end)
-    frags.append(
-        div(
-            span("Raw Text", klass="raw_label"),
-            span(text[start:end], klass="raw_text"),
-            klass="text",
-        )
-    )
+    frags.append("""<div class="text">""")
+    frags.append("""<span class="raw_label">Raw text</span>""")
+    frags.append(f"""<span class="raw_text">{escape(text[start:end])}</span>""")
+    frags.append("""</div>""")
 
 
 def format_nodes(
@@ -143,7 +139,9 @@ def format_nodes(
 ) -> None:
     if not hide:
         html = parent.for_output()
-        frags.append(div(span(html.value, klass="value"), klass=f"level-{depth}"))
+        frags.append(f"""<div class="level-{depth}>""")
+        frags.append(f"""<span class="value">{escape(html.value)}</span>""")
+        frags.append("""</div>""")
     if parent.links:
         for link in parent.links:
             children = traits_by_pos[link.start]
