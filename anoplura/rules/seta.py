@@ -65,10 +65,19 @@ class Seta(Base):
 
     @classmethod
     def seta_match(cls, ent: Span) -> "Seta":
-        text = ent.text.lower()
-        seta = cls.replace.get(text, text)
-        seta = re.sub(r"seta$", "setae", seta)
-        return cls.from_ent(ent, seta=seta, seta_part=cls.parts.get(text))
+        abbrev = ""
+        seta = []
+        for e in ent.ents:
+            lower = e.text.lower()
+            if e.label_ == "seta_abbrev":
+                abbrev = lower
+            else:
+                seta.append(lower)
+
+        text = " ".join(seta) if seta else cls.replace.get(abbrev, abbrev)
+        text = re.sub(r"seta$", "setae", text)
+
+        return cls.from_ent(ent, seta=text, seta_part=cls.parts.get(text))
 
 
 @registry.misc("seta_match")

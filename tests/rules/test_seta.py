@@ -17,13 +17,13 @@ class TestSeta(unittest.TestCase):
 
     def test_seta_02(self) -> None:
         self.assertEqual(
-            parse("dorsal accessory head setae"),
+            parse("dorsal accessory head setae (dahs)"),
             [
                 Seta(
                     seta="dorsal accessory head setae",
                     seta_part="head",
                     start=0,
-                    end=27,
+                    end=32,
                 )
             ],
         )
