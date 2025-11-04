@@ -63,7 +63,7 @@ class DescriptionLinker(Base):
                 },
                 patterns=[
                     " (? any_part+ )? sep* junk? desc+ ",
-                    " all_descr+ any_part+ pos+ ",
+                    " all_descr+ any_part+ pos+ group* ",
                     " all_descr+ any_part+ group+ ",
                     " all_descr+ linker? any_part+ ",
                     " any_part+ desc+ sep+ pos+ ",

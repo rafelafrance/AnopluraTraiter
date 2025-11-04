@@ -55,7 +55,7 @@ class RelativeSize(Base):
                     "rel": {"ENT_TYPE": "rel_size"},
                 },
                 patterns=[
-                    " adv* rel+ any_part+ ",
+                    " adv* rel+ any_part* ",
                 ],
             ),
         ]
