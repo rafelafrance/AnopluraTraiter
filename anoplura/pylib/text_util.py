@@ -57,6 +57,21 @@ def clean_text(
 
     text = re.sub(r"\N{SHY}\s*", "", text)  # Remove soft-hyphens
 
+    # Latex symbols
+    text = re.sub(r" \\text\{ ([^}]+) \}", r"\1", text, flags=re.VERBOSE)  # Characters
+    text = re.sub(r"\^\{\\circ\}", r"°", text)  # Degree symbol
+    text = re.sub(r"\\pm", r"±", text)  # Plus/minus symbol
+    text = re.sub(r"''", r'"', text)  # Minutes symbol
+
+    # Remove HTML tags
+    text = re.sub(r"< [^>]+ >", "", text, flags=re.VERBOSE)
+
+    # Remove figure notations
+    text = re.sub(
+        r" \s* \( [^)]* fig [^)]+ \) ", "", text, flags=re.IGNORECASE | re.VERBOSE
+    )
+    text = re.sub(r" figs?\.? \s* \d+(-\d+)? ", "", text, flags=re.I | re.X)
+
     # Join hyphenated words when they are at the end of a line
     if eol_hyphens:
         text = re.sub(r"([a-z])-\s+([a-z])", r"\1\2", text, flags=re.IGNORECASE)
@@ -67,9 +82,3 @@ def clean_text(
     text = re.sub(r"\p{Cc}+", " ", text)
 
     return text
-
-
-def remove_figures(text: str) -> str:
-    return re.sub(
-        r" \s* \( [^)]* fig [^)]+ \) ", "", text, flags=re.IGNORECASE | re.VERBOSE
-    )

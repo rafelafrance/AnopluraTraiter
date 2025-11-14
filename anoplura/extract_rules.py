@@ -4,7 +4,8 @@ import argparse
 import textwrap
 from pathlib import Path
 
-from anoplura.pylib import pipeline, util
+from anoplura.pylib import pipeline
+from anoplura.pylib import text_util as util
 from anoplura.writers import html_writer, md_writer
 
 
@@ -13,8 +14,7 @@ def main(args: argparse.Namespace) -> None:
 
     with args.text_input.open() as in_file:
         text = " ".join(in_file.readlines())
-        text = util.clean_text(text)
-        text = util.remove_figures(text)
+        text = util.clean_text(text, eol_hyphens=True)
         doc = nlp(text)
 
         if args.html_output:
@@ -53,7 +53,6 @@ def parse_args() -> argparse.Namespace:
     )
 
     args = arg_parser.parse_args()
-
     return args
 
 

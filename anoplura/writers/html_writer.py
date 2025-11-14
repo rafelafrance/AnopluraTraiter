@@ -7,7 +7,12 @@ from jinja2 import Environment, FileSystemLoader
 from spacy.tokens import Doc
 
 from anoplura.rules.base import Base
-from anoplura.writers.writer_util import get_text_pos, orgainize_traits, split_traits
+from anoplura.writers.writer_util import (
+    expand_text_pos,
+    get_text_pos,
+    orgainize_traits,
+    split_traits,
+)
 
 # from pprint import pp
 
@@ -142,11 +147,14 @@ def format_raw_text(
     color_class: str,
 ) -> None:
     start, end = get_text_pos(parent, traits_by_pos, parent.start, parent.end)
+    before, after = expand_text_pos(text, start, end)
     frags.append("""<div class="text">""")
     frags.append("""<span class="raw_label">Raw text</span>""")
+    frags.append(f"""<span class="raw_text">{escape(text[before:start])}</span>""")
     frags.append(
         f"""<span class="raw_text {color_class}">{escape(text[start:end])}</span>"""
     )
+    frags.append(f"""<span class="raw_text">{escape(text[end:after])}</span>""")
     frags.append("""</div>""")
 
 
@@ -160,9 +168,10 @@ def format_nodes(
 ) -> None:
     if not hide:
         html = parent.for_output()
-        frags.append(f"""<div class="level-{depth}>""")
+        frags.append(f"""<div class="level-{depth}">""")
         frags.append(f"""<span class="value">{escape(html.value)}</span>""")
         frags.append("""</div>""")
+
     if parent.links:
         for link in parent.links:
             children = traits_by_pos[link.start]

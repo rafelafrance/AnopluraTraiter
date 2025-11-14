@@ -11,20 +11,17 @@ license = { file = "LICENSE" }
 authors = [{ name = "Raphael LaFrance", email = "raphael.lafrance@gmail.com" }]
 requires-python = ">=3.13"
 dependencies = [
-  "dspy>=3.0.1",
   "ftfy>=6.3.1",
   "jinja2>=3.1.6",
-  "marimo>=0.17.2",
-  "mohtml>=0.1.11",
   "pip>=25.2",
   "polars>=1.34.0",
   "regex>=2025.7.34",
-  "spacy>=3.8.7",
+  "spacy>=3.8.9",
   "tqdm>=4.67.1",
 ]
 
 [dependency-groups]
-dev = ["pre-commit>=4.3.0", "uv-build>=0.8.13"]
+dev = ["pre-commit>=4.4.0", "uv-build>=0.9.9"]
 
 [tool.uv.build-backend]
 module-root = "."
@@ -33,8 +30,6 @@ module-name = "anoplura"
 [tool.uv]
 
 [tool.ruff]
-target-version = "py313"
-
 show-fixes = true
 exclude = [
   "**/external/**", # External code

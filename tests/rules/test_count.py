@@ -9,6 +9,7 @@ from anoplura.rules.seta import Seta
 from anoplura.rules.sex import Sex
 from anoplura.rules.shape import Shape
 from anoplura.rules.size_description import SizeDescription
+from anoplura.rules.specimen_type import SpecimenType
 from anoplura.rules.sternite import Sternite
 from anoplura.rules.subpart import Subpart
 from tests.setup import parse
@@ -225,6 +226,34 @@ class TestCount(unittest.TestCase):
                     end=9,
                     sex="female",
                     links=[Link(trait="count", start=6, end=8)],
+                ),
+            ],
+        )
+
+    def test_count_11(self) -> None:
+        self.assertEqual(
+            parse("51 paratypes (23 ♂, 28 ♀)"),
+            [
+                Count(start=0, end=2, count_low=51),
+                SpecimenType(
+                    start=3,
+                    end=12,
+                    links=[Link(trait="count", start=0, end=2)],
+                    specimen_type="paratypes",
+                ),
+                Count(start=14, end=16, count_low=23),
+                Sex(
+                    start=17,
+                    end=18,
+                    sex="male",
+                    links=[Link(trait="count", start=14, end=16)],
+                ),
+                Count(start=20, end=22, sex="male", count_low=28),
+                Sex(
+                    start=23,
+                    end=24,
+                    sex="female",
+                    links=[Link(trait="count", start=20, end=22)],
                 ),
             ],
         )

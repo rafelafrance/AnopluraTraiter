@@ -1,3 +1,4 @@
+import string
 from collections import defaultdict
 from copy import deepcopy
 
@@ -12,7 +13,7 @@ from anoplura.rules.tergite import Tergite
 NumberedPart = Gonopod | Plate | Segment | Sternite | Tergite
 
 ORDER = {
-    "taxon": 0,
+    "taxon": 1,
     "date": 100,
     "elevation": 200,
     "lat_long": 300,
@@ -28,6 +29,8 @@ ORDER = {
     "seta": 1300,
 }
 
+SKIP_BEGIN = string.punctuation + string.whitespace
+
 
 def get_text_pos(
     parent: Base, traits_by_pos: dict[int, list[Base]], start: int, end: int
@@ -40,6 +43,26 @@ def get_text_pos(
         for child in children:
             start, end = get_text_pos(child, traits_by_pos, start, end)
     return start, end
+
+
+def expand_text_pos(text: str, start: int, end: int) -> tuple[int, int]:
+    """Find the start of the phrase that contains the parsed text."""
+    b_semi = text.rfind(";", 0, start)
+    b_semi = max(b_semi, 0)
+    b_dot = text.rfind(".", 0, start)
+    b_dot = max(b_dot, 0)
+    before = max(b_semi, b_dot)
+    while text[before] in SKIP_BEGIN:
+        before += 1
+
+    length = len(text)
+    a_semi = text.find(";", end)
+    a_semi = a_semi if a_semi > -1 else length
+    a_dot = text.find(".", end)
+    a_dot = a_dot if a_dot > -1 else length
+    after = min(a_semi + 1, a_dot + 1, length)
+
+    return before, after
 
 
 def orgainize_traits(traits: list[Base]) -> tuple[dict[int, list], dict[str, list]]:
@@ -58,7 +81,7 @@ def orgainize_traits(traits: list[Base]) -> tuple[dict[int, list], dict[str, lis
                     child_traits.add(link.start)
 
     # Parent traits are those that are not in child traits
-    parent_pos = {k for k in traits_by_pos if k} - child_traits
+    parent_pos = set(traits_by_pos) - child_traits
 
     # Sort parent traits by their type
     sortable_parents = defaultdict(list)
@@ -66,7 +89,7 @@ def orgainize_traits(traits: list[Base]) -> tuple[dict[int, list], dict[str, lis
         parents = traits_by_pos[start]
         for parent in parents:
             type_ = parent.for_output().key
-            sortable_parents[ORDER[parent._trait], type_].append(parent)
+            sortable_parents[ORDER.get(parent._trait, 9999), type_].append(parent)
     sortable_parents = dict(sorted(sortable_parents.items()))
     parents_by_type = {k[1]: v for k, v in sortable_parents.items()}
 

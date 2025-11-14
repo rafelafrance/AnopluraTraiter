@@ -4,7 +4,12 @@ from pathlib import Path
 from spacy.tokens import Doc
 
 from anoplura.rules.base import Base
-from anoplura.writers.writer_util import get_text_pos, orgainize_traits, split_traits
+from anoplura.writers.writer_util import (
+    expand_text_pos,
+    get_text_pos,
+    orgainize_traits,
+    split_traits,
+)
 
 # from pprint import pp
 
@@ -44,7 +49,11 @@ def format_traits(traits: list[Base], text: str, md_file: Path) -> list[str]:
         # Format the raw text for each parent trait
         for parent in parents:
             start, end = get_text_pos(parent, traits_by_pos, parent.start, parent.end)
-            lines.append(f"**Raw Text**  _{text[start:end]}_")
+            before, after = expand_text_pos(text, start, end)
+            lines.append(
+                f"**Raw Text:** {text[before:start]} "
+                f"**{text[start:end]}** {text[end:after]}"
+            )
 
         # Sort parents so they are easier to group
         parents = sorted(parents, key=lambda p: p.for_output().value)

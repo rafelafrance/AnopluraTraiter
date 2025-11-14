@@ -4,6 +4,7 @@ from anoplura.rules.base import Link
 from anoplura.rules.group import Group
 from anoplura.rules.morphology import Morphology
 from anoplura.rules.part import Part
+from anoplura.rules.shape import Shape
 from anoplura.rules.size_description import SizeDescription
 from anoplura.rules.subpart import Subpart
 from tests.setup import parse
@@ -67,5 +68,29 @@ class TestPart(unittest.TestCase):
             parse("Mesothoracic spiracle"),
             [
                 Part(start=0, end=21, part="mesothoracic spiracle"),
+            ],
+        )
+
+    def test_part_05(self) -> None:
+        self.assertEqual(
+            parse("forelegs small with narrow acuminate claw;"),
+            [
+                Part(
+                    start=0,
+                    end=8,
+                    links=[
+                        Link(trait="size_description", start=9, end=14),
+                        Link(trait="subpart", start=37, end=41),
+                    ],
+                    part="foreleg",
+                ),
+                SizeDescription(start=9, end=14, size_description="small"),
+                Shape(start=20, end=36, shape="narrow acuminate"),
+                Subpart(
+                    start=37,
+                    end=41,
+                    links=[Link(trait="shape", start=20, end=36)],
+                    subpart="claw",
+                ),
             ],
         )

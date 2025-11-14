@@ -28,7 +28,7 @@ class CountLinker(Base):
         "shape",
         "size_description",
     ]
-    all_parts: ClassVar[list[str]] = [*ANY_PART, "sex"]
+    all_parts: ClassVar[list[str]] = [*ANY_PART, "sex", "specimen_type"]
     # ----------------------
 
     @classmethod

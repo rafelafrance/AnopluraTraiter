@@ -17,6 +17,11 @@ from anoplura.rules.lat_long import LatLong
 from anoplura.rules.morphology import Morphology
 from anoplura.rules.part import Part
 from anoplura.rules.part_linker import PartLinker
+from anoplura.rules.part_mean import PartMean
+from anoplura.rules.part_range import PartRange
+from anoplura.rules.part_sample import PartSample
+from anoplura.rules.part_size import PartSize
+from anoplura.rules.part_stats import PartStats
 from anoplura.rules.plate import Plate
 from anoplura.rules.position import Position
 from anoplura.rules.range import Range
@@ -82,6 +87,12 @@ def build() -> Language:
 
     Size.pipe(nlp)
     Count.pipe(nlp)
+
+    PartMean.pipe(nlp)
+    PartRange.pipe(nlp)
+    PartSample.pipe(nlp)
+    PartSize.pipe(nlp)
+    PartStats.pipe(nlp)
 
     SexualDimorphism.pipe(nlp)
     Sclerotization.pipe(nlp)

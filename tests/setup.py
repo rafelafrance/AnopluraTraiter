@@ -1,4 +1,5 @@
-from anoplura.pylib import pipeline, util
+from anoplura.pylib import pipeline
+from anoplura.pylib import text_util as util
 
 PIPELINE = pipeline.build()
 

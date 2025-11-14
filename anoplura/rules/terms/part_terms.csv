@@ -13,9 +13,13 @@ bug_part,femur,femur
 bug_part,fimbriae,fimbriae
 bug_part,forecoxa,forecoxa
 bug_part,forecoxae,forecoxa
+bug_part,foreleg,foreleg
+bug_part,forelegs,foreleg
 bug_part,genitalia,genitalia
 bug_part,genitals,genitalia
 bug_part,head,head
+bug_part,hindlegs,hindleg
+bug_part,hindlegs,hindleg
 bug_part,labra,labrum
 bug_part,labrum,labrum
 bug_part,leg,leg
@@ -32,7 +36,7 @@ bug_part,spiracles,spiracle
 bug_part,sterna,sternum
 bug_part,sternum,sternum
 bug_part,thorax,thorax
-bug_part,total body
+bug_part,total body,
 bug_part,vulvar fimbriae,vulvar fimbriae
 bug_subpart,apex,apex
 bug_subpart,apexes,apex
@@ -73,7 +77,7 @@ sclerotized,sclerotization,sclerotized
 sclerotized,sclerotized,sclerotized
 segments,segments,segment
 segments,segment,segment
-shape_term,spur-like
+shape_term,spur-like,
 sternites,sternites,sternite
 sternites,sternite,sternite
 sternites,sternites,sternite

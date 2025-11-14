@@ -32,3 +32,16 @@ class TestTaxon(unittest.TestCase):
                 ),
             ],
         )
+
+    def test_taxon_03(self) -> None:
+        self.assertEqual(
+            parse("Polyplax guatemalensis sp. n. Figs. 1-8"),
+            [
+                Taxon(
+                    taxon="Polyplax guatemalensis",
+                    rank="species",
+                    start=0,
+                    end=22,
+                ),
+            ],
+        )
