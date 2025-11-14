@@ -5,8 +5,8 @@ from typing import ClassVar
 from spacy.language import Language
 from spacy.tokens import Span
 from spacy.util import registry
+from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
-from traiter.pylib.pipes import add
 
 from anoplura.pylib.dimension import Dimension
 from anoplura.rules.base import Base
@@ -33,12 +33,11 @@ class PartMean(Base):
         add.cleanup_pipe(nlp, name="part_mean_cleanup")
 
     @classmethod
-    def part_mean_patterns(cls) -> None:
+    def part_mean_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
                 label="part_mean",
                 on_match="part_mean_match",
-                keep="part_mean",
                 decoder={
                     "label": {"ENT_TYPE": "mean_term"},
                     "size": {"ENT_TYPE": "size"},

@@ -20,7 +20,6 @@ from anoplura.rules.part_linker import PartLinker
 from anoplura.rules.part_mean import PartMean
 from anoplura.rules.part_range import PartRange
 from anoplura.rules.part_sample import PartSample
-from anoplura.rules.part_size import PartSize
 from anoplura.rules.part_stats import PartStats
 from anoplura.rules.plate import Plate
 from anoplura.rules.position import Position
@@ -91,7 +90,6 @@ def build() -> Language:
     PartMean.pipe(nlp)
     PartRange.pipe(nlp)
     PartSample.pipe(nlp)
-    PartSize.pipe(nlp)
     PartStats.pipe(nlp)
 
     SexualDimorphism.pipe(nlp)
