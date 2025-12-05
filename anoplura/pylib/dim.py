@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 
 @dataclass(eq=False)
-class Dimension:
+class Dim:
     dim: str | None = None
     units: str | None = None
     low: float | None = None

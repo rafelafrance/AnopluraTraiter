@@ -4,7 +4,7 @@ from anoplura.rules.base import Link
 from anoplura.rules.elevation import Elevation
 from anoplura.rules.part import Part
 from anoplura.rules.seta import Seta
-from anoplura.rules.size import Dimension, Size
+from anoplura.rules.size import Dim, Size
 from anoplura.rules.subpart import Subpart
 from tests.setup import parse
 
@@ -36,7 +36,7 @@ class TestSize(unittest.TestCase):
                     start=11,
                     end=34,
                     dims=[
-                        Dimension(
+                        Dim(
                             dim="length",
                             units="cm",
                             low=30.0,
@@ -44,7 +44,7 @@ class TestSize(unittest.TestCase):
                             start=11,
                             end=23,
                         ),
-                        Dimension(
+                        Dim(
                             dim="width",
                             units="cm",
                             low=10.0,
@@ -72,7 +72,7 @@ class TestSize(unittest.TestCase):
                     start=4,
                     end=20,
                     dims=[
-                        Dimension(
+                        Dim(
                             dim="length",
                             units="cm",
                             low=10.0,
@@ -99,7 +99,7 @@ class TestSize(unittest.TestCase):
                     start=5,
                     end=20,
                     dims=[
-                        Dimension(
+                        Dim(
                             dim="width",
                             units="mm",
                             low=1.02,
@@ -126,7 +126,7 @@ class TestSize(unittest.TestCase):
                     start=7,
                     end=23,
                     dims=[
-                        Dimension(
+                        Dim(
                             dim="length",
                             units="mm",
                             low=0.123,
@@ -151,9 +151,7 @@ class TestSize(unittest.TestCase):
                 Size(
                     start=15,
                     end=31,
-                    dims=[
-                        Dimension(dim="length", units="mm", low=0.123, start=15, end=31)
-                    ],
+                    dims=[Dim(dim="length", units="mm", low=0.123, start=15, end=31)],
                 ),
             ],
         )

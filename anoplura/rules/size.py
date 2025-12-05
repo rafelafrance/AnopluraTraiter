@@ -11,7 +11,7 @@ from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
 from traiter.rules import terms as t_terms
 
-from anoplura.pylib.dimension import Dimension
+from anoplura.pylib.dim import Dim
 from anoplura.rules.base import Base, ForOutput
 
 
@@ -32,7 +32,7 @@ class Size(Base):
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
     # ---------------------
 
-    dims: list[Dimension] = field(default_factory=list)
+    dims: list[Dim] = field(default_factory=list)
 
     def for_output(self) -> ForOutput:
         text = "Size: "
@@ -91,7 +91,7 @@ class Size(Base):
         ]
 
     @classmethod
-    def update_indices(cls, sub_ent: Span, dims: list[Dimension]) -> None:
+    def update_indices(cls, sub_ent: Span, dims: list[Dim]) -> None:
         if dims[-1].start is None:
             dims[-1].start = sub_ent[0].idx
 
@@ -99,8 +99,8 @@ class Size(Base):
         dims[-1].end = last.idx + len(last)
 
     @classmethod
-    def scan_parts(cls, ent: Span) -> list[Dimension]:
-        dims = [Dimension()]
+    def scan_parts(cls, ent: Span) -> list[Dim]:
+        dims = [Dim()]
 
         for e in ent.ents:
             if e.label_ == "range":
@@ -123,19 +123,19 @@ class Size(Base):
                 cls.update_indices(e, dims)
 
             elif e.label_ == "cross":
-                dims.append(Dimension())
+                dims.append(Dim())
 
         return dims
 
     @staticmethod
-    def fill_units(dims: list[Dimension]) -> None:
+    def fill_units(dims: list[Dim]) -> None:
         default_units = next((d.units for d in dims if d.units), "cm")
 
         for dim in dims:
             dim.units = dim.units if dim.units else default_units
 
     @staticmethod
-    def fill_dimensions(dims: list[Dimension]) -> None:
+    def fill_dimensions(dims: list[Dim]) -> None:
         used = [d.dim for d in dims if d.dim]
 
         defaults = ["length", "width", "thickness"]
@@ -145,7 +145,7 @@ class Size(Base):
             dim.dim = dim.dim if dim.dim else defaults.pop(0)
 
     @classmethod
-    def fill_trait_data(cls, dims: list[Dimension], ent: Span) -> "Size":
+    def fill_trait_data(cls, dims: list[Dim], ent: Span) -> "Size":
         # Build the key and value for the range's: low, high
         for dim in dims:
             for key in ("low", "high"):

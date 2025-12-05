@@ -1,6 +1,6 @@
 import unittest
 
-from anoplura.pylib.dimension import Dimension
+from anoplura.pylib.dim import Dim
 from anoplura.rules.mean import Mean
 from tests.setup import parse
 
@@ -13,9 +13,7 @@ class TestMean(unittest.TestCase):
                 Mean(
                     start=0,
                     end=14,
-                    mean=[
-                        Dimension(dim="length", units="mm", low=0.194, start=6, end=14)
-                    ],
+                    mean=[Dim(dim="length", units="mm", low=0.194, start=6, end=14)],
                 )
             ],
         )

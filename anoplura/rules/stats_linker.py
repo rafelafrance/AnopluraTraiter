@@ -37,7 +37,7 @@ class StatsLinker(Base):
     @classmethod
     def pipe(cls, nlp: Language) -> None:
         add.term_pipe(nlp, name="part_stats_terms", path=cls.terms)
-        add.debug_tokens(nlp)  # ##########################################
+        # add.debug_tokens(nlp)  # ##########################################
         add.context_pipe(
             nlp,
             name="part_stats_patterns",
@@ -84,7 +84,7 @@ class StatsLinker(Base):
 
         mean = next((e._.trait for e in ent.ents if e.label_ == "mean"), None)
         size = next((e._.trait for e in ent.ents if e.label_ == "size"), None)
-        dim = next((e._.trait for e in ent.ents if e.label_ == "dim"), None)
+        dim = next((e._.trait for e in ent.ents if e.label_ == "dimension"), None)
 
         if dim and size:
             size.dims[0].dim = dim.dimension

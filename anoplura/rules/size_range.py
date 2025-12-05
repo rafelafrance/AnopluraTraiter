@@ -8,7 +8,7 @@ from spacy.util import registry
 from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.pylib.dimension import Dimension
+from anoplura.pylib.dim import Dim
 from anoplura.rules.base import Base
 
 
@@ -21,7 +21,7 @@ class SizeRange(Base):
     ]
     # ---------------------
 
-    dims: list[Dimension] = field(default_factory=list)
+    dims: list[Dim] = field(default_factory=list)
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:
