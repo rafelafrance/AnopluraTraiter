@@ -12,54 +12,56 @@ from anoplura.rules.base import Base
 
 
 @dataclass(eq=False)
-class PartSample(Base):
+class SampleSize(Base):
     # Class vars ----------
-    terms: ClassVar[Path] = Path(__file__).parent / "terms" / "dimension_terms.csv"
-    eq: ClassVar[list[str]] = ["="]
+    terms: ClassVar[list[Path]] = [
+        Path(__file__).parent / "terms" / "dimension_terms.csv",
+        Path(__file__).parent / "terms" / "separator_terms.csv",
+    ]
     # ---------------------
 
-    part_sample_size: int | None = None
+    sample_size: int | None = None
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:
-        add.term_pipe(nlp, name="part_sample_terms", path=cls.terms)
+        add.term_pipe(nlp, name="sample_size_terms", path=cls.terms)
         # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
-            name="part_sample_patterns",
+            name="sample_size_patterns",
             compiler=cls.part_sample_patterns(),
-            overwrite=["number"],
+            overwrite=["count"],
         )
-        add.cleanup_pipe(nlp, name="part_sample_cleanup")
+        add.cleanup_pipe(nlp, name="sample_size_cleanup")
 
     @classmethod
     def part_sample_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
-                label="part_sample",
-                on_match="part_sample_match",
+                label="sample_size",
+                on_match="sample_size_match",
                 decoder={
-                    "=": {"LOWER": {"IN": cls.eq}},
+                    "9": {"ENT_TYPE": "count"},
+                    "=": {"ENT_TYPE": "separator"},
                     "label": {"ENT_TYPE": "sample_term"},
-                    "99": {"ENT_TYPE": "number"},
                 },
                 patterns=[
-                    " label+ = 99 ",
+                    " label+ =* 9 ",
                 ],
             ),
         ]
 
     @classmethod
-    def part_sample_match(cls, ent: Span) -> "PartSample":
+    def sample_size_match(cls, ent: Span) -> "SampleSize":
         sample = None
 
         for e in ent.ents:
-            if e.label_ == "number":
-                sample = int(e._.trait.number)
+            if e.label_ == "count":
+                sample = int(e._.trait.count_low)
 
-        return cls.from_ent(ent, part_sample_size=sample)
+        return cls.from_ent(ent, sample_size=sample)
 
 
-@registry.misc("part_sample_match")
-def part_sample_match(ent: Span) -> PartSample:
-    return PartSample.part_sample_match(ent)
+@registry.misc("sample_size_match")
+def sample_size_match(ent: Span) -> SampleSize:
+    return SampleSize.sample_size_match(ent)

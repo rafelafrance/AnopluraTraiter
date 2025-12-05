@@ -47,6 +47,7 @@ scratch/
 pilot/
 old/
 experiments/
+notebooks/
 
 # Annoying stuff
 # Trying to figure out how use local models in editors can be a major pain, so I just

@@ -2,6 +2,7 @@ label,pattern,replace
 cross,X,×
 cross,x,×
 cross,×,×
+cross,to,×
 dimension,broad,broad
 dimension,broader,broad
 dimension,dbh,dbh
@@ -36,5 +37,7 @@ mean_term,mean of series,mean
 mean_term,mean,mean
 measure,total,
 measure,maximum,
+range_term,range,
+range_term,ranges from,
 sample_term,n,sample
 sample_term,sample,sample

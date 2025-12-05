@@ -9,24 +9,24 @@ from anoplura.rules.count import Count
 from anoplura.rules.count_linker import CountLinker
 from anoplura.rules.date_ import Date
 from anoplura.rules.description_linker import DescriptionLinker
+from anoplura.rules.dimension import Dimension
 from anoplura.rules.elevation import Elevation
 from anoplura.rules.gonopod import Gonopod
 from anoplura.rules.group import Group
 from anoplura.rules.group_prefix import GroupPrefix
 from anoplura.rules.lat_long import LatLong
+from anoplura.rules.mean import Mean
+from anoplura.rules.measure import Measure
 from anoplura.rules.morphology import Morphology
 from anoplura.rules.part import Part
 from anoplura.rules.part_linker import PartLinker
-from anoplura.rules.part_mean import PartMean
-from anoplura.rules.part_range import PartRange
-from anoplura.rules.part_sample import PartSample
-from anoplura.rules.part_stats import PartStats
 from anoplura.rules.plate import Plate
 from anoplura.rules.position import Position
 from anoplura.rules.range import Range
 from anoplura.rules.relative_position import RelativePosition
 from anoplura.rules.relative_size import RelativeSize
 from anoplura.rules.roman import Roman
+from anoplura.rules.sample_size import SampleSize
 from anoplura.rules.sclerotization import Sclerotization
 from anoplura.rules.sclerotization_linker import SclerotizationLinker
 from anoplura.rules.segment import Segment
@@ -38,7 +38,9 @@ from anoplura.rules.shape import Shape
 from anoplura.rules.size import Size
 from anoplura.rules.size_description import SizeDescription
 from anoplura.rules.size_linker import SizeLinker
+from anoplura.rules.size_range import SizeRange
 from anoplura.rules.specimen_type import SpecimenType
+from anoplura.rules.stats_linker import StatsLinker
 from anoplura.rules.sternite import Sternite
 from anoplura.rules.subpart import Subpart
 from anoplura.rules.subpart_linker import SubpartLinker
@@ -87,10 +89,13 @@ def build() -> Language:
     Size.pipe(nlp)
     Count.pipe(nlp)
 
-    PartMean.pipe(nlp)
-    PartRange.pipe(nlp)
-    PartSample.pipe(nlp)
-    PartStats.pipe(nlp)
+    Measure.pipe(nlp)
+    Dimension.pipe(nlp)
+    Mean.pipe(nlp)
+    SampleSize.pipe(nlp)
+    SizeRange.pipe(nlp)
+    StatsLinker.pipe(nlp)
+    delete_unlinked.pipe(nlp, ["dimension"], name="delete_dims")
 
     SexualDimorphism.pipe(nlp)
     Sclerotization.pipe(nlp)
@@ -120,8 +125,10 @@ def build() -> Language:
         nlp,
         [
             "count",
+            "dimension",
             "group",
             "group_prefix",
+            "measure",
             "morphology",
             "position",
             "relative_position",

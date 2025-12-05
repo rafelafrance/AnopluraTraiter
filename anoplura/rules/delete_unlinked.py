@@ -3,11 +3,11 @@ from spacy.tokens import Doc
 from traiter.pipes import add, pipe_util
 
 
-def pipe(nlp: Language, check: list[str]) -> None:
+def pipe(nlp: Language, check: list[str], name: str = "delete_unlinked") -> None:
     config = {
         "check": check,
     }
-    add.custom_pipe(nlp, "delete_unlinked", config=config)
+    add.custom_pipe(nlp, "delete_unlinked", name=name, config=config)
 
 
 @Language.factory("delete_unlinked")

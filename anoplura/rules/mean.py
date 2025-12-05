@@ -13,52 +13,56 @@ from anoplura.rules.base import Base
 
 
 @dataclass(eq=False)
-class PartMean(Base):
+class Mean(Base):
     # Class vars ----------
-    terms: ClassVar[Path] = Path(__file__).parent / "terms" / "dimension_terms.csv"
+    terms: ClassVar[list[Path]] = [
+        Path(__file__).parent / "terms" / "separator_terms.csv",
+        Path(__file__).parent / "terms" / "dimension_terms.csv",
+    ]
     # ---------------------
 
-    part_mean: list[Dimension] = field(default_factory=list)
+    mean: list[Dimension] = field(default_factory=list)
 
     @classmethod
     def pipe(cls, nlp: Language) -> None:
-        add.term_pipe(nlp, name="part_mean_terms", path=cls.terms)
+        add.term_pipe(nlp, name="mean_terms", path=cls.terms)
         # add.debug_tokens(nlp)  # ##########################################
         add.trait_pipe(
             nlp,
-            name="part_mean_patterns",
-            compiler=cls.part_mean_patterns(),
+            name="mean_patterns",
+            compiler=cls.mean_patterns(),
             overwrite=["size"],
         )
-        add.cleanup_pipe(nlp, name="part_mean_cleanup")
+        add.cleanup_pipe(nlp, name="mean_cleanup")
 
     @classmethod
-    def part_mean_patterns(cls) -> list[Compiler]:
+    def mean_patterns(cls) -> list[Compiler]:
         return [
             Compiler(
-                label="part_mean",
-                on_match="part_mean_match",
+                label="mean",
+                on_match="mean_match",
                 decoder={
+                    ",": {"ENT_TYPE": "separator"},
                     "label": {"ENT_TYPE": "mean_term"},
                     "size": {"ENT_TYPE": "size"},
                 },
                 patterns=[
-                    " label+ size+ ",
+                    " label+ ,? size+ ",
                 ],
             ),
         ]
 
     @classmethod
-    def part_mean_match(cls, ent: Span) -> "PartMean":
+    def mean_match(cls, ent: Span) -> "Mean":
         mean = None
 
         for e in ent.ents:
             if e.label_ == "size":
                 mean = e._.trait.dims
 
-        return cls.from_ent(ent, part_mean=mean)
+        return cls.from_ent(ent, mean=mean)
 
 
-@registry.misc("part_mean_match")
-def part_mean_match(ent: Span) -> PartMean:
-    return PartMean.part_mean_match(ent)
+@registry.misc("mean_match")
+def mean_match(ent: Span) -> Mean:
+    return Mean.mean_match(ent)

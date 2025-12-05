@@ -8,6 +8,8 @@ linker,that
 linker,to
 linker,with
 separator,","
+separator,:
+separator,;
 separator,=
 separator,and
 separator,is
