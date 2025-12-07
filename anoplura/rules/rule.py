@@ -1,6 +1,6 @@
 from dataclasses import asdict, dataclass, field
 
-from traiter.rules.base import Base as TraiterRule
+from traiter.rules.rule import Rule as TraiterRule
 
 # Fields to skip when outputting data
 SKIPS = {"start", "end", "trait", "links"}
