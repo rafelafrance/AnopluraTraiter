@@ -1,6 +1,6 @@
 import unittest
 
-from anoplura.rules.base import Link
+from anoplura.rules.rule import Link
 from anoplura.rules.size_description import SizeDescription
 from anoplura.rules.subpart import Subpart
 from tests.setup import parse

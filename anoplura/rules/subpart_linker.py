@@ -8,11 +8,11 @@ from spacy.util import registry
 from traiter.pipes import add, reject_match
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.base import PARTS, Base
+from anoplura.rules.rule import PARTS, Rule
 
 
 @dataclass(eq=False)
-class SubpartLinker(Base):
+class SubpartLinker(Rule):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "separator_terms.csv",

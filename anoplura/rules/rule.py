@@ -1,6 +1,6 @@
 from dataclasses import asdict, dataclass, field
 
-from traiter.rules.base import Base as TraiterBase
+from traiter.rules.base import Base as TraiterRule
 
 # Fields to skip when outputting data
 SKIPS = {"start", "end", "trait", "links"}
@@ -44,7 +44,7 @@ class ForOutput:
 
 
 @dataclass(eq=False)
-class Base(TraiterBase):
+class Rule(TraiterRule):
     sex: str = ""
     links: list = field(default_factory=list)
 
@@ -56,11 +56,11 @@ class Base(TraiterBase):
         return hash(tuple(dct.items()))
 
     def __eq__(self, other: object) -> bool:
-        if not isinstance(other, Base):
+        if not isinstance(other, Rule):
             return False
         return as_dict(self) == as_dict(other)
 
-    def link(self, child: "Base") -> None:
+    def link(self, child: "Rule") -> None:
         if child == self:
             return
         link = Link(
@@ -83,7 +83,7 @@ class Base(TraiterBase):
         return ForOutput(key="Trait", value=self._text)
 
 
-def as_dict(trait: Base) -> dict:
+def as_dict(trait: Rule) -> dict:
     """Convert trait to a dict: ignore some fields & lift others into a flat dict."""
     dct = filter_fields(trait, SKIPS)
     key = next((k for k in dct if k.endswith("dims")), None)
@@ -99,7 +99,7 @@ def as_dict(trait: Base) -> dict:
     return dct
 
 
-def filter_fields(trait: Base, skips: set[str]) -> dict:
+def filter_fields(trait: Rule, skips: set[str]) -> dict:
     """Remove some fields from an output dict when displaying traits."""
     return {
         k: v

@@ -6,7 +6,7 @@ from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
 from spacy.tokens import Doc
 
-from anoplura.rules.base import Base
+from anoplura.rules.rule import Rule
 from anoplura.writers.writer_util import (
     expand_text_pos,
     get_text_pos,
@@ -25,7 +25,7 @@ def writer(doc: Doc, html_file: Path) -> None:
         loader=FileSystemLoader("./anoplura/writers/templates"), autoescape=True
     )
 
-    traits: list[Base] = [e._.trait for e in doc.ents]
+    traits: list[Rule] = [e._.trait for e in doc.ents]
     traits = split_traits(traits)
 
     # index traits by position and group traits by type
@@ -67,8 +67,8 @@ def get_color_classes(parents_by_type: dict[str, list]) -> dict[str, str]:
 
 
 def format_text(
-    traits_by_pos: dict[int, list[Base]],
-    parents_by_type: dict[str, list[Base]],
+    traits_by_pos: dict[int, list[Rule]],
+    parents_by_type: dict[str, list[Rule]],
     text: str,
     color_classes: dict[str, str],
 ) -> str:
@@ -111,8 +111,8 @@ def format_text(
 
 
 def format_traits(
-    traits_by_pos: dict[int, list[Base]],
-    parents_by_type: dict[str, list[Base]],
+    traits_by_pos: dict[int, list[Rule]],
+    parents_by_type: dict[str, list[Rule]],
     text: str,
     color_classes: dict[str, str],
 ) -> str:
@@ -141,8 +141,8 @@ def format_traits(
 
 def format_raw_text(
     frags: list[str],
-    parent: Base,
-    traits_by_pos: dict[int, list[Base]],
+    parent: Rule,
+    traits_by_pos: dict[int, list[Rule]],
     text: str,
     color_class: str,
 ) -> None:
@@ -160,8 +160,8 @@ def format_raw_text(
 
 def format_nodes(
     frags: list[str],
-    traits_by_pos: dict[int, list[Base]],
-    parent: Base,
+    traits_by_pos: dict[int, list[Rule]],
+    parent: Rule,
     depth: int = 0,
     *,
     hide: bool = False,

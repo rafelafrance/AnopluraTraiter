@@ -5,11 +5,11 @@ from spacy.tokens import Span
 from spacy.util import registry
 from traiter.rules.date_ import Date as T_Date
 
-from anoplura.rules.base import Base, ForOutput
+from anoplura.rules.rule import ForOutput, Rule
 
 
 @dataclass(eq=False)
-class Date(Base, T_Date):
+class Date(Rule, T_Date):
     def for_output(self) -> ForOutput:
         text = "Date: "
         text += self.date if self.date else ""

@@ -1,10 +1,10 @@
 import unittest
 
-from anoplura.rules.base import Link
 from anoplura.rules.count import Count
 from anoplura.rules.group import Group
 from anoplura.rules.position import Position
 from anoplura.rules.relative_size import RelativeSize
+from anoplura.rules.rule import Link
 from anoplura.rules.seta import Seta
 from anoplura.rules.size_description import SizeDescription
 from tests.setup import parse

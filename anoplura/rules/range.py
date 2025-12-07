@@ -8,11 +8,11 @@ from traiter.pipes import add
 from traiter.pylib import const as t_const
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.base import Base
+from anoplura.rules.rule import Rule
 
 
 @dataclass(eq=False)
-class Range(Base):
+class Range(Rule):
     # Class vars ----------
     dash: ClassVar[list[str]] = ["-", "–", "—", ",", "or", "to"]
     numbers: ClassVar[list[str]] = ["number", "roman"]

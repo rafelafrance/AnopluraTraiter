@@ -1,6 +1,5 @@
 import unittest
 
-from anoplura.rules.base import Link
 from anoplura.rules.count import Count
 from anoplura.rules.group import Group
 from anoplura.rules.group_prefix import GroupPrefix
@@ -10,6 +9,7 @@ from anoplura.rules.plate import Plate
 from anoplura.rules.position import Position
 from anoplura.rules.relative_position import RelativePosition
 from anoplura.rules.relative_size import RelativeSize
+from anoplura.rules.rule import Link
 from anoplura.rules.segment import Segment
 from anoplura.rules.seta import Seta
 from anoplura.rules.shape import Shape

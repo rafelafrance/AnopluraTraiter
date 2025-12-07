@@ -3,7 +3,7 @@ from pathlib import Path
 
 from spacy.tokens import Doc
 
-from anoplura.rules.base import Base
+from anoplura.rules.rule import Rule
 from anoplura.writers.writer_util import (
     expand_text_pos,
     get_text_pos,
@@ -15,7 +15,7 @@ from anoplura.writers.writer_util import (
 
 
 def write(doc: Doc, md_file: Path) -> None:
-    traits: list[Base] = [e._.trait for e in doc.ents]
+    traits: list[Rule] = [e._.trait for e in doc.ents]
     traits = split_traits(traits)
 
     lines = format_traits(traits, doc.text, md_file)
@@ -27,7 +27,7 @@ def write(doc: Doc, md_file: Path) -> None:
     # unlinked_traits = [e._.trait for e in doc._.unlinked]
 
 
-def format_traits(traits: list[Base], text: str, md_file: Path) -> list[str]:
+def format_traits(traits: list[Rule], text: str, md_file: Path) -> list[str]:
     # Index traits by position and group traits by type
     traits_by_pos, parents_by_type = orgainize_traits(traits)
 
@@ -69,8 +69,8 @@ def format_traits(traits: list[Base], text: str, md_file: Path) -> list[str]:
 
 
 def format_text(
-    traits_by_pos: dict[int, list[Base]],
-    parents_by_type: dict[str, list[Base]],
+    traits_by_pos: dict[int, list[Rule]],
+    parents_by_type: dict[str, list[Rule]],
     text: str,
 ) -> str:
     frags = []
@@ -98,8 +98,8 @@ def format_text(
 
 def format_nodes(
     lines: list[str],
-    traits_by_pos: dict[int, list[Base]],
-    parent: Base,
+    traits_by_pos: dict[int, list[Rule]],
+    parent: Rule,
     depth: int = 0,
     *,
     hide: bool = False,

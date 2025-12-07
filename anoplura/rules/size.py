@@ -12,11 +12,11 @@ from traiter.pylib.pattern_compiler import Compiler
 from traiter.rules import terms as t_terms
 
 from anoplura.pylib.dim import Dim
-from anoplura.rules.base import Base, ForOutput
+from anoplura.rules.rule import ForOutput, Rule
 
 
 @dataclass(eq=False)
-class Size(Base):
+class Size(Rule):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "dimension_terms.csv",

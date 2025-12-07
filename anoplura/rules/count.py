@@ -9,11 +9,11 @@ from traiter.pipes import add
 from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.base import Base, ForOutput
+from anoplura.rules.rule import ForOutput, Rule
 
 
 @dataclass(eq=False)
-class Count(Base):
+class Count(Rule):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "missing_terms.csv",

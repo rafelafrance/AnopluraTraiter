@@ -9,11 +9,11 @@ from traiter.pipes import add
 from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.base import Base, ForOutput
+from anoplura.rules.rule import ForOutput, Rule
 
 
 @dataclass(eq=False)
-class Taxon(Base):
+class Taxon(Rule):
     # Class vars ----------
     taxon_csv: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "taxon_terms.csv",

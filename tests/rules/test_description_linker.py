@@ -1,11 +1,11 @@
 import unittest
 
-from anoplura.rules.base import Link
 from anoplura.rules.group import Group
 from anoplura.rules.part import Part
 from anoplura.rules.plate import Plate
 from anoplura.rules.position import Position
 from anoplura.rules.relative_position import RelativePosition
+from anoplura.rules.rule import Link
 from anoplura.rules.seta import Seta
 from anoplura.rules.shape import Shape
 from anoplura.rules.size_description import SizeDescription

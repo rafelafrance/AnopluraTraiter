@@ -9,11 +9,11 @@ from traiter.pipes import add
 from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.base import Base, ForOutput
+from anoplura.rules.rule import ForOutput, Rule
 
 
 @dataclass(eq=False)
-class Sex(Base):
+class Sex(Rule):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [Path(__file__).parent / "terms" / "sex_terms.csv"]
     replace: ClassVar[dict[str, str]] = term_util.look_up_table(terms, "replace")
