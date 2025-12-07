@@ -1,7 +1,7 @@
 import unittest
 
+from anoplura.rules.base_rule import Link
 from anoplura.rules.count import Count
-from anoplura.rules.rule import Link
 from anoplura.rules.tergite import Tergite
 from tests.setup import parse, unlinked
 

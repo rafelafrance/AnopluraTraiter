@@ -9,11 +9,11 @@ from traiter.pipes import add, reject_match
 from traiter.pylib import const as t_const
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.rule import ANY_PART, Rule
+from anoplura.rules.base_rule import ANY_PART, BaseRule
 
 
 @dataclass(eq=False)
-class DescriptionLinker(Rule):
+class DescriptionLinker(BaseRule):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "separator_terms.csv",

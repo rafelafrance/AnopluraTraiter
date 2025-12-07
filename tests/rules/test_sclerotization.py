@@ -1,8 +1,8 @@
 import unittest
 
+from anoplura.rules.base_rule import Link
 from anoplura.rules.part import Part
 from anoplura.rules.plate import Plate
-from anoplura.rules.rule import Link
 from anoplura.rules.sclerotization import Sclerotization
 from tests.setup import parse
 

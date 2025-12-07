@@ -8,11 +8,11 @@ from spacy.util import registry
 from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.rule import ForOutput, Rule
+from anoplura.rules.base_rule import BaseRule, ForOutput
 
 
 @dataclass(eq=False)
-class GroupPrefix(Rule):
+class GroupPrefix(BaseRule):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "group_terms.csv",

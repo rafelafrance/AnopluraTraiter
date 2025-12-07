@@ -1,10 +1,10 @@
 import unittest
 
+from anoplura.rules.base_rule import Link
 from anoplura.rules.dimension import Dimension
 from anoplura.rules.mean import Mean
 from anoplura.rules.measure import Measure
 from anoplura.rules.part import Part
-from anoplura.rules.rule import Link
 from anoplura.rules.sample_size import SampleSize
 from anoplura.rules.size import Dim, Size
 from anoplura.rules.size_range import SizeRange

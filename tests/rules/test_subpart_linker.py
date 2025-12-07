@@ -1,8 +1,8 @@
 import unittest
 
+from anoplura.rules.base_rule import Link
 from anoplura.rules.count import Count
 from anoplura.rules.group_prefix import GroupPrefix
-from anoplura.rules.rule import Link
 from anoplura.rules.seta import Seta
 from anoplura.rules.size_description import SizeDescription
 from anoplura.rules.subpart import Subpart

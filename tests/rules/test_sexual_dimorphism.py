@@ -1,7 +1,7 @@
 import unittest
 
+from anoplura.rules.base_rule import Link
 from anoplura.rules.part import Part
-from anoplura.rules.rule import Link
 from anoplura.rules.sexual_dimorphism import SexualDimorphism
 from tests.setup import parse
 

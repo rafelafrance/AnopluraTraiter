@@ -7,11 +7,11 @@ from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
 
 from anoplura.pylib import roman
-from anoplura.rules.rule import Rule
+from anoplura.rules.base_rule import BaseRule
 
 
 @dataclass(eq=False)
-class Roman(Rule):
+class Roman(BaseRule):
     number: int | None = None
     is_roman: bool = True
 

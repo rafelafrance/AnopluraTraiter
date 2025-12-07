@@ -1,9 +1,9 @@
 import unittest
 
+from anoplura.rules.base_rule import Link
 from anoplura.rules.group import Group
 from anoplura.rules.morphology import Morphology
 from anoplura.rules.part import Part
-from anoplura.rules.rule import Link
 from anoplura.rules.shape import Shape
 from anoplura.rules.size_description import SizeDescription
 from anoplura.rules.subpart import Subpart

@@ -8,11 +8,11 @@ from spacy.util import registry
 from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
 
-from anoplura.rules.rule import Rule
+from anoplura.rules.base_rule import BaseRule
 
 
 @dataclass(eq=False)
-class SampleSize(Rule):
+class SampleSize(BaseRule):
     # Class vars ----------
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "dimension_terms.csv",

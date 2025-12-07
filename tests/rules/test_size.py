@@ -1,8 +1,8 @@
 import unittest
 
+from anoplura.rules.base_rule import Link
 from anoplura.rules.elevation import Elevation
 from anoplura.rules.part import Part
-from anoplura.rules.rule import Link
 from anoplura.rules.seta import Seta
 from anoplura.rules.size import Dim, Size
 from anoplura.rules.subpart import Subpart

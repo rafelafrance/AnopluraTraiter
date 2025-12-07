@@ -5,11 +5,11 @@ from spacy.tokens import Span
 from spacy.util import registry
 from traiter.rules.lat_long import LatLong as T_LatLong
 
-from anoplura.rules.rule import ForOutput, Rule
+from anoplura.rules.base_rule import BaseRule, ForOutput
 
 
 @dataclass(eq=False)
-class LatLong(Rule, T_LatLong):
+class LatLong(BaseRule, T_LatLong):
     def for_output(self) -> ForOutput:
         text = "Lat/Long: "
         text += self.lat_long if self.lat_long else ""

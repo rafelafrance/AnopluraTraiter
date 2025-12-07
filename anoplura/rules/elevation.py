@@ -5,11 +5,11 @@ from spacy.tokens import Span
 from spacy.util import registry
 from traiter.rules.elevation import Elevation as T_Elevation
 
-from anoplura.rules.rule import ForOutput, Rule
+from anoplura.rules.base_rule import BaseRule, ForOutput
 
 
 @dataclass(eq=False)
-class Elevation(Rule, T_Elevation):
+class Elevation(BaseRule, T_Elevation):
     def for_output(self) -> ForOutput:
         about = "about " if self.about else ""
         text = f"Elevation: {about}{self.elevation:0.2f}"

@@ -2,9 +2,9 @@ import string
 from collections import defaultdict
 from copy import deepcopy
 
+from anoplura.rules.base_rule import BaseRule
 from anoplura.rules.gonopod import Gonopod
 from anoplura.rules.plate import Plate
-from anoplura.rules.rule import Rule
 from anoplura.rules.segment import Segment
 from anoplura.rules.sternite import Sternite
 from anoplura.rules.tergite import Tergite
@@ -33,7 +33,7 @@ SKIP_BEGIN = string.punctuation + string.whitespace
 
 
 def get_text_pos(
-    parent: Rule, traits_by_pos: dict[int, list[Rule]], start: int, end: int
+    parent: BaseRule, traits_by_pos: dict[int, list[BaseRule]], start: int, end: int
 ) -> tuple[int, int]:
     """Find the entire string used for the trait."""
     start = min(start, parent.start)
@@ -65,10 +65,10 @@ def expand_text_pos(text: str, start: int, end: int) -> tuple[int, int]:
     return before, after
 
 
-def orgainize_traits(traits: list[Rule]) -> tuple[dict[int, list], dict[str, list]]:
+def orgainize_traits(traits: list[BaseRule]) -> tuple[dict[int, list], dict[str, list]]:
     """Index traits by position, and group traits by type."""
     # Index the traits by their position in the document
-    traits_by_pos: dict[int, list[Rule]] = defaultdict(list)
+    traits_by_pos: dict[int, list[BaseRule]] = defaultdict(list)
     for trait in traits:
         traits_by_pos[trait.start].append(trait)
 
@@ -96,9 +96,9 @@ def orgainize_traits(traits: list[Rule]) -> tuple[dict[int, list], dict[str, lis
     return traits_by_pos, parents_by_type
 
 
-def split_traits(traits: list[Rule | NumberedPart]) -> list[Rule]:
+def split_traits(traits: list[BaseRule | NumberedPart]) -> list[BaseRule]:
     """Split numbered parts so that each number is in its own trait."""
-    new_traits: list[NumberedPart | Rule] = []
+    new_traits: list[NumberedPart | BaseRule] = []
 
     for trait in traits:
         if isinstance(trait, NumberedPart) and trait.number:
