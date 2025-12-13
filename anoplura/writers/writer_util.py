@@ -1,3 +1,4 @@
+import re
 import string
 from collections import defaultdict
 from copy import deepcopy
@@ -46,21 +47,15 @@ def get_text_pos(
 
 
 def expand_text_pos(text: str, start: int, end: int) -> tuple[int, int]:
-    """Find the start of the phrase that contains the parsed text."""
-    b_semi = text.rfind(";", 0, start)
-    b_semi = max(b_semi, 0)
-    b_dot = text.rfind(".", 0, start)
-    b_dot = max(b_dot, 0)
-    before = max(b_semi, b_dot)
-    while text[before] in SKIP_BEGIN:
-        before += 1
+    """Find the start & end of the phrase that contains the parsed text."""
+    before, after = start, len(text)
 
-    length = len(text)
-    a_semi = text.find(";", end)
-    a_semi = a_semi if a_semi > -1 else length
-    a_dot = text.find(".", end)
-    a_dot = a_dot if a_dot > -1 else length
-    after = min(a_semi + 1, a_dot + 1, length)
+    for match in re.finditer(r"[.;](?!\w)", text):
+        if match.end() < start:
+            before = match.end()
+        if match.start() > end:
+            after = match.start()
+            break
 
     return before, after
 

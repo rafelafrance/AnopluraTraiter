@@ -31,7 +31,7 @@ class Mean(BaseRule):
             nlp,
             name="mean_patterns",
             compiler=cls.mean_patterns(),
-            overwrite=["size"],
+            overwrite=["size", "amount"],
         )
         add.cleanup_pipe(nlp, name="mean_cleanup")
 
@@ -44,7 +44,7 @@ class Mean(BaseRule):
                 decoder={
                     ",": {"ENT_TYPE": "separator"},
                     "label": {"ENT_TYPE": "mean_term"},
-                    "size": {"ENT_TYPE": "size"},
+                    "size": {"ENT_TYPE": {"IN": ["size", "amount"]}},
                 },
                 patterns=[
                     " label+ ,? size+ ",
@@ -59,6 +59,16 @@ class Mean(BaseRule):
         for e in ent.ents:
             if e.label_ == "size":
                 mean = e._.trait.dims
+            elif e.label_ == "amount":
+                amount = e._.trait
+                mean = [
+                    Dim(
+                        dim="length",
+                        low=amount.amount,
+                        start=amount.start,
+                        end=amount.end,
+                    )
+                ]
 
         return cls.from_ent(ent, mean=mean)
 

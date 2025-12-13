@@ -5,7 +5,7 @@ from typing import ClassVar
 from spacy.language import Language
 from spacy.tokens import Span
 from spacy.util import registry
-from traiter.pipes import add
+from traiter.pipes import add, reject_match
 from traiter.pylib import term_util
 from traiter.pylib.pattern_compiler import Compiler
 
@@ -69,6 +69,8 @@ class Count(BaseRule):
 
         for e in ent.ents:
             if e.label_ == "number":
+                if not (e._.trait.is_int or e._.trait.is_word):
+                    raise reject_match.RejectMatch
                 low = int(e._.trait.number)
             elif e.label_ == "range":
                 low = int(e._.trait.low)

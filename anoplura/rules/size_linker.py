@@ -18,7 +18,7 @@ class SizeLinker(BaseRule):
     terms: ClassVar[list[Path]] = [
         Path(__file__).parent / "terms" / "separator_terms.csv",
     ]
-    all_parts: ClassVar[list[str]] = [*PARTS, "seta", "sex", "subpart"]
+    all_parts: ClassVar[list[str]] = [*PARTS, "seta", "subpart"]
     # ----------------------
 
     @classmethod

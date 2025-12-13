@@ -17,3 +17,15 @@ class TestMean(unittest.TestCase):
                 )
             ],
         )
+
+    def test_mean_02(self) -> None:
+        self.assertEqual(
+            parse("""mean, 0.173"""),
+            [
+                Mean(
+                    start=0,
+                    end=11,
+                    mean=[Dim(dim="length", low=0.173, start=6, end=11)],
+                )
+            ],
+        )

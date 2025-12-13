@@ -4,6 +4,7 @@ from anoplura.rules.base_rule import Link
 from anoplura.rules.elevation import Elevation
 from anoplura.rules.part import Part
 from anoplura.rules.seta import Seta
+from anoplura.rules.sex import Sex
 from anoplura.rules.size import Dim, Size
 from anoplura.rules.subpart import Subpart
 from tests.setup import parse
@@ -152,6 +153,36 @@ class TestSize(unittest.TestCase):
                     start=15,
                     end=31,
                     dims=[Dim(dim="length", units="mm", low=0.123, start=15, end=31)],
+                ),
+            ],
+        )
+
+    def test_size_07(self) -> None:
+        self.assertEqual(
+            parse("""male body length: 1.08–1.20 mm;"""),
+            [
+                Sex(start=0, end=4, sex="male"),
+                Part(
+                    start=5,
+                    end=9,
+                    sex="male",
+                    links=[Link(trait="size", start=10, end=30)],
+                    part="body",
+                ),
+                Size(
+                    start=10,
+                    end=30,
+                    sex="male",
+                    dims=[
+                        Dim(
+                            dim="length",
+                            units="mm",
+                            low=1.08,
+                            high=1.2,
+                            start=10,
+                            end=30,
+                        )
+                    ],
                 ),
             ],
         )

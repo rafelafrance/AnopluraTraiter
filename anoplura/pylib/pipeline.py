@@ -5,6 +5,7 @@ from traiter.pipes import delete, extensions, tokenizer
 from traiter.rules.number import Number
 
 from anoplura.rules import delete_unlinked, sex_linker
+from anoplura.rules.amount import Amount
 from anoplura.rules.count import Count
 from anoplura.rules.count_linker import CountLinker
 from anoplura.rules.date_ import Date
@@ -88,6 +89,7 @@ def build() -> Language:
 
     Size.pipe(nlp)
     Count.pipe(nlp)
+    Amount.pipe(nlp)
 
     Measure.pipe(nlp)
     Dimension.pipe(nlp)
@@ -120,7 +122,7 @@ def build() -> Language:
 
     sex_linker.pipe(nlp)
 
-    delete.pipe(nlp, delete=["number", "range", "roman"])
+    delete.pipe(nlp, delete=["amount", "number", "range", "roman"])
     delete_unlinked.pipe(
         nlp,
         [

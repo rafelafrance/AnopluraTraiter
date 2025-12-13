@@ -72,6 +72,9 @@ def clean_text(
     )
     text = re.sub(r" figs?\.? \s* \d+(-\d+)? ", "", text, flags=re.I | re.X)
 
+    # Remove URIs
+    text = re.sub(r" \( urn: [^\)]* \) ", "", text, flags=re.IGNORECASE | re.VERBOSE)
+
     # Join hyphenated words when they are at the end of a line
     if eol_hyphens:
         text = re.sub(r"([a-z])-\s+([a-z])", r"\1\2", text, flags=re.IGNORECASE)

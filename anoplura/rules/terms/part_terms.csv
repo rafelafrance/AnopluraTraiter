@@ -3,6 +3,7 @@ bug_part,abdomen,abdomen
 bug_part,antenna,antenna
 bug_part,antennae,antenna
 bug_part,antennas,antenna
+bug_part,body,body
 bug_part,chitin,chitin
 bug_part,coxa,coxa
 bug_part,coxae,coxa
