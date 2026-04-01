@@ -1,25 +1,40 @@
 import logging
 import sys
+from argparse import Namespace
 from pathlib import Path
 
 
-def setup_logger(level: int = logging.INFO) -> None:
+def setup_logger(file_name: str | Path | None = None) -> None:
     logging.basicConfig(
-        level=level,
+        filename=file_name,
+        level=logging.INFO,
         format="%(asctime)s %(levelname)s: %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S",
     )
 
 
 def module_name() -> str:
-    return Path(sys.argv[0]).name
+    return Path(sys.argv[0]).stem
 
 
-def started() -> None:
-    setup_logger()
+def started(
+    file_name: str | Path | None = None, *, args: Namespace | None = None
+) -> None:
+    setup_logger(file_name)
     logging.info("=" * 80)
-    logging.info("%s started", module_name())
+    msg = f"{module_name()} started"
+    logging.info(msg)
+    if args:
+        log_args(args)
 
 
 def finished() -> None:
-    logging.info("%s finished", module_name())
+    msg = f"{module_name()} finished"
+    logging.info(msg)
+
+
+def log_args(args: Namespace) -> None:
+    for key, val in sorted(vars(args).items()):
+        if key != "api_key":
+            msg = f"Argument: {key} = {val}"
+            logging.info(msg)

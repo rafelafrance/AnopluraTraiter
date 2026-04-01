@@ -9,7 +9,7 @@ from anoplura.pylib import text_util as util
 from anoplura.writers import html_writer, md_writer
 
 
-def main(args: argparse.Namespace) -> None:
+def parse_with_rules(args: argparse.Namespace) -> None:
     nlp = pipeline.build()
 
     with args.text_input.open() as in_file:
@@ -58,4 +58,4 @@ def parse_args() -> argparse.Namespace:
 
 if __name__ == "__main__":
     ARGS = parse_args()
-    main(ARGS)
+    parse_with_rules(ARGS)
