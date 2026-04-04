@@ -3,6 +3,7 @@
 import argparse
 import json
 import logging
+import re
 import textwrap
 from datetime import datetime
 from pathlib import Path
@@ -15,104 +16,183 @@ ERRORS = (json.JSONDecodeError, UnicodeDecodeError)
 
 PREFIX: str = "Given the following text: "
 SUFFIX: str = """
-    Put the results into JSON format.
     Only get annotations from the document itself.
     If you cannot find the data do not include it.
     \n
 """
 
-PROMPTS: dict[str, str] = {
-    "setae_counts": "Find the setae counts on all body parts.",
-    "gonopods": (
-        "Find all of the gonopods and get their annotations including their "
-        "shapes, setae, and any other information."
-    ),
-    "antennae_segments": (
-        "Find all antennae segments and get their number, positions, and shapes"
-    ),
-    "leg_segments": "Find leg segments and get their number, positions, and shapes",
-    # "body_segments": "Find all of body segments annotations",
-    # "segment_morphology": "Get all segment morphology notations.",
-    "sternite_count": "Find sternite counts on all of segments.",
-    # "sternite_shape": "Find all sternite shapes.",
-    "sternite_setae": "Find the setae on every sternite",
-    # "sternite_morphology": "Get all sternite morphology annotations.",
-    "tergite_count": "Find tergite counts on all of segments.",
-    # "tergite_shape": "Find all tergite shapes.",
-    "tergite_setae": "Find all setae on every tergite",
-    # "tergite_morphology": "Get all tergite morphology annotations.",
-    "body_part_shapes": "Get all body part shape notations.",
-    "body_part_size": "Get all body part size notations.",
-    # "allotype_sizes": (
-    #     "Get the allotype length, mean length, length range, and sample size."
-    #     "This will also include allotype body part sizes (like head) and widths."
-    # ),
-    # "holotype_sizes": (
-    #     "Get the allotype length, mean length, length range, and sample size."
-    # ),
-    # "sclerotization": "Find all body part sclerotization annotations.",
+PROMPTS: dict[str, dict] = {
+    "species": {
+        "prompt": """
+            Get the species name from the document.
+            """,
+    },
+    "setae_counts": {
+        "prompt": """
+            Find all of the setae counts on all body parts.
+            """,
+    },
+    "antennae_segments": {
+        "prompt": """
+            How many antennae segments are there?
+            """,
+    },
+    "body_measurements": {
+        "prompt": """
+            Find the maximum body length, mean body lengths, body length range,
+            and what was the sample size for body length (n=?).
+            """,
+    },
+    "head_measurements": {
+        "prompt": """
+            Find the maximum head width, mean head width, head width range,
+            and what was the sample size for head width (n=?).
+            """,
+    },
+    "holotype_measurements": {
+        "prompt": """
+            What is the length of the holotype?
+            Is the holotype female or male?
+            """,
+    },
+    "allotype_measurements": {
+        "prompt": """
+            What is the length of the allotype?
+            Is the allotype female or male?
+            """,
+    },
+    "thorax_measurements": {
+        "prompt": """
+            Find the maximum thorax width, mean thorax width, thorax width range,
+            and what was the sample size for thorax width (n=?).
+            """,
+    },
+    "sternite_counts": {
+        "prompt": """
+            How many sternites are on each segment?
+            """,
+    },
+    "tergite_counts": {
+        "prompt": """
+            How many tergites are on each segment?
+            """,
+    },
+    "paratergal_plate_counts": {
+        "prompt": """
+            How many paratergal plates are on each segment?
+            """,
+    },
+    "dpts_measurements": {
+        "prompt": """
+            Find the DPTS length, the mean DPTS length, and the range of DPTS lengths.
+            """,
+    },
+    "mesothracic_spiracle": {
+        "prompt": """
+            What is the diameter of the mesothoracic spiracle?
+            The mean mesothoracic diameter, and the range of mesothoracic diameters?
+            """,
+    },
+    "denticles": {
+        "prompt": """
+            What is the number of anteriolaral denticles ventrally?
+            What is the number of mediolateral denticles to first antennal segment on
+            each side?
+            """,
+    },
 }
 
 
 def run_lm(args: argparse.Namespace) -> None:
-    log.started(args.log_file)
+    log.started(args.log_file, args=args)
 
-    with args.text.open() as fh:
-        text = fh.read()
+    msg = f"Prefix = {PREFIX.strip()}"
+    logging.info(msg)
+    msg = f"Suffix = {SUFFIX.strip()}"
+    logging.info(msg)
 
-    output = []
+    for key, prompt_rec in PROMPTS.items():
+        prompt, schema = prompt_rec
+        msg = f"Prompt for {key}: {prompt.strip()}"
+        logging.info(msg)
+        msg = f"Schema for {key}: {schema.strip()}"
+        logging.info(msg)
 
-    with lms.Client() as client, args.output.open("w") as out:
+    args.json_dir.mkdir(parents=True, exist_ok=True)
+
+    paths = sorted(args.text_dir.glob("*.txt"))
+
+    with lms.Client() as client:
         config = lms.LlmLoadModelConfigDict(contextLength=args.context_length)
         model = client.llm.model(args.model, config=config)
 
-        for key, prompt in PROMPTS.items():
-            logging.info(key)
-
-            began = datetime.now()
-
-            msg = PREFIX + prompt + SUFFIX
-            logging.info(msg.strip())
-            msg += text
-
-            chat = lms.Chat()
-            chat.add_user_message(msg)
-
-            try:
-                config = lms.LlmPredictionConfigDict(
-                    temperature=args.temperature,
-                    maxTokens=args.max_tokens,
-                )
-                lm_text = model.respond(chat, config=config)
-            except lms.LMStudioServerError as err:
-                lm_error = f"Server error: {err}"
-                logging.exception(lm_error)
-                output.append({key: err})
-                print(lm_error, file=out)
-                continue
-
-            if not lm_text:
-                output.append({key: "Nothing returned by the language model."})
-                continue
-
-            try:
-                parts = str(lm_text).split("</think>")
-                results = json.loads(parts[-1])
-            except ERRORS as err:
-                lm_error = f"JSON error: {err}"
-                logging.exception(lm_error)
-                output.append({key: str(err)})
-                print(lm_error, file=out)
-                continue
-
-            output.append({key: results})
-
-            elapsed = str(datetime.now() - began)
-            msg = f"Elapsed {elapsed}"
+        for in_path in paths:
+            msg = f"**** {in_path.stem} ****"
             logging.info(msg)
 
-    with args.output.open("w") as out:
-        json.dump(output, out, indent=4)
+            with in_path.open() as fh:
+                text = fh.read()
+
+            output = [{"text": str(in_path)}]
+
+            for key, prompt_rec in PROMPTS.items():
+                msg = f"{key} started"
+                logging.info(msg)
+
+                prompt, schema = prompt_rec
+
+                began = datetime.now()
+
+                prompt = prompt.strip()
+
+                msg = PREFIX + prompt + SUFFIX
+                msg += text
+
+                chat = lms.Chat()
+                chat.add_user_message(msg)
+
+                try:
+                    config = lms.LlmPredictionConfigDict(
+                        temperature=args.temperature,
+                        maxTokens=args.max_tokens,
+                    )
+                    lm_text = model.respond(chat, config=config, response_format=schema)
+
+                except lms.LMStudioServerError as err:
+                    lm_error = f"Server error: {err}"
+                    logging.exception(lm_error)
+                    output.append({key: str(err)})
+                    continue
+
+                if not lm_text:
+                    output.append({key: "Nothing returned by the language model."})
+                    continue
+
+                try:
+                    raw = re.sub(
+                        r" ^ .* ( </think> | ```json ) ",
+                        "",
+                        str(lm_text),
+                        flags=re.IGNORECASE | re.VERBOSE | re.DOTALL,
+                    )
+                    raw = raw.removesuffix("```")
+                    results = json.loads(raw)
+
+                except ERRORS as err:
+                    lm_error = f"JSON error: {err}"
+                    logging.exception(lm_error)
+                    output.append({key: str(err)})
+                    continue
+
+                output.append({key: results})
+
+                elapsed = str(datetime.now() - began)
+                msg = f"{key} elapsed {elapsed}"
+                logging.info(msg)
+
+            out_path = args.json_dir / f"{in_path.stem}.json"
+            with out_path.open("w") as out:
+                json.dump(output, out, indent=4)
 
     log.finished()
 
@@ -123,18 +203,18 @@ def parse_args(args: list[str] | None = None) -> argparse.Namespace:
         description=textwrap.dedent("""Parse data from lice descriptions."""),
     )
     arg_parser.add_argument(
-        "--text",
+        "--text-dir",
         type=Path,
         required=True,
         metavar="PATH",
-        help="""The text document to parse.""",
+        help="""The directory containing the text documents to parse.""",
     )
     arg_parser.add_argument(
-        "--output",
+        "--json-dir",
         type=Path,
         required=True,
         metavar="PATH",
-        help="""Output the results to this file.""",
+        help="""Output the JSON results to this directory.""",
     )
     arg_parser.add_argument(
         "--model",
@@ -153,13 +233,13 @@ def parse_args(args: list[str] | None = None) -> argparse.Namespace:
     arg_parser.add_argument(
         "--context-length",
         type=int,
-        default=200_000,
+        default=131_072,
         help="""Model's context length for input/output. (default: %(default)s)""",
     )
     arg_parser.add_argument(
         "--max-tokens",
         type=int,
-        default=100_000,
+        default=65_536,
         help="""Model's max tokens for output. (default: %(default)s)""",
     )
     arg_parser.add_argument(
@@ -167,11 +247,6 @@ def parse_args(args: list[str] | None = None) -> argparse.Namespace:
         type=float,
         default=0.1,
         help="""Model's temperature. (default: %(default)s)""",
-    )
-    arg_parser.add_argument(
-        "--cache",
-        action="store_true",
-        help="""Use cached records?""",
     )
     arg_parser.add_argument(
         "--log-file",

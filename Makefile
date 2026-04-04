@@ -16,4 +16,5 @@ dev:
 
 clean:
 	rm -rf .venv
+	rm -rf build
 	find -iname "*.pyc" -delete
