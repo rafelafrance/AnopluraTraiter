@@ -12,7 +12,7 @@ from anoplura.rules.base_rule import BaseRule, ForOutput
 class Date(BaseRule, T_Date):
     def for_output(self) -> ForOutput:
         text = "Date: "
-        text += self.date if self.date else ""
+        text += self.date or ""
         if self.century_adjust:
             text += ", century adjusted"
         if self.missing_day:

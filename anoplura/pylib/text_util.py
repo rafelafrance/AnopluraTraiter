@@ -17,7 +17,7 @@ def compress(text: str) -> str:
 def to_positive_float(value: str | float) -> float | None:
     """Convert a string to a float stripping bad characters from the string first."""
     if isinstance(value, str):
-        value = re.sub(r"[^\d./]", "", value) if value else ""
+        value = re.sub(r"[^\d./]", "", value) or ""
     try:
         return float(value)
     except (ValueError, TypeError):
@@ -43,7 +43,7 @@ def clean_text(
     eol_hyphens: bool = False,
 ) -> str:
     """Clean text before trait extraction."""
-    text = text if text else ""
+    text = text or ""
 
     # Handle uncommon mojibake
     if trans:

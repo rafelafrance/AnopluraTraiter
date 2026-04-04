@@ -73,7 +73,7 @@ class SpecimenType(BaseRule):
             elif sub_ent.label_ == "other_type":
                 other = sub_ent.text.lower()
 
-        sex = sex if sex else ""
+        sex = sex or ""
 
         return cls.from_ent(
             ent, specimen_type=type_, sex=sex, specimen_type_other=other

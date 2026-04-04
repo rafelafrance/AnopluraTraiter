@@ -12,7 +12,7 @@ from anoplura.rules.base_rule import BaseRule, ForOutput
 class LatLong(BaseRule, T_LatLong):
     def for_output(self) -> ForOutput:
         text = "Lat/Long: "
-        text += self.lat_long if self.lat_long else ""
+        text += self.lat_long or ""
         if self.datum:
             text += f" {self.datum}"
         if self.uncertainty:

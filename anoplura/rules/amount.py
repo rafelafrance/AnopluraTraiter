@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from spacy.language import Language
 from spacy.tokens import Span
@@ -6,6 +6,7 @@ from spacy.util import registry
 from traiter.pipes import add
 from traiter.pylib.pattern_compiler import Compiler
 
+from anoplura.pylib.dim import Dim
 from anoplura.rules.base_rule import BaseRule, ForOutput
 
 
@@ -15,6 +16,7 @@ class Amount(BaseRule):
     # ---------------------
 
     amount: float = 0.0
+    dims: list[Dim] = field(default_factory=list)
 
     def for_output(self) -> ForOutput:
         return ForOutput(key="Amount", value=f"{self.amount:0.3f}")

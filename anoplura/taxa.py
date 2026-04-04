@@ -28,7 +28,7 @@ def main(args: argparse.Namespace) -> None:
     # Without a replacement name: anoplura,scipio tripedatus,species
     for row in rows:
         pattern = row["pattern"].lower()
-        replace = row["replace"] if row["replace"] else row["pattern"]
+        replace = row["replace"] or row["pattern"]
         words = pattern.split()
         abbrev = " ".join([f"{words[0][0]}.", *words[1:]])
 

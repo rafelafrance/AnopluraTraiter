@@ -5,7 +5,7 @@ SEX_LINKER = "sex_linker"
 
 
 def pipe(nlp: Language, *, name: str | None = None) -> None:
-    name = name if name else SEX_LINKER
+    name = name or SEX_LINKER
     nlp.add_pipe(SEX_LINKER, name=name)
 
 

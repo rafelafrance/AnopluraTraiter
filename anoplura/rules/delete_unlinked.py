@@ -21,7 +21,7 @@ class DeleteUnlinked:
         super().__init__()
         self.nlp = nlp
         self.name = name
-        self.check = check if check else []  # List of traits to check
+        self.check = check or []  # List of traits to check
 
     def __call__(self, doc: Doc) -> Doc:
         entities = []
