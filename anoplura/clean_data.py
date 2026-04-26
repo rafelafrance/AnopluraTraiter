@@ -29,7 +29,7 @@ def clean(args: argparse.Namespace) -> None:
         out = {}
         for parsed in data:
             for key, value in parsed.items():
-                raw = str_util.clean_response(value)
+                raw = str_util.compress(value)  # ################################
 
                 try:
                     obj = json.loads(raw)
@@ -77,17 +77,17 @@ CLEANERS: dict[str, Callable] = {
 def parse_args(args: list[str] | None = None) -> argparse.Namespace:
     arg_parser = argparse.ArgumentParser(
         allow_abbrev=True,
-        description=textwrap.dedent("""Parse data from lice descriptions."""),
+        description=textwrap.dedent("""Clean parsed data from LLM output."""),
     )
     arg_parser.add_argument(
-        "--raw-lm-dir",
+        "--raw-data-dir",
         type=Path,
         required=True,
         metavar="PATH",
         help="""Output the results to this directory.""",
     )
     arg_parser.add_argument(
-        "--cleaned-lm-dir",
+        "--cleaned-data-dir",
         type=Path,
         required=True,
         metavar="PATH",

@@ -15,85 +15,7 @@ from anoplura.pylib.str_util import compress
 
 ERRORS = (json.JSONDecodeError, UnicodeDecodeError)
 
-PROMPTS: dict[str, Any] = {
-    # "species": """
-    #         Get the species name from the document.
-    #         """,
-    # "seta_counts": """
-    #         Find all of the setae counts on all body parts.
-    #         For each seta list:
-    #             The sex of the louse,
-    #             The body region of the seta,
-    #             The name of the seta,
-    #             What is the seta count,
-    #             Which side are the seta on,
-    #             What rows the seta are in.
-    #         Use null for any missing data.
-    #         """,
-    # "antennae_segments": """
-    #     How many antennae segments are there?
-    #     """,
-    # "body_length": """
-    #     For each body length get:
-    #         The sex of the louse,
-    #         Is this a holotype or allotype,
-    #         The total body length,
-    #         The maximum body length,
-    #         The mean body length,
-    #         The the range of body lengths,
-    #         What was the sample size for body lengths (n=?).
-    #     """,
-    # "head_width": """
-    #     For each head width get:
-    #         The sex of the louse,
-    #         The maximum head width,
-    #         The mean head width,
-    #         The the range of head widths,
-    #         What was the sample size for the head widths (n=?).
-    #     """,
-    # "thorax_width": """
-    #     For each throax width get:
-    #         The sex of the louse,
-    #         The maximum thorax width,
-    #         The mean thorax width,
-    #         The the range of thorax widths,
-    #         What was the sample size for the thorax widths (n=?).
-    #     """,
-    "sternite_counts": """
-        Find all or the sternite counts on each segment.
-        For each sternite list:
-            The sex of the louse,
-            The body region of the sternite,
-            Which segment the sternites are on,
-            What is the sternite count.
-        """,
-    "tergite_counts": """
-        Find all or the tergite counts on each segment.
-        For each tergite list:
-            The sex of the louse,
-            The body region of the tergite,
-            Which segment the tergites are on,
-            What is the tergite count.
-        """,
-    # "paratergal_plate_counts": """
-    #     How many paratergal plates are on each segment?
-    #     """,
-    # "dpts_measurements": """
-    #     Find the dorsal principal head seta (DPTS) length, the mean,
-    #     and the range of DPTS lengths.
-    #     """,
-    # "mesothracic_spiracle": """
-    #     What is the diameter of the mesothoracic spiracle?
-    #     The mean mesothoracic diameter, and the range of mesothoracic diameters?
-    #     """,
-    # "denticles": """
-    #     What is the number of anteriolaral denticles ventrally?
-    #     What is the number of mediolateral denticles to first antennal segment on
-    #     each side?
-    #     """,
-}
-
-SYSTEM_ROLE = """
+SYSTEM_ROLE = compress("""
     You are a biologist studying lice.
     You are gathering anatomical information of lice species in order to compare them
     for evolutionary trends.
@@ -103,7 +25,85 @@ SYSTEM_ROLE = """
     Only get annotations from the document itself.
     If you cannot find the data do not include it.
     Return the results in JSON format.
-    """
+    """)
+
+PROMPTS: dict[str, Any] = {
+    # "species": compress("""
+    #         Get the species name from the document.
+    #         """),
+    # "seta_counts": compress("""
+    #         Find all of the setae counts on all body parts.
+    #         For each seta list:
+    #             The sex of the louse,
+    #             The body region of the seta,
+    #             The name of the seta,
+    #             What is the seta count,
+    #             Which side are the seta on,
+    #             What rows the seta are in.
+    #         Use null for any missing data.
+    #         """),
+    # "antennae_segments": compress("""
+    #     How many antennae segments are there?
+    #     """),
+    # "body_length": compress("""
+    #     For each body length get:
+    #         The sex of the louse,
+    #         Is this a holotype or allotype,
+    #         The total body length,
+    #         The maximum body length,
+    #         The mean body length,
+    #         The the range of body lengths,
+    #         What was the sample size for body lengths (n=?).
+    #     """),
+    # "head_width": compress("""
+    #     For each head width get:
+    #         The sex of the louse,
+    #         The maximum head width,
+    #         The mean head width,
+    #         The the range of head widths,
+    #         What was the sample size for the head widths (n=?).
+    #     """),
+    # "thorax_width": compress("""
+    #     For each throax width get:
+    #         The sex of the louse,
+    #         The maximum thorax width,
+    #         The mean thorax width,
+    #         The the range of thorax widths,
+    #         What was the sample size for the thorax widths (n=?).
+    #     """),
+    "sternite_counts": compress("""
+        Find all or the sternite counts on each segment.
+        For each sternite list:
+            The sex of the louse,
+            The body region of the sternite,
+            Which segment the sternites are on,
+            What is the sternite count.
+        """),
+    "tergite_counts": compress("""
+        Find all or the tergite counts on each segment.
+        For each tergite list:
+            The sex of the louse,
+            The body region of the tergite,
+            Which segment the tergites are on,
+            What is the tergite count.
+        """),
+    # "paratergal_plate_counts": compress("""
+    #     How many paratergal plates are on each segment?
+    #     """),
+    # "dpts_measurements": compress("""
+    #     Find the dorsal principal head seta (DPTS) length, the mean,
+    #     and the range of DPTS lengths.
+    #     """),
+    # "mesothracic_spiracle": compress("""
+    #     What is the diameter of the mesothoracic spiracle?
+    #     The mean mesothoracic diameter, and the range of mesothoracic diameters?
+    #     """),
+    # "denticles": compress("""
+    #     What is the number of anteriolaral denticles ventrally?
+    #     What is the number of mediolateral denticles to first antennal segment on
+    #     each side?
+    #     """),
+}
 
 
 def run_lm(args: argparse.Namespace) -> None:
@@ -112,8 +112,6 @@ def run_lm(args: argparse.Namespace) -> None:
     args.raw_lm_dir.mkdir(parents=True, exist_ok=True)
 
     paths = sorted(args.text_dir.glob("*.txt"))
-
-    system_role = compress(SYSTEM_ROLE)
 
     with OpenAI(base_url=args.api_host) as client:
         for in_path in paths:
@@ -133,8 +131,8 @@ def run_lm(args: argparse.Namespace) -> None:
                 response = client.chat.completions.create(
                     model=args.model_name,
                     messages=[
-                        {"role": "system", "content": system_role},
-                        {"role": "user", "content": compress(prompt)},
+                        {"role": "system", "content": SYSTEM_ROLE},
+                        {"role": "user", "content": prompt},
                         {"role": "user", "content": text},
                     ],
                     temperature=args.temperature,
@@ -142,7 +140,7 @@ def run_lm(args: argparse.Namespace) -> None:
                 content = response.choices[0].message.content or ""
                 content = content.strip().removeprefix("```json").removesuffix("```")
 
-                print(content)
+                print(content)  # #########################################
 
                 if not content:
                     output.append({key: "Nothing returned by the language model."})
@@ -174,7 +172,7 @@ def parse_args(args: list[str] | None = None) -> argparse.Namespace:
         help="""The directory containing the text files to parse.""",
     )
     arg_parser.add_argument(
-        "--raw-lm-dir",
+        "--raw-data-dir",
         type=Path,
         required=True,
         metavar="PATH",
@@ -197,25 +195,10 @@ def parse_args(args: list[str] | None = None) -> argparse.Namespace:
         help="""URL for the language model. (default: %(default)s)""",
     )
     arg_parser.add_argument(
-        "--context-length",
-        type=int,
-        help="""Model's context length for input/output.""",
-    )
-    arg_parser.add_argument(
-        "--max-tokens",
-        type=int,
-        help="""Model's max tokens for output.""",
-    )
-    arg_parser.add_argument(
         "--temperature",
         type=float,
         default=0.1,
         help="""Model's temperature. (default: %(default)s)""",
-    )
-    arg_parser.add_argument(
-        "--no-cache",
-        action="store_true",
-        help="""Don't use cached records?""",
     )
     arg_parser.add_argument(
         "--log-file",
