@@ -1,9 +1,0 @@
-label,pattern,replace
-compare,than in,
-compare,similar to,
-sexes,female,female
-sexes,females,female
-sexes,male,male
-sexes,males,male
-sexes,♀,female
-sexes,♂,male

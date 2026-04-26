@@ -112,7 +112,6 @@ def run_lm(args: argparse.Namespace) -> None:
     args.raw_lm_dir.mkdir(parents=True, exist_ok=True)
 
     paths = sorted(args.text_dir.glob("*.txt"))
-    paths = paths[: args.limit]
 
     system_role = compress(SYSTEM_ROLE)
 
@@ -126,8 +125,8 @@ def run_lm(args: argparse.Namespace) -> None:
             output = [{"text": json.dumps({"text_file": str(in_path)})}]
 
             for key, prompt in PROMPTS.items():
-                if args.prompt_key and key not in args.prompt_key:
-                    continue
+                msg = f"{key} started"
+                logging.info(msg)
 
                 began = datetime.now()
 
@@ -227,16 +226,6 @@ def parse_args(args: list[str] | None = None) -> argparse.Namespace:
     arg_parser.add_argument(
         "--notes",
         help="""Notes for logging.""",
-    )
-    arg_parser.add_argument(
-        "--prompt-key",
-        action="append",
-        help="""Which prompt to target. Used for debugging.""",
-    )
-    arg_parser.add_argument(
-        "--limit",
-        type=int,
-        help="""How many records to process.""",
     )
     ns: argparse.Namespace = arg_parser.parse_args(args)
     return ns
