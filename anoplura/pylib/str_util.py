@@ -1,17 +1,29 @@
 import ftfy
 import regex as re
 
+# from bs4 import BeautifulSoup
 
-def shorten(text: str) -> str:
+
+def compress(text: str) -> str:
     """Collapse all whitespace in a string."""
     return " ".join(text.split())
 
 
-def compress(text: str) -> str:
-    """Collapse whitespace in a string but keep lines."""
-    lines = [" ".join(ln.split()) for ln in text.splitlines()]
-    string = "\n".join(ln for ln in lines if ln)
-    return string
+def dedent(text: str) -> str:
+    lines = [ln.strip() for ln in text.splitlines() if ln]
+    return "\n".join(lines)
+
+
+def clean_response(text: str) -> str:
+    splits = re.split(
+        r" ( </think> | ```json ) ",
+        text,
+        flags=re.IGNORECASE | re.VERBOSE | re.DOTALL,
+    )
+    text = splits[-1]
+    text = text.removesuffix("```")
+    text = text.strip()
+    return text
 
 
 def to_positive_float(value: str | float) -> float | None:
@@ -22,6 +34,16 @@ def to_positive_float(value: str | float) -> float | None:
         return float(value)
     except (ValueError, TypeError):
         return None
+
+
+def strip_html(text: str) -> str:
+    # TODO: Parse chandra-ocr-2 output
+    text = clean_response(text)
+    # text = re.sub(r"<br\s?/?>", r"\n\n", text)
+    # soup = BeautifulSoup(text, "lxml")
+    # text = soup.get_text(" ", strip=False)
+    # text = text.strip()
+    return text
 
 
 def to_positive_int(value: str | float) -> int | None:

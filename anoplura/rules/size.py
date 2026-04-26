@@ -132,7 +132,7 @@ class Size(BaseRule):
         default_units = next((d.units for d in dims if d.units), "cm")
 
         for dim in dims:
-            dim.units = dim.units if dim.units else default_units
+            dim.units = dim.units or default_units
 
     @staticmethod
     def fill_dimensions(dims: list[Dim]) -> None:
@@ -142,7 +142,7 @@ class Size(BaseRule):
         defaults = [d for d in defaults if d not in used]
 
         for dim in dims:
-            dim.dim = dim.dim if dim.dim else defaults.pop(0)
+            dim.dim = dim.dim or defaults.pop(0)
 
     @classmethod
     def fill_trait_data(cls, dims: list[Dim], ent: Span) -> "Size":
@@ -174,7 +174,7 @@ class Size(BaseRule):
                 if value is None:
                     continue
 
-                units = dim.units if dim.units else ""
+                units = dim.units or ""
                 factor = cls.factors_cm.get(units, 1.0)
 
                 value = round(value * factor, 3)
