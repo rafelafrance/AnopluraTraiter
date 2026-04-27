@@ -13,7 +13,7 @@ from openai import OpenAI
 from anoplura.pylib import log
 from anoplura.pylib.str_util import compress
 
-ERRORS = (json.JSONDecodeError, UnicodeDecodeError)
+JSON_ERRORS = (json.JSONDecodeError, UnicodeDecodeError)
 
 SYSTEM_ROLE = compress("""
     You are a biologist studying lice.
@@ -28,88 +28,136 @@ SYSTEM_ROLE = compress("""
     """)
 
 PROMPTS: dict[str, Any] = {
-    # "species": compress("""
-    #         Get the species name from the document.
-    #         """),
-    # "seta_counts": compress("""
-    #         Find all of the setae counts on all body parts.
-    #         For each seta list:
-    #             The sex of the louse,
-    #             The body region of the seta,
-    #             The name of the seta,
-    #             What is the seta count,
-    #             Which side are the seta on,
-    #             What rows the seta are in.
-    #         Use null for any missing data.
-    #         """),
-    # "antennae_segments": compress("""
-    #     How many antennae segments are there?
-    #     """),
-    # "body_length": compress("""
-    #     For each body length get:
-    #         The sex of the louse,
-    #         Is this a holotype or allotype,
-    #         The total body length,
-    #         The maximum body length,
-    #         The mean body length,
-    #         The the range of body lengths,
-    #         What was the sample size for body lengths (n=?).
-    #     """),
-    # "head_width": compress("""
-    #     For each head width get:
-    #         The sex of the louse,
-    #         The maximum head width,
-    #         The mean head width,
-    #         The the range of head widths,
-    #         What was the sample size for the head widths (n=?).
-    #     """),
-    # "thorax_width": compress("""
-    #     For each throax width get:
-    #         The sex of the louse,
-    #         The maximum thorax width,
-    #         The mean thorax width,
-    #         The the range of thorax widths,
-    #         What was the sample size for the thorax widths (n=?).
-    #     """),
+    "seta_counts": compress("""
+        Find all of the setae counts on all body parts.
+        For each seta list:
+            The species of the louse,
+            The sex of the louse,
+            The body region of the seta,
+            The name of the seta,
+            What is the seta count,
+            Which side are the seta on,
+            What rows the seta are in.
+        Use null for any missing data.
+        """),
+    "antennae_segments": compress("""
+        How many antennae segments are there?
+        Find all of the antennae segment counts.
+        For each antennae segments count get:
+            The species of the louse,
+            The sex of the louse,
+            The antennal segment count.
+        Use null for any missing data.
+        """),
+    "body_length": compress("""
+        For each body length get:
+            The species of the louse,
+            The sex of the louse,
+            Is this a holotype or allotype,
+            The total body length,
+            The maximum body length,
+            The mean body length,
+            The the range of body lengths,
+        What was the sample size for body lengths (n=?).
+        Use null for any missing data.
+        """),
+    "head_width": compress("""
+        For each head width get:
+            The species of the louse,
+            The sex of the louse,
+            The head width,
+            The maximum head width,
+            The mean head width,
+            The the range of head widths,
+            What was the sample size for the head widths (n=?).
+        Use null for any missing data.
+        """),
+    "thorax_width": compress("""
+        For each throax width get:
+            The species of the louse,
+            The sex of the louse,
+            The thorax width,
+            The maximum thorax width,
+            The mean thorax width,
+            The the range of thorax widths,
+            What was the sample size for the thorax widths (n=?).
+        Use null for any missing data.
+        """),
     "sternite_counts": compress("""
         Find all or the sternite counts on each segment.
         For each sternite list:
+            The species of the louse,
             The sex of the louse,
             The body region of the sternite,
             Which segment the sternites are on,
+            The name of the sternite,
             What is the sternite count.
+        Use null for any missing data.
         """),
     "tergite_counts": compress("""
         Find all or the tergite counts on each segment.
         For each tergite list:
+            The species of the louse,
             The sex of the louse,
             The body region of the tergite,
             Which segment the tergites are on,
+            The name of the tergite,
             What is the tergite count.
+        Use null for any missing data.
         """),
-    # "paratergal_plate_counts": compress("""
-    #     How many paratergal plates are on each segment?
-    #     """),
-    # "dpts_measurements": compress("""
-    #     Find the dorsal principal head seta (DPTS) length, the mean,
-    #     and the range of DPTS lengths.
-    #     """),
-    # "mesothracic_spiracle": compress("""
-    #     What is the diameter of the mesothoracic spiracle?
-    #     The mean mesothoracic diameter, and the range of mesothoracic diameters?
-    #     """),
-    # "denticles": compress("""
-    #     What is the number of anteriolaral denticles ventrally?
-    #     What is the number of mediolateral denticles to first antennal segment on
-    #     each side?
-    #     """),
+    "plate_counts": compress("""
+        Find all of the plate counts on all body parts.
+        For each plate list:
+            The species of the louse,
+            The sex of the louse,
+            The body region of the plate,
+            The name of the plate,
+            What is the plate count,
+        Use null for any missing data.
+        """),
+    "dpts_length": compress("""
+        The DPTS is also known as the dorsal principal head seta.
+        For each DPTS length get:
+            The species of the louse,
+            The sex of the louse,
+            The DPTS length,
+            The maximum DPTS length,
+            The mean DPTS length,
+            The the range of DPTS lengths,
+            What was the sample size for the DPTS lengths (n=?).
+        Use null for any missing data.
+        """),
+    "mesothracic_spiracle": compress("""
+        What is the diameter of the mesothoracic spiracle?
+        For each diameter of the mesothoracic spiracle get:
+            The species of the louse,
+            The sex of the louse,
+            The diameter of the mesothoracic spiracle,
+            The maximum diameter of the mesothoracic spiracle,
+            The mean diameter of the mesothoracic spiracle,
+            The the range of mesothoracic spiracle diameters,
+            What was the sample size for the mesothoracic spiracle diameters (n=?).
+        Use null for any missing data.
+        """),
+    "denticle_counts": compress("""
+        Find all the number of anteriolaral denticles ventrally?
+        Also find the number of mediolateral denticles to first antennal segment.
+        For each denticle count list:
+            The species of the louse,
+            The sex of the louse,
+            The body region of the denticle,
+            The name of the denticle,
+            What is the denticle count,
+            Which side the denticles are on.
+        Use null for any missing data.
+        """),
 }
 
 
 def run_lm(args: argparse.Namespace) -> None:
     log.started(args.log_file, args=args)
 
-    args.raw_lm_dir.mkdir(parents=True, exist_ok=True)
+    args.raw_data_dir.mkdir(parents=True, exist_ok=True)
 
     paths = sorted(args.text_dir.glob("*.txt"))
 
@@ -120,7 +168,7 @@ def run_lm(args: argparse.Namespace) -> None:
             with in_path.open() as fh:
                 text = fh.read()
 
-            output = [{"text": json.dumps({"text_file": str(in_path)})}]
+            output = [{"text": json.dumps({"text_file": in_path.name})}]
 
             for key, prompt in PROMPTS.items():
                 msg = f"{key} started"
@@ -140,21 +188,26 @@ def run_lm(args: argparse.Namespace) -> None:
                 content = response.choices[0].message.content or ""
                 content = content.strip().removeprefix("```json").removesuffix("```")
 
-                print(content)  # #########################################
-
                 if not content:
                     output.append({key: "Nothing returned by the language model."})
                     continue
 
-                output.append({key: content})
+                try:
+                    value = json.loads(content)
+                except JSON_ERRORS:
+                    logging.exception("JSON Error")
+                    output.append({key: "Invalid JSON returned by the language model."})
+                    continue
+
+                output.append({key: value})
 
                 elapsed = str(datetime.now() - began)
                 msg = f"{key} elapsed {elapsed}"
                 logging.info(msg)
 
-    #         out_path = args.raw_lm_dir / f"{in_path.stem}.json"
-    #         with out_path.open("w") as out:
-    #             json.dump(output, out, indent=4)
+            out_path = args.raw_data_dir / f"{in_path.stem}.json"
+            with out_path.open("w") as f_out:
+                json.dump(output, f_out, indent=4)
 
     log.finished()
 

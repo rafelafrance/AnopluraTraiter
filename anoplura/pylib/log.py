@@ -6,11 +6,12 @@ from pathlib import Path
 
 def setup_logger(file_name: str | Path | None = None) -> None:
     logging.basicConfig(
-        filename=file_name,
         level=logging.INFO,
         format="%(asctime)s %(levelname)s: %(message)s",
         datefmt="%Y-%m-%d %H:%M:%S",
     )
+    if file_name:
+        logging.getLogger().addHandler(logging.FileHandler(file_name))
 
 
 def module_name() -> str:

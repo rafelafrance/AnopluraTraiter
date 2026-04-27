@@ -6,11 +6,10 @@ import logging
 import textwrap
 from collections.abc import Callable
 from pathlib import Path
+from pprint import pp
 from typing import Any
 
-import pandas as pd
-
-from anoplura.pylib import log, str_util
+from anoplura.pylib import log
 
 JSON_ERRORS = (json.JSONDecodeError, UnicodeDecodeError)
 
@@ -18,47 +17,48 @@ JSON_ERRORS = (json.JSONDecodeError, UnicodeDecodeError)
 def clean(args: argparse.Namespace) -> None:
     log.started(args.log_file, args=args)
 
-    args.cleaned_lm_dir.mkdir(parents=True, exist_ok=True)
+    args.cleaned_data_dir.mkdir(parents=True, exist_ok=True)
 
-    paths = sorted(args.raw_lm_dir.glob("*.json"))
+    paths = sorted(args.raw_data_dir.glob("*.json"))
 
     for in_path in paths:
         with in_path.open() as fh:
             data = json.load(fh)
 
-        out = {}
+        output = {}
         for parsed in data:
             for key, value in parsed.items():
-                raw = str_util.compress(value)  # ################################
-
                 try:
-                    obj = json.loads(raw)
+                    content = json.loads(value)
                 except JSON_ERRORS:
                     logging.exception("JSON Error")
                     break
 
-                out |= CLEANERS[key](obj)
+                if cleaner := CLEANERS.get(key):
+                    output |= cleaner(content)
+                else:
+                    output |= {key: content}
 
-        out = json.dumps(out, indent=4)
-        print(out)
+        out_path = args.cleaned_data_dir / f"{in_path.stem}.json"
+        with out_path.open("w") as fh:
+            output = json.dump(output, fh, indent=4)
 
     log.finished()
 
 
 def echo(obj: dict) -> dict[str, Any]:
+    print(obj)
     return obj
 
 
-def setae_counts(obj: dict) -> dict[str, Any]:
-    new = pd.json_normalize(obj).to_dict(orient="records")
-    new = new[0]
-    return {"setae_counts": new[0]}
+def seta_counts(obj: dict) -> dict[str, Any]:
+    pp(obj)
+    return {}
 
 
 CLEANERS: dict[str, Callable] = {
-    "text": echo,
-    "species": echo,
-    "setae_counts": setae_counts,
+    # "text": echo,
+    # "seta_counts": seta_counts,
     # "antennae_segments": antennae_segments,
     # "body_measurements": body_measurements,
     # "head_measurements": head_measurements,
