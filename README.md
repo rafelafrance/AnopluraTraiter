@@ -1,11 +1,6 @@
-# The Anoplura Traits Database Project ![CI](https://github.com/rafelafrance/AnopluraTraiter/workflows/CI/badge.svg)
+# AnopluraTraiter
 
-After years of slumber this project is back and sassier than ever. TODOs for the resurrection:
-
-- Update based upon the previous owner's notes & notebooks.
-- Update to newer Traiter techniques.
-
-**Thanks to Dr. Vjay Barve for providing the initial species list of Anoplura.**
+The Anoplura Traits Database Project
 
 ## What we're doing
 
@@ -31,40 +26,28 @@ I will extract:
 - sutural head setae: count = 2
 - dorsal marginal head setae: count = 3
 - apical head setae: low = 3, high = 4
-- sclerotized part: part = [head, thorax, abdomen], sclerotized = lightly
 - etc.
 
-## Methods for parsing
+## Information extraction strategy
 
-1. Rule-based parsing. Most machine learning models require a substantial training dataset. I use this method to bootstrap the training data. And, if other methods fail, I can fall back to this method. The downside of this method is that rule-based matchers are tricky and time-consuming to get right.
-   - There is one set of rules for identifying the traits themselves. This is called Named Entity Recognition (NER).
-   - There is another set of rules for associating traits with one another. For instance, determining that a maximum width measurement is for a male _Lemurpediculus robbinsi_ (holotype).
-2. ~~Machine learning models. Once we have enough relevant data from the rules we can train models with that data. We are using two different models.~~
-   - ~~One for named entity recognition (NER) to identify the traits.~~
-   - ~~And another model for associating traits with one another. As mentioned above.~~
-   - ~~It may be possible to combine these models.~~
-   - I probably do not have time to do this.
+There are 3 general steps for the process:
 
-## Rule-based parsing strategy
+1. OCR the PDFs to get text with small language models specifically designed for OCR, like Chandra-OCR.
 
-For example, given the text: `Head, thorax, and abdomen lightly sclerotized.`
+2. Extract information as raw text.
+I use medium sized models for this step like gemma4 or qwen3.6.
+The data is in raw form with numeric ranges get lumped into a single field and IDs as a single string.
+I only parse one set of traits at a time, so a single text file will get parsed for seta counts,
+and then body size in separate passes.
+I do this so that I don't overwhelm the models with long and complicated prompts.
+The output is in JSON format.
 
-1. I start with a vocabulary of terms stored in one or more CSV files. These are words related to louse anatomy or other descriptions of lice. Some terms from the example above are: "head", "thorax", "abdomen", "mm", "sclerotized", "dorsal", "setae", etc. I then use spaCy phrase matchers to find the terms in the document. In this example the following vocabulary these terms are recognized:
-   - `Head`
-   - `thorax`
-   - `abdomen`
-   - `sclerotized`
-2. These terms are used as anchors for finding phrase patterns in the document using spaCy's rule based matchers. Relevant patterns for this example are:
-   - Body part words separated by commas or conjunctions. Here we get `Head, thorax, and abdomen` and the extracted data is `part = [head, thorax, abdomen]`
-   - An adverb followed by the word "sclerotin". Which would recognize `lightly sclerotized` which yields the data `sclerotized = lightly`
-3. Now I recognize the full trait by looking for patterns that work on the previous matches:
-   - In this case, a body part followed by some possible filler which is then followed by a sclerotin notation. So we now have the full trait: `Head, thorax, and abdomen lightly sclerotized.` and its data `sclerotized part: part = [head, thorax, abdomen], sclerotized = lightly`.
-   - Please note that there may be more levels of matching.
-4. Finally, I associate traits with a species, sex, holotype/allotype/paratype, etc. using a different set of spaCy matchers and some simple heuristics.
+3. Finally, I put the data from step 2 into a format that researchers want.
+I tend to not use models for this step and just code simple parsers; it's just easier.
 
 ## Install
 
-You will need to have Python 3.12 (or later) installed. You can install the requirements into your python environment like so:
+You will need to have Python 3.13 (or later) installed. You can install the requirements into your python environment like so:
 
 ```
 make install
@@ -72,16 +55,21 @@ make install
 
 ## Run
 
-```
-./extract.py ... TODO ...
+### OCR PDFs
+
+TODO
+
+### Extract data from text
+
+```bash
+uv run anoplura/extract_data.py \
+  --text-dir data/text \
+  --raw-data-dir data/raw_data \
+  --model-name qwen/qwen3.6-35b-a3b \
+  --log-file data/raw_data.log \
+  --notes "A note to put into the log file"
 ```
 
-## Tests
+### Clean extracted data
 
-Having a test suite is absolutely critical. The strategy I use is every new trait gets its own test set. Any time there is a parser error I add the parts that caused the error to the test suite and correct the parser. I.e. I use the standard red/green testing methodology.
-
-You can run the tests like so:
-
-```
-make test
-```
+TODO
