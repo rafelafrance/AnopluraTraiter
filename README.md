@@ -47,7 +47,7 @@ I tend to not use models for this step and just code simple parsers; it's just e
 
 ## Install
 
-You will need to have Python 3.13 (or later) installed. You can install the requirements into your python environment like so:
+You will need to have Python 3.14 (or later) installed. You can install the requirements into your python environment like so:
 
 ```
 make install

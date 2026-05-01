@@ -11,7 +11,7 @@ from typing import Any
 from openai import OpenAI
 
 from anoplura.pylib import log
-from anoplura.pylib.str_util import compress
+from anoplura.pylib.str_util import compress, strip_json_fences
 
 JSON_ERRORS = (json.JSONDecodeError, UnicodeDecodeError)
 
@@ -186,7 +186,7 @@ def run_lm(args: argparse.Namespace) -> None:
                     temperature=args.temperature,
                 )
                 content = response.choices[0].message.content or ""
-                content = content.strip().removeprefix("```json").removesuffix("```")
+                content = strip_json_fences(content)
 
                 if not content:
                     output.append({key: "Nothing returned by the language model."})

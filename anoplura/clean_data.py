@@ -4,12 +4,14 @@ import argparse
 import json
 import logging
 import textwrap
-from collections.abc import Callable
 from pathlib import Path
 from pprint import pp
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from anoplura.pylib import log
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 JSON_ERRORS = (json.JSONDecodeError, UnicodeDecodeError)
 
