@@ -191,11 +191,9 @@ def run_lm(args: argparse.Namespace) -> None:
 
     job_began = datetime.now()
 
-    args.llm_data_dir.mkdir(parents=True, exist_ok=True)
-
     paths = sorted(args.text_dir.glob("*.txt"))
 
-    with OpenAI(base_url=args.api_host) as client:
+    with OpenAI(base_url=args.api_host) as client, args.llm_jsonl.open("w") as llm_out:
         for in_path in paths:
             file_began = datetime.now()
 
@@ -205,15 +203,13 @@ def run_lm(args: argparse.Namespace) -> None:
             with in_path.open() as fh:
                 text = fh.read()
 
-            output: list[dict] = []
-
             for key, prompt in PROMPTS.items():
                 began = datetime.now()
 
                 msg = f"{key} started"
                 logging.info(msg)
 
-                field = key.removesuffix("s")
+                record = key.removesuffix("s")
 
                 response = client.chat.completions.create(
                     model=args.model_name,
@@ -228,27 +224,33 @@ def run_lm(args: argparse.Namespace) -> None:
                 content = strip_json_fences(content)
 
                 if not content:
-                    output += [{"field": field, "ERROR": "Nothing returned by LLM."}]
+                    rec = {
+                        "record": record,
+                        "path": str(in_path),
+                        "ERROR": "Nothing returned by LLM.",
+                    }
+                    print(json.dumps(rec), file=llm_out, flush=True)
                     continue
 
                 try:
-                    value = json.loads(content)
+                    rows = json.loads(content)
                 except JSON_ERRORS:
                     logging.exception("JSON Error")
-                    output += [
-                        {"field": field, "ERROR": "Invalid JSON returned by LLM."}
-                    ]
+                    rec = {
+                        "record": record,
+                        "path": str(in_path),
+                        "ERROR": "Invalid JSON returned by LLM.",
+                    }
+                    print(json.dumps(rec), file=llm_out, flush=True)
                     continue
 
-                output += [{"field": field} | v for v in value]
+                for row in rows:
+                    rec = {"record": record} | row
+                    print(json.dumps(rec), file=llm_out, flush=True)
 
                 elapsed = str(datetime.now() - began)
                 msg = f"{key} elapsed {elapsed}"
                 logging.info(msg)
-
-            out_path = args.llm_data_dir / f"{in_path.stem}.json"
-            with out_path.open("w") as f_out:
-                json.dump(output, f_out, indent=4)
 
             file_elapsed = str(datetime.now() - file_began)
             msg = f"File elapsed {file_elapsed}"
@@ -276,11 +278,11 @@ def parse_args(args: list[str] | None = None) -> argparse.Namespace:
         help="""The directory containing the text files to parse.""",
     )
     arg_parser.add_argument(
-        "--llm-data-dir",
+        "--llm-jsonl",
         type=Path,
         required=True,
         metavar="PATH",
-        help="""Output the language model results to this directory.""",
+        help="""Append LLM results to this JSON lines file.""",
     )
     arg_parser.add_argument(
         "--model-name",
