@@ -1,3 +1,5 @@
+"""Roman numeral conversion utilities."""
+
 STRICT_PATTERN = r"^m{0,4}(cm|cd|d?c{0,3})?(xc|xl|l?x{0,3})?(ix|iv|v?i{0,3})?$"
 LENIENT_PATTERN = r"^m{0,4}(cm|cd|d?c{0,4})?(xc|xl|l?x{0,4})?(ix|iv|v?i{0,4})?$"
 
@@ -19,6 +21,7 @@ CONVERTER = (
 
 
 def to_roman(n: int) -> str:
+    """Convert an integer to a lowercase Roman numeral string."""
     result = ""
     for roman, arabic in CONVERTER:
         while n >= arabic:
@@ -28,6 +31,7 @@ def to_roman(n: int) -> str:
 
 
 def from_roman(s: str) -> int:
+    """Convert a Roman numeral string to an integer."""
     s = s.lower()
     result: int = 0
     i = 0

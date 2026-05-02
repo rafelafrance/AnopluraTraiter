@@ -1,5 +1,13 @@
 #!/usr/bin/env python3
 
+"""
+Extract anatomical traits from louse descriptions using an LLM API.
+
+Iterates over a set of prompts covering different trait types, sends each
+prompt together with a text file to the language model, and writes the
+structured JSON results to an output directory.
+"""
+
 import argparse
 import json
 import logging
@@ -178,6 +186,7 @@ PROMPTS: dict[str, Any] = {
 
 
 def run_lm(args: argparse.Namespace) -> None:
+    """Run LLM extraction for all text files in the input directory."""
     log.started(args.log_file, args=args)
 
     job_began = datetime.now()
@@ -250,6 +259,7 @@ def run_lm(args: argparse.Namespace) -> None:
 
 
 def parse_args(args: list[str] | None = None) -> argparse.Namespace:
+    """Parse command-line arguments for the extraction script."""
     arg_parser = argparse.ArgumentParser(
         allow_abbrev=True,
         description=textwrap.dedent("""Parse data from louse descriptions."""),

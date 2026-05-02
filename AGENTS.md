@@ -1,7 +1,7 @@
 # AGENTS.md
 
 ## Setup
-- **Python >= 3.14** required (pyproject.toml `requires-python`). README still says 3.13 — trust pyproject.toml.
+- **Python >= 3.14** required (pyproject.toml `requires-python`).
 - Install deps: `make install` (runs `uv sync`). No `pip` — this project uses `uv` exclusively.
 
 ## Run
@@ -20,7 +20,5 @@
 - Default API host: `http://localhost:1234/v1` (override with `--api-host`).
 
 ## Gotchas
-- LLM output is stripped of ````json` fences before `json.loads()` via `strip_json_fences()`.
-- Ruff selects `ALL` rules minus a long ignore list. All D1xx (docstring) rules are ignored — no docstrings required. `notebooks/` is excluded entirely.
 - Testing uses `unittest`, not `pytest`.
 - `data/`, `output/`, `old/`, `notebooks/` are gitignored.

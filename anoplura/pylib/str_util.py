@@ -1,3 +1,5 @@
+"""String manipulation and parsing utilities."""
+
 import re
 
 
