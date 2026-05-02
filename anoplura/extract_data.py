@@ -205,13 +205,15 @@ def run_lm(args: argparse.Namespace) -> None:
             with in_path.open() as fh:
                 text = fh.read()
 
-            output: dict[str, list[dict]] = {"files": [{"name": in_path.name}]}
+            output: list[dict] = []
 
             for key, prompt in PROMPTS.items():
+                began = datetime.now()
+
                 msg = f"{key} started"
                 logging.info(msg)
 
-                began = datetime.now()
+                field = key.removesuffix("s")
 
                 response = client.chat.completions.create(
                     model=args.model_name,
@@ -226,17 +228,19 @@ def run_lm(args: argparse.Namespace) -> None:
                 content = strip_json_fences(content)
 
                 if not content:
-                    output[key] = [{"ERROR": "Nothing returned by LLM."}]
+                    output += [{"field": field, "ERROR": "Nothing returned by LLM."}]
                     continue
 
                 try:
                     value = json.loads(content)
                 except JSON_ERRORS:
                     logging.exception("JSON Error")
-                    output[key] = [{"ERROR": "Invalid JSON returned by LLM."}]
+                    output += [
+                        {"field": field, "ERROR": "Invalid JSON returned by LLM."}
+                    ]
                     continue
 
-                output[key] = value
+                output += [{"field": field} | v for v in value]
 
                 elapsed = str(datetime.now() - began)
                 msg = f"{key} elapsed {elapsed}"
