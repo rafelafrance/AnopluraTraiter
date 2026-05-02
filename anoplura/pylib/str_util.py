@@ -6,12 +6,6 @@ def compress(text: str) -> str:
     return " ".join(text.split())
 
 
-def dedent(text: str) -> str:
-    """Remove leading and trailing spaces from each line."""
-    lines = [ln.strip() for ln in text.splitlines() if ln]
-    return "\n".join(lines)
-
-
 def strip_json_fences(text: str) -> str:
     """
     Remove markdown code fences wrapping JSON content.

@@ -11,145 +11,168 @@ from typing import Any
 from openai import OpenAI
 
 from anoplura.pylib import log
-from anoplura.pylib.str_util import compress, strip_json_fences
+from anoplura.pylib.str_util import strip_json_fences
 
 JSON_ERRORS = (json.JSONDecodeError, UnicodeDecodeError)
 
-SYSTEM_ROLE = compress("""
-    You are a biologist studying lice.
-    You are gathering anatomical information of lice species in order to compare them
-    for evolutionary trends.
+SYSTEM_ROLE = textwrap.dedent("""
+    You are a biologist studying lice (Anoplura). You are gathering anatomical
+    trait data from taxonomic descriptions for comparative evolutionary analysis.
 
-    We will ask you to find specific traits of interest in a document.
+    You will be given a document excerpt and asked to extract specific traits.
+    Follow these rules strictly:
 
-    Only get annotations from the document itself.
-    If you cannot find the data do not include it.
-    Return the results in JSON format.
+    1. Extract ONLY data that is explicitly stated in the document. Do not infer,
+       guess, or hallucinate values.
+    2. If a requested trait is not mentioned in the document, omit it entirely.
+       Do not include entries with all-null fields.
+    3. Return your answer as a JSON array of objects. Each object uses the exact
+       field names provided in the prompt.
+    4. Use null for any individual field that is not available in the text.
+    5. For numeric ranges written as "X–Y" or "X to Y", split into the
+       designated low/high fields. For a single value, use the value field and
+       leave range fields null.
+    6. Output ONLY the JSON array. No prose, no explanations, no markdown fences.
     """)
 
 PROMPTS: dict[str, Any] = {
-    "seta_counts": compress("""
-        Find all of the setae counts on all body parts.
-        For each seta list:
-            The species of the louse,
-            The sex of the louse,
-            The body region of the seta,
-            The name of the seta,
-            What is the seta count,
-            Which side are the seta on,
-            What rows the seta are in.
-        Use null for any missing data.
+    "specimen_types": textwrap.dedent("""
+        Find the types (holotype, allotype, paratypes) and return these exact fields.
+            "species": species name (string or null),
+            "sex": sex of the specimen (string or null),
+            "type": one of holotype, allotype, or paratypes (string or null),
+            "count": exact count of paratypes as a single number (number or null),
+            "male_count": number of paratype males (number or null),
+            "female_count": number of paratype females (number or null).
+        Return a JSON array of objects.
         """),
-    "antennae_segments": compress("""
-        How many antennae segments are there?
-        Find all of the antennae segment counts.
-        For each antennae segments count get:
-            The species of the louse,
-            The sex of the louse,
-            The antennal segment count.
-        Use null for any missing data.
+    "seta_counts": textwrap.dedent("""
+        Find all setae counts on all body parts.
+        For each seta type found, return an object with these exact fields:
+            "species": species name (string or null),
+            "sex": sex of the specimen (string or null),
+            "body_region": body region where the seta is located (string or null),
+            "seta_name": name of the seta type (string or null),
+            "count": exact count if given as a single number (number or null),
+            "count_low": lower bound if given as a range (number or null),
+            "count_high": upper bound if given as a range (number or null),
+            "side": which side of the body (string or null),
+            "rows": row position of the seta (string or null).
+        Return a JSON array of objects.
         """),
-    "body_length": compress("""
-        For each body length get:
-            The species of the louse,
-            The sex of the louse,
-            Is this a holotype or allotype,
-            The total body length,
-            The maximum body length,
-            The mean body length,
-            The the range of body lengths,
-        What was the sample size for body lengths (n=?).
-        Use null for any missing data.
+    "antennae_segments": textwrap.dedent("""
+        Find all antennae segment counts.
+        For each antennae segment count found, return an object with these exact fields:
+            "species": species name (string or null),
+            "sex": sex of the specimen (string or null),
+            "segment_count": number of antennal segments (number or null),
+            "segment_count_low": lower bound if given as a range (number or null),
+            "segment_count_high": upper bound if given as a range (number or null).
+        Return a JSON array of objects.
         """),
-    "head_width": compress("""
-        For each head width get:
-            The species of the louse,
-            The sex of the louse,
-            The head width,
-            The maximum head width,
-            The mean head width,
-            The the range of head widths,
-            What was the sample size for the head widths (n=?).
-        Use null for any missing data.
+    "body_lengths": textwrap.dedent("""
+        Find all body length measurements.
+        For each body length found, return an object with these exact fields:
+            "species": species name (string or null),
+            "sex": sex of the specimen (string or null),
+            "type": whether holotype or allotype (string or null),
+            "length": single measurement value if given (number or null),
+            "mean_length": mean body length if stated (number or null),
+            "length_low": lower bound of range (number or null),
+            "length_high": upper bound of range (number or null),
+            "n": sample size (number or null),
+            "units": unit of measurement (string or null).
+        Return a JSON array of objects.
         """),
-    "thorax_width": compress("""
-        For each throax width get:
-            The species of the louse,
-            The sex of the louse,
-            The thorax width,
-            The maximum thorax width,
-            The mean thorax width,
-            The the range of thorax widths,
-            What was the sample size for the thorax widths (n=?).
-        Use null for any missing data.
+    "head_widths": textwrap.dedent("""
+        Find all head width measurements.
+        For each head width found, return an object with these exact fields:
+            "species": species name (string or null),
+            "sex": sex of the specimen (string or null),
+            "width": single measurement value if given (number or null),
+            "mean_width": mean head width if stated (number or null),
+            "width_low": lower bound of range (number or null),
+            "width_high": upper bound of range (number or null),
+            "n": sample size (number or null),
+            "units": unit of measurement (string or null).
+        Return a JSON array of objects.
         """),
-    "sternite_counts": compress("""
-        Find all or the sternite counts on each segment.
-        For each sternite list:
-            The species of the louse,
-            The sex of the louse,
-            The body region of the sternite,
-            Which segment the sternites are on,
-            The name of the sternite,
-            What is the sternite count.
-        Use null for any missing data.
+    "thorax_widths": textwrap.dedent("""
+        Find all thorax width measurements.
+        For each thorax width found, return an object with these exact fields:
+            "species": species name (string or null),
+            "sex": sex of the specimen (string or null),
+            "width": single measurement value if given (number or null),
+            "mean_width": mean thorax width if stated (number or null),
+            "width_low": lower bound of range (number or null),
+            "width_high": upper bound of range (number or null),
+            "n": sample size (number or null),
+            "units": unit of measurement (string or null).
+        Return a JSON array of objects.
         """),
-    "tergite_counts": compress("""
-        Find all or the tergite counts on each segment.
-        For each tergite list:
-            The species of the louse,
-            The sex of the louse,
-            The body region of the tergite,
-            Which segment the tergites are on,
-            The name of the tergite,
-            What is the tergite count.
-        Use null for any missing data.
+    "sternite_counts": textwrap.dedent("""
+        Find all sternite counts on each segment.
+        For each sternite found, return an object with these exact fields:
+            "species": species name (string or null),
+            "sex": sex of the specimen (string or null),
+            "body_region": body region of the sternite (string or null),
+            "segment": segment number or identifier (string or null),
+            "sternite_name": name of the sternite (string or null),
+            "count": sternite count (number or null),
+            "count_low": lower bound if given as a range (number or null),
+            "count_high": upper bound if given as a range (number or null).
+        Return a JSON array of objects.
         """),
-    "plate_counts": compress("""
-        Find all of the plate counts on all body parts.
-        For each plate list:
-            The species of the louse,
-            The sex of the louse,
-            The body region of the plate,
-            The name of the plate,
-            What is the plate count,
-        Use null for any missing data.
+    "tergite_counts": textwrap.dedent("""
+        Find all tergite counts on each segment.
+        For each tergite found, return an object with these exact fields:
+            "species": species name (string or null),
+            "sex": sex of the specimen (string or null),
+            "body_region": body region of the tergite (string or null),
+            "segment": segment number or identifier (string or null),
+            "tergite_name": name of the tergite (string or null),
+            "count": tergite count (number or null),
+            "count_low": lower bound if given as a range (number or null),
+            "count_high": upper bound if given as a range (number or null).
+        Return a JSON array of objects.
         """),
-    "dpts_length": compress("""
-        The DPTS is also known as the dorsal principal head seta.
-        For each DPTS length get:
-            The species of the louse,
-            The sex of the louse,
-            The DPTS length,
-            The maximum DPTS length,
-            The mean DPTS length,
-            The the range of DPTS lengths,
-            What was the sample size for the DPTS lengths (n=?).
-        Use null for any missing data.
+    "plate_counts": textwrap.dedent("""
+        Find all plate counts on all body parts.
+        For each plate found, return an object with these exact fields:
+            "species": species name (string or null),
+            "sex": sex of the specimen (string or null),
+            "body_region": body region of the plate (string or null),
+            "plate_name": name of the plate (string or null),
+            "count": plate count (number or null),
+            "count_low": lower bound if given as a range (number or null),
+            "count_high": upper bound if given as a range (number or null).
+        Return a JSON array of objects.
         """),
-    "mesothracic_spiracle": compress("""
-        What is the diameter of the mesothoracic spiracle?
-        For each diameter of the mesothoracic spiracle get:
-            The species of the louse,
-            The sex of the louse,
-            The diameter of the mesothoracic spiracle,
-            The maximum diameter of the mesothoracic spiracle,
-            The mean diameter of the mesothoracic spiracle,
-            The the range of mesothoracic spiracle diameters,
-            What was the sample size for the mesothoracic spiracle diameters (n=?).
-        Use null for any missing data.
+    "dpts_lengths": textwrap.dedent("""
+        Find all DPTS (dorsal principal head seta) length measurements.
+        For each DPTS length found, return an object with these exact fields:
+            "species": species name (string or null),
+            "sex": sex of the specimen (string or null),
+            "length": single measurement value if given (number or null),
+            "mean_length": mean DPTS length if stated (number or null),
+            "length_low": lower bound of range (number or null),
+            "length_high": upper bound of range (number or null),
+            "n": sample size (number or null),
+            "units": unit of measurement (string or null).
+        Return a JSON array of objects.
         """),
-    "denticle_counts": compress("""
-        Find all the number of anteriolaral denticles ventrally?
-        Also find the number of mediolateral denticles to first antennal segment.
-        For each denticle count list:
-            The species of the louse,
-            The sex of the louse,
-            The body region of the denticle,
-            The name of the denticle,
-            What is the denticle count,
-            Which side the denticles are on.
-        Use null for any missing data.
+    "spiracle_diameters": textwrap.dedent("""
+        Find all mesothoracic spiracle diameter measurements.
+        For each measurement found, return an object with these exact fields:
+            "species": species name (string or null),
+            "sex": sex of the specimen (string or null),
+            "diameter": single measurement value if given (number or null),
+            "mean_diameter": mean diameter if stated (number or null),
+            "diameter_low": lower bound of range (number or null),
+            "diameter_high": upper bound of range (number or null),
+            "n": sample size (number or null),
+            "units": unit of measurement (string or null).
+        Return a JSON array of objects.
         """),
 }
 
@@ -157,18 +180,23 @@ PROMPTS: dict[str, Any] = {
 def run_lm(args: argparse.Namespace) -> None:
     log.started(args.log_file, args=args)
 
-    args.raw_data_dir.mkdir(parents=True, exist_ok=True)
+    job_began = datetime.now()
+
+    args.llm_data_dir.mkdir(parents=True, exist_ok=True)
 
     paths = sorted(args.text_dir.glob("*.txt"))
 
     with OpenAI(base_url=args.api_host) as client:
         for in_path in paths:
+            file_began = datetime.now()
+
+            logging.info("-" * 80)
             logging.info("**** %s ****", in_path.stem)
 
             with in_path.open() as fh:
                 text = fh.read()
 
-            output = [{"text": json.dumps({"text_file": in_path.name})}]
+            output: dict[str, list[dict]] = {"files": [{"name": in_path.name}]}
 
             for key, prompt in PROMPTS.items():
                 msg = f"{key} started"
@@ -189,25 +217,34 @@ def run_lm(args: argparse.Namespace) -> None:
                 content = strip_json_fences(content)
 
                 if not content:
-                    output.append({key: "Nothing returned by the language model."})
+                    output[key] = [{"ERROR": "Nothing returned by LLM."}]
                     continue
 
                 try:
                     value = json.loads(content)
                 except JSON_ERRORS:
                     logging.exception("JSON Error")
-                    output.append({key: "Invalid JSON returned by the language model."})
+                    output[key] = [{"ERROR": "Invalid JSON returned by LLM."}]
                     continue
 
-                output.append({key: value})
+                output[key] = value
 
                 elapsed = str(datetime.now() - began)
                 msg = f"{key} elapsed {elapsed}"
                 logging.info(msg)
 
-            out_path = args.raw_data_dir / f"{in_path.stem}.json"
+            out_path = args.llm_data_dir / f"{in_path.stem}.json"
             with out_path.open("w") as f_out:
                 json.dump(output, f_out, indent=4)
+
+            file_elapsed = str(datetime.now() - file_began)
+            msg = f"File elapsed {file_elapsed}"
+            logging.info(msg)
+
+    logging.info("-" * 80)
+    job_elapsed = str(datetime.now() - job_began)
+    msg = f"Job elapsed {job_elapsed}"
+    logging.info(msg)
 
     log.finished()
 
@@ -215,7 +252,7 @@ def run_lm(args: argparse.Namespace) -> None:
 def parse_args(args: list[str] | None = None) -> argparse.Namespace:
     arg_parser = argparse.ArgumentParser(
         allow_abbrev=True,
-        description=textwrap.dedent("""Parse data from lice descriptions."""),
+        description=textwrap.dedent("""Parse data from louse descriptions."""),
     )
     arg_parser.add_argument(
         "--text-dir",
@@ -225,11 +262,11 @@ def parse_args(args: list[str] | None = None) -> argparse.Namespace:
         help="""The directory containing the text files to parse.""",
     )
     arg_parser.add_argument(
-        "--raw-data-dir",
+        "--llm-data-dir",
         type=Path,
         required=True,
         metavar="PATH",
-        help="""Output the raw language model results to this directory.""",
+        help="""Output the language model results to this directory.""",
     )
     arg_parser.add_argument(
         "--model-name",
