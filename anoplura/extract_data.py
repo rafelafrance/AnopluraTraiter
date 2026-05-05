@@ -18,7 +18,7 @@ from typing import Any
 
 from openai import OpenAI
 
-from anoplura.pylib import log
+from anoplura.pylib import log, timer
 from anoplura.pylib.str_util import strip_json_fences
 
 JSON_ERRORS = (json.JSONDecodeError, UnicodeDecodeError)
@@ -187,9 +187,7 @@ PROMPTS: dict[str, Any] = {
 
 def run_lm(args: argparse.Namespace) -> None:
     """Run LLM extraction for all text files in the input directory."""
-    log.started(args.log_file, args=args)
-
-    job_began = datetime.now()
+    job_began = timer.job_began(args.log_file, args=args)
 
     paths = sorted(args.text_dir.glob("*.txt"))
 
@@ -204,7 +202,7 @@ def run_lm(args: argparse.Namespace) -> None:
                 text = fh.read()
 
             for key, prompt in PROMPTS.items():
-                began = datetime.now()
+                record_began = datetime.now()
 
                 msg = f"{key} started"
                 logging.info(msg)
@@ -248,18 +246,12 @@ def run_lm(args: argparse.Namespace) -> None:
                     rec = {"record": record} | row
                     print(json.dumps(rec), file=llm_out, flush=True)
 
-                elapsed = str(datetime.now() - began)
-                msg = f"{key} elapsed {elapsed}"
-                logging.info(msg)
+                timer.elapsed(record_began, key)
 
-            file_elapsed = str(datetime.now() - file_began)
-            msg = f"File elapsed {file_elapsed}"
-            logging.info(msg)
+            timer.elapsed(file_began, "File")
 
     logging.info("-" * 80)
-    job_elapsed = str(datetime.now() - job_began)
-    msg = f"Job elapsed {job_elapsed}"
-    logging.info(msg)
+    timer.job_elapsed(job_began)
 
     log.finished()
 
