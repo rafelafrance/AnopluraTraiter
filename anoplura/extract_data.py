@@ -182,6 +182,14 @@ PROMPTS: dict[str, Any] = {
             "units": unit of measurement (string or null).
         Return a JSON array of objects.
         """),
+    "excepts": textwrap.dedent("""
+        Find all prases with the word "except" in them.
+        For each phrase found, return an object with these exact fields:
+            "species": species name (string or null),
+            "sex": sex of the specimen (string or null),
+            "phrase": the phrase with the word "except" in it (string or null).
+        Return a JSON array of objects.
+        """),
 }
 
 
@@ -191,7 +199,7 @@ def run_lm(args: argparse.Namespace) -> None:
 
     paths = sorted(args.text_dir.glob("*.txt"))
 
-    with OpenAI(base_url=args.api_host) as client, args.llm_jsonl.open("w") as llm_out:
+    with OpenAI(base_url=args.api_host) as client, args.lm_jsonl.open("w") as llm_out:
         for in_path in paths:
             file_began = datetime.now()
 
@@ -270,7 +278,7 @@ def parse_args(args: list[str] | None = None) -> argparse.Namespace:
         help="""The directory containing the text files to parse.""",
     )
     arg_parser.add_argument(
-        "--llm-jsonl",
+        "--lm-jsonl",
         type=Path,
         required=True,
         metavar="PATH",

@@ -49,6 +49,7 @@ ignore = [
   "LOG015",  # Use own logger instead
   "PLR0915", # Too many statements
   "PLR0912", # Too many branches
+  "PLW0603", # Using the global statement to update global variable is discouraged
   "RET504",  # Unnecessary assignment to {name} before return statement
   "RUF001",  # String contains ambiguous charater
   "SIM114",  # Combine if branches using logical or operator
