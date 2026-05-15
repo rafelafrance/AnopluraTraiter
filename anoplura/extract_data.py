@@ -44,21 +44,13 @@ SYSTEM_ROLE = textwrap.dedent("""
     """)
 
 PROMPTS: dict[str, Any] = {
-    "specimen_types": textwrap.dedent("""
-        Find the types (holotype, allotype, paratypes) and return these exact fields.
-            "species": species name (string or null),
-            "sex": sex of the specimen (string or null),
-            "type": one of holotype, allotype, or paratypes (string or null),
-            "count": exact count of paratypes as a single number (number or null),
-            "male_count": number of paratype males (number or null),
-            "female_count": number of paratype females (number or null).
-        Return a JSON array of objects.
-        """),
     "seta_counts": textwrap.dedent("""
         Find all setae counts on all body parts.
-        For each seta type found, return an object with these exact fields:
+        Also note if setae are missing.
+        For each seta count type found, return an object with these exact fields:
             "species": species name (string or null),
             "sex": sex of the specimen (string or null),
+            "segment": segment number or identifier (string or null),
             "body_region": body region where the seta is located (string or null),
             "seta_name": name of the seta type (string or null),
             "count": exact count if given as a single number (number or null),
@@ -68,14 +60,60 @@ PROMPTS: dict[str, Any] = {
             "rows": row position of the seta (string or null).
         Return a JSON array of objects.
         """),
-    "antennae_segments": textwrap.dedent("""
-        Find all antennae segment counts.
-        For each antennae segment count found, return an object with these exact fields:
+    "sternite_counts": textwrap.dedent("""
+        Find all sternite counts on each segment.
+        Also note if sternites are missing.
+        For each sternite count found, return an object with these exact fields:
             "species": species name (string or null),
             "sex": sex of the specimen (string or null),
-            "segment_count": number of antennal segments (number or null),
-            "segment_count_low": lower bound if given as a range (number or null),
-            "segment_count_high": upper bound if given as a range (number or null).
+            "body_region": body region of the sternite (string or null),
+            "segment": segment number or identifier (string or null),
+            "sternite_name": name of the sternite (string or null),
+            "missing": are sternites are missing from the segment (true or null),
+            "count": sternite count (number or null),
+            "count_low": lower bound if given as a range (number or null),
+            "count_high": upper bound if given as a range (number or null).
+        Return a JSON array of objects.
+        """),
+    "tergite_counts": textwrap.dedent("""
+        Find all tergite counts on each segment.
+        Also note if tergites are missing.
+        For each tergite count found, return an object with these exact fields:
+            "species": species name (string or null),
+            "sex": sex of the specimen (string or null),
+            "body_region": body region of the tergite (string or null),
+            "segment": segment number or identifier (string or null),
+            "tergite_name": name of the tergite (string or null),
+            "missing": are tergites are missing from the segment (true or null),
+            "count": tergite count (number or null),
+            "count_low": lower bound if given as a range (number or null),
+            "count_high": upper bound if given as a range (number or null).
+        Return a JSON array of objects.
+        """),
+    "plate_counts": textwrap.dedent("""
+        Find all plate counts on all body parts.
+        For each plate count found, return an object with these exact fields:
+            "species": species name (string or null),
+            "sex": sex of the specimen (string or null),
+            "body_region": body region of the plate (string or null),
+            "plate_name": name of the plate (string or null),
+            "missing": are plates are missing from the body region (true or null),
+            "count": plate count (number or null),
+            "count_low": lower bound if given as a range (number or null),
+            "count_high": upper bound if given as a range (number or null).
+        Return a JSON array of objects.
+        """),
+    "spiracle_counts": textwrap.dedent("""
+        Find all spiracle counts on all body parts.
+        For each spiracle found, return an object with these exact fields:
+            "species": species name (string or null),
+            "sex": sex of the specimen (string or null),
+            "body_region": body region of the spiracle (string or null),
+            "spiracle_name": name of the spiracle (string or null),
+            "missing": are spiracles are missing from the body region (true or null),
+            "count": spiracle count (number or null),
+            "count_low": lower bound if given as a range (number or null),
+            "count_high": upper bound if given as a range (number or null).
         Return a JSON array of objects.
         """),
     "body_lengths": textwrap.dedent("""
@@ -86,6 +124,19 @@ PROMPTS: dict[str, Any] = {
             "type": whether holotype or allotype (string or null),
             "length": single measurement value if given (number or null),
             "mean_length": mean body length if stated (number or null),
+            "length_low": lower bound of range (number or null),
+            "length_high": upper bound of range (number or null),
+            "n": sample size (number or null),
+            "units": unit of measurement (string or null).
+        Return a JSON array of objects.
+        """),
+    "head_lengths": textwrap.dedent("""
+        Find all head length measurements.
+        For each head length found, return an object with these exact fields:
+            "species": species name (string or null),
+            "sex": sex of the specimen (string or null),
+            "width": single measurement value if given (number or null),
+            "mean_length": mean head length if stated (number or null),
             "length_low": lower bound of range (number or null),
             "length_high": upper bound of range (number or null),
             "n": sample size (number or null),
@@ -105,6 +156,19 @@ PROMPTS: dict[str, Any] = {
             "units": unit of measurement (string or null).
         Return a JSON array of objects.
         """),
+    "thorax_lengths": textwrap.dedent("""
+        Find all thorax length measurements.
+        For each thorax length found, return an object with these exact fields:
+            "species": species name (string or null),
+            "sex": sex of the specimen (string or null),
+            "length": single measurement value if given (number or null),
+            "mean_length": mean thorax length if stated (number or null),
+            "length_low": lower bound of range (number or null),
+            "lengthwidth_high": upper bound of range (number or null),
+            "n": sample size (number or null),
+            "units": unit of measurement (string or null).
+        Return a JSON array of objects.
+        """),
     "thorax_widths": textwrap.dedent("""
         Find all thorax width measurements.
         For each thorax width found, return an object with these exact fields:
@@ -118,42 +182,30 @@ PROMPTS: dict[str, Any] = {
             "units": unit of measurement (string or null).
         Return a JSON array of objects.
         """),
-    "sternite_counts": textwrap.dedent("""
-        Find all sternite counts on each segment.
-        For each sternite found, return an object with these exact fields:
+    "abdomen_lengths": textwrap.dedent("""
+        Find all abdomen length measurements.
+        For each abdomen length found, return an object with these exact fields:
             "species": species name (string or null),
             "sex": sex of the specimen (string or null),
-            "body_region": body region of the sternite (string or null),
-            "segment": segment number or identifier (string or null),
-            "sternite_name": name of the sternite (string or null),
-            "count": sternite count (number or null),
-            "count_low": lower bound if given as a range (number or null),
-            "count_high": upper bound if given as a range (number or null).
+            "length": single measurement value if given (number or null),
+            "mean_length": mean abdomen length if stated (number or null),
+            "length_low": lower bound of range (number or null),
+            "length_high": upper bound of range (number or null),
+            "n": sample size (number or null),
+            "units": unit of measurement (string or null).
         Return a JSON array of objects.
         """),
-    "tergite_counts": textwrap.dedent("""
-        Find all tergite counts on each segment.
-        For each tergite found, return an object with these exact fields:
+    "abdomen_widths": textwrap.dedent("""
+        Find all abdomen width measurements.
+        For each abdomen width found, return an object with these exact fields:
             "species": species name (string or null),
             "sex": sex of the specimen (string or null),
-            "body_region": body region of the tergite (string or null),
-            "segment": segment number or identifier (string or null),
-            "tergite_name": name of the tergite (string or null),
-            "count": tergite count (number or null),
-            "count_low": lower bound if given as a range (number or null),
-            "count_high": upper bound if given as a range (number or null).
-        Return a JSON array of objects.
-        """),
-    "plate_counts": textwrap.dedent("""
-        Find all plate counts on all body parts.
-        For each plate found, return an object with these exact fields:
-            "species": species name (string or null),
-            "sex": sex of the specimen (string or null),
-            "body_region": body region of the plate (string or null),
-            "plate_name": name of the plate (string or null),
-            "count": plate count (number or null),
-            "count_low": lower bound if given as a range (number or null),
-            "count_high": upper bound if given as a range (number or null).
+            "length": single measurement value if given (number or null),
+            "mean_length": mean abdomen width if stated (number or null),
+            "length_low": lower bound of range (number or null),
+            "width_high": upper bound of range (number or null),
+            "n": sample size (number or null),
+            "units": unit of measurement (string or null).
         Return a JSON array of objects.
         """),
     "dpts_lengths": textwrap.dedent("""
@@ -180,6 +232,45 @@ PROMPTS: dict[str, Any] = {
             "diameter_high": upper bound of range (number or null),
             "n": sample size (number or null),
             "units": unit of measurement (string or null).
+        Return a JSON array of objects.
+        """),
+    "specimen_types": textwrap.dedent("""
+        Find the types (holotype, allotype, paratypes) and return these exact fields.
+            "species": species name (string or null),
+            "sex": sex of the specimen (string or null),
+            "type": one of holotype, allotype, or paratypes (string or null),
+            "count": exact count of paratypes as a single number (number or null),
+            "male_count": number of paratype males (number or null),
+            "female_count": number of paratype females (number or null).
+        Return a JSON array of objects.
+        """),
+    "antennae_segments": textwrap.dedent("""
+        Find all antennae segment counts.
+        For each antennae segment count found, return an object with these exact fields:
+            "species": species name (string or null),
+            "sex": sex of the specimen (string or null),
+            "segment_count": number of antennal segments (number or null),
+            "segment_count_low": lower bound if given as a range (number or null),
+            "segment_count_high": upper bound if given as a range (number or null).
+        Return a JSON array of objects.
+        """),
+    "host": textwrap.dedent("""
+        The specimen was found on this host species.
+        For each locality found, return an object with these exact fields:
+            "species": species name (string or null),
+            "sex": sex of the specimen (string or null),
+            "host_species": the host species (string or null).
+        Return a JSON array of objects.
+        """),
+    "locality": textwrap.dedent("""
+        Find the locality where the specimens were collected.
+        This include the geographic locality where the host was found,
+        and where on the host the specimen itself was found.
+        For each locality found, return an object with these exact fields:
+            "species": species name (string or null),
+            "sex": sex of the specimen (string or null),
+            "geographic_location": location where the host was found (string or null),
+            "host_location": specimen was on this body host body part (string or null).
         Return a JSON array of objects.
         """),
     "excepts": textwrap.dedent("""
@@ -289,12 +380,6 @@ def parse_args(args: list[str] | None = None) -> argparse.Namespace:
         default="google/gemma-4-26b-a4b",
         help="""Use this language model. (default: %(default)s)""",
     )
-    # arg_parser.add_argument(
-    #     "--threads",
-    #     type=int,
-    #     default=4,
-    #     help="""How many parallel threads to run. (default: %(default)s)""",
-    # )
     arg_parser.add_argument(
         "--api-host",
         default="http://localhost:1234/v1",

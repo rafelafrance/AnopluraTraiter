@@ -46,6 +46,7 @@ ignore = [
   "D212",    # Multi-line docstring summary should start at the first line
   "DTZ005",  # Pass a `datetime.timezone` object to the `tz` parameter
   "ERA001",  # Remove commented-out code
+  "G004",    # Logging statement uses f-string
   "LOG015",  # Use own logger instead
   "PLR0915", # Too many statements
   "PLR0912", # Too many branches

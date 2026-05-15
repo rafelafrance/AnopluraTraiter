@@ -34,56 +34,68 @@ def clean(args: argparse.Namespace) -> None:
         col = ln["species"], sex
 
         match ln["record"]:
-            case "specimen_type":
-                row = specimen_type(ln)
-                grid[col].append(("00|" + ln["record"], row))
-
             case "seta_count":
                 row = seta_count(ln)
                 grid[col].append(("10|" + ln["record"], row))
 
-            case "antennae_segment":
-                row = antennae_segments(ln)
-                grid[col].append(("20|" + ln["record"], row))
-
-            case "body_length":
-                rows = body_length(ln)
-                grid[col] += [("30|" + ln["record"], r) for r in rows]
-
-            case "head_width":
-                rows = head_width(ln)
-                grid[col] += [("40|" + ln["record"], r) for r in rows]
-
-            case "thorax_width":
-                rows = thorax_width(ln)
-                grid[col] += [("50|" + ln["record"], r) for r in rows]
-
             case "sternite_count":
-                row = sternite_count(ln)
+                row = count(ln, "sternite")
                 grid[col].append(("60|" + ln["record"], row))
 
             case "tergite_count":
-                row = tergite_count(ln)
+                row = count(ln, "tergite")
                 grid[col].append(("70|" + ln["record"], row))
 
             case "plate_count":
-                row = plate_count(ln)
+                row = count(ln, "plate")
                 grid[col].append(("80|" + ln["record"], row))
 
+            case "body_length":
+                rows = measurement(ln, "body", "length")
+                grid[col] += [("30|" + ln["record"], r) for r in rows]
+
+            case "head_length":
+                rows = measurement(ln, "head", "length")
+                grid[col] += [("40|" + ln["record"], r) for r in rows]
+
+            case "head_width":
+                rows = measurement(ln, "head", "width")
+                grid[col] += [("40|" + ln["record"], r) for r in rows]
+
+            case "thorax_length":
+                rows = measurement(ln, "thorax", "length")
+                grid[col] += [("50|" + ln["record"], r) for r in rows]
+
+            case "thorax_width":
+                rows = measurement(ln, "thorax", "width")
+                grid[col] += [("50|" + ln["record"], r) for r in rows]
+
+            case "abdomen_length":
+                rows = measurement(ln, "abdomen", "length")
+                grid[col] += [("50|" + ln["record"], r) for r in rows]
+
             case "dpts_length":
-                rows = dpts_length(ln)
+                rows = measurement(ln, "DPTS", "length")
                 grid[col] += [("90|" + ln["record"], r) for r in rows]
 
             case "spiracle_diameter":
-                rows = spiracle_diameter(ln)
+                rows = measurement(ln, "spiracle", "diameter")
                 grid[col] += [("a0|" + ln["record"], r) for r in rows]
+
+            case "specimen_type":
+                row = specimen_type(ln)
+                grid[col].append(("00|" + ln["record"], row))
+
+            case "antennae_segment":
+                row = antennae_segments(ln)
+                grid[col].append(("20|" + ln["record"], row))
 
             case "except":
                 row = excepts(ln)
                 grid[col].append(("b0|" + ln["record"], row))
 
             case _:
-                print(ln["record"])
+                logging.error(f"Unknown record type: {ln['record']}")
                 raise ValueError
 
     # Get row names
@@ -112,212 +124,38 @@ def excepts(ln: dict) -> tuple[str, str]:
     return "except phrase", ln["phrase"]
 
 
-def spiracle_diameter(ln: dict) -> list[tuple[str, str]]:
-    """Extract the various spiracle diameter measurements."""
-    lens = []
+def measurement(ln: dict, part: str, dimension: str) -> list[tuple[str, str]]:
+    """Extract the various measurements."""
+    values = []
 
     units = f" {ln['units']}" if ln["units"] else ""
 
-    if ln["diameter"] is not None:
-        label = "spiracle diameter"
-        value = f"{ln['diameter']}{units}"
-        lens.append((label, value))
+    mean = ln.get(f"mean_{dimension}")
+    low = ln.get(f"{dimension}_low")
+    high = ln.get(f"{dimension}_high")
+    n = ln.get("n")
 
-    if ln["mean_diameter"] is not None:
-        label = "mean spiracle diameter"
-        value = f"{ln['mean_diameter']}{units}"
-        lens.append((label, value))
+    if ln[dimension] is not None:
+        label = f"{part} {dimension}"
+        value = f"{ln[dimension]}{units}"
+        values.append((label, value))
 
-    if ln["diameter_low"] is not None and ln["diameter_high"] is not None:
-        label = "spiracle diameter range"
-        value = f"{ln['diameter_low']}-{ln['diameter_high']}{units}"
-        lens.append((label, value))
+    if mean is not None:
+        label = f"mean {part} {dimension}"
+        value = f"{mean}{units}"
+        values.append((label, value))
 
-    if ln["n"] is not None:
-        label = "spiracle diameter sample size"
-        value = f"{ln['n']}"
-        lens.append((label, value))
+    if low is not None and high is not None:
+        label = f"{part} {dimension} range"
+        value = f"{low}-{high}{units}"
+        values.append((label, value))
 
-    return lens
+    if n is not None:
+        label = f"{part} {dimension} sample size"
+        value = str(n)
+        values.append((label, value))
 
-
-def dpts_length(ln: dict) -> list[tuple[str, str]]:
-    """Extract the various DPTS length measurements."""
-    lens = []
-
-    units = f" {ln['units']}" if ln["units"] else ""
-
-    if ln["length"] is not None:
-        label = "DPTS length"
-        value = f"{ln['length']}{units}"
-        lens.append((label, value))
-
-    if ln["mean_length"] is not None:
-        label = "mean DPTS length"
-        value = f"{ln['mean_length']}{units}"
-        lens.append((label, value))
-
-    if ln["length_low"] is not None and ln["length_high"] is not None:
-        label = "DPTS length range"
-        value = f"{ln['length_low']}-{ln['length_high']}{units}"
-        lens.append((label, value))
-
-    if ln["n"] is not None:
-        label = "DPTS length sample size"
-        value = f"{ln['n']}"
-        lens.append((label, value))
-
-    return lens
-
-
-def plate_count(ln: dict) -> tuple[str, str]:
-    """Extract plate counts and format the data."""
-    label = []
-    if ln["body_region"] is not None:
-        label.append(ln["body_region"])
-    if ln["plate_name"] is not None:
-        label.append(ln["plate_name"])
-    label.append("plate count")
-
-    value = []
-    if ln["count_low"] is not None and ln["count_high"] is not None:
-        value.append(f"{ln['count_low']}-{ln['count_high']}")
-    elif ln["count"] is not None:
-        value.append(str(ln["count"]))
-
-    return " ".join(label).lower(), " ".join(value).lower()
-
-
-def tergite_count(ln: dict) -> tuple[str, str]:
-    """Extract tergite counts and format the data."""
-    label = []
-    if ln["body_region"] is not None:
-        label.append(ln["body_region"])
-    if ln["segment"] is not None:
-        label.append(f"segment {ln['segment']}")
-    if ln["tergite_name"] is not None:
-        label.append(ln["tergite_name"])
-    label.append("tergite count")
-
-    value = []
-    if ln["count_low"] is not None and ln["count_high"] is not None:
-        value.append(f"{ln['count_low']}-{ln['count_high']}")
-    elif ln["count"] is not None:
-        value.append(str(ln["count"]))
-
-    return " ".join(label).lower(), " ".join(value).lower()
-
-
-def sternite_count(ln: dict) -> tuple[str, str]:
-    """Extract sternite counts and format the data."""
-    label = []
-    if ln["body_region"] is not None:
-        label.append(ln["body_region"])
-    if ln["segment"] is not None:
-        label.append(f"segment {ln['segment']}")
-    if ln["sternite_name"] is not None:
-        label.append(ln["sternite_name"])
-    label.append("sternite count")
-
-    value = []
-    if ln["count_low"] is not None and ln["count_high"] is not None:
-        value.append(f"{ln['count_low']}-{ln['count_high']}")
-    elif ln["count"] is not None:
-        value.append(str(ln["count"]))
-
-    return " ".join(label).lower(), " ".join(value).lower()
-
-
-def thorax_width(ln: dict) -> list[tuple[str, str]]:
-    """Extract the various thorax width measurements."""
-    lens = []
-
-    units = f" {ln['units']}" if ln["units"] else ""
-
-    if ln["width"] is not None:
-        label = "thorax width"
-        value = f"{ln['width']}{units}"
-        lens.append((label, value))
-
-    if ln["mean_width"] is not None:
-        label = "mean thorax width"
-        value = f"{ln['mean_width']}{units}"
-        lens.append((label, value))
-
-    if ln["width_low"] is not None and ln["width_high"] is not None:
-        label = "thorax width range"
-        value = f"{ln['width_low']}-{ln['width_high']}{units}"
-        lens.append((label, value))
-
-    if ln["n"] is not None:
-        label = "thorax width sample size"
-        value = f"{ln['n']}"
-        lens.append((label, value))
-
-    return lens
-
-
-def head_width(ln: dict) -> list[tuple[str, str]]:
-    """Extract the various head width measurements."""
-    lens = []
-
-    units = f" {ln['units']}" if ln["units"] else ""
-
-    if ln["width"] is not None:
-        label = "head width"
-        value = f"{ln['width']}{units}"
-        lens.append((label, value))
-
-    if ln["mean_width"] is not None:
-        label = "mean head width"
-        value = f"{ln['mean_width']}{units}"
-        lens.append((label, value))
-
-    if ln["width_low"] is not None and ln["width_high"] is not None:
-        label = "head width range"
-        value = f"{ln['width_low']}-{ln['width_high']}{units}"
-        lens.append((label, value))
-
-    if ln["n"] is not None:
-        label = "head width sample size"
-        value = f"{ln['n']}"
-        lens.append((label, value))
-
-    return lens
-
-
-def body_length(ln: dict) -> list[tuple[str, str]]:
-    """Extract the various body length measurements."""
-    lens = []
-
-    units = f" {ln['units']}" if ln["units"] else ""
-
-    if ln["length"] is not None:
-        label = "body length"
-        value = f"{ln['length']}{units}"
-        lens.append((label, value))
-
-    if ln["mean_length"] is not None:
-        label = "mean body length"
-        value = f"{ln['mean_length']}{units}"
-        lens.append((label, value))
-
-    if ln["length_low"] is not None and ln["length_high"] is not None:
-        label = "body length range"
-        value = f"{ln['length_low']}-{ln['length_high']}{units}"
-        lens.append((label, value))
-
-    if ln["n"] is not None:
-        label = "body length sample size"
-        value = f"{ln['n']}"
-        lens.append((label, value))
-
-    return lens
-
-
-def antennae_segments(ln: dict) -> tuple[str, str]:
-    """Extract the number of antennae segments and format the data."""
-    return "number of antennal segments", str(ln["segment_count"])
+    return values
 
 
 def seta_count(ln: dict) -> tuple[str, str]:
@@ -340,6 +178,37 @@ def seta_count(ln: dict) -> tuple[str, str]:
     value += [str(ln[f]) for f in ("rows", "side") if ln[f] is not None]
 
     return " ".join(label).lower(), " ".join(value).lower()
+
+
+def count(ln: dict, part: str, label: list[str] | None = None) -> tuple[str, str]:
+    """Extract part counts and format the data."""
+    label = label or []
+
+    region = ln.get("body region")
+    if region is not None:
+        label.append(region)
+
+    segment = ln.get("segment")
+    if segment is not None:
+        label.append(f"segment {segment}")
+
+    name = ln.get(f"{part}_name")
+    if name is not None:
+        label.append(name)
+    label.append(f"{part} count")
+
+    value = []
+    if ln.get("count_low") is not None and ln.get("count_high") is not None:
+        value.append(f"{ln['count_low']}-{ln['count_high']}")
+    elif ln.get("count") is not None:
+        value.append(str(ln["count"]))
+
+    return " ".join(label).lower(), " ".join(value).lower()
+
+
+def antennae_segments(ln: dict) -> tuple[str, str]:
+    """Extract the number of antennae segments and format the data."""
+    return "number of antennal segments", str(ln["segment_count"])
 
 
 def specimen_type(ln: dict) -> tuple[str, str]:
