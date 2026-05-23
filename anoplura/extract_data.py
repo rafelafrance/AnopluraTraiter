@@ -18,7 +18,7 @@ from typing import Any
 
 from openai import OpenAI
 
-from anoplura.pylib import log, timer
+from anoplura.pylib import timer
 from anoplura.pylib.str_util import strip_json_fences
 
 JSON_ERRORS = (json.JSONDecodeError, UnicodeDecodeError)
@@ -50,8 +50,8 @@ PROMPTS: dict[str, Any] = {
         For each seta count type found, return an object with these exact fields:
             "species": species name (string or null),
             "sex": sex of the specimen (string or null),
-            "segment": segment number or identifier (string or null),
             "body_region": body region where the seta is located (string or null),
+            "segment": segment number or identifier (string or null),
             "seta_name": name of the seta type (string or null),
             "count": exact count if given as a single number (number or null),
             "count_low": lower bound if given as a range (number or null),
@@ -67,9 +67,9 @@ PROMPTS: dict[str, Any] = {
             "species": species name (string or null),
             "sex": sex of the specimen (string or null),
             "body_region": body region of the sternite (string or null),
+            "missing": are sternites are missing from the body region (true or null),
             "segment": segment number or identifier (string or null),
             "sternite_name": name of the sternite (string or null),
-            "missing": are sternites are missing from the segment (true or null),
             "count": sternite count (number or null),
             "count_low": lower bound if given as a range (number or null),
             "count_high": upper bound if given as a range (number or null).
@@ -82,9 +82,9 @@ PROMPTS: dict[str, Any] = {
             "species": species name (string or null),
             "sex": sex of the specimen (string or null),
             "body_region": body region of the tergite (string or null),
+            "missing": are tergites are missing from the body region (true or null),
             "segment": segment number or identifier (string or null),
             "tergite_name": name of the tergite (string or null),
-            "missing": are tergites are missing from the segment (true or null),
             "count": tergite count (number or null),
             "count_low": lower bound if given as a range (number or null),
             "count_high": upper bound if given as a range (number or null).
@@ -96,8 +96,8 @@ PROMPTS: dict[str, Any] = {
             "species": species name (string or null),
             "sex": sex of the specimen (string or null),
             "body_region": body region of the plate (string or null),
-            "plate_name": name of the plate (string or null),
             "missing": are plates are missing from the body region (true or null),
+            "plate_name": name of the plate (string or null),
             "count": plate count (number or null),
             "count_low": lower bound if given as a range (number or null),
             "count_high": upper bound if given as a range (number or null).
@@ -156,32 +156,6 @@ PROMPTS: dict[str, Any] = {
             "units": unit of measurement (string or null).
         Return a JSON array of objects.
         """),
-    "thorax_lengths": textwrap.dedent("""
-        Find all thorax length measurements.
-        For each thorax length found, return an object with these exact fields:
-            "species": species name (string or null),
-            "sex": sex of the specimen (string or null),
-            "length": single measurement value if given (number or null),
-            "mean_length": mean thorax length if stated (number or null),
-            "length_low": lower bound of range (number or null),
-            "lengthwidth_high": upper bound of range (number or null),
-            "n": sample size (number or null),
-            "units": unit of measurement (string or null).
-        Return a JSON array of objects.
-        """),
-    "thorax_widths": textwrap.dedent("""
-        Find all thorax width measurements.
-        For each thorax width found, return an object with these exact fields:
-            "species": species name (string or null),
-            "sex": sex of the specimen (string or null),
-            "width": single measurement value if given (number or null),
-            "mean_width": mean thorax width if stated (number or null),
-            "width_low": lower bound of range (number or null),
-            "width_high": upper bound of range (number or null),
-            "n": sample size (number or null),
-            "units": unit of measurement (string or null).
-        Return a JSON array of objects.
-        """),
     "abdomen_lengths": textwrap.dedent("""
         Find all abdomen length measurements.
         For each abdomen length found, return an object with these exact fields:
@@ -203,6 +177,32 @@ PROMPTS: dict[str, Any] = {
             "length": single measurement value if given (number or null),
             "mean_length": mean abdomen width if stated (number or null),
             "length_low": lower bound of range (number or null),
+            "width_high": upper bound of range (number or null),
+            "n": sample size (number or null),
+            "units": unit of measurement (string or null).
+        Return a JSON array of objects.
+        """),
+    "thorax_lengths": textwrap.dedent("""
+        Find all thorax length measurements.
+        For each thorax length found, return an object with these exact fields:
+            "species": species name (string or null),
+            "sex": sex of the specimen (string or null),
+            "length": single measurement value if given (number or null),
+            "mean_length": mean thorax length if stated (number or null),
+            "length_low": lower bound of range (number or null),
+            "lengthwidth_high": upper bound of range (number or null),
+            "n": sample size (number or null),
+            "units": unit of measurement (string or null).
+        Return a JSON array of objects.
+        """),
+    "thorax_widths": textwrap.dedent("""
+        Find all thorax width measurements.
+        For each thorax width found, return an object with these exact fields:
+            "species": species name (string or null),
+            "sex": sex of the specimen (string or null),
+            "width": single measurement value if given (number or null),
+            "mean_width": mean thorax width if stated (number or null),
+            "width_low": lower bound of range (number or null),
             "width_high": upper bound of range (number or null),
             "n": sample size (number or null),
             "units": unit of measurement (string or null).
@@ -351,8 +351,6 @@ def run_lm(args: argparse.Namespace) -> None:
 
     logging.info("-" * 80)
     timer.job_elapsed(job_began)
-
-    log.finished()
 
 
 def parse_args(args: list[str] | None = None) -> argparse.Namespace:
