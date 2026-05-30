@@ -1,5 +1,5 @@
-Where on the host species was the louse found.
-For each locality found, return an object with these exact fields:
+The location on the host species where the louse found.
+For each location found, return an object with these exact fields:
     "species": species name (string or null),
     "sex": sex of the specimen (string or null),
     "host_species": the host species (string or null).

@@ -81,6 +81,8 @@ def one_prompt(
     """Extract a single trait from a file."""
     began = datetime.now()
 
+    record_name = field_name.removesuffix("s")
+
     url = f"{args.api_host}/chat/completions"
     headers = {"Content-Type": "application/json"}
     payload = {
@@ -106,29 +108,29 @@ def one_prompt(
 
     except Exception as e:
         logging.exception("API error")
-        rec = {
-            "record": field_name,
+        row = {
+            "record": record_name,
             "path": text_path.stem,
             "ERROR": str(e),
         }
-        return [rec]
+        return [row]
 
     try:
         rows = json.loads(content)
-    except JSON_ERRORS:
+    except JSON_ERRORS as e:
         logging.exception("JSON Error")
-        rec = {
-            "record": field_name,
+        row = {
+            "record": record_name,
             "path": text_path.stem,
-            "ERROR": "Invalid JSON returned by LLM.",
+            "ERROR": str(e),
         }
-        return [rec]
+        return [row]
 
     result = []
     for row in rows:
-        result = {"record": field_name} | row
+        result = {"record": record_name} | row
 
-    timer.elapsed(began, field_name)
+    timer.elapsed(began, record_name)
     return result
 
 

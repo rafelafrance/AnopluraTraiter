@@ -43,5 +43,5 @@ Extract the following fields from the given text.
 - [spiracle_diameters](fields/spiracle_diameters.md)
 - [specimen_types](fields/specimentypes.md)
 - [host_locations](fields/host_locations.md)
-- [geographic_localities](fields/geographic_localities.md)
+- [geographic_locations](fields/geographic_locations.md)
 - [excepts](fields/excepts.md)
