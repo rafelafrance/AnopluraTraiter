@@ -13,7 +13,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from anoplura.pylib import log
+from anoplura.pylib import ints, log, roman
 
 JSON_ERRORS = (json.JSONDecodeError, UnicodeDecodeError)
 
@@ -30,7 +30,6 @@ SIZES = [
     ("DPTS", "length"),
     ("spiracle", "diameter"),
 ]
-BODY = ["head", "abdomen", "thorax", "genital"]
 
 
 def clean(args: argparse.Namespace) -> None:
@@ -49,8 +48,8 @@ def clean(args: argparse.Namespace) -> None:
             raise
 
     row_index = get_row_index(lines, setae)
-    # for r in row_index:
-    #     print(r)
+    for r in row_index:
+        print(r)
     return
     arrays = get_col_index(lines)
     headers = pd.MultiIndex.from_arrays(arrays, names=("species", "sex"))
@@ -108,14 +107,14 @@ def clean(args: argparse.Namespace) -> None:
             #     raise ValueError
 
     df = df.fillna("")
-    print(df.head())
+    # print(df.head())
 
     df.to_csv(args.csv_out)
 
     log.finished()
 
 
-def get_col_index(rows: list[dict]) -> (list[str], list[str]):
+def get_col_index(rows: list[dict]) -> tuple[list[str], list[str]]:
     """Assign column index names."""
     species, sexes = [], []
     specs = {r["species"] for r in rows}
@@ -126,82 +125,33 @@ def get_col_index(rows: list[dict]) -> (list[str], list[str]):
     return species, sexes
 
 
-def get_row_index(lines: list[dict], setae: list[dict]) -> list[str]:
+def get_row_index(lines: list[dict], seta_list: list[dict]) -> list[str]:
     """Assign row index names to each column."""
     keys = ["holotype", "allotype", "paratype"]
 
-    sternites = set()
-    tergites = set()
-    plates = set()
+    sternites: list[str] = []
+    tergites: list[str] = []
+    plates: list[str] = []
     excepts = defaultdict(int)
 
-    setae = {s["pattern"]: s for s in setae}
+    setae: dict[str, dict] = {s["pattern"]: s for s in seta_list}
     row_seta = set()
 
     for ln in lines:
         match ln["record"]:
             case "seta_count":
-                name = (ln["seta_name"] or "").lower()
-                name = name.replace("setae", "seta")
-                match = re.search(r"\((\w+)\)", name)
-                abbrev = match.group(1) if match else ""
-                abbrev = name if not abbrev and len(name.split()) == 1 else abbrev
-                seta = setae.get(abbrev, setae.get(name))
-
-                if seta:
-                    row_seta.add((seta["part"], seta["replace"] + " count"))
-
-                else:
-                    parts = []
-
-                    body = (ln["body_region"] or "").lower()
-                    if body:
-                        parts.append(body)
-
-                    seg = (ln["segment"] or "").lower()
-                    if seg and seg not in parts:
-                        parse_segments(ln["segment"])
-                        parts.append(f"segment {seg}")
-
-                    if name and name not in parts:
-                        parts.append(name)
-
-                    seta = " ".join(parts)
-                    if seta and body:
-                        seta += " seta" if not seta.endswith("seta") else ""
-                        seta += " count"
-                        row_seta.add((body, seta))
+                _process_seta_count(ln, setae, row_seta)
 
             case "sternite_count":
-                if ln["segment"] is None and ln["missing"]:
-                    sternite = "sternites missing"
-                elif ln["segment"]:
-                    parse_segments(ln["segment"])
-                    sternite = f"sternite count for segment {ln['segment'].lower()}"
-                elif ln["body_region"]:
-                    sternite = f"sternite count for {ln['body_region'].lower()}"
-                else:
-                    print(ln)
-                    raise ValueError
-                sternites.add(sternite)
+                sternites += _process_sternite_count(ln)
 
             case "tergite_count":
-                if ln["segment"] is None and ln["missing"]:
-                    tergite = "tergites missing"
-                elif ln["segment"]:
-                    parse_segments(ln["segment"])
-                    tergite = f"tergite count for segment {ln['segment'].lower()}"
-                elif ln["body_region"]:
-                    tergite = f"tergite count for {ln['body_region'].lower()}"
-                else:
-                    print(ln)
-                    raise ValueError
-                tergites.add(tergite)
+                tergites += _process_tergite_count(ln)
 
-            case "plate_count":
-                plate = ln.get("plate_name", ln.get("body_region")).lower()
-                plate = plate.replace("plates", plate)
-                plates.add(plate)
+            # case "plate_count":
+            #     plate = ln.get("plate_name", ln.get("body_region")).lower()
+            #     plate = plate.replace("plates", plate)
+            #     plates.add(plate)
 
             case "except":
                 species = ln["species"]
@@ -210,9 +160,9 @@ def get_row_index(lines: list[dict], setae: list[dict]) -> list[str]:
 
     keys += [s[1] for s in sorted(row_seta)]
 
-    keys += sorted(sternites)
-    keys += sorted(tergites)
-    keys += sorted(plates)
+    keys += sorted(set(sternites))
+    keys += sorted(set(tergites))
+    keys += sorted(set(plates))
 
     for part, dim in SIZES:
         keys.append(f"{part} {dim}")
@@ -237,12 +187,85 @@ def get_row_index(lines: list[dict], setae: list[dict]) -> list[str]:
     return keys
 
 
-def parse_segments(seg: str) -> list[str]:
-    """Convert a segment range or list into a list of segment strings."""
-    segs = []
-    matches = re.split(r"(\D+)", seg)
-    print(matches)
-    return segs
+def _process_seta_count(ln: dict, setae: dict, row_seta: set) -> None:
+    """Process a seta_count record and add row labels to row_seta."""
+    name = (ln["seta_name"] or "").lower()
+    name = name.replace("setae", "seta")
+    match = re.search(r"\((\w+)\)", name)
+    abbrev = match.group(1) if match else ""
+    abbrev = name if not abbrev and len(name.split()) == 1 else abbrev
+    seta = setae.get(abbrev, setae.get(name))
+
+    if seta:
+        row_seta.add((seta["part"], seta["replace"] + " count"))
+
+    else:
+        parts = []
+
+        body = (ln["body_region"] or "").lower()
+        if body:
+            parts.append(body)
+
+        seg = (ln["segment"] or "").lower()
+        if seg and seg not in parts:
+            # segs = _parse_segments(seg)
+            parts.append(f"segment {seg}")
+
+        if name and name not in parts:
+            parts.append(name)
+
+        seta = " ".join(parts)
+        if seta and body:
+            seta += " seta" if not seta.endswith("seta") else ""
+            seta += " count"
+            row_seta.add((body, seta))
+
+
+def _process_sternite_count(ln: dict) -> list[str]:
+    """Process a sternite_count record and add the label to sternites."""
+    if ln["segment"] is None and ln["missing"]:
+        return ["sternites missing"]
+    if ln["segment"]:
+        return [
+            f"sternite count for segment {s}" for s in _expand_numbers(ln["segment"])
+        ]
+    if ln["body_region"]:
+        return [f"sternite count for {ln['body_region'].lower()}"]
+    raise ValueError(ln)
+
+
+def _process_tergite_count(ln: dict) -> list[str]:
+    """Process a tergite_count record and add the label to tergites."""
+    if ln["segment"] is None and ln["missing"]:
+        return ["tergites missing"]
+    if ln["segment"]:
+        return [
+            f"tergite count for segment {s}" for s in _expand_numbers(ln["segment"])
+        ]
+    if ln["body_region"]:
+        return [f"tergite count for {ln['body_region'].lower()}"]
+    raise ValueError(ln)
+
+
+def _expand_numbers(text: str) -> list[str]:
+    """Expand number ranges '1-3' and lists '1, 2, & 3'."""
+    if not text:
+        return []
+
+    has_ints = ints.has_ints(text)
+    has_roman = roman.has_roman(text)
+
+    if not has_ints and not has_roman:
+        return [f"{text}"]
+
+    if not has_ints and has_roman:
+        if nums := roman.get_range(text):
+            return nums
+        return roman.get_romans(text)
+
+    if nums := ints.get_range(text):
+        return [str(n) for n in nums]
+    return [str(n) for n in ints.get_ints(text)]
 
 
 def specimen_type(df: pd.DataFrame, ln: dict) -> None:
