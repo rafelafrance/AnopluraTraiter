@@ -11,7 +11,7 @@ be described by their proportions (e.g. "first segment much larger than others",
 
 For each antennae segment count or segment-level description found, return an object
 with these exact fields:
-    "species": louse species name inferred from the surrounding context (string or null),
+    "species": louse species name inferred from the surrounding context (string),
     "sex": sex or life stage of the specimen, e.g. "male", "female", "nymph", "first instar" (string or null),
     "count": total number of antennal segments as a number, e.g. 5 (number or null),
     "segment_descriptions": descriptions of individual segments, e.g.

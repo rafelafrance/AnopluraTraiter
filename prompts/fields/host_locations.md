@@ -13,7 +13,7 @@ sections, or remarks, and may be phrased as:
   "eggs glued to fur along the ventral midline"
 
 For each location found, return an object with these exact fields:
-    "species": louse species name inferred from the surrounding context (string or null),
+    "species": louse species name inferred from the surrounding context (string),
     "host_species": the host animal species name, if mentioned (string or null),
     "host_location": where on the host's body the lice or eggs are found, captured verbatim (string or null),
     "context": brief description of how the location is described, e.g. "infestation site",

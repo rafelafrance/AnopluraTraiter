@@ -2,7 +2,7 @@ Find all mentions of anatomical plates described in the text.
 Plates commonly include paratergal plates, subgenital plates, thoracic sternal plates, and ventral genital plates.
 
 For each distinct plate or plate group found, return an object with these exact fields:
-    "species": species name (string or null),
+    "species": species name (string),
     "sex": sex of the specimen (string or null),
     "plate_type": the kind of plate, e.g. paratergal plate, subgenital plate, thoracic sternal plate (string or null),
     "segment_number": segment identifier as given in the text, preserving Roman or Arabic numerals (string or null),

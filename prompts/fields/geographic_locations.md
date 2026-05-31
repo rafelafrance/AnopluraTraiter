@@ -9,7 +9,7 @@ often with coordinates. Examples:
   "Arkhangai Province, Zurkh Mountain, Mongolia"
 
 For each location found, return an object with these exact fields:
-    "species": species name (string or null),
+    "species": species name (string),
     "sex": sex of the specimen (string or null),
     "geographic_location": the full location as stated in the text (string or null).
 

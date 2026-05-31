@@ -7,7 +7,7 @@ For example, "sternites 1 and 2 on segment 2" means two sternites (numbered 1 an
 are located on abdominal segment 2. Multiple sternites may share a single segment.
 
 For each sternite or sternite group found, return an object with these exact fields:
-    "species": species name (string or null),
+    "species": species name (string),
     "sex": sex of the specimen (string or null),
     "body_region": body region where sternites are described, typically abdomen (string or null),
     "segment": the abdominal segment number(s) where the sternite(s) are located (string or null),

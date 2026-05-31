@@ -14,9 +14,8 @@ Common patterns:
   "THW, 0.250-0.267 (0.259 ± 0.008)"
 
 For each thorax width measurement found, return an object with these exact fields:
-    "species": louse species name inferred from the surrounding context (string or null),
+    "species": louse species name inferred from the surrounding context (string),
     "sex": sex or life stage of the specimen, e.g. "male", "female", "nymph", "first instar" (string or null),
-    "type": specimen type designation, e.g. "holotype", "allotype", "paratype" (string or null),
     "width": single measurement value if only one value is given (number or null),
     "mean_width": mean or average thorax width if stated (number or null),
     "width_low": lower bound of range (number or null),

@@ -14,9 +14,8 @@ Common patterns:
   "AL, 0.600 mm"
 
 For each abdomen length measurement found, return an object with these exact fields:
-    "species": louse species name inferred from the surrounding context (string or null),
+    "species": louse species name inferred from the surrounding context (string),
     "sex": sex or life stage of the specimen, e.g. "male", "female", "nymph", "first instar" (string or null),
-    "type": specimes type designation, e.g. "holotype", "allotype", "paratype" (string or null),
     "length": single measurement value if only one value is given (number or null),
     "mean_length": mean or average abdomen length if stated (number or null),
     "length_low": lower bound of range (number or null),

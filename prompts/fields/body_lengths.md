@@ -9,9 +9,8 @@ Common patterns in Anoplura descriptions:
   "mean, 1.507 mm; range, 1.445-1.600 mm"
 
 For each body length measurement found, return an object with these exact fields:
-    "species": louse species name inferred from the surrounding context (string or null),
+    "species": louse species name inferred from the surrounding context (string),
     "sex": sex or life stage of the specimen, e.g. "male", "female", "nymph", "third instar" (string or null),
-    "type": specimen type designation, e.g. "holotype", "allotype", "paratype" (string or null),
     "length": single measurement value if only one value is given (number or null),
     "mean_length": mean or average body length if stated (number or null),
     "length_low": lower bound of range (number or null),

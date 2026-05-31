@@ -20,7 +20,7 @@ Common patterns include:
     ventral subgenital plate" (structures are absent except specific ones)
 
 For each phrase found, return an object with these exact fields:
-    "species": species name inferred from the surrounding context (string or null),
+    "species": species name inferred from the surrounding context (string),
     "sex": sex of the specimen the phrase describes, e.g. "male", "female", "nymph" (string or null),
     "phrase": the full sentence or clause containing "except" or "exception", captured verbatim (string or null),
     "general_trait": the baseline trait or pattern stated before the exception (string or null),

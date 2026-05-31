@@ -15,9 +15,8 @@ Common patterns:
   "spiracle diameter on 5th abdominal segment, x = 0.0176 (range = 0.0150 – 0.0200)"
 
 For each spiracle diameter measurement found, return an object with these exact fields:
-    "species": louse species name inferred from the surrounding context (string or null),
+    "species": louse species name inferred from the surrounding context (string),
     "sex": sex or life stage of the specimen, e.g. "male", "female", "nymph", "first instar" (string or null),
-    "type": specimen type designation, e.g. "holotype", "allotype", "paratype" (string or null),
     "spiracle_location": location of the spiracle measured, e.g. "mesothorax",
       "5th abdominal segment", "abdominal segment 5" (string or null),
     "diameter": single measurement value if only one value is given (number or null),

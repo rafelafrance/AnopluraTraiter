@@ -4,7 +4,7 @@ The most commonly described spiracle is the mesothoracic spiracle on the thorax.
 Abdominal spiracles are often associated with paratergal plates on specific abdominal segments.
 
 For each spiracle or spiracle group found, return an object with these exact fields:
-    "species": species name (string or null),
+    "species": species name (string),
     "sex": sex of the specimen (string or null),
     "body_region": body region where the spiracle is located, e.g. mesothorax, abdomen, paratergal plate (string or null),
     "segment": abdominal segment number(s) where the spiracle is found, if applicable (string or null),

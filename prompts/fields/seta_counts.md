@@ -8,7 +8,7 @@ Common abbreviations include:
   Plates: PrS (paratergal setae)
 
 For each seta count found, return an object with these exact fields:
-    "species": species name (string or null),
+    "species": species name (string),
     "sex": sex of the specimen (string or null),
     "body_region": body region where the seta is located, e.g. head, thorax, abdomen, paratergal plate, subgenital plate (string or null),
     "segment": segment number or description where the seta is found (string or null),

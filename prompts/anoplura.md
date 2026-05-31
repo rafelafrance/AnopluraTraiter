@@ -31,7 +31,7 @@ Extract the following fields from the given text.
 - [tergites](fields/tergites.md)
 - [plates](fields/plates.md)
 - [spiracles](fields/spiracles.md)
-- [antennae_segments](fields/antennae_segments.md)
+- [antenna_segments](fields/antenna_segments.md)
 - [body_lengths](fields/body_lengths.md)
 - [head_lengths](fields/head_lengths.md)
 - [head_widths](fields/head_widths.md)

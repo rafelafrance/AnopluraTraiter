@@ -7,7 +7,7 @@ For example, "tergites 1 and 2 on segment 2" means two tergites (numbered 1 and 
 are located on abdominal segment 2. Multiple tergites may share a single segment.
 
 For each tergite or tergite group found, return an object with these exact fields:
-    "species": species name (string or null),
+    "species": species name (string),
     "sex": sex of the specimen (string or null),
     "body_region": body region where tergites are described, typically abdomen (string or null),
     "segment": the abdominal segment number(s) where the tergite(s) are located (string or null),
