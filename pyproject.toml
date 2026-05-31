@@ -4,7 +4,7 @@ build-backend = "uv_build"
 
 [project]
 name = "anopluraTraiter"
-version = "0.1.0"
+version = "0.2.0"
 readme = "README.md"
 description = "Rule-based parsers for mining scientific liturature about biting lice"
 license = { file = "LICENSE" }
@@ -60,6 +60,7 @@ ignore = [
   "PLR0915", # Too many statements
   "PLR0912", # Too many branches
   "PLW0603", # Using the global statement to update global variable is discouraged
+  "PLW2901", # Outer variable overwritten by inner target
   "RET504",  # Unnecessary assignment to {name} before return statement
   "RUF001",  # String contains ambiguous charater
   "SIM114",  # Combine if branches using logical or operator

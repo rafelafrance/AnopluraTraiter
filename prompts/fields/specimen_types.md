@@ -7,6 +7,7 @@ The three types to extract are:
   - **paratypes**: all other specimens designated as types besides the holotype and allotype
 
 For each specimen type found, return an object with these exact fields:
+    "type": the type designation, e.g. "holotype", "allotype", "paratype" (string),
     "species": species name (string),
     "sex": sex of the specimen, e.g. "male", "female", "nymph" (string or null),
     "count": total number of paratypes as a single number (number or null),
