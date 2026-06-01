@@ -8,7 +8,7 @@ def compress(text: str) -> str:
     return " ".join(text.split())
 
 
-def clean_ocr(text: str) -> str:
+def clean_text(text: str) -> str:
     """Fix markup nonsense from the OCR engines."""
     text = re.sub(r"<br/?>", "\n", text)
     text = text.replace("&lt;", "<").replace("&gt;", ">").replace("&amp;", "&")

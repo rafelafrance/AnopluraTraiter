@@ -13,7 +13,6 @@ import concurrent.futures as conc
 import json
 import logging
 import textwrap
-from datetime import datetime
 from pathlib import Path
 
 import requests
@@ -32,14 +31,12 @@ def run_lm(args: argparse.Namespace) -> None:
     sys_prompt, field_names = prompt_util.read_lm_prompt(args.prompt)
     field_prompts = prompt_util.get_field_prompts(field_names)
 
-    results: list[dict] = []
-
     with conc.ThreadPoolExecutor(max_workers=args.workers) as executor:
         for text_path in text_paths:
-            file_began = datetime.now()
+            results: list[dict] = []
 
             logging.info("-" * 80)
-            logging.info("**** %s ****", text_path.stem)
+            file_began = timer.task_began(text_path.stem)
 
             with text_path.open() as fh:
                 text = fh.read()
@@ -54,11 +51,11 @@ def run_lm(args: argparse.Namespace) -> None:
             for future in conc.as_completed(futures):
                 results += future.result()
 
-            timer.elapsed(file_began, text_path.stem)
+            with args.lm_jsonl.open("a") as llm_out:
+                for row in results:
+                    print(json.dumps(row), file=llm_out, flush=True)
 
-    with args.lm_jsonl.open("a") as llm_out:
-        for row in results:
-            print(json.dumps(row), file=llm_out, flush=True)
+            timer.task_elapsed(file_began, text_path.stem)
 
     logging.info("-" * 80)
     timer.job_elapsed(job_began)
@@ -72,9 +69,9 @@ def one_prompt(
     text: str,
 ) -> list[dict]:
     """Extract a single trait from a file."""
-    began = datetime.now()
+    record_name = field_name.rsplit("/", maxsplit=1)[-1].removesuffix("s")
 
-    record_name = field_name.removesuffix("s")
+    began = timer.task_began(record_name)
 
     url = f"{args.api_host}/chat/completions"
     headers = {"Content-Type": "application/json"}
@@ -97,7 +94,7 @@ def one_prompt(
         result = response.json()
 
         content = result["choices"][0]["message"]["content"]
-        content = str_util.clean_ocr(content)
+        content = str_util.clean_text(content)
 
     except Exception as e:
         logging.exception("API error")
@@ -111,12 +108,10 @@ def one_prompt(
         row = {"record": record_name, "ERROR": str(e)}
         return [row]
 
-    result = []
-    for row in rows:
-        result = {"record": record_name} | row
+    results = [{"record": record_name} | r for r in rows]
 
-    timer.elapsed(began, record_name)
-    return result
+    timer.task_elapsed(began, record_name)
+    return results
 
 
 def parse_args(args: list[str] | None = None) -> argparse.Namespace:

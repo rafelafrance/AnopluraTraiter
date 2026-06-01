@@ -37,14 +37,14 @@ def build_table(records: list[dict], species_sexes: pd.MultiIndex) -> pd.DataFra
     # Get all spiracle locations
     locations = sorted({r["location"] for r in records})
 
-    rows = []
+    dfs = []
     for loc in locations:
         recs = [r for r in records if r["location"] == loc]
         field_labels = {
             k: v.format(loc) if loc else v.removesuffix(" ({location})")
             for k, v in FIELD_LABELS.items()
         }
-        rows.append(format_util.build_trait_table(recs, species_sexes, field_labels))
+        dfs.append(format_util.build_trait_table(recs, species_sexes, field_labels))
 
-    df = pd.concat(rows)
+    df = pd.concat(dfs)
     return df

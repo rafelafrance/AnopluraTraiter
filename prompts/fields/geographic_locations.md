@@ -17,6 +17,8 @@ Notes:
 - Preserve the location exactly as written in the source text. Do not normalize, reorder, or abbreviate.
 - If multiple locations are listed for a species, return one entry per location.
 - Coordinates in parentheses are part of the location and should be included.
+- Do not output MathML, no <math></math>, no {\circ}, nor \\text{S} nor other similar markup.
+- Only output UTF-8 characters.
 - Do not extract institutional names, museum codes, or collection numbers as locations.
 - Do not confuse geographic locations with host body-part locations (e.g. "skin surface and fur").
 

@@ -2,6 +2,8 @@
 
 import pandas as pd
 
+from anoplura.pylib import ints, roman
+
 
 def build_trait_table(
     records: list[dict],
@@ -56,3 +58,25 @@ def get_column_index(records: list[dict]) -> pd.MultiIndex:
     col_tuples = {(r["species"], r["sex"]) for r in records}
     col_tuples = sorted(col_tuples)
     return pd.MultiIndex.from_tuples(col_tuples, names=["species", "sex"])
+
+
+def expand_numbers(text: str) -> list[str]:
+    """Expand number ranges '1-3' and lists '1, 2, & 3'."""
+    if not text:
+        return []
+
+    has_ints = ints.has_ints(text)
+    has_roman = roman.has_roman(text)
+
+    if not has_ints and not has_roman:
+        return []
+
+    if not has_ints and has_roman:
+        if nums := roman.get_range(text):
+            return nums
+        return roman.get_romans(text)
+
+    if nums := ints.get_range(text):
+        return [str(n) for n in nums]
+
+    return [str(n) for n in ints.get_ints(text)]
