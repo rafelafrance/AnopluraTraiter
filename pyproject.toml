@@ -8,16 +8,11 @@ version = "0.2.0"
 readme = "README.md"
 description = "Rule-based parsers for mining scientific liturature about biting lice"
 license = { file = "LICENSE" }
-authors = [{ name = "Raphael LaFrance", email = "raphael.lafrance@gmail.com" }]
+authors = [{ name = "Raphael LaFrance" }]
 requires-python = ">=3.14"
 dependencies = [
-  "jinja2>=3.1.6",
-  "marimo[lsp]>=0.23.0",
-  "openai>=2.32.0",
   "pandas>=3.0.2",
   "requests>=2.34.2",
-  "rich>=14.3.3",
-  "tqdm>=4.67.1",
 ]
 
 [dependency-groups]
