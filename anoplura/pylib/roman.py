@@ -11,8 +11,9 @@ STRICT_PATTERN = (
 
 STRICT_RE = re.compile(STRICT_PATTERN, flags=re.IGNORECASE | re.VERBOSE)
 
+STRICT_PAREN = "(" + STRICT_PATTERN + ")"
 ROMAN_RANGE = re.compile(
-    STRICT_PATTERN + r" \s* (?:[\–\—\-])+ \s* " + STRICT_PATTERN,
+    STRICT_PAREN + r" \s* (?:[\–\—\-])+ \s* " + STRICT_PAREN,
     flags=re.IGNORECASE | re.VERBOSE,
 )
 
@@ -36,7 +37,7 @@ CONVERTER = (
 def has_roman(text: str) -> bool:
     """Check if a string has a roman numeral in it."""
     match = STRICT_RE.search(text)
-    return bool(match) and len(match.groups(0)) > 0
+    return bool(match) and len(match.group(0)) > 0
 
 
 def get_romans(text: str) -> list[str]:

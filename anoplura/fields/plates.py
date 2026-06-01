@@ -1,17 +1,10 @@
 """Build a pivot table of plate notations across species and sexes."""
 
-from typing import TYPE_CHECKING
+from collections import defaultdict
+
+import pandas as pd
 
 from anoplura.pylib import format_util
-
-if TYPE_CHECKING:
-    import pandas as pd
-
-FIELD_LABELS = {
-    "plate_type": "plate type",
-    "description": "plate description",
-    "count": "plate count",
-}
 
 
 def build_table(records: list[dict], species_sexes: pd.MultiIndex) -> pd.DataFrame:
@@ -32,8 +25,41 @@ def build_table(records: list[dict], species_sexes: pd.MultiIndex) -> pd.DataFra
         labels describing each platehost location  notation.
 
     """
-    # Expand plate numbers or use other descriptions
+    # Map record fields to row indexes
+    row_map = defaultdict(set)
     for rec in records:
-        print(rec)
+        region = rec["body_region"]
+        type_ = rec["plate_type"]
+        number = rec["number"]
+        key = region, type_, number
 
-    return format_util.build_trait_table(records, species_sexes, FIELD_LABELS)
+        nums = format_util.expand_numbers(number)
+
+        prefix = type_ or f"{region} plate" or "plate"
+        prefix = prefix.replace("plates", "plate").replace("thorax", "thoracic")
+        if nums:
+            row_map[key] |= {f"{prefix} {n}" for n in nums}
+        else:
+            row_map[key].add(prefix)
+
+    # Build row index
+    row_index = set()
+    for indexes in row_map.values():
+        for idx in indexes:
+            row_index.add(f"{idx} count")
+            row_index.add(f"{idx} description")
+    row_index = sorted(row_index)
+
+    # Build the data frame
+    df = pd.DataFrame(index=row_index, columns=species_sexes)
+    for rec in records:
+        key = rec["body_region"], rec["plate_type"], rec["number"]
+        indexes = row_map[key]
+        for idx in indexes:
+            count = f"{idx} count"
+            descr = f"{idx} description"
+            df.loc[count, (rec["species"], rec["sex"])] = rec["count"]
+            df.loc[descr, (rec["species"], rec["sex"])] = rec["description"]
+
+    df = df.fillna("")
+    return df

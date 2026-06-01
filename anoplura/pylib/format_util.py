@@ -34,7 +34,7 @@ def build_trait_table(
     df = pd.DataFrame(index=list(field_labels.values()), columns=species_sexes)
     for rec in records:
         for field, row_label in field_labels.items():
-            df.loc[(rec["species"], rec["sex"]), row_label] = rec[field]
+            df.loc[row_label, (rec["species"], rec["sex"])] = rec[field]
 
     df = df.fillna("")
     return df
@@ -55,13 +55,13 @@ def get_column_index(records: list[dict]) -> pd.MultiIndex:
         The two level column headers for the new output data frame.
 
     """
-    col_tuples = {(r["species"], r["sex"]) for r in records}
+    col_tuples = {(r["species"], r.get("sex", "")) for r in records}
     col_tuples = sorted(col_tuples)
     return pd.MultiIndex.from_tuples(col_tuples, names=["species", "sex"])
 
 
 def expand_numbers(text: str) -> list[str]:
-    """Expand number ranges '1-3' and lists '1, 2, & 3'."""
+    """Expand number ranges '1-3' or 'I-III', lists '1, 2, & 3' or 'I, II, & III'."""
     if not text:
         return []
 

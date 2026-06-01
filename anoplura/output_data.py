@@ -22,7 +22,8 @@ def output(args: argparse.Namespace) -> None:
 
     with args.lm_jsonl.open() as fh:
         try:
-            records = [json.loads(ln) for ln in fh.readlines()]
+            lines = [json.loads(ln) for ln in fh.readlines()]
+            records = [{k: v or "" for k, v in r.items()} for r in lines]
         except JSON_ERRORS:
             logging.exception("JSON Error")
             raise
