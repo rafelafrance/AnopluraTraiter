@@ -7,13 +7,16 @@ For each spiracle or spiracle group found, return an object with these exact fie
     "species": species name (string),
     "sex": sex of the specimen (string or null),
     "body_region": body region where the spiracle is located, e.g. mesothorax, abdomen, paratergal plate (string or null),
-    "segment": abdominal segment number(s) where the spiracle is found, if applicable (string or null),
+    "location": location of the spiracle measured, e.g. "mesothorax",
+      "5th abdominal segment", "abdominal segment 5" (string or null),
     "count": number of spiracles described, e.g. "6 pairs", "on segments 3–8" (string or null),
     "missing": true if spiracles are explicitly absent or lacking in the region or segment (true or null),
     "description": morphological description including size, shape, annulation, or other features (string or null).
 
 Notes:
 - Mesothoracic spiracles are on the thorax. Abdominal spiracles are on abdominal segments, often associated with paratergal plates.
+- When the text specifies an abdominal spiracle (e.g. "spiracle diameter on 5th
+  abdominal segment"), set location to that segment.
 - When spiracles are described as being on paratergal plates (e.g. "plates III–VII each with spiracle"), set body_region to "paratergal plate" and segment to the plate segment(s).
 - If spiracle diameter measurements are given, include them in the description field. The spiracle_diameters prompt handles precise numeric extraction separately.
 - "Annulated" refers to spiracles with ring-like structures around the opening.

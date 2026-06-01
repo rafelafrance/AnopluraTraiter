@@ -17,7 +17,7 @@ Common patterns:
 For each spiracle diameter measurement found, return an object with these exact fields:
     "species": louse species name inferred from the surrounding context (string),
     "sex": sex or life stage of the specimen, e.g. "male", "female", "nymph", "first instar" (string or null),
-    "spiracle_location": location of the spiracle measured, e.g. "mesothorax",
+    "location": location of the spiracle measured, e.g. "mesothorax",
       "5th abdominal segment", "abdominal segment 5" (string or null),
     "diameter": single measurement value if only one value is given (number or null),
     "mean_diameter": mean or average spiracle diameter if stated (number or null),
@@ -30,7 +30,7 @@ Notes:
 - "Mesothoracic spiracle diameter", "spiracle diameter", and "spiracle maximum
   diameter" all refer to the same measurement when the location is the mesothorax.
 - When the text specifies an abdominal spiracle (e.g. "spiracle diameter on 5th
-  abdominal segment"), set spiracle_location to that segment.
+  abdominal segment"), set location to that segment.
 - When a holotype or allotype value is given alongside a mean and range, return one
   entry with the holotype/allotype value in "diameter" and the statistics in their
   respective fields. Do not split them into separate entries.

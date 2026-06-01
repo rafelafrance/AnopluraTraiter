@@ -28,21 +28,21 @@
 {"record": "abdomen_width", "species": "Solenoecetes lagopodi", "sex": "male", "width": 0.18, "mean_width": 0.17, "width_low": 0.15, "width_high": 0.19, "n": 3, "units": "mm"}
 {"record": "abdomen_width", "species": "Solenoecetes lagopodi", "sex": "female", "width": 0.22, "mean_width": 0.21, "width_low": 0.19, "width_high": 0.23, "n": 3, "units": "mm"}
 {"record": "abdomen_width", "species": "Hedlerina brevicauda", "sex": "first instar", "width": null, "mean_width": 0.15, "width_low": 0.13, "width_high": 0.17, "n": 5, "units": "mm"}
-{"record": "antenna_segment", "species": "Hedlerina brevicauda", "sex": "male", "count": 5, "segment_descriptions": "first segment broader than long; third segment unmodified"}
-{"record": "antenna_segment", "species": "Hedlerina brevicauda", "sex": "female", "count": 5, "segment_descriptions": "first segment much larger than others; second segment slender; third segment unmodified; fourth and fifth segments small"}
-{"record": "antenna_segment", "species": "Hoplopleura onychina", "sex": "male", "count": 5, "segment_descriptions": "basal segment longest; third segment unmodified"}
-{"record": "antenna_segment", "species": "Hoplopleura onychina", "sex": "female", "count": 5, "segment_descriptions": null}
-{"record": "antenna_segment", "species": "Echinophthirius giganteus", "sex": "male", "count": 5, "segment_descriptions": "first segment broad and short; third segment unmodified; fourth segment slightly enlarged"}
-{"record": "antenna_segment", "species": "Echinophthirius giganteus", "sex": "female", "count": 5, "segment_descriptions": null}
-{"record": "antenna_segment", "species": "Pediculus humanus capitis", "sex": "male", "count": 5, "segment_descriptions": "first segment longest; third segment unmodified; fourth and fifth segments nearly equal"}
-{"record": "antenna_segment", "species": "Pediculus humanus capitis", "sex": "female", "count": 5, "segment_descriptions": null}
-{"record": "antenna_segment", "species": "Pthirus gorillae", "sex": "male", "count": 5, "segment_descriptions": "basal segment broad; second segment short; third segment unmodified"}
-{"record": "antenna_segment", "species": "Pthirus gorillae", "sex": "female", "count": 5, "segment_descriptions": null}
-{"record": "antenna_segment", "species": "Bovicola bovis", "sex": "male", "count": 5, "segment_descriptions": "first segment longer than broad; third segment unmodified; fourth segment slightly longer than fifth"}
-{"record": "antenna_segment", "species": "Bovicola bovis", "sex": "female", "count": 5, "segment_descriptions": null}
-{"record": "antenna_segment", "species": "Solenoecetes lagopodi", "sex": "male", "count": 5, "segment_descriptions": "basal segment longest; second segment slender; third segment unmodified; fourth and fifth segments small and subequal"}
-{"record": "antenna_segment", "species": "Solenoecetes lagopodi", "sex": "female", "count": 5, "segment_descriptions": null}
-{"record": "antenna_segment", "species": "Hedlerina brevicauda", "sex": "first instar", "count": 5, "segment_descriptions": null}
+{"record": "antenna_segment", "species": "Hedlerina brevicauda", "sex": "male", "count": 5, "descriptions": "first segment broader than long; third segment unmodified"}
+{"record": "antenna_segment", "species": "Hedlerina brevicauda", "sex": "female", "count": 5, "descriptions": "first segment much larger than others; second segment slender; third segment unmodified; fourth and fifth segments small"}
+{"record": "antenna_segment", "species": "Hoplopleura onychina", "sex": "male", "count": 5, "descriptions": "basal segment longest; third segment unmodified"}
+{"record": "antenna_segment", "species": "Hoplopleura onychina", "sex": "female", "count": 5, "descriptions": null}
+{"record": "antenna_segment", "species": "Echinophthirius giganteus", "sex": "male", "count": 5, "descriptions": "first segment broad and short; third segment unmodified; fourth segment slightly enlarged"}
+{"record": "antenna_segment", "species": "Echinophthirius giganteus", "sex": "female", "count": 5, "descriptions": null}
+{"record": "antenna_segment", "species": "Pediculus humanus capitis", "sex": "male", "count": 5, "descriptions": "first segment longest; third segment unmodified; fourth and fifth segments nearly equal"}
+{"record": "antenna_segment", "species": "Pediculus humanus capitis", "sex": "female", "count": 5, "descriptions": null}
+{"record": "antenna_segment", "species": "Pthirus gorillae", "sex": "male", "count": 5, "descriptions": "basal segment broad; second segment short; third segment unmodified"}
+{"record": "antenna_segment", "species": "Pthirus gorillae", "sex": "female", "count": 5, "descriptions": null}
+{"record": "antenna_segment", "species": "Bovicola bovis", "sex": "male", "count": 5, "descriptions": "first segment longer than broad; third segment unmodified; fourth segment slightly longer than fifth"}
+{"record": "antenna_segment", "species": "Bovicola bovis", "sex": "female", "count": 5, "descriptions": null}
+{"record": "antenna_segment", "species": "Solenoecetes lagopodi", "sex": "male", "count": 5, "descriptions": "basal segment longest; second segment slender; third segment unmodified; fourth and fifth segments small and subequal"}
+{"record": "antenna_segment", "species": "Solenoecetes lagopodi", "sex": "female", "count": 5, "descriptions": null}
+{"record": "antenna_segment", "species": "Hedlerina brevicauda", "sex": "first instar", "count": 5, "descriptions": null}
 {"record": "body_length", "species": "Hedlerina brevicauda", "sex": "male", "length": 1.021, "mean_length": null, "length_low": null, "length_high": null, "n": null, "units": "mm"}
 {"record": "body_length", "species": "Hedlerina brevicauda", "sex": "female", "length": 1.4, "mean_length": 1.295, "length_low": 1.233, "length_high": 1.4, "n": 3, "units": "mm"}
 {"record": "body_length", "species": "Hoplopleura onychina", "sex": "male", "length": null, "mean_length": 1.014, "length_low": 0.95, "length_high": 1.13, "n": 5, "units": "mm"}
@@ -193,21 +193,21 @@
 {"record": "type", "species": "Pthirus gorillae", "sex": "male", "count": null, "male_count": null, "female_count": null, "type": "holotype"}
 {"record": "type", "species": "Pthirus gorillae", "sex": "female", "count": null, "male_count": null, "female_count": null, "type": "allotype"}
 {"record": "type", "species": "Pthirus gorillae", "sex": null, "count": 12, "male_count": 4, "female_count": 8, "type": "paratype"}
-{"record": "spiracle_diameter", "species": "Hedlerina brevicauda", "sex": "male", "spiracle_location": "mesothorax", "diameter": 0.018, "mean_diameter": null, "diameter_low": null, "diameter_high": null, "n": null, "units": "mm"}
-{"record": "spiracle_diameter", "species": "Hedlerina brevicauda", "sex": "female", "spiracle_location": "mesothorax", "diameter": null, "mean_diameter": 0.0165, "diameter_low": 0.0125, "diameter_high": 0.0175, "n": 5, "units": "mm"}
-{"record": "spiracle_diameter", "species": "Hedlerina brevicauda", "sex": "male", "spiracle_location": "5th abdominal segment", "diameter": null, "mean_diameter": 0.0176, "diameter_low": 0.015, "diameter_high": 0.02, "n": null, "units": "mm"}
-{"record": "spiracle_diameter", "species": "Hoplopleura onychina", "sex": "male", "spiracle_location": "mesothorax", "diameter": null, "mean_diameter": 0.031, "diameter_low": 0.028, "diameter_high": 0.033, "n": null, "units": "mm"}
-{"record": "spiracle_diameter", "species": "Hoplopleura onychina", "sex": "female", "spiracle_location": "mesothorax", "diameter": 0.035, "mean_diameter": 0.033, "diameter_low": 0.03, "diameter_high": 0.036, "n": 4, "units": "mm"}
-{"record": "spiracle_diameter", "species": "Hoplopleura onychina", "sex": "female", "spiracle_location": "5th abdominal segment", "diameter": null, "mean_diameter": 0.02, "diameter_low": 0.0175, "diameter_high": 0.0225, "n": 4, "units": "mm"}
-{"record": "spiracle_diameter", "species": "Echinophthirius giganteus", "sex": "male", "spiracle_location": "mesothorax", "diameter": 0.042, "mean_diameter": 0.04, "diameter_low": 0.036, "diameter_high": 0.045, "n": 6, "units": "mm"}
-{"record": "spiracle_diameter", "species": "Echinophthirius giganteus", "sex": "female", "spiracle_location": "mesothorax", "diameter": 0.048, "mean_diameter": 0.046, "diameter_low": 0.042, "diameter_high": 0.05, "n": 6, "units": "mm"}
-{"record": "spiracle_diameter", "species": "Pediculus humanus capitis", "sex": "male", "spiracle_location": "mesothorax", "diameter": null, "mean_diameter": 0.025, "diameter_low": 0.022, "diameter_high": 0.028, "n": 10, "units": "mm"}
-{"record": "spiracle_diameter", "species": "Pediculus humanus capitis", "sex": "female", "spiracle_location": "mesothorax", "diameter": null, "mean_diameter": 0.03, "diameter_low": 0.027, "diameter_high": 0.033, "n": 10, "units": "mm"}
-{"record": "spiracle_diameter", "species": "Pthirus gorillae", "sex": "male", "spiracle_location": "mesothorax", "diameter": 0.02, "mean_diameter": null, "diameter_low": null, "diameter_high": null, "n": null, "units": "mm"}
-{"record": "spiracle_diameter", "species": "Pthirus gorillae", "sex": "female", "spiracle_location": "mesothorax", "diameter": 0.024, "mean_diameter": null, "diameter_low": null, "diameter_high": null, "n": null, "units": "mm"}
-{"record": "spiracle_diameter", "species": "Bovicola bovis", "sex": "male", "spiracle_location": "mesothorax", "diameter": null, "mean_diameter": 0.015, "diameter_low": 0.013, "diameter_high": 0.017, "n": 8, "units": "mm"}
-{"record": "spiracle_diameter", "species": "Bovicola bovis", "sex": "female", "spiracle_location": "mesothorax", "diameter": null, "mean_diameter": 0.018, "diameter_low": 0.016, "diameter_high": 0.02, "n": 8, "units": "mm"}
-{"record": "spiracle_diameter", "species": "Solenoecetes lagopodi", "sex": "male", "spiracle_location": "mesothorax", "diameter": 0.01, "mean_diameter": 0.009, "diameter_low": 0.008, "diameter_high": 0.011, "n": 3, "units": "mm"}
+{"record": "spiracle_diameter", "species": "Hedlerina brevicauda", "sex": "male", "location": "mesothorax", "diameter": 0.018, "mean_diameter": null, "diameter_low": null, "diameter_high": null, "n": null, "units": "mm"}
+{"record": "spiracle_diameter", "species": "Hedlerina brevicauda", "sex": "female", "location": "mesothorax", "diameter": null, "mean_diameter": 0.0165, "diameter_low": 0.0125, "diameter_high": 0.0175, "n": 5, "units": "mm"}
+{"record": "spiracle_diameter", "species": "Hedlerina brevicauda", "sex": "male", "location": "5th abdominal segment", "diameter": null, "mean_diameter": 0.0176, "diameter_low": 0.015, "diameter_high": 0.02, "n": null, "units": "mm"}
+{"record": "spiracle_diameter", "species": "Hoplopleura onychina", "sex": "male", "location": "mesothorax", "diameter": null, "mean_diameter": 0.031, "diameter_low": 0.028, "diameter_high": 0.033, "n": null, "units": "mm"}
+{"record": "spiracle_diameter", "species": "Hoplopleura onychina", "sex": "female", "location": "mesothorax", "diameter": 0.035, "mean_diameter": 0.033, "diameter_low": 0.03, "diameter_high": 0.036, "n": 4, "units": "mm"}
+{"record": "spiracle_diameter", "species": "Hoplopleura onychina", "sex": "female", "location": "5th abdominal segment", "diameter": null, "mean_diameter": 0.02, "diameter_low": 0.0175, "diameter_high": 0.0225, "n": 4, "units": "mm"}
+{"record": "spiracle_diameter", "species": "Echinophthirius giganteus", "sex": "male", "location": "mesothorax", "diameter": 0.042, "mean_diameter": 0.04, "diameter_low": 0.036, "diameter_high": 0.045, "n": 6, "units": "mm"}
+{"record": "spiracle_diameter", "species": "Echinophthirius giganteus", "sex": "female", "location": "mesothorax", "diameter": 0.048, "mean_diameter": 0.046, "diameter_low": 0.042, "diameter_high": 0.05, "n": 6, "units": "mm"}
+{"record": "spiracle_diameter", "species": "Pediculus humanus capitis", "sex": "male", "location": "mesothorax", "diameter": null, "mean_diameter": 0.025, "diameter_low": 0.022, "diameter_high": 0.028, "n": 10, "units": "mm"}
+{"record": "spiracle_diameter", "species": "Pediculus humanus capitis", "sex": "female", "location": "mesothorax", "diameter": null, "mean_diameter": 0.03, "diameter_low": 0.027, "diameter_high": 0.033, "n": 10, "units": "mm"}
+{"record": "spiracle_diameter", "species": "Pthirus gorillae", "sex": "male", "location": "mesothorax", "diameter": 0.02, "mean_diameter": null, "diameter_low": null, "diameter_high": null, "n": null, "units": "mm"}
+{"record": "spiracle_diameter", "species": "Pthirus gorillae", "sex": "female", "location": "mesothorax", "diameter": 0.024, "mean_diameter": null, "diameter_low": null, "diameter_high": null, "n": null, "units": "mm"}
+{"record": "spiracle_diameter", "species": "Bovicola bovis", "sex": "male", "location": "mesothorax", "diameter": null, "mean_diameter": 0.015, "diameter_low": 0.013, "diameter_high": 0.017, "n": 8, "units": "mm"}
+{"record": "spiracle_diameter", "species": "Bovicola bovis", "sex": "female", "location": "mesothorax", "diameter": null, "mean_diameter": 0.018, "diameter_low": 0.016, "diameter_high": 0.02, "n": 8, "units": "mm"}
+{"record": "spiracle_diameter", "species": "Solenoecetes lagopodi", "sex": "male", "location": "mesothorax", "diameter": 0.01, "mean_diameter": 0.009, "diameter_low": 0.008, "diameter_high": 0.011, "n": 3, "units": "mm"}
 {"record": "spiracle", "species": "Hedlerina brevicauda", "sex": "male", "body_region": "mesothorax", "segment": null, "count": null, "missing": null, "description": "large, with diameter 0.018 mm"}
 {"record": "spiracle", "species": "Hedlerina brevicauda", "sex": "male", "body_region": "paratergal plate", "segment": "III-VII", "count": "5 pairs", "missing": null, "description": "spiracles present on paratergal plates III-VII"}
 {"record": "spiracle", "species": "Hedlerina brevicauda", "sex": "female", "body_region": "mesothorax", "segment": null, "count": null, "missing": null, "description": "moderate in size, annulated"}

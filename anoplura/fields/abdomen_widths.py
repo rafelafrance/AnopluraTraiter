@@ -1,31 +1,31 @@
 """Build a pivot table of abdomen width traits across species and sexes."""
 
-import json
-from pathlib import Path
+from typing import TYPE_CHECKING
 
-import pandas as pd
+from anoplura.pylib import format_util
 
-DEFAULT_JSONL = Path("tests/info/extracts.jsonl")
+if TYPE_CHECKING:
+    import pandas as pd
 
-ROW_LABELS = [
-    "abdomen width",
-    "mean abdomen width",
-    "low abdomen width",
-    "high abdomen width",
-    "abdomen width sample size (n)",
-]
-
-TRAIT_FIELDS = ["width", "mean_width", "width_low", "width_high", "n"]
+FIELD_LABELS = {
+    "width": "abdomen width",
+    "mean_width": "mean abdomen width",
+    "width_low": "low abdomen width",
+    "width_high": "high abdomen width",
+    "n": "abdomen width sample size (n)",
+}
 
 
-def build_table(jsonl_path: Path | str = DEFAULT_JSONL) -> pd.DataFrame:
+def build_table(records: list[dict], species_sexes: pd.MultiIndex) -> pd.DataFrame:
     """
     Build a DataFrame of abdomen width measurements.
 
     Parameters
     ----------
-    jsonl_path : Path or str
-        Path to the JSONL file containing extracted trait records.
+    records : list[dict]
+        Pre-filtered list of abdomen_width trait record dicts.
+    species_sexes: pd.MultiIndex
+        The two level column headers for the new data frame.
 
     Returns
     -------
@@ -34,52 +34,4 @@ def build_table(jsonl_path: Path | str = DEFAULT_JSONL) -> pd.DataFrame:
         labels describing each abdomen width sub-trait.
 
     """
-    jsonl_path = Path(jsonl_path)
-
-    records = []
-    with jsonl_path.open() as fh:
-        for line in fh:
-            line = line.strip()
-            if line:
-                records.append(json.loads(line))
-
-    abdomen_records = [r for r in records if r["record"] == "abdomen_width"]
-
-    # Collect unique (species, sex) column pairs in order of appearance
-    col_tuples: list[tuple[str, str]] = []
-    seen: set[tuple[str, str]] = set()
-    for r in abdomen_records:
-        key = (r["species"], r["sex"])
-        if key not in seen:
-            seen.add(key)
-            col_tuples.append(key)
-
-    col_index = pd.MultiIndex.from_tuples(col_tuples, names=["species", "sex"])
-
-    # Build data rows
-    data_rows: list[dict] = []
-    for f in TRAIT_FIELDS:
-        row_vals: dict = {}
-        for col in col_tuples:
-            matching = [
-                r
-                for r in abdomen_records
-                if r["species"] == col[0] and r["sex"] == col[1]
-            ]
-            val = matching[0].get(f) if matching else None
-            # Keep n as string to avoid float conversion in pandas
-            if f == "n" and val is not None:
-                val = str(val)
-            row_vals[col] = val
-        data_rows.append(row_vals)
-
-    df = pd.DataFrame(data_rows, index=ROW_LABELS, columns=col_index)
-    df = df.fillna("")
-
-    return df
-
-
-if __name__ == "__main__":
-    df = build_table()
-    print(df.to_string())
-    print(f"\nShape: {df.shape}")
+    return format_util.build_trait_table(records, species_sexes, FIELD_LABELS)

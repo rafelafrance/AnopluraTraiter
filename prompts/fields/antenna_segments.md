@@ -14,7 +14,7 @@ with these exact fields:
     "species": louse species name inferred from the surrounding context (string),
     "sex": sex or life stage of the specimen, e.g. "male", "female", "nymph", "first instar" (string or null),
     "count": total number of antennal segments as a number, e.g. 5 (number or null),
-    "segment_descriptions": descriptions of individual segments, e.g.
+    "descriptions": descriptions of individual segments, e.g.
       "first segment broader than long", "third segment unmodified" (string or null).
 
 Notes:
@@ -22,7 +22,7 @@ Notes:
   5-segmented" all indicate a segment count of 5. Convert spelled-out numbers
   (e.g. "five") to numeric form in the count field.
 - When segment-level descriptions are given alongside the count, include them in
-  segment_descriptions. If multiple segments are described, join them with
+  descriptions. If multiple segments are described, join them with
   semicolons (e.g. "first segment broader than long; third segment unmodified").
 - "Basal segment" refers to the first (proximal) antennal segment.
 - "Unmodified" means the segment lacks secondary sexual characteristics or
@@ -31,6 +31,6 @@ Notes:
   preantennal head seta", "supraantennal head seta") — these are head setae,
   not antennae segments.
 - If only the total segment count is given without segment-level detail, set
-  segment_descriptions to null.
+  descriptions to null.
 
 Return a JSON array of objects.
