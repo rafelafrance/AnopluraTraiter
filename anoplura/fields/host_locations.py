@@ -21,7 +21,7 @@ def build_table(records: list[dict], species_sexes: pd.MultiIndex) -> pd.DataFra
     Parameters
     ----------
     records : list[dict]
-        Pre-filtered list of body_length trait record dicts.
+        Pre-filtered list of host location trait record dicts.
     species_sexes: pd.MultiIndex
         The two level column headers for the new data frame.
 

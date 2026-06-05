@@ -14,7 +14,7 @@ def build_table(records: list[dict], species_sexes: pd.MultiIndex) -> pd.DataFra
     Parameters
     ----------
     records : list[dict]
-        Pre-filtered list of body_length trait record dicts.
+        Pre-filtered list of plate record dicts.
     species_sexes: pd.MultiIndex
         The two level column headers for the new data frame.
 
@@ -22,7 +22,7 @@ def build_table(records: list[dict], species_sexes: pd.MultiIndex) -> pd.DataFra
     -------
     pd.DataFrame
         DataFrame with a MultiIndex column of (species, sex) and row
-        labels describing each platehost location  notation.
+        labels describing each plate notation.
 
     """
     # Map record fields to row indexes

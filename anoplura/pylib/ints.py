@@ -12,12 +12,12 @@ def has_ints(text: str) -> bool:
     return bool(match)
 
 
-def get_ints(text: str) -> list[int]:
+def get_ints(text: str) -> list[str]:
     """Find all ints in a string."""
-    return [int(i) for i in INT_RE.findall(text)]
+    return [f" {i}" if len(i) == 1 else i for i in INT_RE.findall(text)]
 
 
-def get_range(text: str) -> list[int] | None:
+def get_range(text: str) -> list[str] | None:
     """
     Expand a range of ints from a string.
 
@@ -28,4 +28,4 @@ def get_range(text: str) -> list[int] | None:
         return None
     low = int(match.group(1))
     high = int(match.group(2))
-    return list(range(low, high + 1))
+    return [f"{i:2d}" for i in range(low, high + 1)]

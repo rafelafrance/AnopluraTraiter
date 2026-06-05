@@ -58,6 +58,7 @@ ignore = [
   "PLW2901", # Outer variable overwritten by inner target
   "RET504",  # Unnecessary assignment to {name} before return statement
   "RUF001",  # String contains ambiguous charater
+  "S101",    # Use of assert detected
   "SIM114",  # Combine if branches using logical or operator
   "T201",    # print found
 ]

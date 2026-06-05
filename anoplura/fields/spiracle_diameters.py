@@ -23,7 +23,7 @@ def build_table(records: list[dict], species_sexes: pd.MultiIndex) -> pd.DataFra
     Parameters
     ----------
     records : list[dict]
-        Pre-filtered list of abdomen_width trait record dicts.
+        Pre-filtered list of spiracle diameter trait record dicts.
     species_sexes: pd.MultiIndex
         The two level column headers for the new data frame.
 
@@ -41,7 +41,7 @@ def build_table(records: list[dict], species_sexes: pd.MultiIndex) -> pd.DataFra
     for loc in locations:
         recs = [r for r in records if r["location"] == loc]
         field_labels = {
-            k: v.format(loc) if loc else v.removesuffix(" ({location})")
+            k: v.format(location=loc) if loc else v.removesuffix(" ({location})")
             for k, v in FIELD_LABELS.items()
         }
         dfs.append(format_util.build_trait_table(recs, species_sexes, field_labels))

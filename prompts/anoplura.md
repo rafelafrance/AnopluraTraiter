@@ -30,7 +30,6 @@ Extract the following fields from the given text.
 - [sternites](fields/sternites.md)
 - [tergites](fields/tergites.md)
 - [plates](fields/plates.md)
-- [spiracles](fields/spiracles.md)
 - [antenna_segments](fields/antenna_segments.md)
 - [body_lengths](fields/body_lengths.md)
 - [head_lengths](fields/head_lengths.md)

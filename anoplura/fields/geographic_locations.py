@@ -14,12 +14,12 @@ FIELD_LABELS = {
 
 def build_table(records: list[dict], species_sexes: pd.MultiIndex) -> pd.DataFrame:
     """
-    Build a DataFrame of antenna_segment notations.
+    Build a DataFrame of geographic location notations.
 
     Parameters
     ----------
     records : list[dict]
-        Pre-filtered list of body_length trait record dicts.
+        Pre-filtered list of geographic location trait record dicts.
     species_sexes: pd.MultiIndex
         The two level column headers for the new data frame.
 

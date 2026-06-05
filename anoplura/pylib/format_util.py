@@ -55,8 +55,25 @@ def get_column_index(records: list[dict]) -> pd.MultiIndex:
         The two level column headers for the new output data frame.
 
     """
-    col_tuples = {(r["species"], r.get("sex", "")) for r in records}
-    col_tuples = sorted(col_tuples)
+    for rec in records:
+        sex = rec.get("sex", "n/a").lower()
+        if sex == "♀" or sex.startswith("f"):
+            sex = "female"
+        elif sex == "♂" or sex.startswith("m"):
+            sex = "male"
+        else:
+            sex = "n/a"
+        rec["sex"] = sex
+
+        species = rec["species"]
+        species = species[0].upper() + species[1:].lower()
+        rec["species"] = species
+
+    col_tuples = {(r["species"], r["sex"]) for r in records}
+
+    order = {"male": 0, "female": 1, "n/a": 2}
+    col_tuples = sorted(col_tuples, key=lambda t: (t[0], order[t[1]]))
+
     return pd.MultiIndex.from_tuples(col_tuples, names=["species", "sex"])
 
 

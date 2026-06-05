@@ -8,7 +8,27 @@ import logging
 import textwrap
 from pathlib import Path
 
-from anoplura.fields import plates
+import pandas as pd
+
+from anoplura.fields import (
+    abdomen_lengths,
+    abdomen_widths,
+    antenna_segments,
+    body_lengths,
+    dpts_lengths,
+    excepts,
+    geographic_locations,
+    head_lengths,
+    head_widths,
+    host_locations,
+    plates,
+    specimen_types,
+    spiracle_diameters,
+    sternites,
+    tergites,
+    thorax_lengths,
+    thorax_widths,
+)
 from anoplura.pylib import format_util, log
 
 JSON_ERRORS = (json.JSONDecodeError, UnicodeDecodeError)
@@ -30,8 +50,67 @@ def output(args: argparse.Namespace) -> None:
 
     species_sexes = format_util.get_column_index(records)
 
-    plate_recs = [r for r in records if r["record"] == "plate"]
-    plates.build_table(plate_recs, species_sexes)
+    df = pd.DataFrame(columns=species_sexes)
+
+    recs = [r for r in records if r["record"] == "specimen_type"]
+    df = pd.concat([df, specimen_types.build_table(recs, species_sexes)])
+
+    # recs = [r for r in records if r["record"] == "seta_count"]
+    # df = pd.concat([df, seta_counts.build_table(recs, species_sexes)])
+
+    recs = [r for r in records if r["record"] == "sternite"]
+    df = pd.concat([df, sternites.build_table(recs, species_sexes)])
+
+    recs = [r for r in records if r["record"] == "tergite"]
+    df = pd.concat([df, tergites.build_table(recs, species_sexes)])
+
+    recs = [r for r in records if r["record"] == "plate"]
+    df = pd.concat([df, plates.build_table(recs, species_sexes)])
+
+    recs = [r for r in records if r["record"] == "antenna_segment"]
+    df = pd.concat([df, antenna_segments.build_table(recs, species_sexes)])
+
+    recs = [r for r in records if r["record"] == "body_length"]
+    df = pd.concat([df, body_lengths.build_table(recs, species_sexes)])
+
+    recs = [r for r in records if r["record"] == "head_length"]
+    df = pd.concat([df, head_lengths.build_table(recs, species_sexes)])
+
+    recs = [r for r in records if r["record"] == "head_width"]
+    df = pd.concat([df, head_widths.build_table(recs, species_sexes)])
+
+    recs = [r for r in records if r["record"] == "thorax_length"]
+    df = pd.concat([df, thorax_lengths.build_table(recs, species_sexes)])
+
+    recs = [r for r in records if r["record"] == "thorax_width"]
+    df = pd.concat([df, thorax_widths.build_table(recs, species_sexes)])
+
+    recs = [r for r in records if r["record"] == "abdomen_length"]
+    df = pd.concat([df, abdomen_lengths.build_table(recs, species_sexes)])
+
+    recs = [r for r in records if r["record"] == "abdomen_width"]
+    df = pd.concat([df, abdomen_widths.build_table(recs, species_sexes)])
+
+    recs = [r for r in records if r["record"] == "dpts_length"]
+    df = pd.concat([df, dpts_lengths.build_table(recs, species_sexes)])
+
+    recs = [r for r in records if r["record"] == "spiracle_diameter"]
+    df = pd.concat([df, spiracle_diameters.build_table(recs, species_sexes)])
+
+    recs = [r for r in records if r["record"] == "geographic_location"]
+    df = pd.concat([df, geographic_locations.build_table(recs, species_sexes)])
+
+    recs = [r for r in records if r["record"] == "host_location"]
+    df = pd.concat([df, host_locations.build_table(recs, species_sexes)])
+
+    recs = [r for r in records if r["record"] == "except"]
+    df = pd.concat([df, excepts.build_table(recs, species_sexes)])
+
+    # print(df.index)
+    # print(df.columns)
+    # print(df.head(10))
+
+    df.to_csv(args.csv_out)
 
     log.finished()
 
