@@ -2,7 +2,7 @@
 
 import re
 
-PATTERN = r"\b[mdclvi]+\b"
+PATTERN = r"\b[ivxlcdm]+\b"
 
 REGEX = re.compile(PATTERN, flags=re.IGNORECASE | re.VERBOSE)
 
