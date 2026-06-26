@@ -37,5 +37,4 @@ def build_table(records: list[dict], species_sexes: pd.MultiIndex) -> pd.DataFra
             value = " ".join(value.removesuffix("=").split())
             df.loc["paratype", (rec["species"], "n/a")] = value
 
-    df = df.fillna("")
     return df

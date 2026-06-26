@@ -33,12 +33,12 @@ def build_table(records: list[dict], species_sexes: pd.MultiIndex) -> pd.DataFra
         number = rec["number"]
         key = region, type_, number
 
-        nums = format_util.expand_numbers(number)
+        numbers = format_util.expand_numbers(number)
 
         prefix = type_ or f"{region} plate" or "plate"
         prefix = prefix.replace("plates", "plate").replace("thorax", "thoracic")
-        if nums:
-            row_map[key] |= {f"{prefix} {n}" for n in nums}
+        if numbers:
+            row_map[key] |= {f"{prefix} {n}" for n in numbers}
         else:
             row_map[key].add(prefix)
 
@@ -58,8 +58,7 @@ def build_table(records: list[dict], species_sexes: pd.MultiIndex) -> pd.DataFra
         for idx in indexes:
             count = f"{idx} count"
             descr = f"{idx} description"
-            df.loc[count, (rec["species"], rec["sex"])] = rec["count"]
-            df.loc[descr, (rec["species"], rec["sex"])] = rec["description"]
+            df.loc[count, (rec["species"], rec["sex"])] = rec["count"] or None
+            df.loc[descr, (rec["species"], rec["sex"])] = rec["description"] or None
 
-    df = df.fillna("")
     return df

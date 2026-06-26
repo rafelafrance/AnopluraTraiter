@@ -2,7 +2,7 @@
 
 import pandas as pd
 
-from anoplura.pylib import ints, roman
+from anoplura.pylib import ints, ordinals, roman
 
 
 def build_trait_table(
@@ -36,7 +36,6 @@ def build_trait_table(
         for field, row_label in field_labels.items():
             df.loc[row_label, (rec["species"], rec["sex"])] = rec[field]
 
-    df = df.fillna("")
     return df
 
 
@@ -84,9 +83,15 @@ def expand_numbers(text: str) -> list[str]:
 
     has_ints = ints.has_ints(text)
     has_roman = roman.has_roman(text)
+    has_ordinals = ordinals.has_ordinal(text)
 
-    if not has_ints and not has_roman:
+    if not has_ints and not has_roman and not has_ordinals:
         return []
+
+    if not has_ints and has_ordinals:
+        if nums := ordinals.get_range(text):
+            return nums
+        return ordinals.get_ordinals(text)
 
     if not has_ints and has_roman:
         if nums := roman.get_range(text):

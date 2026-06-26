@@ -6,7 +6,7 @@ build-backend = "uv_build"
 name = "anopluraTraiter"
 version = "0.2.0"
 readme = "README.md"
-description = "Rule-based parsers for mining scientific liturature about biting lice"
+description = "LLM parsers for mining scientific literature about biting lice"
 license = { file = "LICENSE" }
 authors = [{ name = "Raphael LaFrance" }]
 requires-python = ">=3.14"
@@ -51,9 +51,10 @@ ignore = [
   "ERA001",  # Remove commented-out code
   "G004",    # Logging statement uses f-string
   "LOG015",  # Use own logger instead
+  "PLR0911", # Too many return statements
+  "PLR0912", # Too many branches
   "PLR0913", # Too many arguments in function definition
   "PLR0915", # Too many statements
-  "PLR0912", # Too many branches
   "PLW0603", # Using the global statement to update global variable is discouraged
   "PLW2901", # Outer variable overwritten by inner target
   "RET504",  # Unnecessary assignment to {name} before return statement

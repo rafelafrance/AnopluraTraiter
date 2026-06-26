@@ -22,6 +22,7 @@ from anoplura.fields import (
     head_widths,
     host_locations,
     plates,
+    seta_counts,
     specimen_types,
     spiracle_diameters,
     sternites,
@@ -32,8 +33,6 @@ from anoplura.fields import (
 from anoplura.pylib import format_util, log
 
 JSON_ERRORS = (json.JSONDecodeError, UnicodeDecodeError)
-
-SETA_CSV = Path("anoplura/terms") / "seta_patterns.csv"
 
 
 def output(args: argparse.Namespace) -> None:
@@ -55,8 +54,8 @@ def output(args: argparse.Namespace) -> None:
     recs = [r for r in records if r["record"] == "specimen_type"]
     df = pd.concat([df, specimen_types.build_table(recs, species_sexes)])
 
-    # recs = [r for r in records if r["record"] == "seta_count"]
-    # df = pd.concat([df, seta_counts.build_table(recs, species_sexes)])
+    recs = [r for r in records if r["record"] == "seta_count"]
+    df = pd.concat([df, seta_counts.build_table(recs, species_sexes)])
 
     recs = [r for r in records if r["record"] == "sternite"]
     df = pd.concat([df, sternites.build_table(recs, species_sexes)])
@@ -106,10 +105,8 @@ def output(args: argparse.Namespace) -> None:
     recs = [r for r in records if r["record"] == "except"]
     df = pd.concat([df, excepts.build_table(recs, species_sexes)])
 
-    # print(df.index)
-    # print(df.columns)
-    # print(df.head(10))
-
+    df = df.dropna(how="all").dropna(how="all")
+    df = df.fillna("")
     df.to_csv(args.csv_out)
 
     log.finished()

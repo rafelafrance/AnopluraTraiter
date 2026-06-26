@@ -47,3 +47,6 @@ scratch/
 pilot/
 old/
 experiments/
+
+# Personal
+.codebook.toml

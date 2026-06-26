@@ -84,12 +84,11 @@ def build_table(records: list[dict], species_sexes: pd.MultiIndex) -> pd.DataFra
             count = f"{idx} count"
             descr = f"{idx} description"
             if (df.index == count).any():
-                df.loc[count, (rec["species"], rec["sex"])] = rec["count"]
+                df.loc[count, (rec["species"], rec["sex"])] = rec["count"] or None
             if (df.index == descr).any():
-                df.loc[descr, (rec["species"], rec["sex"])] = rec["description"]
+                df.loc[descr, (rec["species"], rec["sex"])] = rec["description"] or None
             if (df.index == idx).any():
                 df.loc[idx, (rec["species"], "male")] = "True"
                 df.loc[idx, (rec["species"], "female")] = "True"
 
-    df = df.fillna("")
     return df
