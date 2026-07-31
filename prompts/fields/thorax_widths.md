@@ -7,23 +7,27 @@ In Anoplura descriptions, thorax width may be given explicitly or abbreviated as
 "THW" (e.g. in figure legends or measurement tables). It may appear as a single
 value, a mean with range, or a range with sample size and standard deviation.
 
+The uncertainty is written as "±number" for example "±0.09".
+
 Common patterns:
-  "Maximum thorax width of allotype, 0.295 mm; mean, 0.308 mm; range, 0.295-0.325 mm"
-  "Maximum thorax width, 0.280-0.305 mm (mean, 0.290 mm, n = 3)"
-  "Maximum width, 0.285-0.295 mm (n = 2)"
-  "THW, 0.250-0.267 (0.259 ± 0.008)"
+"Maximum thorax width of allotype, 0.295 mm; mean, 0.308 mm; range, 0.295-0.325 mm"
+"Maximum thorax width, 0.280-0.305 mm (mean, 0.290 mm, n = 3)"
+"Maximum width, 0.285-0.295 mm (n = 2)"
+"THW, 0.250-0.267 (0.259 ± 0.008)"
 
 For each thorax width measurement found, return an object with these exact fields:
-    "species": louse species name inferred from the surrounding context (string),
-    "sex": sex or life stage of the specimen, e.g. "male", "female", "nymph", "first instar" (string or null),
-    "width": single measurement value if only one value is given (number or null),
-    "mean_width": mean or average thorax width if stated (number or null),
-    "width_low": lower bound of range (number or null),
-    "width_high": upper bound of range (number or null),
-    "n": sample size if stated (number or null),
-    "units": unit of measurement, typically "mm" (string or null).
+"species": louse species name inferred from the surrounding context (string),
+"sex": sex or life stage of the specimen, e.g. "male", "female", "nymph", "first instar" (string or null),
+"width": single measurement value if only one value is given (number or null),
+"mean_width": mean or average thorax width if stated (number or null),
+"width_low": lower bound of range (number or null),
+"width_high": upper bound of range (number or null),
+"n": sample size if stated (number or null),
+"uncertainty": uncertainty of the width (number or null),
+"units": unit of measurement, typically "mm" (string or null).
 
 Notes:
+
 - "Maximum thorax width", "thorax width", "maximum width" (when context refers to
   the thorax), and "THW" (when used as an abbreviation for thorax width) all
   refer to the same measurement.

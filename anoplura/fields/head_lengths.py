@@ -12,6 +12,7 @@ FIELD_LABELS = {
     "mean_length": "mean head length",
     "length_low": "low head length",
     "length_high": "high head length",
+    "uncertainty": "head length uncertainty",
     "n": "head length sample size (n)",
 }
 

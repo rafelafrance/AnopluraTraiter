@@ -2,23 +2,27 @@ Find all total body length measurements of the louse specimens described in the 
 Body lengths are given for holotypes, allotypes, paratypes, and sometimes nymphs.
 They may appear as a single value, a mean with range, or a range with sample size.
 
+The uncertainty is written as "±number" for example "±0.09".
+
 Common patterns in Anoplura descriptions:
-  "Total body length of holotype, 1.021 mm"
-  "Body length of allotype, 1.400 mm; mean, 1.295 mm; range, 1.233-1.400 mm (n = 3)"
-  "Total body length, x = 1.014 (0.950 – 1.130, n = 5)"
-  "mean, 1.507 mm; range, 1.445-1.600 mm"
+"Total body length of holotype, 1.021 mm"
+"Body length of allotype, 1.400 mm; mean, 1.295 mm; range, 1.233-1.400 mm (n = 3)"
+"Total body length, x = 1.014 (0.950 – 1.130, n = 5)"
+"mean, 1.507 mm; range, 1.445-1.600 mm"
 
 For each body length measurement found, return an object with these exact fields:
-    "species": louse species name inferred from the surrounding context (string),
-    "sex": sex or life stage of the specimen, e.g. "male", "female", "nymph", "third instar" (string or null),
-    "length": single measurement value if only one value is given (number or null),
-    "mean_length": mean or average body length if stated (number or null),
-    "length_low": lower bound of range (number or null),
-    "length_high": upper bound of range (number or null),
-    "n": sample size if stated (number or null),
-    "units": unit of measurement, typically "mm" (string or null).
+"species": louse species name inferred from the surrounding context (string),
+"sex": sex or life stage of the specimen, e.g. "male", "female", "nymph", "third instar" (string or null),
+"length": single measurement value if only one value is given (number or null),
+"mean_length": mean or average body length if stated (number or null),
+"length_low": lower bound of range (number or null),
+"length_high": upper bound of range (number or null),
+"n": sample size if stated (number or null),
+"uncertainty": uncertainty of the length (number or null),
+"units": unit of measurement, typically "mm" (string or null).
 
 Notes:
+
 - "Total body length" and "body length" both refer to the same measurement.
 - When a holotype or allotype value is given alongside a mean and range, return one
   entry with the holotype/allotype value in "length" and the statistics in their

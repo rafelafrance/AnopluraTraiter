@@ -12,6 +12,7 @@ FIELD_LABELS = {
     "mean_length": "mean body length",
     "length_low": "low body length",
     "length_high": "high body length",
+    "uncertainty": "body length uncertainty",
     "n": "body length sample size (n)",
 }
 

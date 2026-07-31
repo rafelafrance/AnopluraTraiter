@@ -11,26 +11,30 @@ In Anoplura descriptions, DPTS length may be given explicitly or abbreviated as
 "DPTS". It may appear as a single value, a mean with range, or a qualitative
 description with or without a numeric value.
 
+The uncertainty is written as "±number" for example "±0.09".
+
 Common patterns:
-  "Dorsal principal thoracic seta (DPTS) length, 0.105 mm"
-  "DPTS length of allotype, 0.145 mm; mean, 0.141 mm; range, 0.138-0.145 mm"
-  "DPTS length x = 0.0340 (0.0275 – 0.0375, n = 5)"
-  "DPTS length 0.117-0.130 mm, mean 0.121 mm (n = 7)"
-  "Dorsal principal thoracic setae (DPTS) moderate in length (0.14 mm)"
+"Dorsal principal thoracic seta (DPTS) length, 0.105 mm"
+"DPTS length of allotype, 0.145 mm; mean, 0.141 mm; range, 0.138-0.145 mm"
+"DPTS length x = 0.0340 (0.0275 – 0.0375, n = 5)"
+"DPTS length 0.117-0.130 mm, mean 0.121 mm (n = 7)"
+"Dorsal principal thoracic setae (DPTS) moderate in length (0.14 mm)"
 
 For each DPTS length measurement found, return an object with these exact fields:
-    "species": louse species name inferred from the surrounding context (string),
-    "sex": sex or life stage of the specimen, e.g. "male", "female", "nymph", "first instar" (string or null),
-    "length": single measurement value if only one value is given (number or null),
-    "mean_length": mean or average DPTS length if stated (number or null),
-    "length_low": lower bound of range (number or null),
-    "length_high": upper bound of range (number or null),
-    "n": sample size if stated (number or null),
-    "units": unit of measurement, typically "mm" (string or null),
-    "description": qualitative description of DPTS length, e.g. "short", "moderate",
-      "long" (string or null).
+"species": louse species name inferred from the surrounding context (string),
+"sex": sex or life stage of the specimen, e.g. "male", "female", "nymph", "first instar" (string or null),
+"length": single measurement value if only one value is given (number or null),
+"mean_length": mean or average DPTS length if stated (number or null),
+"length_low": lower bound of range (number or null),
+"length_high": upper bound of range (number or null),
+"n": sample size if stated (number or null),
+"uncertainty": uncertainty of the length (number or null),
+"units": unit of measurement, typically "mm" (string or null),
+"description": qualitative description of DPTS length, e.g. "short", "moderate",
+"long" (string or null).
 
 Notes:
+
 - "Dorsal principal thoracic seta", "dorsal principal thoracic setae", and "DPTS"
   all refer to the same structure.
 - When a holotype or allotype value is given alongside a mean and range, return one

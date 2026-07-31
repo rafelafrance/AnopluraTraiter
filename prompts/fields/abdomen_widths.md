@@ -7,23 +7,28 @@ In Anoplura descriptions, abdomen width may be given explicitly or abbreviated a
 "AW" (e.g. in figure legends or measurement tables). It may appear as a single
 value, a mean with range, or a range with sample size and standard deviation.
 
+The uncertainty is written as "±number" for example "±0.09".
+
 Common patterns:
-  "Maximum abdomen width, 0.485-0.605 mm (mean, 0.540 mm)"
-  "AW of allotype, 0.666 mm; mean, 0.697 mm; range, 0.666-0.725 mm"
-  "AW, 0.600-0.633 (0.618 ± 0.017)"
-  "Maximum width, 0.710-0.790 mm (n = 2)"
+"Maximum abdomen width, 0.485-0.605 mm (mean, 0.540 mm)"
+"AW of allotype, 0.666 mm; mean, 0.697 mm; range, 0.666-0.725 mm"
+"AW, 0.600-0.633 (0.618 ± 0.017)"
+"Maximum width, 0.710-0.790 mm (n = 2)"
 
 For each abdomen width measurement found, return an object with these exact fields:
-    "species": louse species name inferred from the surrounding context (string),
-    "sex": sex or life stage of the specimen, e.g. "male", "female", "nymph", "first instar" (string or null),
-    "width": single measurement value if only one value is given (number or null),
-    "mean_width": mean or average abdomen width if stated (number or null),
-    "width_low": lower bound of range (number or null),
-    "width_high": upper bound of range (number or null),
-    "n": sample size if stated (number or null),
-    "units": unit of measurement, typically "mm" (string or null).
+"species": louse species name inferred from the surrounding context (string),
+"sex": sex or life stage of the specimen, e.g. "male", "female", "nymph", "first instar" (string or null),
+"width": single measurement value if only one value is given (number or null),
+"mean_width": mean or average abdomen width if stated (number or null),
+"width_low": lower bound of range (number or null),
+"width_high": upper bound of range (number or null),
+"n": sample size if stated (number or null),
+"std_dev": standard deviation of the samples (number or null),
+"uncertainty": uncertainty of the width (number or null),
+"units": unit of measurement, typically "mm" (string or null).
 
 Notes:
+
 - "Maximum abdomen width", "abdomen width", "maximum width" (when context refers to
   the abdomen), and "AW" (when used as an abbreviation for abdomen width) all
   refer to the same measurement.

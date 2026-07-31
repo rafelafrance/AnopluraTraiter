@@ -12,6 +12,7 @@ FIELD_LABELS = {
     "mean_length": "mean abdomen length",
     "length_low": "low abdomen length",
     "length_high": "high abdomen length",
+    "uncertainty": "abdomen length uncertainty",
     "n": "abdomen length sample size (n)",
 }
 

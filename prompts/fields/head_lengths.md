@@ -6,23 +6,27 @@ In Anoplura descriptions, head length may be given explicitly or abbreviated as
 "HL" (e.g. in figure legends or measurement tables). It may appear as a single
 value, a mean with range, or a range with sample size and standard deviation.
 
+The uncertainty is written as "±number" for example "±0.09".
+
 Common patterns:
-  "Head length of holotype, 0.187 mm"
-  "HL of allotype, 0.200 mm; mean, 0.232 mm; range, 0.200-0.251 mm"
-  "HL, 0.181-0.190 (0.187 ± 0.005)"
-  "HL = 0.187 ± 0.005"
+"Head length of holotype, 0.187 mm"
+"HL of allotype, 0.200 mm; mean, 0.232 mm; range, 0.200-0.251 mm"
+"HL, 0.181-0.190 (0.187 ± 0.005)"
+"HL = 0.187 ± 0.005"
 
 For each head length measurement found, return an object with these exact fields:
-    "species": louse species name inferred from the surrounding context (string),
-    "sex": sex or life stage of the specimen, e.g. "male", "female", "nymph", "first instar" (string or null),
-    "length": single measurement value if only one value is given (number or null),
-    "mean_length": mean or average head length if stated (number or null),
-    "length_low": lower bound of range (number or null),
-    "length_high": upper bound of range (number or null),
-    "n": sample size if stated (number or null),
-    "units": unit of measurement, typically "mm" (string or null).
+"species": louse species name inferred from the surrounding context (string),
+"sex": sex or life stage of the specimen, e.g. "male", "female", "nymph", "first instar" (string or null),
+"length": single measurement value if only one value is given (number or null),
+"mean_length": mean or average head length if stated (number or null),
+"length_low": lower bound of range (number or null),
+"length_high": upper bound of range (number or null),
+"n": sample size if stated (number or null),
+"uncertainty": uncertainty of the length (number or null),
+"units": unit of measurement, typically "mm" (string or null).
 
 Notes:
+
 - "Head length", "length of head", and "HL" (when used as an abbreviation for
   head length) all refer to the same measurement.
 - When a holotype or allotype value is given alongside a mean and range, return one

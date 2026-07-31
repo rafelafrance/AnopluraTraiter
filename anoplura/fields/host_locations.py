@@ -8,7 +8,7 @@ if TYPE_CHECKING:
     import pandas as pd
 
 FIELD_LABELS = {
-    "host_species": "host species",
+    "host_scientific_name": "host species",
     "host_location": "host location",
     "context": "host context",
 }

@@ -7,23 +7,28 @@ In Anoplura descriptions, head width may be given explicitly or abbreviated as
 "HW" (e.g. in figure legends or measurement tables). It may appear as a single
 value, a mean with range, or a range with sample size and standard deviation.
 
+The uncertainty is written as "±number" for example "±0.09".
+
 Common patterns:
-  "Maximum head width of holotype, 0.190 mm"
-  "Maximum head width of allotype, 0.211 mm; mean, 0.210 mm; range, 0.205-0.215 mm"
-  "Maximum head width, 0.150-0.163 mm (mean, 0.17 mm, n = 4)"
-  "HW, 0.159-0.183 (0.168 ± 0.013)"
+"Maximum head width of holotype, 0.190 mm"
+"Maximum head width of allotype, 0.211 mm; mean, 0.210 mm; range, 0.205-0.215 mm"
+"Maximum head width, 0.150-0.163 mm (mean, 0.17 mm, n = 4)"
+"HW, 0.159-0.183 (0.168 ± 0.013)"
 
 For each head width measurement found, return an object with these exact fields:
-    "species": louse species name inferred from the surrounding context (string),
-    "sex": sex or life stage of the specimen, e.g. "male", "female", "nymph", "first instar" (string or null),
-    "width": single measurement value if only one value is given (number or null),
-    "mean_width": mean or average head width if stated (number or null),
-    "width_low": lower bound of range (number or null),
-    "width_high": upper bound of range (number or null),
-    "n": sample size if stated (number or null),
-    "units": unit of measurement, typically "mm" (string or null).
+"species": louse species name inferred from the surrounding context (string),
+"sex": sex or life stage of the specimen, e.g. "male", "female", "nymph", "first instar" (string or null),
+"width": single measurement value if only one value is given (number or null),
+"mean_width": mean or average head width if stated (number or null),
+"width_low": lower bound of range (number or null),
+"width_high": upper bound of range (number or null),
+"n": sample size if stated (number or null),
+"uncertainty": uncertainty of the mean_width (number or null),
+"uncertainty": uncertainty of the width (number or null),
+"units": unit of measurement, typically "mm" (string or null).
 
 Notes:
+
 - "Maximum head width", "head width", "maximum width" (when context refers to the
   head), and "HW" (when used as an abbreviation for head width) all refer to the
   same measurement.

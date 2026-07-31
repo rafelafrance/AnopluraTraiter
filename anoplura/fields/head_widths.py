@@ -12,6 +12,7 @@ FIELD_LABELS = {
     "mean_width": "mean head width",
     "width_low": "low head width",
     "width_high": "high head width",
+    "uncertainty": "head width uncertainty",
     "n": "head width sample size (n)",
 }
 

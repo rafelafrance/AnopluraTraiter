@@ -6,20 +6,21 @@ louse's own anatomy.
 Host locations describe infestation sites, oviposition sites, or general body regions.
 In lice taxonomy these are often stated in the introduction, host-parasite relationship
 sections, or remarks, and may be phrased as:
-  "found on the head and neck region"
-  "collected from the pelage"
-  "infesting the dorsal body surface"
-  "attached to hair near the ears"
-  "eggs glued to fur along the ventral midline"
+"found on the head and neck region"
+"collected from the pelage"
+"infesting the dorsal body surface"
+"attached to hair near the ears"
+"eggs glued to fur along the ventral midline"
 
 For each location found, return an object with these exact fields:
-    "species": louse species name inferred from the surrounding context (string),
-    "host_species": the host animal species name, if mentioned (string or null),
-    "host_location": where on the host's body the lice or eggs are found, captured verbatim (string or null),
-    "context": brief description of how the location is described, e.g. "infestation site",
-      "oviposition site", "general distribution on host" (string or null).
+"species": louse species name inferred from the surrounding context (string),
+"host_scientific_name": the host animal species name, if mentioned (string or null),
+"host_location": where on the host's body the lice or eggs are found, captured verbatim (string or null),
+"context": brief description of how the location is described, e.g. "infestation site",
+"oviposition site", "general distribution on host" (string or null).
 
 Notes:
+
 - Preserve the location description exactly as written in the source text.
 - If multiple distinct body regions are listed in one phrase, return one entry per
   region. For example, "head and neck" yields two entries: "head" and "neck".

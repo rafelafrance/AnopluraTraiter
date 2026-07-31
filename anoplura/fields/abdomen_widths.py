@@ -12,6 +12,7 @@ FIELD_LABELS = {
     "mean_width": "mean abdomen width",
     "width_low": "low abdomen width",
     "width_high": "high abdomen width",
+    "uncertainty": "abdomen width uncertainty",
     "n": "abdomen width sample size (n)",
 }
 

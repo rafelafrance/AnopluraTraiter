@@ -8,25 +8,29 @@ In Anoplura descriptions, spiracle diameter may be given as a single value, a me
 with range, or a range with sample size and standard deviation. It is commonly
 described as "mesothoracic spiracle diameter" or "spiracle diameter on [segment]".
 
+The uncertainty is written as "±number" for example "±0.09".
+
 Common patterns:
-  "Mesothoracic spiracle diameter, 0.018 mm"
-  "Mesothoracic spiracle diameter x = 0.0165 (0.0125 – 0.0175, n = 5)"
-  "Mesothoracic spiracle maximum diameter 0.028-0.033 mm, mean 0.031 mm"
-  "spiracle diameter on 5th abdominal segment, x = 0.0176 (range = 0.0150 – 0.0200)"
+"Mesothoracic spiracle diameter, 0.018 mm"
+"Mesothoracic spiracle diameter x = 0.0165 (0.0125 – 0.0175, n = 5)"
+"Mesothoracic spiracle maximum diameter 0.028-0.033 mm, mean 0.031 mm"
+"spiracle diameter on 5th abdominal segment, x = 0.0176 (range = 0.0150 – 0.0200)"
 
 For each spiracle diameter measurement found, return an object with these exact fields:
-    "species": louse species name inferred from the surrounding context (string),
-    "sex": sex or life stage of the specimen, e.g. "male", "female", "nymph", "first instar" (string or null),
-    "location": location of the spiracle measured, e.g. "mesothorax",
-      "5th abdominal segment", "abdominal segment 5" (string or null),
-    "diameter": single measurement value if only one value is given (number or null),
-    "mean_diameter": mean or average spiracle diameter if stated (number or null),
-    "diameter_low": lower bound of range (number or null),
-    "diameter_high": upper bound of range (number or null),
-    "n": sample size if stated (number or null),
-    "units": unit of measurement, typically "mm" (string or null).
+"species": louse species name inferred from the surrounding context (string),
+"sex": sex or life stage of the specimen, e.g. "male", "female", "nymph", "first instar" (string or null),
+"location": location of the spiracle measured, e.g. "mesothorax",
+"5th abdominal segment", "abdominal segment 5" (string or null),
+"diameter": single measurement value if only one value is given (number or null),
+"mean_diameter": mean or average spiracle diameter if stated (number or null),
+"diameter_low": lower bound of range (number or null),
+"diameter_high": upper bound of range (number or null),
+"n": sample size if stated (number or null),
+"uncertainty": uncertainty of the diameter (number or null),
+"units": unit of measurement, typically "mm" (string or null).
 
 Notes:
+
 - "Mesothoracic spiracle diameter", "spiracle diameter", and "spiracle maximum
   diameter" all refer to the same measurement when the location is the mesothorax.
 - When the text specifies an abdominal spiracle (e.g. "spiracle diameter on 5th

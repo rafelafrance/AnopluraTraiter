@@ -164,7 +164,7 @@ def parse_args(args: list[str] | None = None) -> argparse.Namespace:
     arg_parser.add_argument(
         "--timeout",
         type=int,
-        default=300,
+        default=600,
         help="""How many seconds to wait for a server response.
             (default: %(default)s)""",
     )

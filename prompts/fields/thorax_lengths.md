@@ -7,23 +7,27 @@ In Anoplura descriptions, thorax length may be given explicitly or abbreviated a
 "THL" (e.g. in figure legends or measurement tables). It may appear as a single
 value, a mean with range, or a range with sample size and standard deviation.
 
+The uncertainty is written as "±number" for example "±0.09".
+
 Common patterns:
-  "Thorax length of holotype, 0.085 mm"
-  "THL of allotype, 0.105 mm; mean, 0.110 mm; range, 0.100-0.120 mm"
-  "THL, 0.080-0.095 (0.087 ± 0.005)"
-  "THL = 0.087 ± 0.005"
+"Thorax length of holotype, 0.085 mm"
+"THL of allotype, 0.105 mm; mean, 0.110 mm; range, 0.100-0.120 mm"
+"THL, 0.080-0.095 (0.087 ± 0.005)"
+"THL = 0.087 ± 0.005"
 
 For each thorax length measurement found, return an object with these exact fields:
-    "species": louse species name inferred from the surrounding context (string),
-    "sex": sex or life stage of the specimen, e.g. "male", "female", "nymph", "first instar" (string or null),
-    "length": single measurement value if only one value is given (number or null),
-    "mean_length": mean or average thorax length if stated (number or null),
-    "length_low": lower bound of range (number or null),
-    "length_high": upper bound of range (number or null),
-    "n": sample size if stated (number or null),
-    "units": unit of measurement, typically "mm" (string or null).
+"species": louse species name inferred from the surrounding context (string),
+"sex": sex or life stage of the specimen, e.g. "male", "female", "nymph", "first instar" (string or null),
+"length": single measurement value if only one value is given (number or null),
+"mean_length": mean or average thorax length if stated (number or null),
+"length_low": lower bound of range (number or null),
+"length_high": upper bound of range (number or null),
+"n": sample size if stated (number or null),
+"uncertainty": uncertainty of the length (number or null),
+"units": unit of measurement, typically "mm" (string or null).
 
 Notes:
+
 - "Thorax length", "length of thorax", and "THL" (when used as an abbreviation for
   thorax length) all refer to the same measurement.
 - When a holotype or allotype value is given alongside a mean and range, return one

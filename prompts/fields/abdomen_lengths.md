@@ -7,23 +7,27 @@ In Anoplura descriptions, abdomen length may be given explicitly or abbreviated 
 "AL" (e.g. in figure legends or measurement tables). It may appear as a single value,
 a mean with range, or a range with sample size.
 
+The uncertainty is written as "±number" for example "±0.09".
+
 Common patterns:
-  "Abdomen length, 0.650 mm"
-  "AL of holotype, 0.720 mm; mean, 0.710 mm; range, 0.680-0.740 mm"
-  "length of abdomen, x = 0.580 (0.540 – 0.620, n = 4)"
-  "AL, 0.600 mm"
+"Abdomen length, 0.650 mm"
+"AL of holotype, 0.720 mm; mean, 0.710 mm; range, 0.680-0.740 mm"
+"length of abdomen, x = 0.580 (0.540 – 0.620, n = 4)"
+"AL, 0.600 mm"
 
 For each abdomen length measurement found, return an object with these exact fields:
-    "species": louse species name inferred from the surrounding context (string),
-    "sex": sex or life stage of the specimen, e.g. "male", "female", "nymph", "first instar" (string or null),
-    "length": single measurement value if only one value is given (number or null),
-    "mean_length": mean or average abdomen length if stated (number or null),
-    "length_low": lower bound of range (number or null),
-    "length_high": upper bound of range (number or null),
-    "n": sample size if stated (number or null),
-    "units": unit of measurement, typically "mm" (string or null).
+"species": louse species name inferred from the surrounding context (string),
+"sex": sex or life stage of the specimen, e.g. "male", "female", "nymph", "first instar" (string or null),
+"length": single measurement value if only one value is given (number or null),
+"mean_length": mean or average abdomen length if stated (number or null),
+"length_low": lower bound of range (number or null),
+"length_high": upper bound of range (number or null),
+"n": sample size if stated (number or null),
+"uncertainty": uncertainty of the length (number or null),
+"units": unit of measurement, typically "mm" (string or null).
 
 Notes:
+
 - "Abdomen length", "length of abdomen", and "AL" (when used as an abbreviation for
   abdomen length) all refer to the same measurement.
 - When a holotype or allotype value is given alongside a mean and range, return one

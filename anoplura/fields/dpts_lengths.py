@@ -13,6 +13,7 @@ FIELD_LABELS = {
     "length_low": "low DPTS length",
     "length_high": "high DPTS length",
     "n": "DPTS length sample size (n)",
+    "uncertainty": "DPTS length uncertainty",
     "description": "DPTS length description",
 }
 

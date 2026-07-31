@@ -12,6 +12,7 @@ FIELD_LABELS = {
     "mean_length": "mean thorax length",
     "length_low": "low thorax length",
     "length_high": "high thorax length",
+    "uncertainty": "thorax length uncertainty",
     "n": "thorax length sample size (n)",
 }
 

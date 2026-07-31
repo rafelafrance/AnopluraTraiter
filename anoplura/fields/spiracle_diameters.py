@@ -9,6 +9,7 @@ FIELD_LABELS = {
     "mean_diameter": "mean spiracle diameter ({location})",
     "diameter_low": "low spiracle diameter ({location})",
     "diameter_high": "high spiracle diameter ({location})",
+    "uncertainty": "spiracle diameter uncertainty",
     "n": "spiracle diameter sample size ({location})",
 }
 
