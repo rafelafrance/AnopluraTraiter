@@ -1,12 +1,38 @@
 """Build a pivot table of sternite notations across species and sexes."""
 
-import re
-from collections import defaultdict
+from dataclasses import dataclass
 from itertools import product
 
 import pandas as pd
 
 from anoplura.pylib import format_util
+
+
+@dataclass
+class Sternite:
+    body_region: str = ""
+    label: str = ""
+    species: str = ""
+    sex: str = ""
+    count: str = ""
+    missing: str = ""
+    description: str = ""
+
+    @property
+    def count_row_loc(self) -> tuple:
+        return self.body_region, f"{self.label} count"
+
+    @property
+    def missing_row_loc(self) -> tuple:
+        return self.body_region, self.label
+
+    @property
+    def description_row_loc(self) -> tuple:
+        return self.body_region, f"{self.label} description"
+
+    @property
+    def col_loc(self) -> tuple:
+        return self.species, self.sex
 
 
 def build_table(records: list[dict], species_sexes: pd.MultiIndex) -> pd.DataFrame:
@@ -28,67 +54,71 @@ def build_table(records: list[dict], species_sexes: pd.MultiIndex) -> pd.DataFra
 
     """
     # Map record fields to row indexes
-    row_map = defaultdict(set)
+    sternites: list[Sternite] = []
+
     for rec in records:
-        region = rec["body_region"]
+        region = format_util.expand_body_region(rec)
         seg = rec["segment"]
         number = rec["number"]
         missing = rec["missing"]
-        key = region, seg, number
 
+        # Expand sternite numbers and segments into lists
         sternite_list = [f"sternite {n}" for n in format_util.expand_numbers(number)]
         segment_list = [f"segment {n}" for n in format_util.expand_numbers(seg)]
 
-        sternites = []
-
+        # Build sternite records
         if missing:
-            sternite = " ".join(
+            label = " ".join(
                 [f for f in (region, seg, "sternites missing") if f]
             ).lower()
-            sternites = [sternite]
+            labels = [label]
         elif sternite_list and segment_list:
-            stern = [f"{p[0]} {p[1]}" for p in product(segment_list, sternite_list)]
-            sternites = [" ".join([f for f in (region, s) if f]) for s in stern]
+            labels = [f"{p[0]} {p[1]}" for p in product(segment_list, sternite_list)]
+            labels = [" ".join([f for f in (region, s) if f]) for s in labels]
         elif sternite_list:
-            sternites = sternite_list
+            labels = sternite_list
         elif segment_list:
-            sternites = [f"sternites on {s}" for s in segment_list]
+            labels = [f"sternites on {s}" for s in segment_list]
         else:
-            sternite = " ".join(
+            label = " ".join(
                 [f for f in (region, seg, number, "sternites") if f]
             ).lower()
-            sternites = [sternite]
+            labels = [label]
 
-        if sternites:
-            row_map[key] |= set(sternites)
+        sternites += [
+            Sternite(
+                body_region=region,
+                label=lb,
+                species=rec["species"],
+                sex=rec["sex"],
+                count=rec["count"],
+                missing=rec["missing"],
+                description=rec["description"],
+            )
+            for lb in labels
+        ]
 
-    # # Build row index
+    # Build row index
     row_index = set()
-    for indexes in row_map.values():
-        for idx in indexes:
-            if not re.search(r"(sternite\s+\d+|missing)", idx):
-                row_index.add(f"{idx} count")
-            if re.search(r"missing", idx):
-                row_index.add(idx)
-            else:
-                row_index.add(f"{idx} description")
+    for sternite in sternites:
+        row_index.add(sternite.count_row_loc)
+        row_index.add(sternite.missing_row_loc)
+        row_index.add(sternite.description_row_loc)
     row_index = sorted(row_index)
-    row_index = [" ".join(i.split()) for i in row_index]
+    row_index = pd.MultiIndex.from_tuples(row_index, names=["region", "label"])
 
     # Build the data frame
     df = pd.DataFrame(index=row_index, columns=species_sexes)
-    for rec in records:
-        key = rec["body_region"], rec["segment"], rec["number"]
-        indexes = row_map[key]
-        for idx in indexes:
-            count = f"{idx} count"
-            descr = f"{idx} description"
-            if (df.index == count).any():
-                df.loc[count, (rec["species"], rec["sex"])] = rec["count"] or None
-            if (df.index == descr).any():
-                df.loc[descr, (rec["species"], rec["sex"])] = rec["description"] or None
-            if (df.index == idx).any():
-                df.loc[idx, (rec["species"], "male")] = "True"
-                df.loc[idx, (rec["species"], "female")] = "True"
+    for sternite in sternites:
+        if sternite.count:
+            df.loc[sternite.count_row_loc, sternite.col_loc] = sternite.count
+
+        if sternite.missing:
+            df.loc[sternite.missing_row_loc, sternite.col_loc] = "True"
+
+        if sternite.description:
+            df.loc[sternite.description_row_loc, sternite.col_loc] = (
+                sternite.description
+            )
 
     return df

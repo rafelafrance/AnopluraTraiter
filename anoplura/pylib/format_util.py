@@ -4,37 +4,22 @@ import pandas as pd
 
 from anoplura.pylib import ints, ordinals, roman
 
+REGIONS = {"abdomen": "abdominal", "thorax": "thoracic"}
+
 
 def build_trait_table(
     records: list[dict],
     species_sexes: pd.MultiIndex,
     field_labels: dict[str, str],
+    body_region: str = "",
 ) -> pd.DataFrame:
-    """
-    Build a DataFrame of trait measurements pivoted by species and sex.
-
-    Parameters
-    ----------
-    records : list[dict]
-        Pre-filtered list of trait record dicts (e.g. all rows where
-        ``"record" == "abdomen_length"``).
-    species_sexes: pd.MultiIndex
-        The two level column headers for the new data frame.
-    field_labels : dict[str, str]
-        Mapping from JSON field name to human-readable row label
-        (e.g. ``{"length": "abdomen length", "n": "abdomen length sample size (n)"}``).
-
-    Returns
-    -------
-    pd.DataFrame
-        DataFrame with a MultiIndex column of (species, sex) and row
-        labels describing each sub-trait.  Missing values are blank strings.
-
-    """
-    df = pd.DataFrame(index=list(field_labels.values()), columns=species_sexes)
+    """Build a DataFrame of trait measurements pivoted by species and sex."""
+    row_labels = [(body_region, value) for value in field_labels.values()]
+    row_index = pd.MultiIndex.from_tuples(row_labels, names=["region", "label"])
+    df = pd.DataFrame(index=row_index, columns=species_sexes)
     for rec in records:
         for field, row_label in field_labels.items():
-            df.loc[row_label, (rec["species"], rec["sex"])] = rec[field]
+            df.loc[(body_region, row_label), (rec["species"], rec["sex"])] = rec[field]
 
     return df
 
@@ -102,3 +87,8 @@ def expand_numbers(text: str) -> list[str]:
         return [str(n) for n in nums]
 
     return [str(n) for n in ints.get_ints(text)]
+
+
+def expand_body_region(record: dict) -> str:
+    region: str = record.get("body_region", "").lower()
+    return REGIONS.get(region, region)

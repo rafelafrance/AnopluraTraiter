@@ -36,4 +36,6 @@ def build_table(records: list[dict], species_sexes: pd.MultiIndex) -> pd.DataFra
         labels describing each DPTS length sub-trait.
 
     """
-    return format_util.build_trait_table(records, species_sexes, FIELD_LABELS)
+    return format_util.build_trait_table(
+        records, species_sexes, FIELD_LABELS, "thoracic"
+    )

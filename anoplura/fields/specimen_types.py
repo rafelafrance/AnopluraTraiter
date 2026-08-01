@@ -21,13 +21,14 @@ def build_table(records: list[dict], species_sexes: pd.MultiIndex) -> pd.DataFra
         labels describing each specimen type  notation.
 
     """
-    row_index = ["holotype", "allotype", "paratype"]
+    row_index = [("", "holotype"), ("", "allotype"), ("", "paratype")]
+    row_index = pd.MultiIndex.from_tuples(row_index, names=["region", "label"])
     df = pd.DataFrame(index=row_index, columns=species_sexes)
 
     for rec in records:
         type_ = rec["type"].lower()
         if type_ in ("holotype", "allotype"):
-            df.loc[type_, (rec["species"], rec["sex"])] = "Yes"
+            df.loc[("", type_), (rec["species"], rec["sex"])] = "Yes"
         else:  # Handle paratype
             value = f"{rec['count']} =" if rec["count"] else ""
             if rec["male_count"]:
@@ -35,6 +36,6 @@ def build_table(records: list[dict], species_sexes: pd.MultiIndex) -> pd.DataFra
             if rec["female_count"]:
                 value += f" {rec['female_count']}♀"
             value = " ".join(value.removesuffix("=").split())
-            df.loc["paratype", (rec["species"], "n/a")] = value
+            df.loc[("", "paratype"), (rec["species"], "n/a")] = value
 
     return df

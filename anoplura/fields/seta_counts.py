@@ -13,12 +13,12 @@ SETA_CSV = Path("anoplura/terms") / "seta_patterns.csv"
 # Get seta patterns
 SETA_DF = pd.read_csv(SETA_CSV)
 SETA_PATTERNS = {s["pattern"]: s["replace"] for s in SETA_DF.to_dict("records")}
-REGIONS = {"abdomen": "abdominal", "thorax": "thoracic"}
 
 
 @dataclass
 class SetaCount:
     body_region: str = ""
+    label: str = ""
     species: str = ""
     sex: str = ""
     seta_name: str = ""
@@ -27,6 +27,32 @@ class SetaCount:
     side: str = ""
     rows: str = ""
     description: str = ""
+
+    @property
+    def count_row_loc(self) -> tuple:
+        return self.body_region, self.label
+
+    @property
+    def rows_row_loc(self) -> tuple:
+        return self.body_region, f"{self.label} rows"
+
+    @property
+    def side_row_loc(self) -> tuple:
+        return self.body_region, f"{self.label} side"
+
+    @property
+    def description_row_loc(self) -> tuple:
+        return self.body_region, f"{self.label.removesuffix(' count')} description"
+
+    @property
+    def col_loc(self) -> tuple:
+        return self.species, self.sex
+
+    def finish_label(self) -> None:
+        name = self.seta_name
+        if name.find("count") == -1:
+            name += " seta count" if name.find("seta") == -1 else " count"
+        self.label = name
 
 
 def build_table(records: list[dict], species_sexes: pd.MultiIndex) -> pd.DataFrame:
@@ -51,77 +77,68 @@ def build_table(records: list[dict], species_sexes: pd.MultiIndex) -> pd.DataFra
 
     # Expand records
     for rec in records:
+        region = format_util.expand_body_region(rec)
+
         seta_name = re.sub(r"(hairs?|spines?)", "setae", rec["seta_name"])
         seta_name = re.sub(r"\s*\(\w+\)", "", seta_name)  # Remove like (VPHS)
         seta_name = seta_name.lower()
         seta_name = SETA_PATTERNS.get(seta_name, seta_name)
 
-        region = rec.get("body_region", "").lower()
-        region = REGIONS.get(region, region)
-
         seg = rec["segment"]
         segment_list = [f"segment {n}" for n in format_util.expand_numbers(seg)]
 
-        names = []
         if seta_name and region and segment_list:
-            names = [f"{seta_name} counts on {region} {s}" for s in segment_list]
+            labels = [f"{seta_name} counts on {region} {s}" for s in segment_list]
         elif seta_name and segment_list:
-            names = [f"{seta_name} counts on {s}" for s in segment_list]
+            labels = [f"{seta_name} counts on {s}" for s in segment_list]
         elif seta_name:
-            names = [seta_name]
+            labels = [seta_name]
             segment_list = [""]
         else:
-            name = " ".join([f for f in (region, seg) if f])
-            names = [name]
+            label = " ".join([f for f in (region, seg) if f])
+            labels = [f"{label} seta"]
             segment_list = [""]
 
         seta_counts += [
             SetaCount(
                 body_region=region,
+                label=lb,
                 species=rec["species"],
                 sex=rec["sex"],
-                seta_name=name,
+                seta_name=seta_name,
                 segment=seg,
                 count=rec["count"],
                 side=rec["side"],
                 rows=rec["rows"],
                 description=rec["description"],
             )
-            for name, seg in zip(names, segment_list, strict=True)
+            for lb, seg in zip(labels, segment_list, strict=True)
         ]
 
     # Build row index
     row_index = set()
-    for count in seta_counts:
-        name = get_seta_name(count)
-        row_index.add((count.body_region, name))
-        row_index.add((count.body_region, f"{name} rows"))
-        row_index.add((count.body_region, f"{name} side"))
-        row_index.add((count.body_region, f"{name} description"))
+    for seta in seta_counts:
+        seta.finish_label()
+        row_index.add(seta.count_row_loc)
+        row_index.add(seta.rows_row_loc)
+        row_index.add(seta.side_row_loc)
+        row_index.add(seta.description_row_loc)
     row_index = sorted(row_index)
     row_index = pd.MultiIndex.from_tuples(row_index, names=["region", "label"])
 
     # Build the data frame
     df = pd.DataFrame(index=row_index, columns=species_sexes)
-    for count in seta_counts:
-        name = get_seta_name(count)
-        desc = f"{name} description"
-        rows = f"{name} rows"
-        side = f"{name} side"
+    for seta in seta_counts:
+        if seta.count:
+            df.loc[seta.count_row_loc, seta.col_loc] = seta.count
 
-        df.loc[(count.body_region, name)] = count.count
-        if count.description:
-            df.loc[(count.body_region, desc)] = count.description
-        if count.rows:
-            df.loc[(count.body_region, rows)] = count.rows
-        if count.side:
-            df.loc[(count.body_region, side)] = count.side
+        if seta.description:
+            df.loc[seta.description_row_loc, seta.col_loc] = seta.description
+
+        if seta.rows:
+            df.loc[seta.rows_row_loc, seta.col_loc] = seta.rows
+
+        if seta.side:
+            df.loc[seta.side_row_loc, seta.col_loc] = seta.side
 
     return df
-
-
-def get_seta_name(count: SetaCount) -> str:
-    name = count.seta_name
-    if name.find("count") == -1:
-        name += " seta count" if not name.endswith("seta") else " count"
-    return name

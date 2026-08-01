@@ -45,7 +45,9 @@ def build_table(records: list[dict], species_sexes: pd.MultiIndex) -> pd.DataFra
             k: v.format(location=loc) if loc else v.removesuffix(" ({location})")
             for k, v in FIELD_LABELS.items()
         }
-        dfs.append(format_util.build_trait_table(recs, species_sexes, field_labels))
+        dfs.append(
+            format_util.build_trait_table(recs, species_sexes, field_labels, "thoracic")
+        )
 
     df = pd.concat(dfs)
     return df
