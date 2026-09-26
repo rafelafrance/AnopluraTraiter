@@ -50,3 +50,7 @@ experiments/
 
 # Personal
 .codebook.toml
+
+# Secrets
+.env
+*secret*

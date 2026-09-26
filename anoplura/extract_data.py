@@ -16,6 +16,7 @@ import textwrap
 from pathlib import Path
 
 import requests
+from dotenv import load_dotenv
 
 from anoplura.pylib import prompt_util, str_util, timer
 
@@ -153,7 +154,6 @@ def parse_args(args: list[str] | None = None) -> argparse.Namespace:
     arg_parser.add_argument(
         "--temperature",
         type=float,
-        default=0.1,
         help="""Model's temperature. (default: %(default)s)""",
     )
     arg_parser.add_argument(
@@ -189,5 +189,6 @@ def parse_args(args: list[str] | None = None) -> argparse.Namespace:
 
 
 if __name__ == "__main__":
+    load_dotenv()
     ARGS = parse_args()
     run_lm(ARGS)
