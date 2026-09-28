@@ -98,14 +98,14 @@ def one_prompt(
         content = str_util.clean_text(content)
 
     except Exception as e:
-        logging.exception("API error")
+        logging.error(f"API error: {str(e)[:120]}")
         row = {"record": record_name, "ERROR": str(e)}
         return [row]
 
     try:
         rows = json.loads(content)
     except JSON_ERRORS as e:
-        logging.exception("JSON Error")
+        logging.error(f"JSON  Error: {str(e)[:120]}")
         row = {"record": record_name, "ERROR": str(e)}
         return [row]
 

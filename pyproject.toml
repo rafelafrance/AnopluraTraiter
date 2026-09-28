@@ -37,6 +37,7 @@ exclude = [
 select = ["ALL"]
 
 ignore = [
+  "BLE001",  # Do not catch blind exception: `Exception`
   "C901",    # is too complex
   "COM812",  # Trailing comma missing
   "D100",    # Missing docstring in public module
@@ -63,4 +64,5 @@ ignore = [
   "S101",    # Use of assert detected
   "SIM114",  # Combine if branches using logical or operator
   "T201",    # print found
+  "TRY400",  # Use `logging.exception` instead of `logging.error`
 ]
