@@ -43,6 +43,7 @@ def output(args: argparse.Namespace) -> None:
         try:
             lines = [json.loads(ln) for ln in fh.readlines()]
             records = [{k: v or "" for k, v in r.items()} for r in lines]
+            records = [r for r in records if r.get("ERROR") is None]
         except JSON_ERRORS:
             logging.exception("JSON Error")
             raise

@@ -44,7 +44,13 @@ def run_lm(args: argparse.Namespace) -> None:
 
             futures = {
                 executor.submit(
-                    one_prompt, args, sys_prompt, field_prompt, field_name, text
+                    one_prompt,
+                    args,
+                    sys_prompt,
+                    field_prompt,
+                    field_name,
+                    text,
+                    text_path.stem,
                 )
                 for field_name, field_prompt in field_prompts.items()
             }
@@ -68,6 +74,7 @@ def one_prompt(
     field_prompt: str,
     field_name: str,
     text: str,
+    doc: str,
 ) -> list[dict]:
     """Extract a single trait from a file."""
     record_name = field_name.rsplit("/", maxsplit=1)[-1].removesuffix("s")
@@ -99,17 +106,17 @@ def one_prompt(
 
     except Exception as e:
         logging.error(f"API error: {str(e)[:120]}")
-        row = {"record": record_name, "ERROR": str(e)}
+        row = {"record": record_name, "ERROR": str(e)[:200], "doc": doc}
         return [row]
 
     try:
         rows = json.loads(content)
     except JSON_ERRORS as e:
         logging.error(f"JSON  Error: {str(e)[:120]}")
-        row = {"record": record_name, "ERROR": str(e)}
+        row = {"record": record_name, "ERROR": str(e)[:200], "doc": doc}
         return [row]
 
-    results = [{"record": record_name} | r for r in rows]
+    results = [{"record": record_name, "doc": doc} | r for r in rows]
 
     timer.task_elapsed(began, record_name)
     return results
