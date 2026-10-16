@@ -11,7 +11,7 @@ def main(args: argparse.Namespace) -> None:
         print(f"Old name: {old_path}")
 
         stem = old_path.stem
-        stem = re.sub(r"[^\w.]", "_", stem)
+        stem = re.sub(r"[^\w]", "_", stem)
         stem = re.sub(r"__+", "_", stem)
         stem = re.sub(r"_+$", "", stem)
 

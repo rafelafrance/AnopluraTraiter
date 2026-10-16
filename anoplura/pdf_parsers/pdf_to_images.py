@@ -6,7 +6,8 @@ import textwrap
 from pathlib import Path
 
 import rich
-from pylib import log
+
+from anoplura.pylib import log
 
 
 def main(args: argparse.Namespace) -> None:
@@ -25,7 +26,7 @@ def pdf_to_images(in_pdf: Path, image_dir: Path) -> None:
     dir_ = image_dir / stem
     dst = dir_ / f"{stem}"
 
-    os.system(f"mkdir -p {dir_}")  # noqa: S605
+    dir_.mkdir(parents=True, exist_ok=True)
     os.system(f"pdftocairo -jpeg {in_pdf} {dst}")  # noqa: S605
 
 

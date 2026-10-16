@@ -5,7 +5,8 @@ import textwrap
 from pathlib import Path
 
 import rich
-from pylib import log
+
+from anoplura.pylib import log
 
 
 def main(args: argparse.Namespace) -> None:

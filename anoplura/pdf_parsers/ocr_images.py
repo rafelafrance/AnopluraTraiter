@@ -4,8 +4,8 @@ import argparse
 import base64
 import concurrent.futures as conc
 import logging
-import mimetypes
 import os
+import re
 import textwrap
 from datetime import datetime
 from pathlib import Path
@@ -15,26 +15,27 @@ from dotenv import load_dotenv
 from requests.exceptions import RequestException
 from tqdm import tqdm
 
-from anoplura.pdf_parsers.pylib import fix_ocr, image_util, log
-from anoplura.pylib import prompt_util
+from anoplura.pylib import log
 
 
 def main(args: argparse.Namespace) -> None:
-    log.started()
+    log.started(args=args)
     image_paths = sorted(args.image_dir.glob("*.jpg"))
 
     job_started = datetime.now()
 
-    sys_prompt, _ = prompt_util.read_lm_prompt(args.prompt)
+    with args.prompt_md.open() as md:
+        prompt = md.read()
+    prompt = re.sub("^---$.*?^---$", "", prompt, flags=re.MULTILINE | re.DOTALL).strip()
 
     frags = {}
 
     with (
-        tqdm(total=len(len(image_paths))) as progress_bar,
-        conc.ThreadPoolExecutor(max_workers=args.workers) as executor,
+        tqdm(total=len(image_paths)) as progress_bar,
+        conc.ThreadPoolExecutor(max_workers=args.threads) as executor,
     ):
         futures = {
-            executor.submit(call_model, args, sys_prompt, image_path): i
+            executor.submit(call_model, args, image_path, prompt): i
             for i, image_path in enumerate(image_paths)
         }
 
@@ -43,59 +44,52 @@ def main(args: argparse.Namespace) -> None:
             frags[i] = future.result()
             progress_bar.update(1)
 
-    with args.ocr_text.open("w") as f:
+    with args.ocr_file.open("w") as f:
         text = "".join([v for _, v in sorted(frags.items())])
         f.write(text)
 
-    logging.info.log(f"Job Time: {datetime.now() - job_started}")
+    logging.info(f"Job Time: {datetime.now() - job_started}")
     log.finished()
 
 
-def call_model(args: argparse.Namespace, sys_prompt: str, image_path: Path) -> dict:
+def call_model(args: argparse.Namespace, image_path: Path, prompt: str) -> str:
+    with image_path.open("rb") as f:
+        base64_image = base64.b64encode(f.read()).decode("utf-8")
+
+    headers = {"Content-Type": "application/json"}
+    if api_key := os.getenv("LLM_API_KEY"):
+        headers["Authorization"] = f"Bearer {api_key}"
+
+    payload = {
+        "model": args.model_id,
+        "messages": [
+            {"role": "system", "content": prompt},
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "image_url",
+                        "image_url": {
+                            "url": f"data:image/jpeg;base64,{base64_image}",
+                        },
+                    },
+                ],
+            },
+        ],
+    }
+
     try:
-        base64_image, mime_type = image_util.load_image(image_path, args.timeout)
-
-        url = f"{args.api_host}/chat/completions"
-
-        headers = {"Content-Type": "application/json"}
-        if api_key := os.getenv("LLM_API_KEY"):
-            headers["Authorization"] = f"Bearer {api_key}"
-
-        payload = {
-            "model": args.model_name,
-            "messages": [
-                {"role": "system", "content": sys_prompt},
-                {
-                    "role": "user",
-                    "content": [
-                        {
-                            "type": "image_url",
-                            "url": f"data:{mime_type};base64,{base64_image}",
-                        }
-                    ],
-                },
-            ],
-            "chat_template_kwargs": {"enable_thinking": False},
-        }
-
-        if args.temperature is not None:
-            payload["temperature"] = args.temperature
-
-        if args.max_tokens is not None:
-            payload["max_tokens"] = args.max_tokens
-
         response = requests.post(
-            url, headers=headers, json=payload, timeout=args.timeout
+            f"{args.api_host}/chat/completions",
+            headers=headers,
+            json=payload,
+            timeout=args.timeout,
         )
         response.raise_for_status()
         result = response.json()
 
-        content = result["choices"][0]["message"]["content"] or ""
-        content = fix_ocr.clean_ocr(content, convert_html=args.convert_html)
-
-        content = result["choices"][0]["message"]["content"] or ""
-
-        text = fix_ocr.clean_ocr(content)
+        text = result["choices"][0]["message"]["content"] or ""
+        text = text.strip()
 
     except (
         IndexError,
@@ -109,16 +103,6 @@ def call_model(args: argparse.Namespace, sys_prompt: str, image_path: Path) -> d
         return ""
 
     return text
-
-
-def load_image(source: Path | str) -> tuple[str, str]:
-    """Return (base64_image, mime_type) for a local path."""
-    with Path(source).open("rb") as f:
-        base64_image = base64.b64encode(f.read()).decode("utf-8")
-    mime_type, _ = mimetypes.guess_type(source)
-    if not mime_type or not mime_type.startswith("image/"):
-        mime_type = "application/octet-stream"
-    return base64_image, mime_type
 
 
 def parse_args(args: list[str] | None = None) -> argparse.Namespace:
@@ -141,7 +125,7 @@ def parse_args(args: list[str] | None = None) -> argparse.Namespace:
         help="""Put OCRed text into this CSV file. This appends data to the file.""",
     )
     arg_parser.add_argument(
-        "--prompt",
+        "--prompt-md",
         type=Path,
         default="prompts/ocr_v1.md",
         metavar="PATH",
@@ -150,7 +134,7 @@ def parse_args(args: list[str] | None = None) -> argparse.Namespace:
     )
     arg_parser.add_argument(
         "--model-id",
-        default="unsloth/gemma-4-E4B-it-GGUF:Q8_K_XL",
+        default="Qwen3.6-35B-A3B-MTP-GGUF",
         metavar="STRING",
         help="""Use this language model. (default: %(default)s)""",
     )
@@ -163,23 +147,10 @@ def parse_args(args: list[str] | None = None) -> argparse.Namespace:
     arg_parser.add_argument(
         "--threads",
         type=int,
-        default=2,
+        default=4,
         metavar="INT",
         help="""How many parallel threads to run. (default: %(default)s)
             Increase this if the model server is powerful enough.""",
-    )
-    arg_parser.add_argument(
-        "--temperature",
-        type=float,
-        metavar="FLOAT",
-        help="""Model's temperature.""",
-    )
-    arg_parser.add_argument(
-        "--max-tokens",
-        type=int,
-        default=2048,
-        metavar="INT",
-        help="""The OCR model's response maximum tokens. (default: %(default)s)""",
     )
     arg_parser.add_argument(
         "--timeout",
