@@ -12,6 +12,7 @@ import argparse
 import concurrent.futures as conc
 import json
 import logging
+import os
 import textwrap
 from pathlib import Path
 
@@ -82,7 +83,11 @@ def one_prompt(
     began = timer.task_began(record_name)
 
     url = f"{args.api_host}/chat/completions"
+
     headers = {"Content-Type": "application/json"}
+    if api_key := os.getenv("LLM_API_KEY"):
+        headers["Authorization"] = f"Bearer {api_key}"
+
     payload = {
         "model": args.model_name,
         "messages": [
